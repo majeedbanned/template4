@@ -1,0 +1,25 @@
+{
+  "server-component": {
+    "welcome": "خوش آمدید"
+  },
+  "counter": {
+    "increment": "Zuwachs",
+    "decrement": "Dekrementieren"
+  }
+  ,
+  "navbar":{
+    "home":"خانه",
+    "aboutus":"درباره ما",
+    "services":"خدمات",
+    "contactus":"تماس با ما",
+    "pricing":"قیمت گذاری"
+
+
+  },
+  "logo":{
+    "maintitle":"پارس آموز",
+    "subtitle":"پلاس"
+
+
+  }
+}

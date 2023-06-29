@@ -1,0 +1,22 @@
+{
+  "server-component": {
+    "welcome": "Welcome"
+  },
+  "counter": {
+    "increment": "Increment",
+    "decrement": "Decrement"
+  },
+  "navbar":{
+    "home":"Home",
+    "aboutus":"About us",
+    "services":"Services",
+    "contactus":"Contact Us",
+    "pricing":"Pricing"
+  },
+  "logo":{
+    "maintitle":"ParsAmooz",
+    "subtitle":"Plus"
+
+
+  }
+}
