@@ -7,6 +7,12 @@ import Providers from "@/app/[lang]/provider";
 import Navbar from "@/app/[lang]/components/navbar/Navbar";
 import { getDictionary } from "@/get-dictionary";
 import { cn } from "@/lib/utils";
+import Sidebar, { SidebarItem } from "../../components/sidebar/Sidebar";
+import { TvIcon } from "@heroicons/react/24/outline";
+import { BanIcon } from "lucide-react";
+import SideBarMenu from "../../../../components/admin/SideBarMenu";
+import AdminDashboard from "../../../../components/admin/AdminDashboard";
+import AdminHeader from "../../../../components/admin/AdminHeader";
 
 const iransans = localFont({
   src: [
@@ -55,13 +61,14 @@ export default async function Root({
     <html
       lang={params.lang}
       dir={params.lang === "ar" ? "rtl" : "ltr"}
+      // dir={(params.lang = "rtl")}
       className={cn("antialiased", iransans.className)}
     >
       {/* /${barlowCondensed.className} ${inter.className} ${merriweather.variable} ${roboto.className} ${iransans.className} font-sans/ */}
       {/* className={`${iransans.className}`}  */}
       <body className="antialiased bg-gradient-to-r from-[#f1ece0] to-[#D6DDE2]">
         <div
-          className=" container  dark:bg-slate-900 overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-full
+          className=" container  dark:bg-slate-900 overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         >
           <Providers>
@@ -69,11 +76,18 @@ export default async function Root({
               navmenu={dictionary.navbar}
               siteLogo={dictionary.logo}
             ></Navbar> */}
-            <div className="flex flex-row h-screen">
-              <div className=" w-[80px] rounded-[15px] bg-[#eef2f5] m-4"></div>
-              <div className="flex-grow m-4 border"></div>
+            <div className="flex flex-row h-auto">
+              <SideBarMenu></SideBarMenu>
+
+              {/* <AdminDashboard></AdminDashboard> */}
+
+              <div className="flex-grow flex flex-col mr-8 ml-4 mb-8 ">
+                <div className=" py-8 flex justify-start items-center border-b ">
+                  <AdminHeader></AdminHeader>
+                </div>
+                {children}
+              </div>
             </div>
-            {children}
           </Providers>
         </div>
       </body>
