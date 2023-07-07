@@ -14,7 +14,7 @@ export default function Sidebar({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <aside className="h-screen rounded-[15px] bg-[#eef2f5] m-4">
+    <aside className="h-screen hidden sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
       <nav className="h-full flex flex-col  shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
@@ -71,8 +71,8 @@ export function SidebarItem({ icon, text, active, alert }) {
         transition-colors group
         ${
           active
-            ? "bg-gradient-to-tr  shadow-sm from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:bg-indigo-50 text-gray-600"
+            ? "bg-gradient-to-tr  shadow-sm dark:bg-[#0f172b] bg-indigo-200 dark:text-white text-indigo-800"
+            : "hover:bg-indigo-50  text-gray-600"
         }
     `}
     >

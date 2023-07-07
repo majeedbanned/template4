@@ -24,7 +24,7 @@ export default function Notifications({}: Props) {
           >
             <BellAlertIcon className="text-slate-600" fontSize={32} />
             <div
-              className="absolute w-2 h-2 bg-orange-400 rounded-full
+              className="absolute shadow-md shadow-orange-400  w-2 h-2 bg-orange-400 rounded-full
             top-0 right-1"
             ></div>
           </Button>

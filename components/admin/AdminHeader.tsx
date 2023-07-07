@@ -25,16 +25,21 @@ import Profile from "./header/Profile";
 import Notifications from "./header/Notifications";
 import Chat from "./header/Chat";
 import Search from "./header/Search";
+import Projects from "./header/Projects";
+import LangSelect from "./header/LangSelect";
 type Props = {};
 
 export default function AdminHeader({}: Props) {
   return (
     <div className="flex flex-row flex-1 ">
-      <div className="basis-1/2">left</div>
-      <div className="basis-1/2 flex justify-end  space-x-2">
+      <div className="basis-1/2">
+        <Projects></Projects>
+      </div>
+      <div className="basis-1/2 flex justify-end  gap-2">
         <Search></Search>
-        <Chat></Chat>
+        <LangSelect></LangSelect>
 
+        <Chat></Chat>
         <Notifications></Notifications>
         <Profile></Profile>
       </div>

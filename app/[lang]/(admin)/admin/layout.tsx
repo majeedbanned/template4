@@ -13,7 +13,8 @@ import { BanIcon } from "lucide-react";
 import SideBarMenu from "../../../../components/admin/SideBarMenu";
 import AdminDashboard from "../../../../components/admin/AdminDashboard";
 import AdminHeader from "../../../../components/admin/AdminHeader";
-
+import { fontMono, fontSans } from "@/lib/fonts";
+import { Separator } from "@/components/ui/separator";
 const iransans = localFont({
   src: [
     // {
@@ -59,6 +60,7 @@ export default async function Root({
 
   return (
     <html
+      suppressHydrationWarning
       lang={params.lang}
       dir={params.lang === "ar" ? "rtl" : "ltr"}
       // dir={(params.lang = "rtl")}
@@ -66,9 +68,15 @@ export default async function Root({
     >
       {/* /${barlowCondensed.className} ${inter.className} ${merriweather.variable} ${roboto.className} ${iransans.className} font-sans/ */}
       {/* className={`${iransans.className}`}  */}
-      <body className="antialiased bg-gradient-to-r from-[#f1ece0] to-[#D6DDE2]">
+      <body
+        className={cn(
+          " bg-gradient-to-r from-[#f1ece0] to-[#D6DDE2] dark:from-gray-800  dark:to-gray-800  font-sans antialiased",
+          fontSans.variable,
+          fontMono.variable
+        )}
+      >
         <div
-          className=" container  dark:bg-slate-900 overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
+          className=" container  dark:bg-[#121415] overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         >
           <Providers>
@@ -81,10 +89,14 @@ export default async function Root({
 
               {/* <AdminDashboard></AdminDashboard> */}
 
-              <div className="flex-grow flex flex-col mr-8 ml-4 mb-8 ">
-                <div className=" py-8 flex justify-start items-center border-b ">
+              <div className="flex-grow flex  flex-col sm:mr-8 mx-2 sm:ml-4 mb-8 ">
+                <div className=" py-2 sm:py-8 flex justify-start items-center  ">
                   <AdminHeader></AdminHeader>
                 </div>
+                <Separator
+                  orientation="horizontal"
+                  className="mx-2 text-white"
+                />
                 {children}
               </div>
             </div>

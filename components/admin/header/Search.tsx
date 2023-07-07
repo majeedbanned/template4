@@ -9,7 +9,7 @@ type Props = {};
 
 export default function Search({}: Props) {
   return (
-    <div className="px-4 py-0 h-10 flex space-x-2 justify-center items-center bg-[#f1f5f9] rounded-full">
+    <div className="px-4 hidden lg:inline-flex py-0 h-10  gap-2 justify-center items-center dark:bg-[#2b2e31] bg-[#f1f5f9] rounded-full">
       <MicrophoneIcon className="w-6 h-6 text-blue-600"></MicrophoneIcon>
 
       <Input
