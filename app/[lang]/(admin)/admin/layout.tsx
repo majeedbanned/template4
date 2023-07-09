@@ -1,4 +1,4 @@
-import { i18n } from "@/i18n-config";
+import { Locale, i18n } from "@/i18n-config";
 import Image from "next/image";
 import "@/app/[lang]/globals.css";
 import ellipse from "@/svg/ellipse.svg";
@@ -15,6 +15,7 @@ import AdminDashboard from "../../../../components/admin/AdminDashboard";
 import AdminHeader from "../../../../components/admin/AdminHeader";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { Separator } from "@/components/ui/separator";
+import { AnimatePresence } from "framer-motion";
 const iransans = localFont({
   src: [
     // {
@@ -51,7 +52,7 @@ export default async function Root({
   authModal,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: { lang: Locale };
   authModal: React.ReactNode;
 }) {
   // console.log(params.lang);

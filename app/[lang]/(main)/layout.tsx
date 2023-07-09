@@ -1,4 +1,4 @@
-import { i18n } from "../../../i18n-config";
+import { Locale, i18n } from "../../../i18n-config";
 import Image from "next/image";
 import "./../globals.css";
 import ellipse from "@/svg/ellipse.svg";
@@ -41,11 +41,11 @@ export async function generateStaticParams() {
 export default async function Root({
   children,
   params,
-  authModal,
-}: {
+}: // authModal,
+{
   children: React.ReactNode;
-  params: { lang: string };
-  authModal: React.ReactNode;
+  params: { lang: Locale };
+  //authModal: React.ReactNode;
 }) {
   // console.log(params.lang);
 

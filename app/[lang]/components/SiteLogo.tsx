@@ -2,7 +2,7 @@
 import React from "react";
 
 type Props = {
-  siteLogo: {
+  dictionary: {
     maintitle: string;
     subtitle: string;
   };

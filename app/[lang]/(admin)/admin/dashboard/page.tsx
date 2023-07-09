@@ -46,12 +46,13 @@ import { CalendarClock } from "lucide-react";
 import TaskCard2 from "@/components/admin/ui/TaskCard2";
 import TaskCard3 from "@/components/admin/ui/TaskCard3";
 import TaskCard6 from "@/components/admin/ui/TaskCard6";
+import { PageWrapper } from "../../components/PageWrapper";
 
 type Props = {};
 
 export default function Dashboard({}: Props) {
   return (
-    <>
+    <PageWrapper className="">
       <div className="font-sans flex flex-row justify-between font-light  p-2  ">
         <div className="">
           Project MT / Comercial Projects / Team Phonix
@@ -158,11 +159,11 @@ export default function Dashboard({}: Props) {
         {/* </div> */}
       </div>
 
-      <Card className=" flex-grow h-auto flex-col rounded-[25px] bg-[#eef2f5] dark:bg-[#2b2e31] border-0  justify-center items-start ">
+      <Card className="p-3 lg:p-6 flex-grow h-auto flex-col rounded-[25px] bg-[#eef2f5] dark:bg-[#2b2e31] border-0  justify-center items-start ">
         {/* <div className=" p-4 mx-8 my-4 flex justify-start items-center border-b ">
           header
         </div> */}
-        <div className="m-3 lg:m-6 flex flex-row flex-wrap gap-4  justify-start items-start ">
+        <div className="flex flex-row flex-wrap gap-4  justify-start items-start ">
           <div className="flex-1  flex flex-col ">
             {/* header */}
             <div className="flex flex-row gap-4 items-center">
@@ -296,6 +297,6 @@ export default function Dashboard({}: Props) {
           </div>
         </div>
       </Card>
-    </>
+    </PageWrapper>
   );
 }

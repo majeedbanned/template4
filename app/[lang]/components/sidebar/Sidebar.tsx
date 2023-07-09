@@ -1,8 +1,20 @@
 "use client";
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import {
+  MoreVertical,
+  ChevronLast,
+  ChevronFirst,
+  TvIcon,
+  MessageCircle,
+} from "lucide-react";
+import Link from "next/link";
 import { useContext, createContext, useState, ReactNode } from "react";
-
-const SidebarContext = createContext("");
+import { motion } from "framer-motion";
+const SidebarContext = createContext({});
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function Sidebar({
   children,
@@ -12,7 +24,10 @@ export default function Sidebar({
   lang: string;
 }) {
   const [expanded, setExpanded] = useState(false);
-
+  const icons = {
+    TvIcon: TvIcon,
+    MessageCircle: MessageCircle,
+  };
   return (
     <aside className="h-screen hidden sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
       <nav className="h-full flex flex-col  shadow-sm">
@@ -60,29 +75,95 @@ export default function Sidebar({
   );
 }
 
-export function SidebarItem({ icon, text, active, alert }) {
-  const { expanded } = useContext(SidebarContext);
-
+interface MenuItemProps {
+  title: string;
+  link: string;
+  icon: ReactNode;
+}
+export function MenuItem({ title, link, icon }: MenuItemProps) {
+  return (
+    <div>
+      <Link
+        // key={sub.id}
+        className="relative  gap-2 items-center p-2 flex "
+        content="no-underline"
+        href={link}
+      >
+        {icon}
+        <span>{title}</span>
+      </Link>
+    </div>
+  );
+}
+interface SidebarItemProps {
+  // title: string;
+  id: number;
+  text: string;
+  active: boolean;
+  alert: boolean;
+  children: ReactNode;
+  // link: string;
+  onselect: (id: number) => void;
+  icon: ReactNode;
+}
+export function SidebarItem({
+  id,
+  icon,
+  text,
+  active,
+  alert,
+  // link,
+  onselect,
+  // subMenu,
+  children,
+}: SidebarItemProps) {
+  const expanded = useContext(SidebarContext);
   return (
     <li
+      onClick={() => onselect(id)}
       className={`
-        relative flex items-center py-3 px-3 my-2
+      
+        relative flex items-start py-3 px-3 my-2
         font-medium rounded-md cursor-pointer
         transition-colors group
         ${
           active
-            ? "bg-gradient-to-tr  shadow-sm dark:bg-[#0f172b] bg-indigo-200 dark:text-white text-indigo-800"
-            : "hover:bg-indigo-50  text-gray-600"
+            ? " shadow-sm dark:bg-[#0f172b] bg-slate-50 dark:text-white text-indigo-800"
+            : "hover:bg-slate-50  text-gray-600"
         }
     `}
     >
-      {icon}
+      <div className="">{icon}</div>
       <span
         className={`overflow-hidden transition-all ${
           expanded ? "w-52 ml-3 text-md" : " text-sm w-0"
         }`}
       >
-        {text}
+        <Collapsible className="shadow-none" open={active}>
+          <CollapsibleTrigger>
+            <span className="text-gray-600 font-bold  dark:text-white  no-underline">
+              {text}
+            </span>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="">
+            {children}
+            {/* <ul className="flex flex-col gap-3">
+              {subMenu?.map(
+                (sub: { id: number; title: string; link: string }) => (
+                  <Link
+                    key={sub.id}
+                    className="relative  border p-2 flex "
+                    content="no-underline"
+                    href={sub.link}
+                  >
+                    {icons}
+                    <li key={sub.id}>{sub.title}</li>
+                  </Link>
+                )
+              )}
+            </ul> */}
+          </CollapsibleContent>
+        </Collapsible>
       </span>
       {alert && (
         <div

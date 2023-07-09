@@ -26,7 +26,8 @@ export default function Section3({}: Props) {
           </h3>
         </div>
         <div className="px-3 py-2">
-          <p>And here's some amazing content. It's very engaging. Right?</p>
+          clear{" "}
+          {/* <p>And here's some amazing content. It's very engaging. Right?</p> */}
         </div>
         <div data-popper-arrow></div>
       </div>

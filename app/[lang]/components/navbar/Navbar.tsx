@@ -9,8 +9,8 @@ type Props = {};
 export default function Navbar({
   navmenu,
   siteLogo,
-  className,
-}: {
+}: // className,
+{
   siteLogo: { maintitle: string; subtitle: string };
   navmenu: {
     home: string;
@@ -19,7 +19,7 @@ export default function Navbar({
     pricing: string;
     services: string;
   };
-  className: React.HtmlHTMLAttributes<HTMLDivElement>;
+  //className: React.HtmlHTMLAttributes<HTMLDivElement>;
 }) {
   const [sticky, setSticky] = useState(false);
 
