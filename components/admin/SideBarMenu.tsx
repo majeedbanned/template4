@@ -19,14 +19,11 @@ export default function SideBarMenu({}: Props) {
     <div>
       <LightMode width="w-[70px]" height="14" mode="horizental"></LightMode>
       <Sidebar lang="">
-        {/* {menuData.map((menu) => ( */}
         <SidebarItem
           onselect={() => setSelected(1)}
           id={1}
           active={1 === Selected}
           text="dashboard"
-          //link={menu.link}
-          // subMenu={menu.subMenu}
           alert
           icon={
             <HomeIcon
@@ -36,7 +33,8 @@ export default function SideBarMenu({}: Props) {
           }
         >
           <MenuItem
-            title="datalist"
+            title="
+            dashboard"
             link="admin/dashboard"
             icon={
               <LayoutDashboard
@@ -64,8 +62,6 @@ export default function SideBarMenu({}: Props) {
           id={2}
           active={2 === Selected}
           text="lists"
-          //link={menu.link}
-          // subMenu={menu.subMenu}
           alert
           icon={
             <EnvelopeIcon

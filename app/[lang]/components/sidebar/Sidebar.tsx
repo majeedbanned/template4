@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { useContext, createContext, useState, ReactNode } from "react";
 import { motion } from "framer-motion";
-const SidebarContext = createContext({});
+const SidebarContext = createContext({ expanded: false });
 import {
   Collapsible,
   CollapsibleContent,
@@ -118,6 +118,7 @@ export function SidebarItem({
   children,
 }: SidebarItemProps) {
   const expanded = useContext(SidebarContext);
+  // console.log("expanded>", expanded);
   return (
     <li
       onClick={() => onselect(id)}
@@ -136,7 +137,7 @@ export function SidebarItem({
       <div className="">{icon}</div>
       <span
         className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3 text-md" : " text-sm w-0"
+          expanded.expanded ? "w-52 ml-3 text-md" : " text-sm w-0"
         }`}
       >
         <Collapsible className="shadow-none" open={active}>
@@ -168,7 +169,7 @@ export function SidebarItem({
       {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-            expanded ? "" : "top-2"
+            expanded.expanded ? "" : "top-2"
           }`}
         />
       )}
