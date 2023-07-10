@@ -1,5 +1,5 @@
 git checkout -b addprisma    
-git push -u orgin addprisma        
+git push -u origin addprisma        
 
 #reciving master code
 git pull origin main or master
