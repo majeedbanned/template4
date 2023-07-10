@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { AiFillGithub } from "react-icons/ai";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 //import { toast } from "react-hot-toast";
@@ -37,7 +37,8 @@ const Login = () => {
   //   const loginModal = useLoginModal();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  // const { data: session } = useSession();
+  // console.log("Session: ", session);
   const {
     register,
     handleSubmit,
@@ -78,7 +79,7 @@ const Login = () => {
         //  toast.success('Logged in');
         //  router.refresh();
         // router.push("admin/dashboard");
-        router.replace("/profile");
+        // router.replace("/profile");
         // loginModal.onClose();
       }
 
