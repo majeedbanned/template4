@@ -1,0 +1,14 @@
+git checkout -b addprisma    
+git push -u orgin addprisma        
+
+#reciving master code
+git pull origin main or master
+
+#go to site and pull request and Merge
+
+#updating local repository
+git checkout main
+git pull
+
+#deleting branch
+git branch -D addprisma

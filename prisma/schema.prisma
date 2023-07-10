@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model app_version {
+  id   BigInt  @id(map: "PK_app_version") @default(autoincrement())
+  type String? @db.NVarChar(50)
+  ver  String? @db.NVarChar(50)
+  path String? @db.NVarChar(150)
+  lf   String? @db.NVarChar(50)
+}
+
+model clients {
+  serial_no   String?  @db.NVarChar(150)
+  url         String?  @db.NVarChar(150)
+  shchoolname String?  @db.NVarChar(150)
+  schoolcode  String?  @db.NVarChar(150)
+  instime     String?  @db.NVarChar(150)
+  date_       String?  @db.NVarChar(150)
+  time_       String?  @db.NVarChar(150)
+  teamid      String?  @db.NVarChar(150)
+  ipstatic    String?  @db.NVarChar(150)
+  winuser     String?  @db.NVarChar(150)
+  winpass     String?  @db.NVarChar(150)
+  iplocal     String?  @db.NVarChar(150)
+  dolati      String?  @db.NVarChar(150)
+  jadid       String?  @db.NVarChar(150)
+  shahrestan  String?  @db.NVarChar(150)
+  maghta      String?  @db.NVarChar(150)
+  modir       String?  @db.NVarChar(150)
+  mobmodir    String?  @db.NVarChar(150)
+  sabet       String?  @db.NVarChar(150)
+  tozihat     String?  @db.NVarChar(150)
+  adres       String?  @db.NVarChar(150)
+  nameasli    String?  @db.NVarChar(150)
+  active      Boolean?
+  used        Boolean?
+  fanmob      String?  @db.NVarChar(50)
+  domain      String?  @db.NVarChar(50)
+  ip          String?  @db.NVarChar(50)
+  resid       BigInt?
+  id          BigInt   @id(map: "PK_clients") @default(autoincrement())
+  t_moalem    BigInt?  @map("_t_moalem")
+  t_danesh    BigInt?  @map("_t_danesh")
+  t_class     BigInt?  @map("_t_class")
+  t_hozor     BigInt?  @map("_t_hozor")
+  t_soal      BigInt?  @map("_t_soal")
+  t_azmoon    BigInt?  @map("_t_azmoon")
+}
+
+model coursename {
+  id         BigInt  @id(map: "PK_coursename") @default(autoincrement())
+  coursename String? @db.NVarChar(150)
+  coursecode BigInt?
+  maghta     BigInt?
+  paye       BigInt?
+}
+
+model coursename_fasl {
+  id         BigInt  @id(map: "PK_coursename_fasl") @default(autoincrement())
+  coursecode BigInt?
+  fasl       BigInt?
+  caption    String? @db.NVarChar(150)
+}
+
+model vclassSch {
+  id          BigInt  @id(map: "PK_vclassSch_1") @default(autoincrement())
+  aztime      String? @db.NVarChar(50)
+  tatime      String? @db.NVarChar(50)
+  date_       String? @db.NVarChar(50)
+  schoolcode  BigInt?
+  schoolname  String? @db.NVarChar(50)
+  classname   String? @db.NVarChar(250)
+  teachercode String? @db.NVarChar(Max)
+  teachername String? @db.NVarChar(Max)
+  classcount  BigInt?
+  hashid      String? @db.NVarChar(250)
+  clsurl      String? @db.NVarChar(500)
+  classcountv BigInt?
+  serverid    BigInt?
+  vclass      String? @db.NVarChar(50)
+
+  @@index([aztime, date_], map: "_dta_index_vclassSch_29_341576255__K2_K4_1_13")
+  @@index([schoolcode], map: "NonClusteredIndex-20200409-170603")
+  @@index([aztime, date_, schoolcode], map: "NonClusteredIndex-20200409-170621")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model vclassSch1 {
+  id          BigInt  @default(autoincrement())
+  aztime      String? @db.NVarChar(50)
+  tatime      String? @db.NVarChar(50)
+  date_       String? @db.NVarChar(50)
+  schoolcode  BigInt?
+  schoolname  String? @db.NVarChar(50)
+  classname   String? @db.NVarChar(50)
+  teachercode String? @db.NVarChar(50)
+  teachername String? @db.NVarChar(50)
+  classcount  BigInt?
+  hashid      String? @db.NVarChar(250)
+  clsurl      String? @db.NVarChar(500)
+  classcountv BigInt?
+  serverid    BigInt?
+
+  @@ignore
+}
+
+model webinar_school {
+  id          BigInt  @id(map: "PK_webinar_school") @default(autoincrement())
+  schoolcode  BigInt?
+  capacity    BigInt?
+  type        String? @db.NVarChar(50)
+  limit       Int?
+  sarresid    String? @db.NVarChar(50)
+  webinarType String? @db.NVarChar(50)
+  tel         String? @db.NVarChar(50)
+  tozihat     String? @db.NVarChar(150)
+  name        String? @db.NVarChar(250)
+  saveactive  String? @db.NVarChar(50)
+}
+
+model webinar_server {
+  id         BigInt  @id(map: "PK_webinar_server")
+  servername String? @db.NVarChar(50)
+  adres      String? @db.NVarChar(150)
+  capacity   BigInt?
+  salt       String? @db.NVarChar(150)
+  active     BigInt?
+  idd        BigInt  @default(autoincrement())
+  lnk        String? @db.NVarChar(350)
+}
+
+model webinar_setting {
+  id               BigInt  @id(map: "PK_webinar_setting") @default(autoincrement())
+  default_capacity BigInt?
+}
