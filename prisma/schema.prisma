@@ -7,6 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id BigInt @id(map: "PK_User") @default(autoincrement())
+
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  accounts Account[]
+}
+
+model Account {
+  id BigInt @id(map: "PK_Account") @default(autoincrement())
+
+  userId            BigInt
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.NVarChar(150)
+  access_token      String? @db.NVarChar(150)
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.NVarChar(150)
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
 model app_version {
   id   BigInt  @id(map: "PK_app_version") @default(autoincrement())
   type String? @db.NVarChar(50)
