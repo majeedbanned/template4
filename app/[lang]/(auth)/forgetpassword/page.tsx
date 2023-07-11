@@ -3,5 +3,5 @@ import React from "react";
 type Props = {};
 
 export default function forgetpassword({}: Props) {
-  return <div>forgetpassword</div>;
+  return <div>forgetpassword22</div>;
 }
