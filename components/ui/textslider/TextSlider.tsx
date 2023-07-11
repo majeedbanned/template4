@@ -4,14 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 type Props = {};
 const slides = [
   {
-    title: "title 1",
-    subtitle:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum, eligendi. Consequatur iure vitae distinctio possimus! Libero eligendi accusamus molestias atque ut ea maiores inventore dolorum, tempora, unde, voluptas odit obcaecati?",
-
-    buttonTitle: "submit",
-    image: "img 1",
-  },
-  {
     id: 1,
     title: "title 2",
     subtitle: "subtitle 2",

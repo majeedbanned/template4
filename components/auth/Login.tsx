@@ -10,6 +10,7 @@ import Link from "next/link";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -37,6 +38,8 @@ const Login = () => {
   //   const loginModal = useLoginModal();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   // const { data: session } = useSession();
   // console.log("Session: ", session);
   const {
@@ -69,6 +72,8 @@ const Login = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
     //return;
+    setIsLoading(true);
+    setError("");
     signIn("credentials", {
       ...values,
       redirect: false,
@@ -76,14 +81,17 @@ const Login = () => {
       setIsLoading(false);
       console.log(callback);
       if (callback?.ok) {
+        // redirect("/admin/dashboard");
         //  toast.success('Logged in');
         //  router.refresh();
-        // router.push("admin/dashboard");
+        router.push("/admin/dashboard");
         // router.replace("/profile");
         // loginModal.onClose();
       }
 
       if (callback?.error) {
+        setError(callback?.error);
+        setIsLoading(false);
         //  toast.error(callback.error);
       }
     });
@@ -99,7 +107,7 @@ const Login = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input disabled={isLoading} placeholder="shadcn" {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
@@ -116,7 +124,7 @@ const Login = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input disabled={isLoading} placeholder="shadcn" {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
@@ -125,7 +133,10 @@ const Login = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">
+          Submit
+        </Button>
+        <div>{error}</div>
       </form>
     </Form>
   );

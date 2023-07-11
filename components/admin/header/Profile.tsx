@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,10 +10,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { redirect } from "next/navigation";
 import { SettingsIcon, User2 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 type Props = {};
 
 export default function Profile({}: Props) {
+  // const { status } = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     redirect("/signin");
+  //   },
+  // });
   return (
     <div>
       <DropdownMenu>
@@ -31,7 +40,7 @@ export default function Profile({}: Props) {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut()}>SignOut</DropdownMenuItem>
           <DropdownMenuItem>Team</DropdownMenuItem>
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>

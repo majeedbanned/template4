@@ -7,6 +7,7 @@ import Providers from "../provider";
 import Navbar from "../components/navbar/Navbar";
 import { getDictionary } from "@/get-dictionary";
 import { cn } from "@/lib/utils";
+import ClientOnly from "@/lib/ClientOnly";
 
 const iransans = localFont({
   src: [
@@ -61,12 +62,12 @@ export default async function Root({
       {/* className={`${iransans.className}`}  */}
       <body className="antialiased">
         {/* <div className="  "> */}
-
-        <div
-          className=" container  dark:bg-slate-900 overflow-hidden relative md:rounded-2xl  mx-auto  bg-white md:mt-14 mb-52  h-full
+        {/* <ClientOnly> */}
+        <Providers>
+          <div
+            className=" container  dark:bg-slate-900 overflow-hidden relative md:rounded-2xl  mx-auto  bg-white md:mt-14 mb-52  h-full
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
-        >
-          <Providers>
+          >
             {/* {authModal} */}
             <Image
               className="z-10 absolute -top-44 -left-44"
@@ -80,9 +81,11 @@ export default async function Root({
             ></Navbar>
 
             {children}
-          </Providers>
-        </div>
+          </div>
+        </Providers>
+
         {/* </div> */}
+        {/* </ClientOnly> */}
       </body>
     </html>
   );

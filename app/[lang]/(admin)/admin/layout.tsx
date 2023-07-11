@@ -1,6 +1,8 @@
 import { Locale, i18n } from "@/i18n-config";
 import Image from "next/image";
 import "@/app/[lang]/globals.css";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+
 import ellipse from "@/svg/ellipse.svg";
 import localFont from "next/font/local";
 import Providers from "@/app/[lang]/provider";
@@ -18,6 +20,8 @@ import { Separator } from "@/components/ui/separator";
 import { AnimatePresence } from "framer-motion";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 const iransans = localFont({
   src: [
     // {
@@ -60,8 +64,11 @@ export default async function Root({
   // console.log(params.lang);
 
   const dictionary = await getDictionary(params.lang);
-  const currentUser = await getCurrentUser();
-  console.log("currentUser>>", currentUser);
+  //const currentUser = await getCurrentUser();
+  const currentUser = await getServerSession(authOptions);
+  console.log("currentUser server>>", currentUser);
+  if (!currentUser) redirect("/signin");
+  console.log("currentUser server>>", currentUser);
   return (
     <html
       suppressHydrationWarning

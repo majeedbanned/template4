@@ -35,6 +35,7 @@ const Register = () => {
   //   const registerModal = useRegisterModal();
   //   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const {
     register,
@@ -66,12 +67,15 @@ const Register = () => {
     axios
       .post("/api/register", values)
       .then((data) => {
+        setError(JSON.stringify(data));
         console.log(data);
         //  toast.success("Registered!");
         // registerModal.onClose();
         // loginModal.onOpen();
       })
       .catch((error) => {
+        setError(JSON.stringify(error));
+
         //  toast.error(error);
       })
       .finally(() => {
@@ -80,9 +84,12 @@ const Register = () => {
   }
 
   return (
-    <div className="border flex justify-center items-center">
+    <div className="border w-[450px] mt-12 flex justify-center items-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 flex flex-col items-center justify-center"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -90,7 +97,7 @@ const Register = () => {
               <FormItem>
                 <FormLabel>Username1</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input disabled={isLoading} placeholder="shadcn" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                     This is your public display name.
@@ -106,7 +113,7 @@ const Register = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input disabled={isLoading} placeholder="shadcn" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                     This is your public display name.
@@ -115,7 +122,9 @@ const Register = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Register</Button>
+          {isLoading && <div>please wait...</div>}
+          <div>{error}</div>
         </form>
       </Form>
     </div>

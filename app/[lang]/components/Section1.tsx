@@ -32,7 +32,7 @@ export default function Section1({}: Props) {
         </div>
       </div>
       <div className="flex flex-col  flex-1">
-        <TextSlider></TextSlider>
+        {/* <TextSlider></TextSlider> */}
 
         {/* <div className="mb-8  rtl:text-right text-red-600 dark:text-white "></div> */}
       </div>
