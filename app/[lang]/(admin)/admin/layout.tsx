@@ -16,6 +16,8 @@ import AdminHeader from "../../../../components/admin/AdminHeader";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { Separator } from "@/components/ui/separator";
 import { AnimatePresence } from "framer-motion";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import { NextAuthProvider } from "@/components/NextAuthProvider";
 const iransans = localFont({
   src: [
     // {
@@ -58,7 +60,8 @@ export default async function Root({
   // console.log(params.lang);
 
   const dictionary = await getDictionary(params.lang);
-
+  const currentUser = await getCurrentUser();
+  console.log("currentUser>>", currentUser);
   return (
     <html
       suppressHydrationWarning
@@ -80,28 +83,30 @@ export default async function Root({
           className=" container  dark:bg-[#121415] overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         >
-          <Providers>
-            {/* <Navbar
+          <NextAuthProvider>
+            <Providers>
+              {/* <Navbar
               navmenu={dictionary.navbar}
               siteLogo={dictionary.logo}
             ></Navbar> */}
-            <div className="flex flex-row h-auto">
-              <SideBarMenu></SideBarMenu>
+              <div className="flex flex-row h-auto">
+                <SideBarMenu></SideBarMenu>
 
-              {/* <AdminDashboard></AdminDashboard> */}
+                {/* <AdminDashboard></AdminDashboard> */}
 
-              <div className="flex-grow flex  flex-col sm:mr-8 mx-2 sm:ml-4 mb-8 ">
-                <div className=" py-2 sm:py-8 flex justify-start items-center  ">
-                  <AdminHeader></AdminHeader>
+                <div className="flex-grow flex  flex-col sm:mr-8 mx-2 sm:ml-4 mb-8 ">
+                  <div className=" py-2 sm:py-8 flex justify-start items-center  ">
+                    <AdminHeader></AdminHeader>
+                  </div>
+                  <Separator
+                    orientation="horizontal"
+                    className="mx-2 text-white"
+                  />
+                  {children}
                 </div>
-                <Separator
-                  orientation="horizontal"
-                  className="mx-2 text-white"
-                />
-                {children}
               </div>
-            </div>
-          </Providers>
+            </Providers>
+          </NextAuthProvider>
         </div>
       </body>
     </html>

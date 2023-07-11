@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-
+import { useSession, signIn, signOut } from "next-auth/react";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +31,9 @@ import LangSelect from "./header/LangSelect";
 type Props = {};
 
 export default function AdminHeader({}: Props) {
+  const { data: session } = useSession();
+  console.log("sessionnn>>", session);
+
   return (
     <div className="flex flex-row flex-1 ">
       <div className="basis-1/2">
@@ -46,7 +50,7 @@ export default function AdminHeader({}: Props) {
     </div>
   );
   // return (
-  //   <div className="flex flex-row">
+  //   <div   className="flex flex-row">
   //     <Dialog>
   //       <DialogTrigger asChild>
   //         <Button variant="outline">Edit Profile</Button>
