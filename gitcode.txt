@@ -1,7 +1,7 @@
 git checkout -b addprisma    
 git push -u origin addprisma        
 
-#reciving master code
+#reciving master codezxc
 git pull origin main or master
 
 #go to site and pull request and Merge
