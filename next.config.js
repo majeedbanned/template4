@@ -3,8 +3,13 @@
 
 // module.exports = nextConfig
 module.exports = {
-    
+  experimental: {
+    serverActions: true
+},
     images: {
       domains: ['images.unsplash.com'],
     },
   }
+
+
+

@@ -10,9 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { redirect } from "next/navigation";
 import { SettingsIcon, User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+// import useLoginModal from "@/app/hooks/useLoginModal";
+import useLoginModal, {
+  LoginModal,
+} from "@/app/[lang]/components/modals/LoginModal";
 type Props = {};
 
 export default function Profile({}: Props) {
@@ -22,8 +27,11 @@ export default function Profile({}: Props) {
   //     redirect("/signin");
   //   },
   // });
+
+  const loginModal = useLoginModal();
   return (
     <div>
+      <LoginModal></LoginModal>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button
@@ -41,7 +49,9 @@ export default function Profile({}: Props) {
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem onClick={() => signOut()}>SignOut</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => loginModal.onOpen()}>
+            Login
+          </DropdownMenuItem>
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

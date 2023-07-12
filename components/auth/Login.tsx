@@ -30,6 +30,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 
 // import Input from "../inputs/Input";
 
@@ -133,7 +134,12 @@ const Login = () => {
             </FormItem>
           )}
         />
-        <Button disabled={isLoading} type="submit">
+        <Button
+          className="h-9 w-full rounded-md border border-black bg-black px-6 text-sm text-white transition-all duration-150 ease-in-out hover:bg-white hover:text-black focus:outline-none sm:w-auto"
+          disabled={isLoading}
+          type="submit"
+        >
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Submit
         </Button>
         <div>{error}</div>
