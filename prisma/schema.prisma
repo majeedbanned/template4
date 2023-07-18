@@ -8,8 +8,7 @@ datasource db {
 }
 
 model User {
-  id BigInt @id(map: "PK_User") @default(autoincrement())
-
+  id             Int       @id(map: "PK_User") @default(autoincrement())
   name           String?
   email          String?   @unique
   emailVerified  DateTime?
@@ -17,14 +16,12 @@ model User {
   hashedPassword String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-
-  accounts Account[]
+  accounts       Account[]
 }
 
 model Account {
-  id BigInt @id(map: "PK_Account") @default(autoincrement())
-
-  userId            BigInt
+  id                Int     @id(map: "PK_Account") @default(autoincrement())
+  userId            Int
   type              String
   provider          String
   providerAccountId String
@@ -35,8 +32,7 @@ model Account {
   scope             String?
   id_token          String? @db.NVarChar(150)
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -172,4 +168,77 @@ model webinar_server {
 model webinar_setting {
   id               BigInt  @id(map: "PK_webinar_setting") @default(autoincrement())
   default_capacity BigInt?
+}
+
+model maghtatbl {
+  id         String       @unique @db.NVarChar(50)
+  name       String       @db.NVarChar(50)
+  users_mahd users_mahd[]
+}
+
+model users_mahd {
+  id                 BigInt     @id(map: "PK_users_mahd") @default(autoincrement())
+  mahd_name          String?    @db.NVarChar(50)
+  name               String?    @db.NVarChar(50)
+  en_name            String?    @db.NVarChar(50)
+  username           BigInt?
+  pass               String?    @db.NVarChar(50)
+  active             Boolean?
+  codemeli           String?    @db.NVarChar(50)
+  mob                String?    @db.NVarChar(50)
+  rooztavalod        String?    @db.NVarChar(50)
+  mahtavalod         String?    @db.NVarChar(50)
+  saltavalod         String?    @db.NVarChar(50)
+  tell               String?    @db.NVarChar(50)
+  family             String?    @db.NVarChar(50)
+  shomareshenasnameh String?    @db.NVarChar(50)
+  meli_code          String?    @db.NVarChar(50)
+  per_code           String?    @db.NVarChar(50)
+  active_code        String?    @db.NVarChar(50)
+  wsuser             String?    @db.NVarChar(50)
+  wspass             String?    @db.NVarChar(50)
+  sms_number         String?    @db.NVarChar(50)
+  sms_active         Boolean?
+  shahrirostayi      BigInt?
+  mantaghe           BigInt?
+  zarfiat            String?    @db.NVarChar(50)
+  upload_size        String?    @db.NVarChar(50)
+  ParentID           BigInt?
+  tedad              BigInt?
+  tedadzir           BigInt?
+  domain             String?    @db.NVarChar(Max)
+  type               String?    @db.NVarChar(50)
+  them_id            BigInt?
+  date_shoro         String?    @db.NChar(10)
+  date_payan         String?    @db.NChar(10)
+  school_code        String?    @db.NVarChar(50)
+  ramz_update        String?    @db.NVarChar(50)
+  maghta             String?    @db.NVarChar(50)
+  maghtatbl          maghtatbl? @relation(fields: [maghta], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_users_mahd_maghtatblww")
+
+  creator       BigInt?
+  dbserver      BigInt?
+  staticip      String?      @db.NVarChar(50)
+  localip       String?      @db.NVarChar(50)
+  maccess       Boolean?
+  alias1        String?      @db.NVarChar(50)
+  alias2        String?      @db.NVarChar(50)
+  alias3        String?      @db.NVarChar(50)
+  color         String?      @db.NVarChar(50)
+  lic           String?      @db.NVarChar(50)
+  ip            String?      @db.NVarChar(50)
+  domdom        String?      @db.NVarChar(50)
+  pishdabestani String?      @db.NVarChar(150)
+  cleanbank     String?      @db.NVarChar(50)
+  vclass        String?      @db.NVarChar(50)
+  adobeadress   String?      @db.NVarChar(50)
+  magh          BigInt?
+  maghtaValue   maghtaValue? @relation(fields: [magh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_users_mahd_maghtaValue")
+}
+
+model maghtaValue {
+  id   BigInt  @id(map: "PK_maghtaValue")
+  name String? @db.NVarChar(50)
+
+  users_mahd users_mahd[]
 }

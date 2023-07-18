@@ -108,7 +108,12 @@ const Login = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input disabled={isLoading} placeholder="shadcn" {...field} />
+                <Input
+                  className="focus:ring-1"
+                  disabled={isLoading}
+                  placeholder="shadcn"
+                  {...field}
+                />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.

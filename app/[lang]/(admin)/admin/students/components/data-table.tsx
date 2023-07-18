@@ -17,7 +17,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-// import { DataTableToolbar } from "../components/data-table-toolbar";
+import { DataTableToolbar } from "../components/data-table-toolbar";
 
 import {
   Table,
@@ -33,7 +33,7 @@ import {
   compareItems,
 } from "@tanstack/match-sorter-utils";
 import { Button } from "@/components/ui/button";
-// import { DataTablePagination } from "./data-table-pagination";
+import { DataTablePagination } from "./data-table-pagination";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -45,7 +45,7 @@ declare module "@tanstack/table-core" {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  // isLoading: boolean;
+  isLoading: boolean;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -64,8 +64,8 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: // isLoading,
-DataTableProps<TData, TValue>) {
+  isLoading,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -116,7 +116,7 @@ DataTableProps<TData, TValue>) {
   return (
     <div className=" space-y-4">
       <div className="flex space-y-4 items-center py-4"></div>
-      {/* <DataTableToolbar table={table} /> */}
+      <DataTableToolbar table={table} />
 
       <div className="rounded-md border">
         <Table>
@@ -169,7 +169,7 @@ DataTableProps<TData, TValue>) {
           </TableBody>
         </Table>
       </div>
-      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination table={table} />
 
       <div className="flex items-center justify-end gap-2 py-4"></div>
     </div>

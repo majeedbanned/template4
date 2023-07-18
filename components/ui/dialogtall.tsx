@@ -26,7 +26,7 @@ const DialogOverlay = React.forwardRef<
     ref={ref}
     // grid place-items-baseline
     className={cn(
-      "fixed inset-0 z-50 bg-white/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 flex overflow-y-auto flex-row items-center justify-center",
+      "fixed inset-0 z-50 bg-white/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 flex overflow-y-auto flex-row items-start justify-center",
       className
     )}
     {...props}

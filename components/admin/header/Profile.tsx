@@ -18,9 +18,11 @@ import { signOut, useSession } from "next-auth/react";
 import useLoginModal, {
   LoginModal,
 } from "@/app/[lang]/components/modals/LoginModal";
+import { Toaster, toast } from "sonner";
 type Props = {};
 
 export default function Profile({}: Props) {
+  const { data: session, status } = useSession();
   // const { status } = useSession({
   //   required: true,
   //   onUnauthenticated() {
@@ -29,9 +31,22 @@ export default function Profile({}: Props) {
   // });
 
   const loginModal = useLoginModal();
+
+  const promiseToast = () => {
+    const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (data) => {
+        return `${data} toast has been added`;
+      },
+      error: "Error",
+    });
+  };
   return (
     <div>
       <LoginModal></LoginModal>
+      <Toaster></Toaster>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button
@@ -48,11 +63,32 @@ export default function Profile({}: Props) {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => signOut()}>SignOut</DropdownMenuItem>
+          <DropdownMenuItem onClick={promiseToast}>
+            Tost Promise
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => {
+              toast.message("Signing Out", {
+                description: "Please wait...",
+              });
+              signOut();
+            }}
+          >
+            SignOut
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => loginModal.onOpen()}>
             Login
           </DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() =>
+              toast.message("Event has been created", {
+                description: "Monday, January 3rd at 6:00pm",
+              })
+            }
+          >
+            Toast
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

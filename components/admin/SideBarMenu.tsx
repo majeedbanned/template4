@@ -54,6 +54,16 @@ export default function SideBarMenu({}: Props) {
               ></LayoutDashboard>
             }
           ></MenuItem>
+          <MenuItem
+            title="Users"
+            link="admin/students"
+            icon={
+              <LayoutDashboard
+                fontSize={20}
+                className="w-6 h-6 dark:text-white text-[#8b99a4]"
+              ></LayoutDashboard>
+            }
+          ></MenuItem>
         </SidebarItem>
 
         <SidebarItem

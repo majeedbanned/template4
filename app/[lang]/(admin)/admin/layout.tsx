@@ -22,6 +22,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+import { Toaster } from "sonner";
 const iransans = localFont({
   src: [
     // {
@@ -91,6 +92,7 @@ export default async function Root({
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         >
           <NextAuthProvider>
+            <Toaster></Toaster>
             <Providers>
               {/* <Navbar
               navmenu={dictionary.navbar}
