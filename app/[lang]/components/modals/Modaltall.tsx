@@ -12,7 +12,7 @@ import {
   DialogOverlay,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialogtall";
 import { Title } from "@radix-ui/react-dialog";
 interface ModalProps {
   isOpen?: boolean;
@@ -28,7 +28,7 @@ interface ModalProps {
   secondaryActionLabel?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modaltall: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -250,4 +250,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal;
+export default Modaltall;
