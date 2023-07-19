@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma-second-db"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL2")
+}
+
+model account {
+  sanad        String   @id(map: "PK_account") @db.Char(13)
+  id           Decimal? @db.Decimal(18, 0)
+  pelak        String?  @db.Char(6)
+  month        String?  @db.Char(7)
+  payment      Float?   @db.Money
+  datepay      String?  @db.Char(10)
+  deadline     String?  @db.Char(10)
+  fine         Float?   @db.Money
+  pricebill    Float?   @db.Money
+  bedehi       Float?   @db.Money
+  mazad        Float?   @db.Money
+  sumbill      Float?   @db.Money
+  novpay       String?  @db.Char(20)
+  number       String?  @db.Char(20)
+  fineold      Float?   @db.Money
+  bedehiold    Float?   @db.Money
+  sharj        Float?   @db.Money
+  notpay       Int?
+  finepar      Float?   @db.Money
+  bedehipar    Float?   @db.Money
+  notpaypar    Int?
+  pricebillold Float?   @db.Money
+  gift         Float?   @db.Money
+  giftold      Float?   @db.Money
+  act          String?  @db.Char(1)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model account2 {
+  pelak     String?  @db.Char(6)
+  month     String?  @db.Char(7)
+  fine      Float?   @db.Money
+  bedehi    Float?   @db.Money
+  mazad     Float?   @db.Money
+  ofname    String?  @db.Char(30)
+  olname    String?  @db.Char(40)
+  id        Decimal? @db.Decimal(18, 0)
+  pricebill Float?   @db.Money
+  alertpic  Bytes?   @db.Image
+  newsharj  Float?   @db.Money
+  finepar   Float?   @db.Money
+  bedehipar Float?   @db.Money
+  notpaypar Int?
+  rent      Float?   @db.Money
+  gift      Float?   @db.Money
+  giftold   Float?   @db.Money
+  Rolpic    Bytes?   @db.Image
+  act       String?  @db.Char(1)
+
+  @@ignore
+}
+
+model bank {
+  code     Int     @id(map: "PK_bank") @default(autoincrement())
+  bank     String? @db.Char(30)
+  shobe    String? @db.Char(30)
+  numhesab String? @db.Char(20)
+  malhesab String? @db.Char(100)
+  nov      String? @db.NChar(10)
+}
+
+model bill {
+  id        Int     @id(map: "PK_bill") @default(autoincrement())
+  pelak     String? @db.Char(6)
+  monthbill String? @db.Char(7)
+  bedehi    Float?  @db.Money
+  fine      Float?  @db.Money
+  price     Float?  @db.Money
+  pricebill Float?  @db.Money
+}
+
+model Ejareh {
+  sanad         String  @id(map: "PK_Ejareh") @db.NChar(13)
+  pelak         String? @db.NChar(6)
+  month         String? @db.NChar(7)
+  deadline      String? @db.NChar(10)
+  fine          Float?  @db.Money
+  pricebill     Float?  @db.Money
+  pricebill2    Float?  @db.Money
+  bedehi        Float?  @db.Money
+  mazad         Float?  @db.Money
+  sumbill       Float?  @db.Money
+  payment       Float?  @db.Money
+  datepay       String? @db.NChar(10)
+  novpay        String? @db.NChar(20)
+  number        String? @db.NChar(20)
+  fineold       Float?  @db.Money
+  bedehiold     Float?  @db.Money
+  rent          Float?  @db.Money
+  rent2         Float?  @db.Money
+  notpay        Int?
+  notpayold     Int?
+  bedehidovreh  Float?  @db.Money
+  bedehidovreh2 Float?  @db.Money
+  count         Int?
+  count2        Int?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model fine {
+  fineprice Float? @db.Money
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model GD1 {
+  ttpra Float?  @db.Money
+  ttpr1 Float?  @db.Money
+  ttpr2 Float?  @db.Money
+  ttnra Float?  @db.Money
+  ttnr1 Float?  @db.Money
+  ttnr2 Float?  @db.Money
+  tfpra Float?  @db.Money
+  tfpr1 Float?  @db.Money
+  tfpr2 Float?  @db.Money
+  tfnra Float?  @db.Money
+  tfnr1 Float?  @db.Money
+  tfnr2 Float?  @db.Money
+  gpra  Float?  @db.Money
+  gpr1  Float?  @db.Money
+  gpr2  Float?  @db.Money
+  gnra  Float?  @db.Money
+  gnr1  Float?  @db.Money
+  gnr2  Float?  @db.Money
+  mpra  Float?  @db.Money
+  mpr1  Float?  @db.Money
+  mpr2  Float?  @db.Money
+  mnra  Float?  @db.Money
+  mnr1  Float?  @db.Money
+  mnr2  Float?  @db.Money
+  month String? @db.Char(7)
+
+  @@ignore
+}
+
+model history {
+  row       Int     @id(map: "PK_history") @default(autoincrement())
+  usern     String? @db.Char(20)
+  date      String? @db.Char(10)
+  time      String? @db.Char(12)
+  tablename String? @db.Char(15)
+  action    String? @db.Char(20)
+  rowkey    String? @db.Char(20)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model license {
+  licensekey String? @db.NChar(22)
+  id         Int     @default(autoincrement())
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model MP {
+  pelak      String? @db.NChar(6)
+  monthcount Int?
+  sal        Int?
+  pricebill  Float?  @db.Money
+  sum        Float?  @db.Money
+  fineold    Float?  @db.Money
+  payment    Float?  @db.Money
+
+  @@ignore
+}
+
+model option1 {
+  payam       String? @db.Char(300)
+  message     String? @db.Char(1)
+  alert       String? @db.Char(1)
+  pic         Bytes?  @db.Image
+  payam2      String? @db.Char(300)
+  downmessage String? @db.Char(1)
+  payamE      String? @db.NChar(200)
+  underPayam  String? @db.NChar(300)
+  RolPic      Bytes?  @db.Image
+  maliPic     Bytes?  @db.Image
+  id          BigInt  @id(map: "PK_option1") @default(autoincrement())
+}
+
+model owner {
+  orow     Int
+  pelak    String? @db.Char(6)
+  ofname   String? @db.Char(30)
+  olname   String? @db.Char(40)
+  ofather  String? @db.Char(30)
+  ojob     String? @db.Char(100)
+  omobile  String? @db.Char(11)
+  otel     String? @db.Char(11)
+  oaddress String? @db.Char(200)
+  omeli    String? @db.Char(12)
+  sex      String? @db.Char(4)
+  cposti   String? @db.Char(10)
+  id       BigInt  @id(map: "PK_owner") @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model owner2 {
+  pelak  String? @db.Char(6)
+  ofname String? @db.Char(30)
+  olname String? @db.Char(40)
+  month  String? @db.Char(7)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model securety {
+  code        String? @db.Char(13)
+  username    String? @db.Char(20)
+  password    String? @db.Char(10)
+  store       String? @db.NChar(1)
+  sharj       String? @db.NChar(1)
+  option      String? @db.NChar(1)
+  owner       String? @db.NChar(1)
+  tenant      String? @db.NChar(1)
+  account     String? @db.NChar(1)
+  securety    String? @db.NChar(1)
+  ejareh      String? @db.NChar(1)
+  fact        String? @db.NChar(1)
+  file        String? @db.NChar(1)
+  edit        String? @db.NChar(1)
+  printsharj  String? @db.NChar(1)
+  printejareh String? @db.NChar(1)
+  SG          String? @db.NChar(1)
+  Rol         String? @db.NChar(1)
+  id          BigInt  @default(autoincrement())
+
+  @@ignore
+}
+
+model sharj {
+  sharj  Float? @db.Money
+  rent   Float? @db.Money
+  rent2  Float? @db.Money
+  sharj1 Float? @db.Money
+  sharj2 Float? @db.Money
+  sharjG Float? @db.Money
+  sharj3 Float? @db.Money
+  id     BigInt @id(map: "PK_sharj") @default(autoincrement())
+}
+
+model store {
+  pelak    String  @id(map: "PK_store") @db.Char(6)
+  nov      String? @db.Char(20)
+  name     String? @db.Char(30)
+  metraj   Float?
+  bazar    String? @db.Char(15)
+  tabagh   String? @db.Char(15)
+  rahro    String? @db.Char(20)
+  tel1     String? @db.Char(7)
+  tel2     String? @db.Char(7)
+  cposti   String? @db.Char(10)
+  rent     Float?  @db.Money
+  active   String? @db.Char(1)
+  tovzeh   String? @db.Char(400)
+  ChekGift String? @db.Char(1)
+  ChekRol  String? @db.NChar(1)
+  Tahvil   String? @db.NChar(10)
+}
+
+model Tenant {
+  trow     Int     @id(map: "PK_Tenant") @default(autoincrement())
+  pelak    String? @db.Char(6)
+  tfname   String? @db.Char(30)
+  tlname   String? @db.Char(40)
+  tfather  String? @db.Char(30)
+  tjob     String? @db.Char(100)
+  tmobile  String? @db.Char(11)
+  ttel     String? @db.Char(11)
+  taddress String? @db.Char(200)
+  tmeli    String? @db.Char(12)
+  stdate   String? @db.Char(10)
+  endate   String? @db.Char(10)
+  sex      String? @db.Char(4)
+  cposti   String? @db.Char(10)
+}

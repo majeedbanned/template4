@@ -34,6 +34,18 @@ export default function SideBarMenu({}: Props) {
         >
           <MenuItem
             title="
+            Stores"
+            link="admin/stores"
+            icon={
+              <LayoutDashboard
+                fontSize={20}
+                className="w-6 h-6 dark:text-white text-[#8b99a4]"
+              ></LayoutDashboard>
+            }
+          ></MenuItem>
+
+          <MenuItem
+            title="
             dashboard"
             link="admin/dashboard"
             icon={
