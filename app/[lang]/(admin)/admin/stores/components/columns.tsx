@@ -17,35 +17,35 @@ import { Checkbox } from "@/components/ui/checkbox";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<UserProps>[] = [
+export const columns: ColumnDef<StoreProps>[] = [
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className=" translate-y-[2px]"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => {
+  //         row.toggleSelected(!!value);
+  //       }}
+  //       aria-label="Select row"
+  //       className="mx-2 "
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className=" translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => {
-          row.toggleSelected(!!value);
-        }}
-        aria-label="Select row"
-        className="mx-2 "
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "mahd_name",
+    accessorKey: "pelak",
 
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title=" نام آموزشگاه" />
+      <DataTableColumnHeader column={column} title=" pelak " />
     ),
     // header: ({ column }) => {
     //   return (
@@ -61,7 +61,7 @@ export const columns: ColumnDef<UserProps>[] = [
     // },
   },
   {
-    accessorKey: "domdom",
+    accessorKey: "name",
 
     header: ({ column }) => {
       return (
@@ -70,21 +70,21 @@ export const columns: ColumnDef<UserProps>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          mahd_name
+          name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "username",
+    accessorKey: "metraj",
 
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
   },
   {
-    accessorKey: "pass",
+    accessorKey: "tel1",
     header: ({ column }) => {
       return (
         <div className="flex m-0 px-0 text-purple-500 font-semibold">pass</div>
@@ -92,17 +92,15 @@ export const columns: ColumnDef<UserProps>[] = [
     },
   },
   {
-    accessorKey: "rooztavalod",
+    accessorKey: "tel2",
     header: ({ column }) => {
       return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">
-          rooztavalod
-        </div>
+        <div className="flex m-0 px-0 text-purple-500 font-semibold">tel2</div>
       );
     },
   },
   {
-    accessorKey: "school_code",
+    accessorKey: "rent",
     header: ({ column }) => {
       return (
         <div className="flex m-0 px-0 text-purple-500 font-semibold">
@@ -112,20 +110,20 @@ export const columns: ColumnDef<UserProps>[] = [
     },
   },
 
-  {
-    accessorKey: "maghtatbl.name",
-    id: "maghtatbl.name",
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">
-          maghtatxt
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
+  // {
+  //   accessorKey: "maghtatbl.name",
+  //   id: "maghtatbl.name",
+  //   header: ({ column }) => {
+  //     return (
+  //       <div className="flex m-0 px-0 text-purple-500 font-semibold">
+  //         maghtatxt
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  // },
 
   // {
   //   accessorKey: "username",
@@ -160,7 +158,7 @@ export const columns: ColumnDef<UserProps>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(UserRow.id.toString())
+                navigator.clipboard.writeText(UserRow.pelak.toString())
               }
             >
               Copy payment ID
