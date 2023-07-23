@@ -253,22 +253,31 @@ model sharj {
 }
 
 model store {
-  pelak    String  @id(map: "PK_store") @db.Char(6)
-  nov      String? @db.Char(20)
-  name     String? @db.Char(30)
-  metraj   Float?
-  bazar    String? @db.Char(15)
-  tabagh   String? @db.Char(15)
-  rahro    String? @db.Char(20)
-  tel1     String? @db.Char(7)
-  tel2     String? @db.Char(7)
-  cposti   String? @db.Char(10)
-  rent     Float?  @db.Money
-  active   String? @db.Char(1)
-  tovzeh   String? @db.Char(400)
-  ChekGift String? @db.Char(1)
-  ChekRol  String? @db.NChar(1)
-  Tahvil   String? @db.NChar(10)
+  pelak         String          @id(map: "PK_store") @db.Char(6)
+  nov           Int?
+  name          String?         @db.Char(30)
+  metraj        Float?
+  bazar         Int?
+  tabagh        Int?
+  rahro         Int?
+  tel1          String?         @db.Char(7)
+  tel2          String?         @db.Char(7)
+  cposti        String?         @db.Char(10)
+  rent          Float?          @db.Money
+  active        String?         @db.Char(1)
+  tovzeh        String?         @db.Char(400)
+  ChekGift      String?         @db.Char(1)
+  ChekRol       String?         @db.NChar(1)
+  Tahvil        String?         @db.NChar(10)
+  created_at    String?         @db.NVarChar(50)
+  updated_at    String?         @db.NVarChar(50)
+  created_user  Int?
+  updated_user  Int?
+  types_bazar   types_bazar?    @relation(fields: [bazar], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_bazar")
+  types_nov     types_nov?      @relation(fields: [nov], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_nov")
+  types_rahro   types_rahro?    @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
+  types_tabagh  types_tabagh?   @relation(fields: [tabagh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_tabagh")
+  stores_events stores_events[]
 }
 
 model Tenant {
@@ -286,4 +295,41 @@ model Tenant {
   endate   String? @db.Char(10)
   sex      String? @db.Char(4)
   cposti   String? @db.Char(10)
+}
+
+model stores_events {
+  id           Int     @id(map: "PK_stores_events") @default(autoincrement())
+  text         String? @db.NVarChar(750)
+  pelak        String? @db.Char(6)
+  created_at   String? @db.NVarChar(50)
+  updated_at   String? @db.NVarChar(50)
+  created_user Int?
+  updated_user Int?
+  store        store?  @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_events_store")
+}
+
+model types_bazar {
+  bazar String? @db.NVarChar(50)
+  id    Int     @id(map: "PK_types_bazar") @default(autoincrement())
+  store store[]
+}
+
+model types_nov {
+  nov             String?    @db.NVarChar(50)
+  id              Int        @id(map: "PK_types_nov") @default(autoincrement())
+  store           store[]
+  types_nov       types_nov  @relation("types_novTotypes_nov", fields: [id], references: [id], onUpdate: NoAction, map: "FK_types_nov_types_nov")
+  other_types_nov types_nov? @relation("types_novTotypes_nov")
+}
+
+model types_rahro {
+  rahro String? @db.NVarChar(50)
+  id    Int     @id(map: "PK_types_rahro") @default(autoincrement())
+  store store[]
+}
+
+model types_tabagh {
+  tabagh String? @db.NVarChar(50)
+  id     Int     @id(map: "PK_types_tabagh") @default(autoincrement())
+  store  store[]
 }

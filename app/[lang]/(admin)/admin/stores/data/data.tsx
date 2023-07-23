@@ -26,8 +26,8 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "123",
-    label: "123",
+    value: "2",
+    label: "2",
     icon: HelpCircle,
   },
   {

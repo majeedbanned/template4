@@ -6,18 +6,21 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { log } from "@/lib/utils";
 
-
-
-import { PrismaClient } from '@prisma-second-db'
+import { PrismaClient } from "@prisma-second-db";
 import client from "@/lib/prismadb1";
-
-
+import { bigint, number } from "zod";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   const search = url.searchParams.get("search") || undefined;
-  console.log(search);
+  const rahro = url.searchParams.get("rahro")?.toString().split(',').map(Number) || undefined;
+  const tabagh = url.searchParams.get("tabagh")?.toString().split(',').map(Number) || undefined;
+  const bazar = url.searchParams.get("bazar")?.toString().split(',').map(Number) || undefined;
+  const nov = url.searchParams.get("nov")?.toString().split(',').map(Number) || undefined;
+  console.log(nov);
+  console.log(request.url);
+
   if (!session) {
     return NextResponse.json(
       {
@@ -28,21 +31,25 @@ export async function GET(request: NextRequest) {
       }
     );
   }
- // const prisma = new PrismaClient()
+  //  types_bazar: { id: Number(bazar) },
   try {
     const response = await client.store.findMany({
-       where: {
-      
-      
-        ...(search != "null"
-          ? {
-              OR: [
-                { pelak: { contains: search } },
-                { name: { contains: search } },
-              ],
-            }
-          : {}),
-        
+      where: {
+        ...(search && {
+          OR: [{ pelak: { contains: search } }, { name: { contains: search } }],
+        }),
+        ...(rahro && {
+          rahro:  { in: rahro} ,
+        }),
+        ...(nov && {
+          nov:  { in: nov} ,
+        }),
+        ...(tabagh && {
+          tabagh:  { in: tabagh} ,
+        }),
+        ...(bazar && {
+          bazar:  { in: bazar} ,
+        }),
       },
       select: {
         pelak: true,
@@ -51,13 +58,10 @@ export async function GET(request: NextRequest) {
         tel1: true,
         tel2: true,
         tovzeh: true,
-        // maghta: true,
-        // domdom: true,
-        // maghtatbl: {
-        //   select: {
-        //     name: true,
-        //   },
-        // },
+        types_rahro: { select: { id: true, rahro: true } },
+        types_bazar: { select: { id: true, bazar: true } },
+        types_nov: { select: { nov: true } },
+        types_tabagh: { select: { tabagh: true } },
       },
       orderBy: {
         pelak: "desc",
@@ -96,4 +100,3 @@ export async function GET(request: NextRequest) {
     });
   }
 }
-

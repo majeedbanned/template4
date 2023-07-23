@@ -29,28 +29,15 @@ export function DataTableToolbar<TData>({
             Delete {table.getSelectedRowModel().flatRows.length} selected rows
           </Button>
         )}
-        <Input
+        {/* <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("pelak")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("pelak")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
-        />
-        {table.getColumn("pass") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("pass")}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {table.getColumn("maghtatbl.name") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("maghtatbl.name")}
-            title="maghta"
-            options={priorities}
-          />
-        )}
+        /> */}
+
         {isFiltered && (
           <Button
             variant="ghost"

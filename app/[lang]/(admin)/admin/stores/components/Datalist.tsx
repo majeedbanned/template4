@@ -3,13 +3,16 @@ import { columns } from "@/app/[lang]/(admin)/admin/stores/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
-import { fetcher, setQueryString } from "@/lib/utils";
-import React, { useEffect } from "react";
+import { fetcher } from "@/lib/utils";
+import React, { Suspense, use, useCallback, useEffect } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useAddUser, {
-  AddUser,
-} from "@/app/[lang]/components/modals/AddUserModal";
+
+import { FacetedFilter } from "./faceted-filter";
+import { statuses } from "../data/data";
+import useAddEditStoreModal, {
+  AddEditStoreModal,
+} from "@/app/[lang]/components/modals/AddEditStoreModal";
 
 type Props = {};
 
@@ -17,32 +20,69 @@ export default function Datalist({}: Props) {
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   const router = useRouter();
+
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const AddUserModal = useAddUser();
+  const searchParams = useSearchParams()!;
+  const AddUserModal = useAddEditStoreModal();
   const AddRecord = () => {
-    AddUserModal.onOpen();
+    AddUserModal.onOpen("add");
   };
   let query;
+  let rahro;
   if (searchParams) {
     query = searchParams.get("search");
+    rahro = searchParams.get("rahro");
   }
   const {
     data: stores,
     isLoading,
     mutate,
-  } = useSWR<StoreProps[]>(`/api/store?search=${query}`, fetcher);
+  } = useSWR<StoreProps[]>(
+    // `/api/store?key=1${query ? "&search=" + query : ""}`,
+    `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
+    fetcher
+  );
 
+  // const createQueryString = (name: string, value: string) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.set(name, value);
+
+  //   return params.toString();
+  // };
+
+  // const deleteQueryString = (name: string) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.delete(name);
+  //   return params.toString();
+  // };
+  const setQueryString = (type: string, e: string[]) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    if (e.length === 0) {
+      current.delete(type);
+    } else {
+      current.set(type, String(e.join(",")));
+    }
+    const search = current.toString();
+    // or const query = `${'?'.repeat(search.length && 1)}${search}`;
+    const query = search ? `?${search}` : "";
+
+    router.push(`${pathname}${query}`);
+  };
+  const handleActionClick = (rowData: string) => {
+    AddUserModal.onOpen(rowData);
+    console.log("Action clicked for row:", rowData);
+    // Add your action logic here
+  };
   return (
     <div>
-      <AddUser></AddUser>
+      <AddEditStoreModal></AddEditStoreModal>
       <DebouncedInput
         value={globalFilter ?? ""}
         onChange={(value: string | number) => {
           //console.log(value);
-          setGlobalFilter(String(value));
-          //?? setQueryString(router, "search", String(value));
-          if (searchParams) {
+          // setGlobalFilter(String(value));
+          console.log("start>>", value);
+          if (true) {
             const current = new URLSearchParams(
               Array.from(searchParams.entries())
             );
@@ -58,9 +98,40 @@ export default function Datalist({}: Props) {
             router.push(`${pathname}${query}`);
           }
         }}
-        className="p-2 font-lg shadow border border-block"
+        className="h-8 w-[150px] lg:w-[250px] border px-2 rounded-md mx-2"
         placeholder="Search all columns..."
       />
+      <FacetedFilter
+        selected={searchParams.get("tabagh")?.toString().split(",").map(Number)}
+        filterOption="tabagh"
+        title="tabagh"
+        options={statuses}
+        onChange={(e) => setQueryString("tabagh", e)}
+      ></FacetedFilter>
+      <FacetedFilter
+        selected={searchParams.get("bazar")?.toString().split(",").map(Number)}
+        filterOption="bazar"
+        title="bazar"
+        options={statuses}
+        onChange={(e) => setQueryString("bazar", e)}
+      ></FacetedFilter>
+      <Suspense fallback="Loading...">
+        <FacetedFilter
+          selected={searchParams.get("nov")?.toString().split(",").map(Number)}
+          filterOption="nov"
+          title="nov"
+          options={statuses}
+          onChange={(e) => setQueryString("nov", e)}
+        ></FacetedFilter>
+      </Suspense>
+      <FacetedFilter
+        filterOption="rahro"
+        title="rahro"
+        options={statuses}
+        selected={searchParams.get("rahro")?.toString().split(",").map(Number)}
+        onChange={(e) => setQueryString("rahro", e)}
+      ></FacetedFilter>
+
       <Button onClick={() => mutate()}>mutate</Button>
       <Button onClick={AddRecord} variant={"outline"}>
         Add
@@ -73,6 +144,7 @@ export default function Datalist({}: Props) {
               columns={columns}
               data={stores}
               isLoading={isLoading}
+              onActionClick={handleActionClick}
             ></DataTable>
           ) : (
             // users.map((user) => (

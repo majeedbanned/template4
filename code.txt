@@ -1,0 +1,18 @@
+git checkout -b addprisma    
+git push -u origin addprisma        
+
+#reciving master codezxc
+git pull origin main or master
+
+#go to site and pull request and Merge
+
+#updating local repository
+git checkout main
+git pull
+
+#deleting branch
+git branch -D addprisma
+
+
+npx prisma generate  --schema ./prismagolf/prisma/schema.prisma;  
+npx prisma db pull  --schema ./prismagolf/prisma/schema.prisma;  

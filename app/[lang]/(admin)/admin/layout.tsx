@@ -25,10 +25,10 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 const iransans = localFont({
   src: [
-    // {
-    //   path: "../../public/fonts/IRANSansWeb.eot",
-    //   weight: "400",
-    // },
+    {
+      path: "../../../../public/fonts/IRANSansWeb.eot",
+      weight: "400",
+    },
     {
       path: "../../../../public/fonts/IRANSansWeb.ttf",
       weight: "400",
@@ -80,11 +80,12 @@ export default async function Root({
     >
       {/* /${barlowCondensed.className} ${inter.className} ${merriweather.variable} ${roboto.className} ${iransans.className} font-sans/ */}
       {/* className={`${iransans.className}`}  */}
+      {/* font-sans */}
       <body
         className={cn(
-          " bg-gradient-to-r from-[#f1ece0] to-[#D6DDE2] dark:from-gray-800  dark:to-gray-800  font-sans antialiased",
-          fontSans.variable,
-          fontMono.variable
+          " bg-gradient-to-r from-[#f1ece0] to-[#D6DDE2] dark:from-gray-800  dark:to-gray-800   antialiased"
+          // iransans.variable,
+          // fontMono.variable
         )}
       >
         <div

@@ -34,6 +34,18 @@ import {
 } from "@tanstack/match-sorter-utils";
 import { Button } from "@/components/ui/button";
 import { DataTablePagination } from "./data-table-pagination";
+import useAddEditStoreModal from "@/app/[lang]/components/modals/AddEditStoreModal";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { DataTableViewOptions } from "./data-table-view-options";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -46,6 +58,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isLoading: boolean;
+  onActionClick: (id: string) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -65,7 +78,10 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   isLoading,
+  onActionClick,
 }: DataTableProps<TData, TValue>) {
+  const AddUserModal = useAddEditStoreModal();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -116,13 +132,14 @@ export function DataTable<TData, TValue>({
   return (
     <div className=" space-y-4">
       <div className="flex space-y-4 items-center py-4"></div>
-      <DataTableToolbar table={table} />
-
+      {/* <DataTableToolbar table={table} /> */}
+      <DataTableViewOptions table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
+                <th>منو</th>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -138,14 +155,42 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="p-0"
+                  className="p-3 "
                   data-state={row.getIsSelected() && "selected"}
                 >
+                  <td className="px-4 py-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <Cog6ToothIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>ویرایش</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onClick={() => onActionClick(row.original.pelak)}
+                        >
+                          Copy payment ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                        // onClick={() => handleShow(UserRow.pelak.toString())}
+                        >
+                          View customer
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          View payment details
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </td>
+
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="m-0 p-2" key={cell.id}>
                       {flexRender(
@@ -160,7 +205,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-28 text-center"
                 >
                   No results.
                 </TableCell>
