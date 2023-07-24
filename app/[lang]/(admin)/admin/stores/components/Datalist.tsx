@@ -4,7 +4,7 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { Suspense, use, useCallback, useEffect } from "react";
+import React, { Suspense, use, useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -13,6 +13,10 @@ import { statuses } from "../data/data";
 import useAddEditStoreModal, {
   AddEditStoreModal,
 } from "@/app/[lang]/components/modals/AddEditStoreModal";
+import useFilter from "@/lib/hooks/useFilter";
+import { z } from "zod";
+import { StoreSchema } from "@/lib/schemas";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -21,11 +25,40 @@ export default function Datalist({}: Props) {
 
   const router = useRouter();
 
+  const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
+  const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
+  const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
+  const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
+  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
+
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
   const AddUserModal = useAddEditStoreModal();
   const AddRecord = () => {
-    AddUserModal.onOpen("add");
+    setEditstore({
+      pelakCH: "",
+      pelakNU: "",
+      nov: "",
+      bazar: "",
+      tabagh: "",
+      rahro: "",
+      name: "",
+      active: false,
+      metraj: 0,
+      ChekGift: false,
+      ChekRol: "",
+      tovzeh: "",
+      cposti: "",
+      Tahvil: "",
+      tel1: "",
+      tel2: "",
+    });
+
+    setTimeout(() => {
+      AddUserModal.onOpen("");
+    }, 100);
+
+    //AddUserModal.onOpen("");
   };
   let query;
   let rahro;
@@ -40,7 +73,10 @@ export default function Datalist({}: Props) {
   } = useSWR<StoreProps[]>(
     // `/api/store?key=1${query ? "&search=" + query : ""}`,
     `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnMount: true,
+    }
   );
 
   // const createQueryString = (name: string, value: string) => {
@@ -68,14 +104,53 @@ export default function Datalist({}: Props) {
 
     router.push(`${pathname}${query}`);
   };
+  let key: string = "";
   const handleActionClick = (rowData: string) => {
-    AddUserModal.onOpen(rowData);
+    const promise = () =>
+      new Promise((resolve) => {
+        fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
+          async (res) => {
+            //console.log(await res.json());
+            const val = await res.json();
+            setEditstore(val);
+
+            setTimeout(() => {
+              AddUserModal.onOpen(rowData);
+              resolve("");
+            }, 100);
+          }
+        );
+      });
+    toast.promise(promise, {
+      loading: "دریافت اطلاعات ...",
+      success: (data) => {
+        toast.dismiss();
+
+        return `${data} `;
+      },
+      error: "Error",
+    });
+
     console.log("Action clicked for row:", rowData);
     // Add your action logic here
   };
+  const StoreModal = useAddEditStoreModal();
+  // useEffect(() => {
+  //   AddUserModal.onOpen(key);
+  // }, [editstore]);
+
   return (
     <div>
-      <AddEditStoreModal></AddEditStoreModal>
+      {/* {StoreModal.editID !== "" && ( */}
+      <AddEditStoreModal
+        mutation={mutate}
+        data={editstore}
+        nov={_nov}
+        bazar={_bazar}
+        tabagh={_tabagh}
+        rahro={_rahro}
+      ></AddEditStoreModal>
+      {/* )} */}
       <DebouncedInput
         value={globalFilter ?? ""}
         onChange={(value: string | number) => {

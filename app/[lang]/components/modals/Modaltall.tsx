@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialogtall";
 import { Title } from "@radix-ui/react-dialog";
+import ThreeDots from "@/components/admin/ui/three-dots";
+import LoadingDots from "@/components/loading/loading-dots";
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
@@ -122,6 +124,7 @@ const Modaltall: React.FC<ModalProps> = ({
                   onClick={handleSubmit}
                 >
                   {actionLabel}
+                  {disabled && <LoadingDots color="#fff"></LoadingDots>}
                 </Button>
               </div>
               {footer}

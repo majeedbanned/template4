@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 //import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
-import { FilterOptions } from "@/lib/types";
+import { FilterOptions, StoreProps } from "@/lib/types";
 
 import {
   FieldValues,
@@ -22,80 +22,79 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-const formSchema = z.object({
-  pelakCH: z
-    .string({
-      invalid_type_error: "کاراکتر",
-    })
-    .min(1, { message: "*" })
-    .max(1, { message: "*" }),
-  pelakNU: z.coerce.number({
-    required_error: "فیلد اجباری",
-    invalid_type_error: " لطفا بصورت عددی وارد نمایید",
-  }),
+// const StoreSchema = z.object({
+//   pelakCH: z
+//     .string({
+//       invalid_type_error: "کاراکتر",
+//     })
+//     .min(1, { message: "*" })
+//     .max(1, { message: "*" }),
+//   pelakNU: z
+//     .number({
+//       invalid_type_error: "مقدار عددی  وارد کنید",
+//     })
+//     .positive({ message: "مقدار عددی مثبت وارد کنید" })
+//     .int({ message: "مقدار عددی  وارد کنید" })
+//     .or(z.string())
+//     .pipe(
+//       z.coerce
+//         .number({
+//           invalid_type_error: "مقدار عددی  وارد کنید",
+//         })
+//         .positive({ message: "مقدار عددی مثبت وارد کنید" })
+//       //.int({ message: "Value must be an integer" })
+//     ),
 
-  name: z.string().optional(),
-  nov: z
-    .string({
-      required_error: "این فیلد اجباری است",
-    })
-    .min(1)
-    .max(2),
-  metraj: z.coerce.number({
-    required_error: "فیلد اجباری",
-    invalid_type_error: " لطفا بصورت عددی وارد نمایید",
-  }),
-  bazar: z
-    .string({
-      required_error: "این فیلد اجباری است",
-    })
-    .min(1)
-    .max(2),
-  tabagh: z
-    .string({
-      required_error: "این فیلد اجباری است",
-    })
-    .min(1)
-    .max(2),
-  rahro: z
-    .string({
-      required_error: "این فیلد اجباری است",
-    })
-    .min(1)
-    .max(2),
-  tel1: z.string().optional(),
-  tel2: z.string().optional(),
-  cposti: z.string().optional(),
-  tahvil: z.string().optional(),
-  active: z.boolean().default(false).optional(),
-  checkgift: z.boolean().default(false).optional(),
-  checkrol: z.string().optional(),
-  tovzeh: z.string().optional(),
+//   name: z.string().optional(),
+//   nov: z
+//     .string({
+//       required_error: "این فیلد اجباری است",
+//     })
+//     .min(1)
+//     .max(2),
+//   metraj: z
+//     .number({
+//       invalid_type_error: "مقدار عددی  وارد کنید",
+//     })
+//     .positive({ message: "مقدار عددی مثبت وارد کنید" })
+//     .int({ message: "مقدار عددی  وارد کنید" })
+//     .or(z.string())
+//     .pipe(
+//       z.coerce
+//         .number({
+//           invalid_type_error: "مقدار عددی  وارد کنید",
+//         })
+//         .positive({ message: "مقدار عددی مثبت وارد کنید" })
+//       //.int({ message: "Value must be an integer" })
+//     ),
 
-  rooztavalod: z.boolean().default(false).optional(),
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
-  }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
-  marketing_emails: z.boolean().default(false).optional(),
-  security_emails: z.boolean(),
-  language: z.string({
-    required_error: "Please select a language.",
-  }),
-  ReactDatepicker: z.string().min(2).max(50),
-  // pass: z.string().min(2).max(50),
-  // rooztavalod: z.string(),
-  // school_code: z.string().min(2).max(50),
-  // maghta: z.number(),
-  // domdom: z.string().url(),
-});
+//   bazar: z
+//     .string({
+//       required_error: "این فیلد اجباری است",
+//     })
+//     .min(1)
+//     .max(2),
+//   tabagh: z
+//     .string({
+//       required_error: "این فیلد اجباری است",
+//     })
+//     .min(1)
+//     .max(2),
+//   rahro: z
+//     .string({
+//       required_error: "این فیلد اجباری است",
+//     })
+//     .min(1)
+//     .max(2),
+//   tel1: z.string().optional(),
+//   tel2: z.string().optional(),
+//   cposti: z.string().optional(),
+//   tahvil: z.string().optional(),
+//   active: z.boolean().default(false).optional(),
+//   checkgift: z.boolean().default(false).optional(),
+//   checkrol: z.string().optional(),
+//   tovzeh: z.string().optional(),
+// });
 
 const items = [
   {
@@ -122,72 +121,161 @@ const languages = [
   { label: "Korean", value: "ko" },
   { label: "Chinese", value: "zh" },
 ] as const;
-export const AddEditStoreModal = () => {
+export const AddEditStoreModal = ({
+  mutation,
+  bazar,
+  rahro,
+  nov,
+  tabagh,
+  data,
+}: {
+  mutation: () => void;
+  bazar?: FilterOptions[];
+  rahro?: FilterOptions[];
+  nov?: FilterOptions[];
+  tabagh?: FilterOptions[];
+  data?: z.infer<typeof StoreSchema>;
+}) => {
   const router = useRouter();
-  const AddUserModal = useAddEditStoreModal();
+  const AddEditStoreModal = useAddEditStoreModal();
   const [isLoading, setIsLoading] = useState(false);
-  const { filters: _bazar } = useFilter({ filter: "bazar" });
-  const { filters: _tabagh } = useFilter({ filter: "tabagh" });
-  const { filters: _nov } = useFilter({ filter: "nov" });
-
-  const { filters: _rahro } = useFilter({ filter: "rahro" });
+  // const { filters: _bazar } = useFilter({ filter: "bazar" });
+  // const { filters: _tabagh } = useFilter({ filter: "tabagh" });
+  // const { filters: _nov } = useFilter({ filter: "nov" });
+  // const { filters: _rahro } = useFilter({ filter: "rahro" });
+  // const [hooksCompleted, setHooksCompleted] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
+  const [tmp, setTmp] = useState(false);
 
   const [error, setError] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      email: "",
-      password: "",
-      items: ["recents", "home"],
-    },
-  });
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      pelakCH: "",
-      pelakNU: 0,
-
-      name: "",
-      items: ["recents", "home"],
-      security_emails: true,
-      // pass: "",
-      // rooztavalod: "1",
-      // school_code: "",
-      // maghta: 1,
-      // domdom: "",
-    },
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<FieldValues>({
+  //   defaultValues: {
+  //     pelak: "a",
+  //   },
+  // });
+  // console.log("AddEditStoreModal.editID>", AddEditStoreModal.editID);
+  const form = useForm<z.infer<typeof StoreSchema>>({
+    resolver: zodResolver(StoreSchema),
+    defaultValues: AddEditStoreModal.editID !== "" ? data : {},
+    //   AddEditStoreModal.editID === "add"
+    //     ? {}
+    //     : async () => {
+    //         //console.log("start");
+    //         return await fetch("/api/store/" + AddEditStoreModal.editID).then(
+    //           (res) => res.json()
+    //         );
+    //       },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  // useEffect(() => {
+  //   // Check if all hooks have completed, then trigger the useEffect.
+  //   if (_bazar && _tabagh && _rahro && _nov) {
+  //     setHooksCompleted(4);
+  //     console.log("completed");
+  //   }
+  // }, [_bazar, _tabagh, _rahro, _nov]);
+
+  useEffect(
+    () => {
+      // setTimeout(() => {
+      //alert();
+      // form.cle();
+      // if (AddEditStoreModal.editID === "") form.reset();
+      form.reset(data);
+      // form.setValue("nov", editstore.nov?.toString());
+      // form.setValue("tabagh", editstore.tabagh?.toString());
+      // form.setValue("rahro", editstore.rahro?.toString());
+      // form.setValue("bazar", editstore.bazar?.toString());
+    },
+    // }, 2000);
+    [data, form]
+  );
+
+  // useEffect(() => {
+  //   fetch(
+  //     "/api/store/" +
+  //       (AddEditStoreModal.editID !== "" ? AddEditStoreModal.editID : "1")
+  //   ).then(async (res) => {
+  //     //console.log(await res.json());
+  //     setEditstore(await res.json());
+  //   });
+  // }, [AddEditStoreModal.editID]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (editstore) {
+  //       console.log("amooo", editstore.nov);
+  //       // form.reset(editstore);
+  //     }
+  //   }, 2220);
+
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [editstore]);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
-    return;
+    //return;
     setIsLoading(true);
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    }).then((callback) => {
-      setIsLoading(false);
+    await fetch(endpoint.url, {
+      method: endpoint.method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      await setTimeout(async () => {
+        setIsLoading(false);
+        if (res.status === 200) {
+          //** */ mutate(`/api/projects/${slug}/domains`);
+          AddEditStoreModal.onClose();
+          toast.success(endpoint.successMessage);
+          await mutation();
+          // mutate(`/api/store`, true).then((resp) => {
+          //   setTmp(!tmp);
+          // });
 
-      if (callback?.ok) {
-        // toast.success("Logged in");
-        router.refresh();
-        AddUserModal.onClose();
-      }
-
-      if (callback?.error) {
-        // toast.error(callback.error);
-      }
+          // if (!props) {
+          //   router.push(`/${slug}/domains`);
+          // }
+        } else if (res.status === 422) {
+          //  const { domainError: domainErrorResponse } = await res.json();
+          // if (domainErrorResponse) {
+          toast.error("پلاک تکراری است");
+        } else {
+          toast.error(res.statusText);
+        }
+      }, 3);
     });
   };
 
   const onToggle = useCallback(() => {
-    AddUserModal.onClose();
+    AddEditStoreModal.onClose();
     //  registerModal.onOpen();
-  }, [AddUserModal]);
+  }, [AddEditStoreModal]);
+
+  const endpoint = useMemo(() => {
+    if (AddEditStoreModal.editID !== "") {
+      return {
+        method: "PUT",
+        url: `/api/store`,
+        successMessage: "Successfully updated domain!",
+      };
+    } else {
+      return {
+        method: "POST",
+        url: `/api/store`,
+        successMessage: "Successfully added domain!",
+      };
+    }
+  }, [AddEditStoreModal.editID]);
 
   const bodyContent = (
     <Form {...form}>
@@ -202,7 +290,7 @@ export const AddEditStoreModal = () => {
                 <FormControl>
                   <Input
                     className=" text-slate-600 focus:ring-1 w-10 px-1 text-center uppercase"
-                    disabled={isLoading}
+                    disabled={isLoading || AddEditStoreModal.editID !== ""}
                     placeholder=""
                     {...field}
                   />
@@ -221,7 +309,7 @@ export const AddEditStoreModal = () => {
                 <FormControl>
                   <Input
                     className=" text-slate-600 focus:ring-1 w-24"
-                    disabled={isLoading}
+                    disabled={isLoading || AddEditStoreModal.editID !== ""}
                     placeholder=""
                     {...field}
                   />
@@ -241,7 +329,11 @@ export const AddEditStoreModal = () => {
                 <FormLabel>نوع واحد :</FormLabel>
                 <FormMessage />
               </div>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                // @ts-ignore: Unreachable code error
+                onValueChange={field.onChange}
+                defaultValue={field.value?.toString()}
+              >
                 <FormControl className="bg-white text-center">
                   <SelectTrigger className="text-center">
                     <SelectValue
@@ -252,7 +344,7 @@ export const AddEditStoreModal = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white text-center">
-                  {_nov?.map((item: FilterOptions) => (
+                  {nov?.map((item: FilterOptions) => (
                     <SelectItem key={item.value} value={item.value}>
                       {item.label}
                     </SelectItem>
@@ -302,7 +394,13 @@ export const AddEditStoreModal = () => {
                 <FormLabel> بلوک :</FormLabel>
                 <FormMessage />
               </div>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+
+              <Select
+                // @ts-ignore: Unreachable code error
+
+                onValueChange={field.onChange}
+                defaultValue={field.value?.toString()}
+              >
                 <FormControl className="bg-white text-center">
                   <SelectTrigger className="text-center">
                     <SelectValue
@@ -313,7 +411,7 @@ export const AddEditStoreModal = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white text-center">
-                  {_bazar?.map((item: FilterOptions) => (
+                  {bazar?.map((item: FilterOptions) => (
                     <SelectItem key={item.value} value={item.value}>
                       {item.label}
                     </SelectItem>
@@ -343,7 +441,7 @@ export const AddEditStoreModal = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white text-center">
-                  {_tabagh?.map((item: FilterOptions) => (
+                  {tabagh?.map((item: FilterOptions) => (
                     <SelectItem key={item.value} value={item.value}>
                       {item.label}
                     </SelectItem>
@@ -363,7 +461,12 @@ export const AddEditStoreModal = () => {
 
                 <FormMessage />
               </div>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                // @ts-ignore: Unreachable code error
+
+                onValueChange={field.onChange}
+                defaultValue={field.value?.toString()}
+              >
                 <FormControl className="bg-white text-center">
                   <SelectTrigger className="text-center">
                     <SelectValue
@@ -374,7 +477,7 @@ export const AddEditStoreModal = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white text-center">
-                  {_rahro?.map((item: FilterOptions) => (
+                  {rahro?.map((item: FilterOptions) => (
                     <SelectItem key={item.value} value={item.value}>
                       {item.label}
                     </SelectItem>
@@ -437,7 +540,7 @@ export const AddEditStoreModal = () => {
 
         <FormField
           control={form.control}
-          name="tahvil"
+          name="Tahvil"
           render={({ field }) => (
             <FormItem className="">
               <FormLabel> تاریخ تحویل :</FormLabel>
@@ -456,7 +559,7 @@ export const AddEditStoreModal = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="checkgift"
+              name="ChekGift"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -499,7 +602,7 @@ export const AddEditStoreModal = () => {
 
         <FormField
           control={form.control}
-          name="checkrol"
+          name="ChekRol"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>حقوقی :</FormLabel>
@@ -516,14 +619,14 @@ export const AddEditStoreModal = () => {
                     <FormLabel className="font-normal">بلی</FormLabel>
 
                     <FormControl>
-                      <RadioGroupItem value="mentions" />
+                      <RadioGroupItem value="1" />
                     </FormControl>
                   </FormItem>
                   <FormItem className="flex items-center gap-2   ltr:justify-start rtl:justify-end">
                     <FormLabel className="font-normal">خیر</FormLabel>
 
                     <FormControl>
-                      <RadioGroupItem value="none" />
+                      <RadioGroupItem value="2" />
                     </FormControl>
                   </FormItem>
                 </RadioGroup>
@@ -569,16 +672,17 @@ export const AddEditStoreModal = () => {
 
   const footerContent = <div className="flex flex-col gap-4 mt-3"></div>;
 
+  // if (hooksCompleted !== 4) return null;
   return (
     <Modaltall
       disabled={isLoading}
-      isOpen={AddUserModal.isOpen}
-      title={AddUserModal.editID}
+      isOpen={AddEditStoreModal.isOpen}
+      title={AddEditStoreModal.editID}
       // "افزودن واحد"
-      actionLabel="افزودن"
+      actionLabel={AddEditStoreModal.editID === "" ? "افزودن" : "ویرایش"}
       secondaryActionLabel="انصراف"
-      secondaryAction={AddUserModal.onClose}
-      onClose={AddUserModal.onClose}
+      secondaryAction={AddEditStoreModal.onClose}
+      onClose={AddEditStoreModal.onClose}
       onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -619,6 +723,9 @@ import {
 } from "@/components/ui/command";
 import { Textarea } from "@/components/ui/textarea";
 import useFilter from "@/lib/hooks/useFilter";
+import { toast } from "sonner";
+import { StoreSchema } from "@/lib/schemas";
+import { mutate } from "swr";
 
 interface AddEditStoreModal {
   isOpen: boolean;

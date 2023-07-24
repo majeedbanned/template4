@@ -264,9 +264,9 @@ model store {
   tel2          String?         @db.Char(7)
   cposti        String?         @db.Char(10)
   rent          Float?          @db.Money
-  active        String?         @db.Char(1)
+  active        Boolean?
   tovzeh        String?         @db.Char(400)
-  ChekGift      String?         @db.Char(1)
+  ChekGift      Boolean?
   ChekRol       String?         @db.NChar(1)
   Tahvil        String?         @db.NChar(10)
   created_at    String?         @db.NVarChar(50)
@@ -332,4 +332,41 @@ model types_tabagh {
   tabagh String? @db.NVarChar(50)
   id     Int     @id(map: "PK_types_tabagh") @default(autoincrement())
   store  store[]
+}
+
+model Permission {
+  id       Int      @id(map: "PK__Permission") @default(autoincrement())
+  userID   Int?
+  systemID Int?
+  add      Boolean? @map("_add")
+  view     Boolean? @map("_view")
+  edit     Boolean? @map("_edit")
+  print    Boolean? @map("_print")
+  Systems  Systems? @relation(fields: [systemID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Systems")
+  Users    Users?   @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Users")
+
+  @@map("_Permission")
+}
+
+model Systems {
+  id         Int          @id(map: "PK__Systems") @default(autoincrement())
+  name       String?      @db.NVarChar(50)
+  Permission Permission[]
+
+  @@map("_Systems")
+}
+
+model Users {
+  id          Int          @id(map: "PK__Users") @default(autoincrement())
+  name        String?      @db.NVarChar(50)
+  lname       String?      @db.NVarChar(50)
+  username    String?      @db.NVarChar(50)
+  password    String?      @db.NVarChar(50)
+  role        String?      @db.NVarChar(50)
+  active      Boolean?
+  Permission  Permission[]
+  Users       Users        @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
+  other_Users Users?       @relation("UsersToUsers")
+
+  @@map("_Users")
 }

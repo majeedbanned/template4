@@ -33,9 +33,9 @@ export interface StoreProps {
   cposti: string;
   rent: number;
   active: boolean;
-  checkgift: boolean;
-  checkrol: number;
-  tahvil: string;
+  ChekGift: boolean;
+  ChekRol: number;
+  Tahvil: string;
   tovzeh: string;
   types_rahro: { rahro: string };
   types_bazar: { bazar: string };
