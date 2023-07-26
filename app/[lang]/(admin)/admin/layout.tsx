@@ -15,10 +15,10 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 const iransans = localFont({
   src: [
-    {
-      path: "../../../../public/fonts/IRANSansWeb.eot",
-      weight: "400",
-    },
+    // {
+    //   path: "../../../../public/fonts/IRANSansWeb.eot",
+    //   weight: "400",
+    // },
     {
       path: "../../../../public/fonts/IRANSansWeb.ttf",
       weight: "400",

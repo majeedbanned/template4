@@ -129,7 +129,7 @@ const Login = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Password22</FormLabel>
               <FormControl>
                 <Input disabled={isLoading} placeholder="shadcn" {...field} />
               </FormControl>
