@@ -2,12 +2,7 @@
 
 import { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
-
-import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
-
-import { priorities, statuses } from "../data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "@heroicons/react/24/outline";
 

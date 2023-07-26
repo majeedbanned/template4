@@ -16,9 +16,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
-import { DataTableToolbar } from "../components/data-table-toolbar";
-
 import {
   Table,
   TableBody,
@@ -27,11 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  RankingInfo,
-  rankItem,
-  compareItems,
-} from "@tanstack/match-sorter-utils";
+import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import { Button } from "@/components/ui/button";
 import { DataTablePagination } from "./data-table-pagination";
 import useAddEditStoreModal from "@/app/[lang]/components/modals/AddEditStoreModal";
@@ -43,20 +36,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { DataTableViewOptions } from "./data-table-view-options";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -77,7 +58,6 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   console.log("fuzzy");
   const itemRank = rankItem(row.getValue(columnId), value);
 
-  // Store the itemRank info
   addMeta({
     itemRank,
   });
@@ -127,9 +107,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-
     enableRowSelection: true,
-
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onRowSelectionChange: setRowSelection,
@@ -192,11 +170,7 @@ export function DataTable<TData, TValue>({
                           Copy payment ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                        // onClick={() => handleShow(UserRow.pelak.toString())}
-                        >
-                          View customer
-                        </DropdownMenuItem>
+                        <DropdownMenuItem>View customer</DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => onDeleteClick(row.original.pelak)}
                         >
@@ -236,35 +210,35 @@ export function DataTable<TData, TValue>({
   );
 }
 
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number;
-  onChange: (value: string | number) => void;
-  debounce?: number;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
-  const [value, setValue] = React.useState(initialValue);
+// function DebouncedInput({
+//   value: initialValue,
+//   onChange,
+//   debounce = 500,
+//   ...props
+// }: {
+//   value: string | number;
+//   onChange: (value: string | number) => void;
+//   debounce?: number;
+// } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
+//   const [value, setValue] = React.useState(initialValue);
 
-  React.useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
+//   React.useEffect(() => {
+//     setValue(initialValue);
+//   }, [initialValue]);
 
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value);
-    }, debounce);
+//   React.useEffect(() => {
+//     const timeout = setTimeout(() => {
+//       onChange(value);
+//     }, debounce);
 
-    return () => clearTimeout(timeout);
-  }, [value]);
+//     return () => clearTimeout(timeout);
+//   }, [value]);
 
-  return (
-    <input
-      {...props}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-}
+//   return (
+//     <input
+//       {...props}
+//       value={value}
+//       onChange={(e) => setValue(e.target.value)}
+//     />
+//   );
+// }

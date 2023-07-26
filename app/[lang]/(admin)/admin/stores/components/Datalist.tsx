@@ -4,12 +4,11 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { Suspense, use, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { FacetedFilter } from "./faceted-filter";
-import { statuses } from "../data/data";
 import useAddEditStoreModal, {
   AddEditStoreModal,
 } from "@/app/[lang]/components/modals/AddEditStoreModal";
@@ -23,25 +22,25 @@ import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-// import { DeleteStoreModal } from "@/app/[lang]/components/modals/DeleteStoreModal";
 
 type Props = {};
 
 export default function Datalist({}: Props) {
   const [globalFilter, setGlobalFilter] = React.useState("");
+  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
+  const [deleteID, setDeleteID] = useState<string>("");
 
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams()!;
+  const AddUserModal = useAddEditStoreModal();
+  const _DeleteStoreModal = useDeleteStoreModal();
 
   const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
   const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
   const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
   const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
-  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
-  const [deleteID, setDeleteID] = useState<string>("");
-  const pathname = usePathname();
-  const searchParams = useSearchParams()!;
-  const AddUserModal = useAddEditStoreModal();
-  const _DeleteStoreModal = useDeleteStoreModal();
+
   const AddRecord = () => {
     setEditstore({
       pelakCH: "",
@@ -68,18 +67,12 @@ export default function Datalist({}: Props) {
 
     //AddUserModal.onOpen("");
   };
-  let query;
-  let rahro;
-  if (searchParams) {
-    query = searchParams.get("search");
-    rahro = searchParams.get("rahro");
-  }
+
   const {
     data: stores,
     isLoading,
     mutate,
   } = useSWR<StoreProps[]>(
-    // `/api/store?key=1${query ? "&search=" + query : ""}`,
     `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
     fetcher,
     {
@@ -87,18 +80,6 @@ export default function Datalist({}: Props) {
     }
   );
 
-  // const createQueryString = (name: string, value: string) => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.set(name, value);
-
-  //   return params.toString();
-  // };
-
-  // const deleteQueryString = (name: string) => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.delete(name);
-  //   return params.toString();
-  // };
   const setQueryString = (type: string, e: string[]) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     if (e.length === 0) {
@@ -107,21 +88,16 @@ export default function Datalist({}: Props) {
       current.set(type, String(e.join(",")));
     }
     const search = current.toString();
-    // or const query = `${'?'.repeat(search.length && 1)}${search}`;
     const query = search ? `?${search}` : "";
-
     router.push(`${pathname}${query}`);
   };
-  let key: string = "";
 
   const handleDeleteClick = (rowData: string) => {
     const promise = () =>
       new Promise((resolve) => {
         setDeleteID(rowData);
-
         setTimeout(() => {
           _DeleteStoreModal.onOpen(rowData);
-
           resolve("");
         }, 100);
       });
@@ -130,7 +106,6 @@ export default function Datalist({}: Props) {
       loading: "حذف اطلاعات  ...",
       success: (data) => {
         toast.dismiss();
-
         return `${data} `;
       },
       error: "Error",
@@ -142,11 +117,9 @@ export default function Datalist({}: Props) {
       new Promise((resolve) => {
         fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
           async (res) => {
-            //console.log(await res.json());
             if (res.status === 200) {
               const val = await res.json();
               setEditstore(val);
-
               setTimeout(() => {
                 AddUserModal.onOpen(rowData);
                 resolve("");
@@ -163,23 +136,13 @@ export default function Datalist({}: Props) {
       loading: "دریافت اطلاعات ...",
       success: (data) => {
         toast.dismiss();
-
         return `${data} `;
       },
       error: "Error",
     });
-
-    console.log("Action clicked for row:", rowData);
-    // Add your action logic here
   };
-  const StoreModal = useAddEditStoreModal();
-  // useEffect(() => {
-  //   AddUserModal.onOpen(key);
-  // }, [editstore]);
-
   return (
     <div>
-      {/* {StoreModal.editID !== "" && ( */}
       <DeleteStoreModal mutation={mutate} data={deleteID}></DeleteStoreModal>
       <AddEditStoreModal
         mutation={mutate}
@@ -189,13 +152,9 @@ export default function Datalist({}: Props) {
         tabagh={_tabagh}
         rahro={_rahro}
       ></AddEditStoreModal>
-      {/* )} */}
       <DebouncedInput
         value={globalFilter ?? ""}
         onChange={(value: string | number) => {
-          //console.log(value);
-          // setGlobalFilter(String(value));
-          console.log("start>>", value);
           if (true) {
             const current = new URLSearchParams(
               Array.from(searchParams.entries())
@@ -206,9 +165,7 @@ export default function Datalist({}: Props) {
               current.set("search", String(value));
             }
             const search = current.toString();
-            // or const query = `${'?'.repeat(search.length && 1)}${search}`;
             const query = search ? `?${search}` : "";
-
             router.push(`${pathname}${query}`);
           }
         }}
@@ -219,14 +176,14 @@ export default function Datalist({}: Props) {
         selected={searchParams.get("tabagh")?.toString().split(",").map(Number)}
         filterOption="tabagh"
         title="tabagh"
-        options={statuses}
+        options={_tabagh}
         onChange={(e) => setQueryString("tabagh", e)}
       ></FacetedFilter>
       <FacetedFilter
         selected={searchParams.get("bazar")?.toString().split(",").map(Number)}
         filterOption="bazar"
         title="bazar"
-        options={statuses}
+        options={_bazar}
         onChange={(e) => setQueryString("bazar", e)}
       ></FacetedFilter>
       <Suspense fallback="Loading...">
@@ -234,23 +191,20 @@ export default function Datalist({}: Props) {
           selected={searchParams.get("nov")?.toString().split(",").map(Number)}
           filterOption="nov"
           title="nov"
-          options={statuses}
+          options={_nov}
           onChange={(e) => setQueryString("nov", e)}
         ></FacetedFilter>
       </Suspense>
       <FacetedFilter
         filterOption="rahro"
         title="rahro"
-        options={statuses}
+        options={_rahro}
         selected={searchParams.get("rahro")?.toString().split(",").map(Number)}
         onChange={(e) => setQueryString("rahro", e)}
       ></FacetedFilter>
-
-      <Button onClick={() => mutate()}>mutate</Button>
       <Button onClick={AddRecord} variant={"outline"}>
         Add
       </Button>
-
       <div className="grid divide-y divide-gray-200">
         {stores ? (
           stores.length > 0 ? (

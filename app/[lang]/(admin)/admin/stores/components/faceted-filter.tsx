@@ -1,9 +1,6 @@
 import * as React from "react";
-import { Column } from "@tanstack/react-table";
 import { Check, LucideIcon, PlusCircle } from "lucide-react";
-import useSWR from "swr";
-
-import { cn, fetcher } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
   Command,
@@ -21,17 +18,13 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { string } from "zod";
-import { FilterOptions } from "@/lib/types";
-import { data } from "autoprefixer";
 
 interface FacetedFilter<TData, TValue> {
-  //  column?: Column<TData, TValue>;
   title?: string;
   selected?: number[] | undefined;
   filterOption?: string;
   onChange: ([]) => void;
-  options: {
+  options?: {
     label: string;
     value: string;
     icon?: LucideIcon;
@@ -39,15 +32,12 @@ interface FacetedFilter<TData, TValue> {
 }
 
 export function FacetedFilter<TData, TValue>({
-  //column,
   selected,
   title,
   options,
   filterOption,
   onChange,
 }: FacetedFilter<TData, TValue>) {
-  //const facets = column?.getFacetedUniqueValues();
-  //const selectedValues = ['ali','hasan'];
   const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
 
   const removeValue = (value: string) => {
@@ -62,11 +52,6 @@ export function FacetedFilter<TData, TValue>({
   React.useEffect(() => {
     onChange(selectedValues); // This will always use latest value of count
   }, [selectedValues, onChange]);
-
-  const { data, isLoading, mutate } = useSWR<FilterOptions[]>(
-    `/api/filters?filter=${filterOption}`,
-    fetcher
-  );
 
   return (
     <Popover>
@@ -92,7 +77,7 @@ export function FacetedFilter<TData, TValue>({
                     {selectedValues.length} selected
                   </Badge>
                 ) : (
-                  data
+                  options
                     ?.filter((option) => selectedValues.includes(option.value))
                     .map((option) => (
                       <Badge
@@ -151,25 +136,17 @@ export function FacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {data?.map((option) => {
+              {options?.map((option) => {
                 const isSelected = selectedValues.includes(option.value);
                 return (
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
                       if (isSelected) {
-                        //selectedValues.delete(option.value);
                         removeValue(option.value);
                       } else {
-                        //  selectedValues.add(option.value);
                         setSelectedValues([...selectedValues, option.value]);
-
-                        //onChange(selectedValues);
                       }
-                      // const filterValues = Array.from(selectedValues);
-                      // column?.setFilterValue(
-                      //   filterValues.length ? filterValues : undefined
-                      // );
                     }}
                   >
                     <div

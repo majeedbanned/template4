@@ -15,18 +15,18 @@ import { redirect } from "next/dist/server/api-utils";
 
 
 export async function POST(req: NextRequest) {
-  //**  Auth **//
-  // const session = await getServerSession(authOptions);
-  // if (!session) {
-  //   return NextResponse.json(
-  //     {
-  //       message: "Unauthorized: Login required.",
-  //     },
-  //     {
-  //       status: 401,
-  //     }
-  //   );
-  // }
+  // **  Auth **//
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized: Login required.",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
 
   //** get headers **//
 
@@ -68,7 +68,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // res.pelak = pelakNU + "-" + pelakCH;
   const newres = {
     ...res,
     pelak:res.pelakNU + "-" + res.pelakCH,
@@ -82,26 +81,10 @@ export async function POST(req: NextRequest) {
   // @ts-ignore: Unreachable code error
   delete newres.pelakCH;
 
-
-  // copiedObject.nov = parseInt(res.nov, 10);
-  // copiedObject.tabagh = parseInt(copiedObject.tabagh, 10);
-  // copiedObject.bazar = parseInt(copiedObject.bazar, 10);
-  // copiedObject.rahro = parseInt(copiedObject.rahro, 10);
-
-  // const updatedObject = Object.fromEntries(
-  //   Object.entries(res).filter(([key]) => key !== "pelakNU")
-  // );
-  // const updatedObject2 = Object.fromEntries(
-  //   Object.entries(updatedObject).filter(([key]) => key !== "pelakCH")
-  // );
-  //const response = await Promise.allSettled([
   const response = await client.store.create({
     data: newres,
   });
-  //]);
 
-  //}
-  // This get's the raw body as a string
   return NextResponse.json(response, {
     status: 200,
   });
@@ -137,7 +120,6 @@ export async function PUT(req: NextRequest) {
 
   const newres = {
     ...res,
-    //pelak:res.pelakNU + "-" + res.pelakCH,
     nov: parseInt(res.nov),
     tabagh: parseInt(res.tabagh),
     rahro: parseInt(res.rahro),
@@ -175,8 +157,6 @@ export async function GET(request: NextRequest) {
     undefined;
   const nov =
     url.searchParams.get("nov")?.toString().split(",").map(Number) || undefined;
-  console.log(nov);
-  console.log(request.url);
 
   if (!session) {
     return NextResponse.json(
@@ -188,7 +168,6 @@ export async function GET(request: NextRequest) {
       }
     );
   }
-  //  types_bazar: { id: Number(bazar) },
   try {
     const response = await client.store.findMany({
       where: {

@@ -1,24 +1,14 @@
-import { Locale, i18n } from "@/i18n-config";
-import Image from "next/image";
+import { Locale } from "@/i18n-config";
 import "@/app/[lang]/globals.css";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-import ellipse from "@/svg/ellipse.svg";
 import localFont from "next/font/local";
 import Providers from "@/app/[lang]/provider";
-import Navbar from "@/app/[lang]/components/navbar/Navbar";
 import { getDictionary } from "@/get-dictionary";
 import { cn } from "@/lib/utils";
-import Sidebar, { SidebarItem } from "../../components/sidebar/Sidebar";
-import { TvIcon } from "@heroicons/react/24/outline";
-import { BanIcon } from "lucide-react";
 import SideBarMenu from "../../../../components/admin/SideBarMenu";
-import AdminDashboard from "../../../../components/admin/AdminDashboard";
 import AdminHeader from "../../../../components/admin/AdminHeader";
-import { fontMono, fontSans } from "@/lib/fonts";
 import { Separator } from "@/components/ui/separator";
-import { AnimatePresence } from "framer-motion";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
@@ -56,11 +46,11 @@ export const metadata = {
 export default async function Root({
   children,
   params,
-  authModal,
-}: {
+}: // authModal,
+{
   children: React.ReactNode;
   params: { lang: Locale };
-  authModal: React.ReactNode;
+  // authModal: React.ReactNode;
 }) {
   // console.log(params.lang);
 
@@ -74,7 +64,7 @@ export default async function Root({
     <html
       suppressHydrationWarning
       lang={params.lang}
-      dir={params.lang === "ar" ? "rtl" : "ltr"}
+      dir={params.lang === "en" ? "rtl" : "rtl"}
       // dir={(params.lang = "rtl")}
       className={cn("antialiased", iransans.className)}
     >
