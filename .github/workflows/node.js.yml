@@ -28,5 +28,5 @@ jobs:
           script: |
             cd /var/www/template4
             git pull
-            npm i
             npm run build
+            pm2 restart
