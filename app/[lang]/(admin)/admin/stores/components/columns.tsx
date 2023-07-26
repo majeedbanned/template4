@@ -66,11 +66,7 @@ export const columns: ColumnDef<StoreProps>[] = [
       );
     },
     header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">
-          نوع واحد
-        </div>
-      );
+      return <DataTableColumnHeader column={column} title="نوع واحد" />;
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
@@ -91,7 +87,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     accessorKey: "metraj",
 
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="متراژ" />
     ),
   },
   {

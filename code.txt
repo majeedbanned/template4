@@ -16,3 +16,5 @@ git branch -D addprisma
 
 npx prisma generate  --schema ./prismagolf/prisma/schema.prisma;  
 npx prisma db pull  --schema ./prismagolf/prisma/schema.prisma;  
+
+salam
