@@ -107,7 +107,7 @@ const Login = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username11</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
                   className="focus:ring-1"
@@ -129,7 +129,7 @@ const Login = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>22Password22</FormLabel>
+              <FormLabel>Password.</FormLabel>
               <FormControl>
                 <Input disabled={isLoading} placeholder="shadcn" {...field} />
               </FormControl>
