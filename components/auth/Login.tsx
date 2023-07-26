@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 
 const formSchema = z.object({
-  email: z.string().min(2).max(50),
+  username: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
 
@@ -49,7 +49,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
@@ -63,7 +63,7 @@ const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
@@ -77,7 +77,8 @@ const Login = () => {
     setError("");
     signIn("credentials", {
       ...values,
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/admin/dashboard",
     }).then((callback) => {
       setIsLoading(false);
       console.log(callback);
@@ -85,7 +86,7 @@ const Login = () => {
         // redirect("/admin/dashboard");
         //  toast.success('Logged in');
         //  router.refresh();
-        router.push("/admin/dashboard");
+        //**** */  router.push("/admin/dashboard");
         // router.replace("/profile");
         // loginModal.onClose();
       }
@@ -103,7 +104,7 @@ const Login = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>

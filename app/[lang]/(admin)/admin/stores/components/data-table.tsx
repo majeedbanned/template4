@@ -46,6 +46,17 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { DataTableViewOptions } from "./data-table-view-options";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -59,6 +70,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   isLoading: boolean;
   onActionClick: (id: string) => void;
+  onDeleteClick: (id: string) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -79,6 +91,7 @@ export function DataTable<TData, TValue>({
   data,
   isLoading,
   onActionClick,
+  onDeleteClick,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
 
@@ -184,8 +197,10 @@ export function DataTable<TData, TValue>({
                         >
                           View customer
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          View payment details
+                        <DropdownMenuItem
+                          onClick={() => onDeleteClick(row.original.pelak)}
+                        >
+                          delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

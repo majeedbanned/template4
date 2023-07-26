@@ -117,6 +117,7 @@ export const LoginModal = () => {
 
   return (
     <Modal
+      actionLabelVariant={"default"}
       disabled={isLoading}
       isOpen={loginModal.isOpen}
       title="Login"

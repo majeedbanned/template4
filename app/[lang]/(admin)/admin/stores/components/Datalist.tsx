@@ -13,10 +13,17 @@ import { statuses } from "../data/data";
 import useAddEditStoreModal, {
   AddEditStoreModal,
 } from "@/app/[lang]/components/modals/AddEditStoreModal";
+
+import useDeleteStoreModal, {
+  DeleteStoreModal,
+} from "@/app/[lang]/components/modals/DeleteStoreModal";
+
 import useFilter from "@/lib/hooks/useFilter";
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
 import { toast } from "sonner";
+import { rejects } from "assert";
+// import { DeleteStoreModal } from "@/app/[lang]/components/modals/DeleteStoreModal";
 
 type Props = {};
 
@@ -30,10 +37,11 @@ export default function Datalist({}: Props) {
   const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
   const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
   const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
-
+  const [deleteID, setDeleteID] = useState<string>("");
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
   const AddUserModal = useAddEditStoreModal();
+  const _DeleteStoreModal = useDeleteStoreModal();
   const AddRecord = () => {
     setEditstore({
       pelakCH: "",
@@ -105,19 +113,49 @@ export default function Datalist({}: Props) {
     router.push(`${pathname}${query}`);
   };
   let key: string = "";
+
+  const handleDeleteClick = (rowData: string) => {
+    const promise = () =>
+      new Promise((resolve) => {
+        setDeleteID(rowData);
+
+        setTimeout(() => {
+          _DeleteStoreModal.onOpen(rowData);
+
+          resolve("");
+        }, 100);
+      });
+
+    toast.promise(promise, {
+      loading: "حذف اطلاعات  ...",
+      success: (data) => {
+        toast.dismiss();
+
+        return `${data} `;
+      },
+      error: "Error",
+    });
+  };
+
   const handleActionClick = (rowData: string) => {
     const promise = () =>
       new Promise((resolve) => {
         fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
           async (res) => {
             //console.log(await res.json());
-            const val = await res.json();
-            setEditstore(val);
+            if (res.status === 200) {
+              const val = await res.json();
+              setEditstore(val);
 
-            setTimeout(() => {
-              AddUserModal.onOpen(rowData);
-              resolve("");
-            }, 100);
+              setTimeout(() => {
+                AddUserModal.onOpen(rowData);
+                resolve("");
+              }, 100);
+            } else {
+              const error = await res.text();
+              toast.error(error);
+              rejects;
+            }
           }
         );
       });
@@ -142,6 +180,7 @@ export default function Datalist({}: Props) {
   return (
     <div>
       {/* {StoreModal.editID !== "" && ( */}
+      <DeleteStoreModal mutation={mutate} data={deleteID}></DeleteStoreModal>
       <AddEditStoreModal
         mutation={mutate}
         data={editstore}
@@ -220,6 +259,7 @@ export default function Datalist({}: Props) {
               data={stores}
               isLoading={isLoading}
               onActionClick={handleActionClick}
+              onDeleteClick={handleDeleteClick}
             ></DataTable>
           ) : (
             // users.map((user) => (

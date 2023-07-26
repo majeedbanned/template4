@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { cva, type VariantProps } from "class-variance-authority";
+
 import {
   Dialog,
   DialogContent,
@@ -14,6 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Title } from "@radix-ui/react-dialog";
+import LoadingDots from "@/components/loading/loading-dots";
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
@@ -26,6 +29,15 @@ interface ModalProps {
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
+  actionLabelVariant:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -40,6 +52,7 @@ const Modal: React.FC<ModalProps> = ({
   disabled,
   secondaryAction,
   secondaryActionLabel,
+  actionLabelVariant,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -116,12 +129,14 @@ const Modal: React.FC<ModalProps> = ({
                 )}
 
                 <Button
+                  variant={actionLabelVariant}
                   className="flex flex-1"
                   type="submit"
                   disabled={disabled}
                   onClick={handleSubmit}
                 >
                   {actionLabel}
+                  {disabled && <LoadingDots color="#fff"></LoadingDots>}
                 </Button>
               </div>
               {footer}
