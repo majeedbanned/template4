@@ -36,8 +36,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { Cog6ToothIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { DataTableViewOptions } from "./data-table-view-options";
+import { Edit3 } from "lucide-react";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -51,7 +52,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   isLoading: boolean;
   onActionClick: (id: string) => void;
-  onDeleteClick: (id: string) => void;
+  onDeleteClick: (id: { pelak: string; name: string }) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -122,18 +123,20 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className=" space-y-4">
-      <div className="flex space-y-4 items-center py-4"></div>
+      <div className="flex space-y-0 items-center py-0"></div>
       {/* <DataTableToolbar table={table} /> */}
-      <DataTableViewOptions table={table} />
-      <div className="rounded-md border">
+      <div className="relative">
+        <DataTableViewOptions table={table} />
+      </div>
+      <div className="rounded-md bordercolor border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                <th>منو</th>
+                <th className="text-primaryText">منو</th>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead className="p-0" key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -151,30 +154,33 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="p-3 "
+                  className="p-3  "
                   data-state={row.getIsSelected() && "selected"}
                 >
                   <td className="px-4 py-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
+                          {/* <span className="sr-only">Open menu</span> */}
                           <Cog6ToothIcon className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>ویرایش</DropdownMenuLabel>
+                      <DropdownMenuContent className="bordercolor" align="end">
+                        {/* <DropdownMenuLabel>ویرایش</DropdownMenuLabel> */}
                         <DropdownMenuItem
+                          className="flex justify-end gap-2"
                           onClick={() => onActionClick(row.original.pelak)}
                         >
-                          Copy payment ID
+                          ویرایش
+                          <Edit3 className="w-4 h-4"></Edit3>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => onDeleteClick(row.original.pelak)}
+                          className="flex justify-end gap-2"
+                          onClick={() => onDeleteClick(row.original)}
                         >
-                          delete
+                          حذف
+                          <TrashIcon className="w-4 h-4"></TrashIcon>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

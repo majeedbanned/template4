@@ -88,8 +88,10 @@ const Modaltall: React.FC<ModalProps> = ({
       "
         >
           <DialogHeader className="bg-white dark:bg-[#2b2e31] p-8 rounded-t-3xl border-b-[1px] dark:border-0">
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+            <DialogTitle className="flex justify-center">{title}</DialogTitle>
+            <DialogDescription className="flex justify-center">
+              {description}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="grid  px-12  gap-4 py-4">{body}</div>

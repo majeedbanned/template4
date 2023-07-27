@@ -30,10 +30,11 @@ export const columns: ColumnDef<StoreProps>[] = [
   // },
   {
     accessorKey: "pelak",
+    id: "پلاک",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-lg font-bold" variant="outline">
-          {row.getValue("pelak")}
+        <Badge className="rounded-lg bordercolor font-bold" variant="outline">
+          {row.getValue("پلاک")}
         </Badge>
       );
     },
@@ -57,11 +58,11 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "types_nov.nov",
-    id: "types_nov.nov",
+    id: "نوع واحد",
     cell: ({ row }) => {
       return (
         <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("types_nov.nov")}
+          {row.getValue("نوع واحد")}
         </Badge>
       );
     },
@@ -74,9 +75,13 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
   {
     accessorKey: "name",
+    id: "نام واحد",
+
     cell: ({ row }) => {
       return (
-        <div className="text-slate-600 font-medium">{row.getValue("name")}</div>
+        <div className="text-slate-600 font-medium">
+          {row.getValue("نام واحد")}
+        </div>
       );
     },
     header: ({ column }) => {
@@ -85,6 +90,7 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
   {
     accessorKey: "metraj",
+    id: "متراژ",
 
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="متراژ" />
@@ -92,46 +98,26 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
   {
     accessorKey: "tel1",
+    id: "تلفن",
+
     header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">pass</div>
-      );
-    },
-  },
-  {
-    accessorKey: "tel2",
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">tel2</div>
-      );
-    },
-  },
-  {
-    accessorKey: "rent",
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">
-          school_code
-        </div>
-      );
+      return <div className="flex m-0 px-0  font-semibold">تلفن</div>;
     },
   },
 
   {
     accessorKey: "types_bazar.bazar",
-    id: "types_bazar.bazar",
+    id: "بلوک",
     cell: ({ row }) => {
       return (
         <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("types_bazar.bazar")}
+          {row.getValue("بلوک")}
         </Badge>
       );
     },
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">bazar</div>
-      );
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="بلوک" />
+    ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
@@ -139,21 +125,17 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "types_tabagh.tabagh",
-    id: "types_tabagh.tabagh",
+    id: "تراز",
     cell: ({ row }) => {
       return (
         <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("types_tabagh.tabagh")}
+          {row.getValue("تراز")}
         </Badge>
       );
     },
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">
-          tabagh
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تراز" />
+    ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
@@ -161,19 +143,17 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "types_rahro.rahro",
-    id: "types_rahro.rahro",
+    id: "راهرو",
     cell: ({ row }) => {
       return (
         <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("types_rahro.rahro")}
+          {row.getValue("راهرو")}
         </Badge>
       );
     },
-    header: ({ column }) => {
-      return (
-        <div className="flex m-0 px-0 text-purple-500 font-semibold">rahro</div>
-      );
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader className="" column={column} title="راهرو" />
+    ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },

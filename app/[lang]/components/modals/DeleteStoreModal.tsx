@@ -8,9 +8,13 @@ import { useRouter } from "next/navigation";
 export const DeleteStoreModal = ({
   mutation,
   data,
+  delLabel1,
+  delLabel2,
 }: {
   mutation: () => void;
   data: string;
+  delLabel1: string;
+  delLabel2: string;
 }) => {
   const router = useRouter();
   const _DeleteStoreModal = useDeleteStoreModal();
@@ -122,8 +126,8 @@ export const DeleteStoreModal = ({
         className="overflow-hidden rounded-full text-red-500 border-gray-200"
       />
       <div className="flex flex-col">
-        <h3 className="text-sm font-medium">name</h3>
-        <p className="text-xs text-gray-500">email</p>
+        <h3 className="text-sm font-medium">{delLabel1}</h3>
+        <p className="text-xs text-gray-500">{delLabel2}</p>
       </div>
     </div>
   );
@@ -135,7 +139,7 @@ export const DeleteStoreModal = ({
     <Modal
       disabled={isLoading}
       isOpen={_DeleteStoreModal.isOpen}
-      title={_DeleteStoreModal.editID}
+      title="حذف اطلاعات"
       // "افزودن واحد"
       actionLabel="حذف"
       actionLabelVariant="destructive"
@@ -145,7 +149,7 @@ export const DeleteStoreModal = ({
       onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
-      description=""
+      description="در صورت تایید , این ردیف حذف خواهد شد"
     />
   );
 };

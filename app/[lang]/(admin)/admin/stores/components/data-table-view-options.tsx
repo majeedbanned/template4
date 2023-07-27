@@ -22,19 +22,19 @@ export function DataTableViewOptions<TData>({
 }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className="absolute -top-12" asChild>
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="bg-[#ff9901] border-0 text-white hover:bg-[#f79400] hover:text-white ml-auto  h-8 lg:flex"
         >
-          <SlidersHorizontal className="mr-2 h-4 w-4" />
-          View
+          <SlidersHorizontal className="mx-1 h-4 w-4" />
+          ستون ها
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent align="end" className=" bordercolor w-[150px]">
+        {/* <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuSeparator /> */}
         {table
           .getAllColumns()
           .filter(
@@ -45,7 +45,7 @@ export function DataTableViewOptions<TData>({
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="capitalize"
+                className="capitalize flex "
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >

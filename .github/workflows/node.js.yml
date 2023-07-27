@@ -29,4 +29,4 @@ jobs:
             cd /var/www/template4
             git pull
             npm run build
-            pm2 restart
+            pm2 restart all

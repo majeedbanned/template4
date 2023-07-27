@@ -27,37 +27,46 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div className={cn("flex items-center gap-2 m-0", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            className=" h-8 data-[state=open]:bg-accent"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
-              <SortDesc className="ml-2 h-4 w-4" />
+              <SortDesc className="mx-1 h-4 w-4" />
             ) : column.getIsSorted() === "asc" ? (
-              <SortAsc className="ml-2 h-4 w-4" />
+              <SortAsc className="mx-1 h-4 w-4" />
             ) : (
-              <ChevronsUpDown className="ml-2 h-4 w-4" />
+              <ChevronsUpDown className="mx-1 h-4 w-4" />
             )}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <SortAsc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Asc
+        <DropdownMenuContent className="">
+          <DropdownMenuItem
+            className="flex flex-row gap-2 justify-end"
+            onClick={() => column.toggleSorting(false)}
+          >
+            صعودی
+            <SortAsc className=" h-3.5 w-3.5 text-muted-foreground/70" />
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <SortDesc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Desc
+          <DropdownMenuItem
+            className="flex gap-2 justify-end"
+            onClick={() => column.toggleSorting(true)}
+          >
+            نزولی
+            <SortDesc className=" h-3.5 w-3.5 text-muted-foreground/70" />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Hide
+          <DropdownMenuItem
+            className="flex gap-2 justify-end"
+            onClick={() => column.toggleVisibility(false)}
+          >
+            <p>مخفی</p>
+            <EyeOff className="   h-3.5 w-3.5 text-muted-foreground/70" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

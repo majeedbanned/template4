@@ -64,7 +64,7 @@ export default async function Root({
     <html
       suppressHydrationWarning
       lang={params.lang}
-      dir={params.lang === "en" ? "rtl" : "rtl"}
+      dir={params.lang === "en" ? "ltr" : "rtl"}
       // dir={(params.lang = "rtl")}
       className={cn("antialiased", iransans.className)}
     >

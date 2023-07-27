@@ -10,6 +10,19 @@ module.exports = {
     './src/**/*.{ts,tsx}',
 	],
   theme: {
+    // colors: {
+    // //  transparent: 'transparent',
+    //   //current: 'currentColor',
+    //   // 'primaryText': 'red',
+    //   // 'secondaryText': '#3f3cbb',
+    //   // 'primaryBg': '#121063',
+    //   // 'secondaryBg': '#565584',
+    //   // 'dPrimaryText': '#ffffff',
+    //   // 'dSecondaryText': '#3f3cbb',
+    //   // 'dPrimaryBg': '#121063',
+    //   // 'dSecondaryBg': '#565584',
+    // },
+    
     container: {
       center: true,
       // padding: "2rem",
@@ -19,7 +32,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        'secondaryText': '#6d93ec',
+        border: {light:"hsl(var(--border))" ,dark:'#303030'},
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -50,6 +64,10 @@ module.exports = {
         },
         card: {
           DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        card: {
+          darkMode: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
       },

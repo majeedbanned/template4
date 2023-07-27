@@ -22,6 +22,8 @@ import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
+import { PlusCircle, SlidersHorizontal } from "lucide-react";
+import { FcAddRow } from "react-icons/fc";
 
 type Props = {};
 
@@ -29,6 +31,8 @@ export default function Datalist({}: Props) {
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
   const [deleteID, setDeleteID] = useState<string>("");
+  const [delLable1, setDelLable1] = useState<string>("");
+  const [delLable2, setDelLable2] = useState<string>("");
 
   const router = useRouter();
   const pathname = usePathname();
@@ -76,7 +80,7 @@ export default function Datalist({}: Props) {
     `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
     fetcher,
     {
-      revalidateOnMount: true,
+      // revalidateOnMount: true,
     }
   );
 
@@ -92,12 +96,15 @@ export default function Datalist({}: Props) {
     router.push(`${pathname}${query}`);
   };
 
-  const handleDeleteClick = (rowData: string) => {
+  const handleDeleteClick = (rowData: { pelak: string; name: string }) => {
     const promise = () =>
       new Promise((resolve) => {
-        setDeleteID(rowData);
+        setDeleteID(rowData.pelak);
+        setDelLable1(`پلاک : ${rowData.pelak}`);
+        setDelLable2(rowData.name);
+
         setTimeout(() => {
-          _DeleteStoreModal.onOpen(rowData);
+          _DeleteStoreModal.onOpen(rowData.pelak);
           resolve("");
         }, 100);
       });
@@ -143,7 +150,12 @@ export default function Datalist({}: Props) {
   };
   return (
     <div>
-      <DeleteStoreModal mutation={mutate} data={deleteID}></DeleteStoreModal>
+      <DeleteStoreModal
+        mutation={mutate}
+        data={deleteID}
+        delLabel1={delLable1}
+        delLabel2={delLable2}
+      ></DeleteStoreModal>
       <AddEditStoreModal
         mutation={mutate}
         data={editstore}
@@ -152,92 +164,112 @@ export default function Datalist({}: Props) {
         tabagh={_tabagh}
         rahro={_rahro}
       ></AddEditStoreModal>
-      <DebouncedInput
-        value={globalFilter ?? ""}
-        onChange={(value: string | number) => {
-          if (true) {
-            const current = new URLSearchParams(
-              Array.from(searchParams.entries())
-            );
-            if (!value) {
-              current.delete("search");
-            } else {
-              current.set("search", String(value));
+      <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
+        <DebouncedInput
+          value={globalFilter ?? ""}
+          onChange={(value: string | number) => {
+            if (true) {
+              const current = new URLSearchParams(
+                Array.from(searchParams.entries())
+              );
+              if (!value) {
+                current.delete("search");
+              } else {
+                current.set("search", String(value));
+              }
+              const search = current.toString();
+              const query = search ? `?${search}` : "";
+              router.push(`${pathname}${query}`);
             }
-            const search = current.toString();
-            const query = search ? `?${search}` : "";
-            router.push(`${pathname}${query}`);
-          }
-        }}
-        className="h-8 w-[150px] lg:w-[250px] border px-2 rounded-md mx-2"
-        placeholder="Search all columns..."
-      />
-      <FacetedFilter
-        selected={searchParams.get("tabagh")?.toString().split(",").map(Number)}
-        filterOption="tabagh"
-        title="tabagh"
-        options={_tabagh}
-        onChange={(e) => setQueryString("tabagh", e)}
-      ></FacetedFilter>
-      <FacetedFilter
-        selected={searchParams.get("bazar")?.toString().split(",").map(Number)}
-        filterOption="bazar"
-        title="bazar"
-        options={_bazar}
-        onChange={(e) => setQueryString("bazar", e)}
-      ></FacetedFilter>
-      <Suspense fallback="Loading...">
+          }}
+          className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
+          placeholder="جستجو در پلاک و نام واحد"
+        />
         <FacetedFilter
           selected={searchParams.get("nov")?.toString().split(",").map(Number)}
           filterOption="nov"
-          title="nov"
+          title="نوع"
           options={_nov}
           onChange={(e) => setQueryString("nov", e)}
         ></FacetedFilter>
-      </Suspense>
-      <FacetedFilter
-        filterOption="rahro"
-        title="rahro"
-        options={_rahro}
-        selected={searchParams.get("rahro")?.toString().split(",").map(Number)}
-        onChange={(e) => setQueryString("rahro", e)}
-      ></FacetedFilter>
-      <Button onClick={AddRecord} variant={"outline"}>
-        Add
-      </Button>
-      <div className="grid divide-y divide-gray-200">
-        {stores ? (
-          stores.length > 0 ? (
-            <DataTable
-              columns={columns}
-              data={stores}
-              isLoading={isLoading}
-              onActionClick={handleActionClick}
-              onDeleteClick={handleDeleteClick}
-            ></DataTable>
-          ) : (
-            // users.map((user) => (
-            //  <UserCard key={user.email} user={user} currentTab={currentTab} />
-            //   <div key={user.id.toString()}>{user.mahd_name}</div>
-            // ))
-            <div className="flex flex-col items-center justify-center py-10">
-              <p className="text-sm text-gray-500">No invitations sent</p>
-            </div>
-          )
-        ) : (
-          Array.from({ length: 5 }).map((_, i) => <UserPlaceholder key={i} />)
-        )}
+        <FacetedFilter
+          selected={searchParams
+            .get("tabagh")
+            ?.toString()
+            .split(",")
+            .map(Number)}
+          filterOption="tabagh"
+          title="تراز"
+          options={_tabagh}
+          onChange={(e) => setQueryString("tabagh", e)}
+        ></FacetedFilter>
+        <FacetedFilter
+          selected={searchParams
+            .get("bazar")
+            ?.toString()
+            .split(",")
+            .map(Number)}
+          filterOption="bazar"
+          title="بلوک"
+          options={_bazar}
+          onChange={(e) => setQueryString("bazar", e)}
+        ></FacetedFilter>
+        <Suspense fallback="Loading..."></Suspense>
+        <FacetedFilter
+          filterOption="rahro"
+          title="راهرو"
+          options={_rahro}
+          selected={searchParams
+            .get("rahro")
+            ?.toString()
+            .split(",")
+            .map(Number)}
+          onChange={(e) => setQueryString("rahro", e)}
+        ></FacetedFilter>
       </div>
+
+      <Button
+        className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
+        onClick={AddRecord}
+        variant={"outline"}
+      >
+        <PlusCircle className="mx-1 h-4 w-4 text-white" />
+        <span className="text-white">واحد جدید</span>
+      </Button>
+      {stores ? (
+        stores.length > 0 ? (
+          <DataTable
+            columns={columns}
+            data={stores}
+            isLoading={isLoading}
+            onActionClick={handleActionClick}
+            onDeleteClick={handleDeleteClick}
+          ></DataTable>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-10">
+            <p className="text-sm text-gray-500">ردیفی پیدا نشد</p>
+          </div>
+        )
+      ) : (
+        Array.from({ length: 5 }).map((_, i) => <UserPlaceholder key={i} />)
+      )}
     </div>
   );
 }
 
 const UserPlaceholder = () => (
-  <div className="flex items-center justify-between space-x-3 px-4 py-3 sm:px-8">
-    <div className="flex items-center space-x-3">
+  <div className="flex items-center justify-between space-x-3 px-1 py-3 sm:px-0">
+    <div className="flex items-center gap-3">
       <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200" />
       <div className="flex flex-col">
         <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+        <div className="mt-1 h-3 w-32 animate-pulse rounded bg-gray-200" />
+      </div>
+      <div className="flex flex-col">
+        {/* <div className="h-4 w-24 animate-pulse rounded bg-gray-200" /> */}
+        <div className="mt-1 h-3 w-32 animate-pulse rounded bg-gray-200" />
+      </div>
+      <div className="flex flex-col">
         <div className="mt-1 h-3 w-32 animate-pulse rounded bg-gray-200" />
       </div>
     </div>
@@ -271,6 +303,7 @@ function DebouncedInput({
 
   return (
     <input
+      className=""
       {...props}
       value={value}
       onChange={(e) => setValue(e.target.value)}

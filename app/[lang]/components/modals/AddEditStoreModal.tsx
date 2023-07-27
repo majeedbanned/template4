@@ -677,7 +677,11 @@ export const AddEditStoreModal = ({
     <Modaltall
       disabled={isLoading}
       isOpen={AddEditStoreModal.isOpen}
-      title={AddEditStoreModal.editID}
+      title={
+        AddEditStoreModal.editID === ""
+          ? "ثبت رکورد جدید"
+          : "ویرایش پلاک " + AddEditStoreModal.editID
+      }
       // "افزودن واحد"
       actionLabel={AddEditStoreModal.editID === "" ? "افزودن" : "ویرایش"}
       secondaryActionLabel="انصراف"

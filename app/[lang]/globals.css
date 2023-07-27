@@ -5,7 +5,9 @@
 
 
 @layer base {
-  
+  .bordercolor {
+    @apply border-border-light dark:border-border-dark;}
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -46,13 +48,13 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 360 0% 3.9%;
+    --popover-foreground: 50 40% 98%;
  
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
  
-    --border: 217.2 32.6% 17.5%;
+    --border: #303030;
     --input: 217.2 32.6% 17.5%;
  
     --primary: 210 40% 98%;

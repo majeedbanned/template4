@@ -94,13 +94,15 @@ const Modal: React.FC<ModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogOverlay className="items-start">
         <DialogContent
-          className=" items-start sm:max-w-[425px] bg-[#f9fafb] dark:bg-[#080909] dark:border-black dark:border-0 p-0 
-       overflow-y-scroll 
+          className=" items-start  sm:max-w-[425px] bg-[#f9fafb] dark:bg-[#080909] dark:border-black dark:border-0 p-0 
+       overflow-y-scroll  rounded-3xl
       "
         >
-          <DialogHeader className="bg-white dark:bg-[#2b2e31] p-8 rounded-t-3xl border-b-[1px] dark:border-0">
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+          <DialogHeader className="bg-slate-50 dark:bg-[#2b2e31] p-8 rounded-t-3xl border-b-[1px] dark:border-0">
+            <DialogTitle className="flex justify-center">{title}</DialogTitle>
+            <DialogDescription className="flex justify-center">
+              {description}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="grid  px-12  gap-4 py-4">{body}</div>

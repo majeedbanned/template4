@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, LucideIcon, PlusCircle } from "lucide-react";
+import { Check, Filter, LucideIcon, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -57,11 +57,14 @@ export function FacetedFilter<TData, TValue>({
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 border-dashed">
-          <PlusCircle className="mr-2 h-4 w-4" />
-          {title}
+          <Filter className="text-secondaryText mx-1.5 h-4 w-4" />
+          <span className="text-secondaryText">{title}</span>
           {selectedValues?.length > 0 && (
             <>
-              <Separator orientation="vertical" className="mx-2 h-4" />
+              <Separator
+                orientation="vertical"
+                className="bordercolor mx-2 h-4"
+              />
               <Badge
                 variant="secondary"
                 className="rounded-sm px-1 font-normal lg:hidden"
@@ -74,7 +77,7 @@ export function FacetedFilter<TData, TValue>({
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
                   >
-                    {selectedValues.length} selected
+                    {selectedValues.length} انتخاب شد
                   </Badge>
                 ) : (
                   options
@@ -130,11 +133,11 @@ export function FacetedFilter<TData, TValue>({
           )} */}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="bordercolor w-[200px] p-0" align="start">
         <Command>
-          <CommandInput placeholder={title} />
+          <CommandInput placeholder={title} className="bordercolor" />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>یافت نشد.</CommandEmpty>
             <CommandGroup>
               {options?.map((option) => {
                 const isSelected = selectedValues.includes(option.value);
@@ -151,7 +154,7 @@ export function FacetedFilter<TData, TValue>({
                   >
                     <div
                       className={cn(
-                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        "mx-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
                           ? "bg-primary text-primary-foreground"
                           : "opacity-50 [&_svg]:invisible"
@@ -174,13 +177,13 @@ export function FacetedFilter<TData, TValue>({
             </CommandGroup>
             {selectedValues.length > 0 && (
               <>
-                <CommandSeparator />
+                <CommandSeparator className="bordercolor" />
                 <CommandGroup>
                   <CommandItem
                     onSelect={() => setSelectedValues([])}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    حذف فیلتر
                   </CommandItem>
                 </CommandGroup>
               </>
