@@ -9,12 +9,12 @@ export default async function loading({}: Props) {
     console.log("");
   }, 2000);
   return (
-    <div className="flex mt-12 flex-col gap-4 border justify-center items-center ">
+    <div className="flex mt-12 flex-col gap-4  justify-center items-center ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         style={{ margin: "auto", background: "#fff" }}
-        width="64"
-        height="64"
+        width="40"
+        height="40"
         display="block"
         preserveAspectRatio="xMidYMid"
         viewBox="0 0 100 100"
