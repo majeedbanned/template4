@@ -86,7 +86,7 @@ const Login = () => {
     signIn("credentials", {
       ...values,
       redirect: true,
-      callbackUrl: "admin/main",
+      callbackUrl: "/admin/main",
     }).then((callback) => {
       setIsLoading(false);
       console.log(callback);
