@@ -20,8 +20,8 @@ export default function LocaleSwitcher() {
         return (
           <div className="p-1" key={locale}>
             <Link href={redirectedPathName(locale)} className="rtl:text-white">
-              {locale === "ar" && "فا"}
-              {locale === "en" && "En"}
+              {locale === "fa" && "فا"}
+              {locale === "cs" && "En"}
             </Link>
           </div>
         );

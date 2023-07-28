@@ -50,13 +50,13 @@ export default function LangSelect({}: Props) {
                       href={redirectedPathName(locale)}
                       className=" flex items-center h-6 flex-1"
                     >
-                      {locale === "en" && (
+                      {locale === "fa" && (
                         <>
                           <US title="United States" className="w-4 h-4 m-2" />
                           English
                         </>
                       )}
-                      {locale === "ar" && (
+                      {locale === "cs" && (
                         <>
                           <IR title="Iran" className="w-4 h-4 m-2" />
                           Persian

@@ -24,10 +24,16 @@ import { toast } from "sonner";
 import { rejects } from "assert";
 import { PlusCircle, SlidersHorizontal } from "lucide-react";
 import { FcAddRow } from "react-icons/fc";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth/core/types";
 
 type Props = {};
 
-export default function Datalist({}: Props) {
+export default function Datalist({
+  permission,
+}: {
+  permission?: Session | null;
+}) {
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
   const [deleteID, setDeleteID] = useState<string>("");
@@ -39,12 +45,27 @@ export default function Datalist({}: Props) {
   const searchParams = useSearchParams()!;
   const AddUserModal = useAddEditStoreModal();
   const _DeleteStoreModal = useDeleteStoreModal();
-
+  const { data: session } = useSession();
   const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
   const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
   const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
   const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
 
+  // const canAdd = session?.user?.Permission?.find((item) => {
+  //   return item.systemID === 1 && item.add === true;
+  // });
+
+  const canEdit = permission?.user?.Permission?.find((item) => {
+    return item.systemID === 1 && item.edit === true;
+  });
+
+  const canDelete = permission?.user?.Permission?.find((item) => {
+    return item.systemID === 1 && item.print === true;
+  });
+
+  const canAdd = permission?.user?.Permission?.find((item) => {
+    return item.systemID === 1 && item.add === true;
+  });
   const AddRecord = () => {
     setEditstore({
       pelakCH: "",
@@ -228,14 +249,18 @@ export default function Datalist({}: Props) {
         ></FacetedFilter>
       </div>
 
-      <Button
-        className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
-        onClick={AddRecord}
-        variant={"outline"}
-      >
-        <PlusCircle className="mx-1 h-4 w-4 text-white" />
-        <span className="text-white">واحد جدید</span>
-      </Button>
+      {canAdd ? (
+        <Button
+          className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
+          onClick={AddRecord}
+          variant={"outline"}
+        >
+          <PlusCircle className="mx-1 h-4 w-4 text-white" />
+          <span className="text-white">واحد جدید</span>
+        </Button>
+      ) : (
+        <div className="h-8"></div>
+      )}
       {stores ? (
         stores.length > 0 ? (
           <DataTable
@@ -244,6 +269,8 @@ export default function Datalist({}: Props) {
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
+            allowEdit={canEdit?.edit}
+            allowDelete={canDelete?.print}
           ></DataTable>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">

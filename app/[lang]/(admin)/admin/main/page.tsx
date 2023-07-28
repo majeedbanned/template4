@@ -1,24 +1,19 @@
 import React from "react";
 import { PageWrapper } from "../../components/PageWrapper";
-import Datalist from "./components/Datalist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
-
+import { HomeIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
+import TopBanner from "./components/TopBanner";
 type Props = {};
 
 export default async function students({}: Props) {
   const currentUser = await getServerSession(authOptions);
 
-  const access = currentUser?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.view === true;
-  });
-
-  if (!access) redirect("/admin/dashboard");
-
   return (
-    <PageWrapper>
-      <Datalist permission={currentUser}></Datalist>
-    </PageWrapper>
+    <div>
+      <TopBanner></TopBanner>
+    </div>
   );
 }

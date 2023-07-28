@@ -55,7 +55,7 @@ export default async function Root({
   return (
     <html
       lang={params.lang}
-      dir={params.lang === "ar" ? "rtl" : "ltr"}
+      dir={params.lang === "fa" ? "rtl" : "ltr"}
       className={cn("antialiased", iransans.className)}
     >
       {/* /${barlowCondensed.className} ${inter.className} ${merriweather.variable} ${roboto.className} ${iransans.className} font-sans/ */}

@@ -9,8 +9,8 @@ import { useCallback, useState } from "react";
 import Link from "next/link";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-
+import { redirect, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   Form,
   FormControl,
@@ -22,8 +22,16 @@ import {
 } from "@/components/ui/form";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(2).max(50),
+  username: z
+    .string({
+      required_error: "لطفا نام کاربری را وارد کنید",
+    })
+    .min(1, { message: "لطفا نام کاربری را وارد کنید" })
+    .max(50),
+  password: z
+    .string()
+    .min(1, { message: "لطفا کلمه عبور را وارد کنید" })
+    .max(50),
 });
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -78,12 +86,12 @@ const Login = () => {
     signIn("credentials", {
       ...values,
       redirect: true,
-      callbackUrl: "/admin/dashboard",
+      callbackUrl: "/admin/main",
     }).then((callback) => {
       setIsLoading(false);
       console.log(callback);
       if (callback?.ok) {
-        // redirect("/admin/dashboard");
+        //redirect("/admin/main");
         //  toast.success('Logged in');
         //  router.refresh();
         //**** */  router.push("/admin/dashboard");
@@ -107,47 +115,90 @@ const Login = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  className="focus:ring-1"
-                  disabled={isLoading}
-                  placeholder="shadcn"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
-              <FormMessage />
+              <motion.div
+                className="border-0"
+                key={1}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                // transition={{ duration: 0.2 }}
+              >
+                <div className="flex flex-row  justify-end">
+                  <FormMessage className=" space-y-0 mr-auto mt-1 " />
+
+                  <FormLabel className="flex justify-end p-2  text-slate-600 ">
+                    : کلمه عبور{" "}
+                  </FormLabel>
+                </div>
+                <FormControl className="border">
+                  <Input
+                    className="focus:ring-0 text-center rounded-3xl w-[290px] "
+                    disabled={isLoading}
+                    placeholder=""
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription>
+                  This is your public display name.
+                </FormDescription> */}
+              </motion.div>
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password.</FormLabel>
-              <FormControl>
-                <Input disabled={isLoading} placeholder="shadcn" {...field} />
-              </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
-              <FormMessage />
+              <motion.div
+                className="border-0"
+                key={1}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1, duration: 0.2 }}
+              >
+                <div className="flex flex-row  justify-end">
+                  <FormMessage className=" space-y-0 mr-auto mt-1 " />
+
+                  <FormLabel className="flex justify-end p-2  text-slate-600 ">
+                    : کلمه عبور{" "}
+                  </FormLabel>
+                </div>
+
+                <FormControl>
+                  <Input
+                    className="focus:ring-0 text-center rounded-3xl  w-[290px] "
+                    disabled={isLoading}
+                    placeholder=""
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription>
+                  This is your public display name.
+                </FormDescription> */}
+              </motion.div>
             </FormItem>
           )}
         />
-        <Button
-          className="h-9 w-full rounded-md border border-black bg-black px-6 text-sm text-white transition-all duration-150 ease-in-out hover:bg-white hover:text-black focus:outline-none sm:w-auto"
-          disabled={isLoading}
-          type="submit"
-        >
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Submit
-        </Button>
+        <div className="flex flex-col gap-4">
+          <motion.div
+            className="flex flex-col gap-4 border-0"
+            key={1}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            <Button
+              className="h-9 mt-4  w-[250px] border-0  bg-[#ff9901] shadow-lg shadow-[#ff9901]/30 rounded-3xl px-2 text-sm text-white transition-all duration-150 ease-in-out hover:bg-[#f7ac51]  focus:outline-none "
+              disabled={isLoading}
+              type="submit"
+            >
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              ورود
+            </Button>
+            <span className="text-sm text-slate-500">فراموشی کلمه عبور</span>
+          </motion.div>
+        </div>
+
         <div>{error}</div>
       </form>
     </Form>

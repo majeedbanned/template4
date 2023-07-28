@@ -53,6 +53,8 @@ interface DataTableProps<TData, TValue> {
   isLoading: boolean;
   onActionClick: (id: string) => void;
   onDeleteClick: (id: { pelak: string; name: string }) => void;
+  allowEdit?: boolean;
+  allowDelete?: boolean;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -73,6 +75,8 @@ export function DataTable<TData, TValue>({
   isLoading,
   onActionClick,
   onDeleteClick,
+  allowEdit,
+  allowDelete,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
 
@@ -167,25 +171,28 @@ export function DataTable<TData, TValue>({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="bordercolor" align="end">
                         {/* <DropdownMenuLabel>ویرایش</DropdownMenuLabel> */}
-                        <DropdownMenuItem
-                          className="flex justify-end gap-2"
-                          onClick={() => onActionClick(row.original.pelak)}
-                        >
-                          ویرایش
-                          <Edit3 className="w-4 h-4"></Edit3>
-                        </DropdownMenuItem>
+                        {allowEdit && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onActionClick(row.original.pelak)}
+                          >
+                            ویرایش
+                            <Edit3 className="w-4 h-4"></Edit3>
+                          </DropdownMenuItem>
+                        )}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          className="flex justify-end gap-2"
-                          onClick={() => onDeleteClick(row.original)}
-                        >
-                          حذف
-                          <TrashIcon className="w-4 h-4"></TrashIcon>
-                        </DropdownMenuItem>
+                        {allowDelete && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onDeleteClick(row.original)}
+                          >
+                            حذف
+                            <TrashIcon className="w-4 h-4"></TrashIcon>
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </td>
-
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="m-0 p-2" key={cell.id}>
                       {flexRender(

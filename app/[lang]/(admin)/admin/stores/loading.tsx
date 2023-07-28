@@ -1,11 +1,15 @@
 import ThreeDots from "@/components/admin/ui/three-dots";
+import LoadingDots from "@/components/loading/loading-dots";
 import React from "react";
 
 type Props = {};
 
-export default function loading({}: Props) {
+export default async function loading({}: Props) {
+  await setTimeout(() => {
+    console.log("");
+  }, 2000);
   return (
-    <div className="flex mt-12  justify-center items-center ">
+    <div className="flex mt-12 flex-col gap-4 border justify-center items-center ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         style={{ margin: "auto", background: "#fff" }}
@@ -70,8 +74,8 @@ export default function loading({}: Props) {
           ></animate>
         </rect>
       </svg>
-      لطفا منتظر بمانید
-      <ThreeDots className=""></ThreeDots>
+      <span className="text-sm text-slate-500">لطفا منتظر بمانید</span>
+      <LoadingDots color="#fff"></LoadingDots>
     </div>
   );
 }
