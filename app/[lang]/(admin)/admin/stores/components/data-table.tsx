@@ -55,6 +55,7 @@ interface DataTableProps<TData, TValue> {
   onDeleteClick: (id: { pelak: string; name: string }) => void;
   allowEdit?: boolean;
   allowDelete?: boolean;
+  hiddenCol: VisibilityState;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -77,6 +78,7 @@ export function DataTable<TData, TValue>({
   onDeleteClick,
   allowEdit,
   allowDelete,
+  hiddenCol,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
 
@@ -93,7 +95,7 @@ export function DataTable<TData, TValue>({
   }, [rowSelection]);
 
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>(hiddenCol);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   const table = useReactTable({
@@ -117,22 +119,23 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onRowSelectionChange: setRowSelection,
     state: {
+      columnVisibility,
       sorting,
       columnFilters,
-      columnVisibility,
+
       globalFilter,
       rowSelection,
     },
   });
 
   return (
-    <div className=" space-y-4">
+    <div className=" space-y-4 w-full ">
       <div className="flex space-y-0 items-center py-0"></div>
       {/* <DataTableToolbar table={table} /> */}
       <div className="relative">
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-md bordercolor border">
+      <div className="rounded-md bordercolor border ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

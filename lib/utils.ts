@@ -13,6 +13,35 @@ interface SWRError extends Error {
   status: number;
 }
 
+declare global {
+  interface String {
+    toPersianDigits(): string
+   
+  }
+  interface String {
+    toEnglishDigits():string
+   
+  }
+}
+
+String.prototype.toEnglishDigits = function () {
+  const persianDigits = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+  const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  let convertedString = this;
+  for (let i = 0; i < persianDigits.length; i++) {
+    convertedString = convertedString.replace(persianDigits[i], englishDigits[i]);
+  }
+
+  return convertedString;
+};
+
+String.prototype.toPersianDigits = function () {
+  var id = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  return this.replace(/[0-9]/g, function (w) {
+    return id[+w];
+  });
+};
 
 export const setQueryString = (
   router: Router,

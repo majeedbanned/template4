@@ -43,7 +43,17 @@ export default function SideBarMenu({}: Props) {
               ></LayoutDashboard>
             }
           ></MenuItem>
-
+          <MenuItem
+            title="
+            شارژ"
+            link="admin/charge"
+            icon={
+              <LayoutDashboard
+                fontSize={20}
+                className="w-6 h-6 dark:text-white text-[#8b99a4]"
+              ></LayoutDashboard>
+            }
+          ></MenuItem>
           <MenuItem
             title="
             Stores"

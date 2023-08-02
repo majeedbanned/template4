@@ -8,35 +8,8 @@ datasource db {
   url      = env("DATABASE_URL2")
 }
 
-model account {
-  sanad        String   @id(map: "PK_account") @db.Char(13)
-  id           Decimal? @db.Decimal(18, 0)
-  pelak        String?  @db.Char(6)
-  month        String?  @db.Char(7)
-  payment      Float?   @db.Money
-  datepay      String?  @db.Char(10)
-  deadline     String?  @db.Char(10)
-  fine         Float?   @db.Money
-  pricebill    Float?   @db.Money
-  bedehi       Float?   @db.Money
-  mazad        Float?   @db.Money
-  sumbill      Float?   @db.Money
-  novpay       String?  @db.Char(20)
-  number       String?  @db.Char(20)
-  fineold      Float?   @db.Money
-  bedehiold    Float?   @db.Money
-  sharj        Float?   @db.Money
-  notpay       Int?
-  finepar      Float?   @db.Money
-  bedehipar    Float?   @db.Money
-  notpaypar    Int?
-  pricebillold Float?   @db.Money
-  gift         Float?   @db.Money
-  giftold      Float?   @db.Money
-  act          String?  @db.Char(1)
-}
-
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model account2 {
   pelak     String?  @db.Char(6)
   month     String?  @db.Char(7)
@@ -61,6 +34,7 @@ model account2 {
   @@ignore
 }
 
+/// @@Gen.model(hide: true)
 model bank {
   code     Int     @id(map: "PK_bank") @default(autoincrement())
   bank     String? @db.Char(30)
@@ -70,6 +44,7 @@ model bank {
   nov      String? @db.NChar(10)
 }
 
+/// @@Gen.model(hide: true)
 model bill {
   id        Int     @id(map: "PK_bill") @default(autoincrement())
   pelak     String? @db.Char(6)
@@ -80,6 +55,7 @@ model bill {
   pricebill Float?  @db.Money
 }
 
+/// @@Gen.model(hide: true)
 model Ejareh {
   sanad         String  @id(map: "PK_Ejareh") @db.NChar(13)
   pelak         String? @db.NChar(6)
@@ -108,6 +84,7 @@ model Ejareh {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model fine {
   fineprice Float? @db.Money
 
@@ -115,6 +92,7 @@ model fine {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model GD1 {
   ttpra Float?  @db.Money
   ttpr1 Float?  @db.Money
@@ -145,6 +123,7 @@ model GD1 {
   @@ignore
 }
 
+/// @@Gen.model(hide: true)
 model history {
   row       Int     @id(map: "PK_history") @default(autoincrement())
   usern     String? @db.Char(20)
@@ -156,6 +135,7 @@ model history {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model license {
   licensekey String? @db.NChar(22)
   id         Int     @default(autoincrement())
@@ -164,6 +144,7 @@ model license {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model MP {
   pelak      String? @db.NChar(6)
   monthcount Int?
@@ -176,6 +157,7 @@ model MP {
   @@ignore
 }
 
+/// @@Gen.model(hide: true)
 model option1 {
   payam       String? @db.Char(300)
   message     String? @db.Char(1)
@@ -190,6 +172,7 @@ model option1 {
   id          BigInt  @id(map: "PK_option1") @default(autoincrement())
 }
 
+/// @@Gen.model(hide: true)
 model owner {
   orow     Int
   pelak    String? @db.Char(6)
@@ -207,6 +190,7 @@ model owner {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model owner2 {
   pelak  String? @db.Char(6)
   ofname String? @db.Char(30)
@@ -217,6 +201,7 @@ model owner2 {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// @@Gen.model(hide: true)
 model securety {
   code        String? @db.Char(13)
   username    String? @db.Char(20)
@@ -241,6 +226,7 @@ model securety {
   @@ignore
 }
 
+/// @@Gen.model(hide: true)
 model sharj {
   sharj  Float? @db.Money
   rent   Float? @db.Money
@@ -273,6 +259,8 @@ model store {
   updated_at    String?         @db.NVarChar(50)
   created_user  Int?
   updated_user  Int?
+  chargeProfile Int?
+  chargeDef     chargeDef?      @relation(fields: [chargeProfile], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store__chargeDef")
   types_bazar   types_bazar?    @relation(fields: [bazar], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_bazar")
   types_nov     types_nov?      @relation(fields: [nov], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_nov")
   types_rahro   types_rahro?    @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
@@ -280,6 +268,7 @@ model store {
   stores_events stores_events[]
 }
 
+/// @@Gen.model(hide: true)
 model Tenant {
   trow     Int     @id(map: "PK_Tenant") @default(autoincrement())
   pelak    String? @db.Char(6)
@@ -369,4 +358,63 @@ model Users {
   other_Users Users?       @relation("UsersToUsers")
 
   @@map("_Users")
+}
+
+model account {
+  sanad        String   @id(map: "PK_account") @db.Char(13)
+  id           Decimal? @db.Decimal(18, 0)
+  pelak        String?  @db.Char(6)
+  month        String?  @db.Char(7)
+  payment      Float?   @db.Money
+  datepay      String?  @db.Char(10)
+  deadline     String?  @db.Char(10)
+  fine         Float?   @db.Money
+  pricebill    Float?   @db.Money
+  bedehi       Float?   @db.Money
+  mazad        Float?   @db.Money
+  sumbill      Float?   @db.Money
+  novpay       String?  @db.Char(20)
+  number       String?  @db.Char(20)
+  fineold      Float?   @db.Money
+  bedehiold    Float?   @db.Money
+  sharj        Float?   @db.Money
+  notpay       Int?
+  finepar      Float?   @db.Money
+  bedehipar    Float?   @db.Money
+  notpaypar    Int?
+  pricebillold Float?   @db.Money
+  gift         Float?   @db.Money
+  giftold      Float?   @db.Money
+  act          String?  @db.Char(1)
+}
+
+model chargeDef {
+  id             Int      @id(map: "PK__chargeDef") @default(autoincrement())
+  name           String?  @db.NVarChar(50)
+  charge         Decimal? @db.Decimal(18, 0)
+  penaltyPersand Int?
+  penaltyMonth   Int?
+  store          store[]
+}
+
+model new_account {
+  id                  Int      @id(map: "PK__account") @default(autoincrement())
+  pelak               String?  @db.Char(6)
+  month               String?  @db.NVarChar(7)
+  monthbill           Decimal  @default(0, map: "DF__account_monthbill") @db.Decimal(18, 0)
+  debt                Decimal  @default(0, map: "DF__account_debt") @db.Decimal(18, 0)
+  penalty             Decimal  @default(0, map: "DF__account_penalty") @db.Decimal(18, 0)
+  deptPeriod          Int?
+  deadline            String?  @db.NChar(10)
+  isueeDate           String?  @db.NChar(10)
+  TotalBill           Decimal? @db.Decimal(21, 0)
+  paidBill            Decimal  @default(0, map: "DF__account_paidBill") @db.Decimal(18, 0)
+  paidExtra           Decimal  @default(0, map: "DF__account_paidExtra") @db.Decimal(18, 0)
+  paidDate            String?  @db.NChar(10)
+  paidType            String?  @db.NChar(10)
+  paidTime            String?  @db.NChar(10)
+  discount            Decimal  @default(0, map: "DF__account_discount") @db.Decimal(18, 0)
+  discription         String?  @db.NVarChar(250)
+  discountDiscription String?  @db.NVarChar(250)
+  paidExtraAsset      Decimal  @default(0, map: "DF_new_account_paidExtraAsset") @db.Decimal(18, 0)
 }

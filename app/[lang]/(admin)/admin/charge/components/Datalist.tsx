@@ -1,5 +1,5 @@
 "use client";
-import { columns } from "@/app/[lang]/(admin)/admin/stores/components/columns";
+import { columns } from "@/app/[lang]/(admin)/admin/charge/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
@@ -8,7 +8,6 @@ import React, { Suspense, useState } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { FacetedFilter } from "./faceted-filter";
 import useAddEditStoreModal, {
   AddEditStoreModal,
 } from "@/app/[lang]/components/modals/AddEditStoreModal";
@@ -19,13 +18,17 @@ import useDeleteStoreModal, {
 
 import useFilter from "@/lib/hooks/useFilter";
 import { z } from "zod";
-import { StoreSchema } from "@/lib/schemas";
+import { Chargechema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
 import { PlusCircle, SlidersHorizontal } from "lucide-react";
 import { FcAddRow } from "react-icons/fc";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
+import { FacetedFilter } from "../../stores/components/faceted-filter";
+import useAddEditChargeModal, {
+  AddEditChargeModal,
+} from "@/app/[lang]/components/modals/AddEditChargeModal";
 
 type Props = {};
 
@@ -35,25 +38,20 @@ export default function Datalist({
   permission?: Session | null;
 }) {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
+  const [editCharge, seteditCharge] = useState<z.infer<typeof Chargechema>>();
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
-  const AddUserModal = useAddEditStoreModal();
+  const AddUserModal = useAddEditChargeModal();
   const _DeleteStoreModal = useDeleteStoreModal();
   const { data: session } = useSession();
-  const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
-  const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
-  const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
-  const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
-
-  // const canAdd = session?.user?.Permission?.find((item) => {
-  //   return item.systemID === 1 && item.add === true;
-  // });
+  // const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
+  // const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
+  // const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
+  // const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
 
   const canEdit = permission?.user?.Permission?.find((item) => {
     return item.systemID === 1 && item.edit === true;
@@ -67,38 +65,87 @@ export default function Datalist({
     return item.systemID === 1 && item.add === true;
   });
 
+  const pelak = searchParams.get("pelak")?.toUpperCase();
   const AddRecord = () => {
-    setEditstore({
-      pelakCH: "",
-      pelakNU: "",
-      nov: "",
-      bazar: "",
-      tabagh: "",
-      rahro: "",
-      name: "",
-      active: false,
-      metraj: 0,
-      ChekGift: false,
-      ChekRol: "",
-      tovzeh: "",
-      cposti: "",
-      Tahvil: "",
-      tel1: "",
-      tel2: "",
+    const promise = () =>
+      new Promise((resolve) => {
+        fetch("/api/charge/" + pelak).then(async (res) => {
+          if (res.status === 200) {
+            const val = await res.json();
+            seteditCharge(val);
+            setTimeout(() => {
+              AddUserModal.onOpen("");
+              resolve("");
+            }, 100);
+          } else {
+            const error = await res.text();
+            toast.error(error);
+            rejects;
+          }
+        });
+      });
+    toast.promise(promise, {
+      loading: "دریافت اطلاعات ...",
+      success: (data) => {
+        toast.dismiss();
+        return `${data} `;
+      },
+      error: "Error",
     });
 
-    setTimeout(() => {
-      AddUserModal.onOpen("");
-    }, 100);
+    // seteditCharge({
+    //   pelak: "",
+    //   penalty: 0,
+    //   TotalBill: 0,
+    //   paidBill: 0,
+    //   month: "",
+    //   monthbill: 0,
+    //   debt: 0,
+    //   deptPeriod: 0,
+    //   deadline: "",
+    //   isueeDate: "",
+
+    //   paidDate: "",
+    //   paidExtra: 0,
+    //   paidTime: "",
+    //   paidType: "",
+    //   discount: 0,
+    //   discountDiscription: "",
+    //   discription: "",
+    //   paidExtraAsset: 0,
+    // });
+
+    //get lastdore > mounth+1
+    //chargeBill>  getActiveProfile> price*metraj
+    //debt> getLastDore_TotalBill >
+    // 1- if !parkht && paidExtraAsset==0 then debt=getLastDore_TotalBill
+    //  else if !pardakht && paidExtraAsset<>0 then  debt= getLastDore_TotalBill-paidExtraAsset and paidExtraAsset=paidExtraAsset-getLastDore_TotalBill
+
+    //jarime> if last_period>4-1 and !pardakht then jarime=LastDore_TotalBill*2%
+
+    //takhfif > userdefined
+
+    //paidExtra > if last paidExtraAsset>0 then
+    //if  paidExtraAsset>new_TotalBill > paidExtra=new_TotalBill && paidExtraAsset=paidExtraAsset-new_TotalBill
+    //else if paidExtraAsset<new_TotalBill then paidExtra=paidExtraAsset && paidExtraAsset=0
+
+    //if paidbill ==new_TotalBill then period=0
+    //if paidBill >new_TotalBill then paidExtraAsset=paidExtraAsset+(paidBill-new_TotalBill)
+
+    //
+    // setTimeout(() => {
+    //   AddUserModal.onOpen("");
+    // }, 100);
 
     //AddUserModal.onOpen("");
   };
+
   const {
-    data: stores,
+    data: charges,
     isLoading,
     mutate,
   } = useSWR<StoreProps[]>(
-    `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
+    `/api/charge${searchParams ? `?${searchParams.toString()}` : ""}`,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -143,11 +190,11 @@ export default function Datalist({
   const handleActionClick = (rowData: string) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
+        fetch("/api/charge/" + (rowData !== "" ? rowData : "1")).then(
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
-              setEditstore(val);
+              seteditCharge(val);
               setTimeout(() => {
                 AddUserModal.onOpen(rowData);
                 resolve("");
@@ -177,14 +224,14 @@ export default function Datalist({
         delLabel1={delLable1}
         delLabel2={delLable2}
       ></DeleteStoreModal>
-      <AddEditStoreModal
+      <AddEditChargeModal
         mutation={mutate}
-        data={editstore}
-        nov={_nov}
-        bazar={_bazar}
-        tabagh={_tabagh}
-        rahro={_rahro}
-      ></AddEditStoreModal>
+        data={editCharge}
+        // nov={_nov}
+        // bazar={_bazar}
+        // tabagh={_tabagh}
+        // rahro={_rahro}
+      ></AddEditChargeModal>
       <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
         <DebouncedInput
           value={globalFilter ?? ""}
@@ -206,47 +253,6 @@ export default function Datalist({
           className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
           placeholder="جستجو در پلاک و نام واحد"
         />
-        <FacetedFilter
-          selected={searchParams.get("nov")?.toString().split(",").map(Number)}
-          filterOption="nov"
-          title="نوع"
-          options={_nov}
-          onChange={(e) => setQueryString("nov", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("tabagh")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="tabagh"
-          title="تراز"
-          options={_tabagh}
-          onChange={(e) => setQueryString("tabagh", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("bazar")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="bazar"
-          title="بلوک"
-          options={_bazar}
-          onChange={(e) => setQueryString("bazar", e)}
-        ></FacetedFilter>
-        <Suspense fallback="Loading..."></Suspense>
-        <FacetedFilter
-          filterOption="rahro"
-          title="راهرو"
-          options={_rahro}
-          selected={searchParams
-            .get("rahro")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          onChange={(e) => setQueryString("rahro", e)}
-        ></FacetedFilter>
       </div>
 
       {canAdd ? (
@@ -256,17 +262,24 @@ export default function Datalist({
           variant={"outline"}
         >
           <PlusCircle className="mx-1 h-4 w-4 text-white" />
-          <span className="text-white">واحد جدید</span>
+          <span className="text-white">ردیف جدید</span>
         </Button>
       ) : (
         <div className="h-8"></div>
       )}
-      {stores ? (
-        stores.length > 0 ? (
+      {charges ? (
+        charges.length > 0 ? (
           <DataTable
-            hiddenCol={{}}
+            hiddenCol={{
+              "بدهی قبلی": false,
+              جریمه: false,
+              ماه: false,
+              "تاریخ پرداخت": false,
+              "مهلت پرداخت": false,
+              "طلب از قبل": false,
+            }}
             columns={columns}
-            data={stores}
+            data={charges}
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
