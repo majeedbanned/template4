@@ -4,6 +4,8 @@ import Datalist from "./components/Datalist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
+import { promise } from "zod";
+import { resolve } from "path";
 
 type Props = {};
 

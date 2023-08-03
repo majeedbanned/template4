@@ -5,11 +5,8 @@ import React from "react";
 type Props = {};
 
 export default async function loading({}: Props) {
-  await setTimeout(() => {
-    console.log("");
-  }, 2000);
   return (
-    <div className="flex mt-12 flex-col gap-4  justify-center items-center ">
+    <div className="flex mt-24 pt-18  flex-col gap-4  justify-center items-center ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         style={{ margin: "auto", background: "#fff" }}

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const Chargechema = z.object({
-
+  id:z.number(),
   pelak:z.string({
     invalid_type_error: "کاراکتر",
   })

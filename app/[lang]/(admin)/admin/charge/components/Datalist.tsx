@@ -12,9 +12,9 @@ import useAddEditStoreModal, {
   AddEditStoreModal,
 } from "@/app/[lang]/components/modals/AddEditStoreModal";
 
-import useDeleteStoreModal, {
-  DeleteStoreModal,
-} from "@/app/[lang]/components/modals/DeleteStoreModal";
+import useDeleteChargeModal, {
+  DeleteChargeModal,
+} from "@/app/[lang]/components/modals/DeleteChargeModal";
 
 import useFilter from "@/lib/hooks/useFilter";
 import { z } from "zod";
@@ -40,13 +40,13 @@ export default function Datalist({
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [editCharge, seteditCharge] = useState<z.infer<typeof Chargechema>>();
   const [deleteID, setDeleteID] = useState<string>("");
-  const [delLable1, setDelLable1] = useState<string>("");
+  const [delLable1, setDelLable1] = useState<any>();
   const [delLable2, setDelLable2] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
   const AddUserModal = useAddEditChargeModal();
-  const _DeleteStoreModal = useDeleteStoreModal();
+  const _DeleteChargeModal = useDeleteChargeModal();
   const { data: session } = useSession();
   // const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
   // const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
@@ -164,15 +164,16 @@ export default function Datalist({
     router.push(`${pathname}${query}`);
   };
 
-  const handleDeleteClick = (rowData: { pelak: string; name: string }) => {
+  const handleDeleteClick = (rowData: any) => {
+    console.log(rowData);
     const promise = () =>
       new Promise((resolve) => {
-        setDeleteID(rowData.pelak);
-        setDelLable1(`پلاک : ${rowData.pelak}`);
-        setDelLable2(rowData.name);
+        setDeleteID(rowData.id);
+        setDelLable1(rowData);
+        // setDelLable2(rowData.id);
 
         setTimeout(() => {
-          _DeleteStoreModal.onOpen(rowData.pelak);
+          _DeleteChargeModal.onOpen(rowData.id);
           resolve("");
         }, 100);
       });
@@ -187,16 +188,16 @@ export default function Datalist({
     });
   };
 
-  const handleActionClick = (rowData: string) => {
+  const handleActionClick = (rowData: string, id: string) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/charge/" + (rowData !== "" ? rowData : "1")).then(
+        fetch("/api/charge/edit/" + (id !== "" ? id : "1")).then(
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
               seteditCharge(val);
               setTimeout(() => {
-                AddUserModal.onOpen(rowData);
+                AddUserModal.onOpen(id);
                 resolve("");
               }, 100);
             } else {
@@ -218,12 +219,12 @@ export default function Datalist({
   };
   return (
     <div>
-      <DeleteStoreModal
+      <DeleteChargeModal
         mutation={mutate}
         data={deleteID}
-        delLabel1={delLable1}
-        delLabel2={delLable2}
-      ></DeleteStoreModal>
+        row={delLable1}
+        // delLabel2={delLable2}
+      ></DeleteChargeModal>
       <AddEditChargeModal
         mutation={mutate}
         data={editCharge}
@@ -277,6 +278,8 @@ export default function Datalist({
               "تاریخ پرداخت": false,
               "مهلت پرداخت": false,
               "طلب از قبل": false,
+              کد: false,
+              "اضافه پرداخت": false,
             }}
             columns={columns}
             data={charges}

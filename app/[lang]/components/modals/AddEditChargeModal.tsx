@@ -16,6 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 export const AddEditChargeModal = ({
   mutation,
@@ -43,7 +46,7 @@ export const AddEditChargeModal = ({
   const [saving, setSaving] = useState(false);
   const [editstore, setEditstore] = useState<z.infer<typeof Chargechema>>();
   const [tmp, setTmp] = useState(false);
-
+  const [portalTarget, setPortalTaget] = useState();
   const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof Chargechema>>({
@@ -64,6 +67,22 @@ export const AddEditChargeModal = ({
   const __penalty = form.watch("penalty");
   const __paidExtra = form.watch("paidExtra");
   const __paidExtraAsset = form.watch("paidExtraAsset");
+
+  // useEffect(() => {
+  //   const portalDiv = document.createElement("div");
+
+  //   /**
+  //    * This ID is optional and has been added
+  //    * to better recognize it in the DOM tree.
+  //    */
+  //   portalDiv.id = "myPortalDiv";
+
+  //   document.body.appendChild(portalDiv);
+
+  //   setPortalTaget(portalDiv);
+
+  //   return () => document.body.removeChild(portalDiv);
+  // }, []);
 
   useEffect(() => {
     form.reset(data);
@@ -151,7 +170,7 @@ export const AddEditChargeModal = ({
     if (AddEditChargeModal.editID !== "") {
       return {
         method: "PUT",
-        url: `/api/store`,
+        url: `/api/charge`,
         successMessage: "Successfully updated domain!",
       };
     } else {
@@ -438,7 +457,30 @@ export const AddEditChargeModal = ({
                     <FormMessage />
                   </div>
                   <FormControl>
-                    <Input
+                    <DatePicker
+                      value={field.value || ""}
+                      onChange={(date) => {
+                        field.onChange(date ? date.toString() : "");
+                      }}
+                      style={{
+                        width: "100% !important",
+
+                        height: "34px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        padding: "3px 10px !important",
+                      }}
+                      format={"YYYY/MM/DD"}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-center"
+                    />
+                    {/* {errors && errors[name] && errors[name].type === "required" && (
+                //if you want to show an error message
+                <span>your error message !</span>
+              )} */}
+
+                    {/* <Input
                       className="font-bold text-lg text-red-600 text-center"
                       placeholder=""
                       {...field}
@@ -449,7 +491,7 @@ export const AddEditChargeModal = ({
                       value={formatNumber(
                         form.getValues("paidDate")?.toString() || ""
                       )}
-                    />
+                    /> */}
                   </FormControl>
                 </FormItem>
               )}

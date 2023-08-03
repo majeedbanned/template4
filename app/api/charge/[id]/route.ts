@@ -25,8 +25,8 @@ export async function DELETE(
 
   const id = params.id;
 
-  const store = await client.store.delete({
-    where: { pelak: id },
+  const store = await client.new_account.delete({
+    where: { id: Number(id) },
   });
 
   return NextResponse.json(store, {

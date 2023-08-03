@@ -43,6 +43,8 @@ export async function POST(req: NextRequest) {
     ...res,
     pelak: res.pelak.toString().toUpperCase(),
     paidBill: (res.paidBill.toString().replace(/\D/g, "")),
+    paidDate:res.paidDate.toEnglishDigits(),
+    //@ts-ignore
     deptPeriod: parseInt(res.deptPeriod),
   };
   const { TotalBill, ...newObject } = newres;
@@ -88,21 +90,26 @@ export async function PUT(req: NextRequest) {
 
   const newres = {
     ...res,
+    pelak: res.pelak.toString().toUpperCase(),
+    paidBill: (res.paidBill.toString().replace(/\D/g, "")),
+    paidDate:res.paidDate.toEnglishDigits(),
+    //@ts-ignore
+    deptPeriod: parseInt(res.deptPeriod),
     // nov: parseInt(res.nov),
     // tabagh: parseInt(res.tabagh),
     // rahro: parseInt(res.rahro),
     // bazar: parseInt(res.bazar),
   };
   // @ts-ignore: Unreachable code error
-  delete newres.pelakNU;
+  //delete newres.pelakNU;
   // @ts-ignore: Unreachable code error
-  delete newres.pelakCH;
-
-  const response = await client.store.update({
+  //delete newres.pelakCH;
+  const { TotalBill,id, ...newObject } = newres;
+  const response = await client.new_account.update({
     where: {
-      pelak: res.pelakNU + "-" + res.pelakCH,
+      id: Number(res.id),
     },
-    data: newres,
+    data: newObject,
   });
 
   return NextResponse.json(response, {

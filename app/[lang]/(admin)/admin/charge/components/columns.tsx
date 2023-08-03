@@ -4,8 +4,36 @@ import { ColumnDef } from "@tanstack/react-table";
 import { StoreProps } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "../../stores/components/data-table-column-header";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export const columns: ColumnDef<StoreProps>[] = [
+  {
+    meta: true,
+    accessorKey: "id",
+    id: "کد",
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col gap-1">
+          <Badge
+            className="text-center w-fit rounded-lg bordercolor font-bold"
+            variant="outline"
+          >
+            {row.getValue("کد")}
+          </Badge>
+        </div>
+      );
+    },
+
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="کد" />
+    ),
+  },
+
   {
     meta: true,
     accessorKey: "pelak",
@@ -377,6 +405,12 @@ export const columns: ColumnDef<StoreProps>[] = [
       }).format(amount);
 
       return (
+        // <HoverCard>
+        //   <HoverCardTrigger>Hover</HoverCardTrigger>
+        //   <HoverCardContent>
+        //     The React Framework – created and maintained by @vercel.
+        //   </HoverCardContent>
+        // </HoverCard>
         <div className="text-right font-medium">
           {formatted.replace("ریال", "")}
         </div>
@@ -385,6 +419,32 @@ export const columns: ColumnDef<StoreProps>[] = [
 
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="اضافه پرداخت" />
+    ),
+  },
+
+  {
+    accessorKey: "discription",
+    id: "توضیحات",
+
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.getValue("توضیحات") != "" ? (
+            <HoverCard openDelay={200}>
+              <HoverCardTrigger>
+                <InformationCircleIcon className="w-6 h-6 cursor-pointer"></InformationCircleIcon>
+              </HoverCardTrigger>
+              <HoverCardContent>{row.getValue("توضیحات")}</HoverCardContent>
+            </HoverCard>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      );
+    },
+
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="توضیحات" />
     ),
   },
 ];

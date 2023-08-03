@@ -51,8 +51,8 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isLoading: boolean;
-  onActionClick: (id: string) => void;
-  onDeleteClick: (id: { pelak: string; name: string }) => void;
+  onActionClick: (pelak: string, id: string) => void;
+  onDeleteClick: (id: any) => void;
   allowEdit?: boolean;
   allowDelete?: boolean;
   hiddenCol: VisibilityState;
@@ -177,7 +177,9 @@ export function DataTable<TData, TValue>({
                         {allowEdit && (
                           <DropdownMenuItem
                             className="flex justify-end gap-2"
-                            onClick={() => onActionClick(row.original.pelak)}
+                            onClick={() =>
+                              onActionClick(row.original.pelak, row.original.id)
+                            }
                           >
                             ویرایش
                             <Edit3 className="w-4 h-4"></Edit3>
