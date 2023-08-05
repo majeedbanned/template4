@@ -56,12 +56,6 @@ export async function GET(
   });
     const res = {
       ...charge,
-    //   nov: store?.nov?.toString(),
-    //   tabagh: store?.tabagh?.toString(),
-    //   rahro: store?.rahro?.toString(),
-    //   bazar: store?.bazar?.toString(),
-    //   pelakNU:store?.pelak.split('-')[0],
-    //   pelakCH:store?.pelak.split('-')[1]
 
     };
   return NextResponse.json(res, {

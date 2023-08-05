@@ -94,7 +94,7 @@ export default async function Root({
 
                 {/* <AdminDashboard></AdminDashboard> */}
 
-                <div className="flex-grow flex  flex-col sm:mr-8 mx-2 sm:ml-4 mb-8 ">
+                <div className="flex-grow flex  flex-col sm:mr-0 mx-2 sm:ml-4 mb-8 ">
                   <div className=" py-2 sm:py-8 flex justify-start items-center  ">
                     <AdminHeader></AdminHeader>
                   </div>

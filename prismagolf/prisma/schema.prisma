@@ -346,16 +346,17 @@ model Systems {
 }
 
 model Users {
-  id          Int          @id(map: "PK__Users") @default(autoincrement())
-  name        String?      @db.NVarChar(50)
-  lname       String?      @db.NVarChar(50)
-  username    String?      @db.NVarChar(50)
-  password    String?      @db.NVarChar(50)
-  role        String?      @db.NVarChar(50)
+  id          Int           @id(map: "PK__Users") @default(autoincrement())
+  name        String?       @db.NVarChar(50)
+  lname       String?       @db.NVarChar(50)
+  username    String?       @db.NVarChar(50)
+  password    String?       @db.NVarChar(50)
+  role        String?       @db.NVarChar(50)
   active      Boolean?
   Permission  Permission[]
-  Users       Users        @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
-  other_Users Users?       @relation("UsersToUsers")
+  Users       Users         @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
+  other_Users Users?        @relation("UsersToUsers")
+  new_account new_account[]
 
   @@map("_Users")
 }
@@ -417,4 +418,9 @@ model new_account {
   discription         String?  @db.NVarChar(250)
   discountDiscription String?  @db.NVarChar(250)
   paidExtraAsset      Decimal  @default(0, map: "DF_new_account_paidExtraAsset") @db.Decimal(18, 0)
+  created_at          String?  @db.NVarChar(50)
+  updated_at          String?  @db.NVarChar(50)
+  created_user        Int?
+  Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
+  updated_user        Int?
 }

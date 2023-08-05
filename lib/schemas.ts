@@ -1,19 +1,24 @@
 import { z } from "zod";
 
 export const Chargechema = z.object({
-  id:z.number(),
-  pelak:z.string({
-    invalid_type_error: "کاراکتر",
-  })
-  .min(4, { message: "*" }),
+  updated_at: z.string().optional(),
+  created_at: z.string().optional(),
+  created_user: z.number(),
+  updated_user: z.number(),
+  id: z.number(),
+  pelak: z
+    .string({
+      invalid_type_error: "کاراکتر",
+    })
+    .min(4, { message: "*" }),
   month: z.string(),
   monthbill: z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -21,15 +26,13 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-
-  debt:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  debt: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -37,15 +40,13 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-
-  penalty:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  penalty: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -53,14 +54,13 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-  deptPeriod:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  deptPeriod: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -68,11 +68,9 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-  deadline:z.string(),
-  isueeDate:z.string(),
-  TotalBill:
-  z.number()
+  deadline: z.string(),
+  isueeDate: z.string(),
+  TotalBill: z.any(),
   // .number({
   //   required_error:"1مقدار عددی  وارد کنید",
   //   invalid_type_error: "2مقدار عددی  وارد کنید",
@@ -86,15 +84,13 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-
-  paidBill:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  paidBill: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -102,15 +98,13 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
-
-  paidExtra:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  paidExtra: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -118,40 +112,36 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
+  paidDate: z.string(),
+  paidType: z.string(),
+  paidTime: z.string(),
+  discount: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
 
-  paidDate:z.string(),
-  paidType:z.string(),
-  paidTime:z.string(),
-  discount:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
- 
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .transform((val) => removeCommas(val.toString()))
-  .or(z.string())
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .transform((val) => removeCommas(val.toString()))
+    .or(z.string()),
   // .pipe(
   //   z.coerce
-    
+
   //     .number({
   //       invalid_type_error: "5مقدار عددی  وارد کنید",
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
-      
-  // )
-  ,
 
-  discription:z.string(),
-  discountDiscription:z.string(),
-  paidExtraAsset:z
-  .number({
-    required_error:"1مقدار عددی  وارد کنید",
-    invalid_type_error: "2مقدار عددی  وارد کنید",
-  })
-  .min(0,{ message: "3مقدار عددی مثبت وارد کنید" })
-  .or(z.string())
+  // )
+  discription: z.string(),
+  discountDiscription: z.string(),
+  paidExtraAsset: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
   // .pipe(
   //   z.coerce
   //     .number({
@@ -159,14 +149,10 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
-  ,
+});
 
-
-})
-
-
-const removeCommas = (input:string) => {
-  return input.replace(/,/g, '');
+const removeCommas = (input: string) => {
+  return input.replace(/,/g, "");
 };
 export const StoreSchema = z.object({
   pelakCH: z
@@ -191,11 +177,11 @@ export const StoreSchema = z.object({
     .max(2),
   metraj: z
     .number({
-      required_error:"1مقدار عددی  وارد کنید",
+      required_error: "1مقدار عددی  وارد کنید",
       invalid_type_error: "2مقدار عددی  وارد کنید",
     })
     .positive({ message: "3مقدار عددی مثبت وارد کنید" })
-   // .int({ message: "4مقدار عددی  وارد کنید" })
+    // .int({ message: "4مقدار عددی  وارد کنید" })
     .or(z.string())
     .pipe(
       z.coerce

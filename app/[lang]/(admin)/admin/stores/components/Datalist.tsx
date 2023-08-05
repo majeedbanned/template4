@@ -140,6 +140,14 @@ export default function Datalist({
     });
   };
 
+  const handlePrintClick = (rowData: any) => {
+    // setPrint(rowData);
+    // console.log(rowData);
+    // setTimeout(() => {
+    //   handlePrint();
+    // }, 100);
+  };
+
   const handleActionClick = (rowData: string) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -267,6 +275,7 @@ export default function Datalist({
             hiddenCol={{}}
             columns={columns}
             data={stores}
+            onPrintClick={handlePrintClick}
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
