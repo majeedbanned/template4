@@ -5,7 +5,7 @@ import { log } from "@/lib/utils";
 import client from "@/lib/prismadb1";
 import { z } from "zod";
 import { Chargechema } from "@/lib/schemas";
-
+import jalaliMoment from "jalali-moment";
 export async function POST(req: NextRequest) {
   // **  Auth **//
   const session = await getServerSession(authOptions);
@@ -42,16 +42,23 @@ export async function POST(req: NextRequest) {
   const newres = {
     ...res,
     pelak: res.pelak.toString().toUpperCase(),
-    paidBill: (res.paidBill.toString().replace(/\D/g, "")),
-    paidDate:res.paidDate.toEnglishDigits(),
+    paidDate: res.paidDate.toEnglishDigits(),
     //@ts-ignore
     deptPeriod: parseInt(res.deptPeriod),
+    paidBill: res.paidBill.toString().replace(/\D/g, ""),
+    discount: parseInt(res.discount.replace(/,/g, "")),
+    debt: parseInt(res.debt.toString().replace(/,/g, "")),
+    monthbill: parseInt(res.monthbill.toString().replace(/,/g, "")),
+    paidExtra: parseInt(res.paidExtra.toString().replace(/,/g, "")),
+    paidExtraAsset: parseInt(res.paidExtraAsset.toString().replace(/,/g, "")),
+
+    created_at: jalaliMoment().format("jYYYY/jMM/jDD HH:MM"),
+    created_user: session.user.id,
+    updated_at: "",
+    updated_user: 0,
   };
-  const { TotalBill, ...newObject } = newres;
-  // @ts-ignore: Unreachable code error
-  //delete newres.TotalBill;
-  // @ts-ignore: Unreachable code error
-  //delete newres.pelakCH;
+  const { TotalBill, id, ...newObject } = newres;
+
 
   const response = await client.new_account.create({
     data: newObject,
@@ -91,20 +98,21 @@ export async function PUT(req: NextRequest) {
   const newres = {
     ...res,
     pelak: res.pelak.toString().toUpperCase(),
-    paidBill: (res.paidBill.toString().replace(/\D/g, "")),
-    paidDate:res.paidDate.toEnglishDigits(),
+    paidBill: res.paidBill.toString().replace(/\D/g, ""),
+    paidDate: res.paidDate.toEnglishDigits(),
     //@ts-ignore
     deptPeriod: parseInt(res.deptPeriod),
-    // nov: parseInt(res.nov),
-    // tabagh: parseInt(res.tabagh),
-    // rahro: parseInt(res.rahro),
-    // bazar: parseInt(res.bazar),
+    updated_at: jalaliMoment().format("jYYYY/jMM/jDD hh:mm"),
+    updated_user: session.user.id,
+    discount: parseInt(res.discount.replace(/,/g, "")),
+    debt: parseInt(res.debt.toString().replace(/,/g, "")),
+    monthbill: parseInt(res.monthbill.toString().replace(/,/g, "")),
+    paidExtra: parseInt(res.paidExtra.toString().replace(/,/g, "")),
+    paidExtraAsset: parseInt(res.paidExtraAsset.toString().replace(/,/g, "")),
+
   };
-  // @ts-ignore: Unreachable code error
-  //delete newres.pelakNU;
-  // @ts-ignore: Unreachable code error
-  //delete newres.pelakCH;
-  const { TotalBill,id, ...newObject } = newres;
+  
+  const { TotalBill, id, ...newObject } = newres;
   const response = await client.new_account.update({
     where: {
       id: Number(res.id),
@@ -117,20 +125,10 @@ export async function PUT(req: NextRequest) {
   });
 }
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   const pelak = url.searchParams.get("pelak") || undefined;
 
-  // if (!session) {
-  //   return NextResponse.json(
-  //     {
-  //       message: "Unauthorized: Login required.",
-  //     },
-  //     {
-  //       status: 401,
-  //     }
-  //   );
-  // }
+  
   try {
     const response = await client.new_account.findMany({
       where: {

@@ -126,7 +126,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "تخفیف",
 
     cell: ({ row }) => {
-      const extra = parseFloat(row.getValue("طلب از قبل"));
+      const extra = parseFloat(row.getValue("بستانکاراز قبل"));
       const formattedextra = new Intl.NumberFormat("fa-IR", {
         style: "currency",
         currency: "IRR",
@@ -151,7 +151,7 @@ export const columns: ColumnDef<StoreProps>[] = [
             variant={"secondary"}
             className="text-red-500 text-sm dark:bg-[#1e293c] dark:text-red-400 rounded-sm w-fit"
           >
-            {formattedextra.replace("ریال", "") + "طلب از قبل"}
+            {formattedextra.replace("ریال", "") + "بستانکاراز قبل"}
           </Badge>
         </div>
       );
@@ -254,9 +254,11 @@ export const columns: ColumnDef<StoreProps>[] = [
             {formatted.replace("ریال", "")}
           </Badge>
           <span className="text-[11px] text-slate-400">مهلت پرداخت:</span>
-          <Badge className="rounded-sm w-fit" variant="secondary">
-            {val.toPersianDigits()}
-          </Badge>
+          {val.toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {val.toPersianDigits()}
+            </Badge>
+          )}
         </div>
       );
     },
@@ -287,9 +289,11 @@ export const columns: ColumnDef<StoreProps>[] = [
             {formatted.replace("ریال", "")}
           </Badge>
           <span className="text-[11px] text-slate-400">تاریخ پرداخت:</span>
-          <Badge className="rounded-sm w-fit" variant="secondary">
-            {val.toPersianDigits()}
-          </Badge>
+          {val.toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {val.toPersianDigits()}
+            </Badge>
+          )}
         </div>
       );
     },
@@ -353,12 +357,16 @@ export const columns: ColumnDef<StoreProps>[] = [
 
       return (
         <div className="flex flex-col gap-1">
-          <Badge className="rounded-sm w-fit" variant="secondary">
-            {"نوع پرداخت" + " : " + val}
-          </Badge>
-          <Badge className="rounded-sm w-fit" variant="secondary">
-            {"اضافه پرداخت" + " : " + formatted.replace("ریال", "")}
-          </Badge>
+          {val.toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {"نوع پرداخت" + " : " + val}
+            </Badge>
+          )}
+          {formatted.replace("ریال", "").toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {"مانده بستانکاری" + " : " + formatted.replace("ریال", "")}
+            </Badge>
+          )}
         </div>
       );
     },
@@ -372,10 +380,10 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "paidExtra",
-    id: "طلب از قبل",
+    id: "بستانکاراز قبل",
 
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("طلب از قبل"));
+      const amount = parseFloat(row.getValue("بستانکاراز قبل"));
       const formatted = new Intl.NumberFormat("fa-IR", {
         style: "currency",
         currency: "IRR",
@@ -389,7 +397,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     },
 
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="طلب از قبل" />
+      <DataTableColumnHeader column={column} title="بستانکاراز قبل" />
     ),
   },
 

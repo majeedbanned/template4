@@ -1,4 +1,6 @@
 "use client";
+import React, { useRef } from "react";
+import ReactToPrint from "react-to-print";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 //import { toast } from "react-hot-toast";
@@ -189,6 +191,7 @@ export const AddEditChargeModal = ({
 
   const bodyContent = (
     <Form {...form}>
+      <div>{JSON.stringify(form.formState.errors)}</div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Tabs defaultValue="account" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -523,13 +526,13 @@ export const AddEditChargeModal = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-white text-center">
-                      <SelectItem key={1} value={"1"}>
+                      <SelectItem key={1} value={"پوز"}>
                         پوز
                       </SelectItem>
-                      <SelectItem key={2} value={"2"}>
+                      <SelectItem key={2} value={"پرداخت آنلاین"}>
                         پرداخت آنلاین
                       </SelectItem>
-                      <SelectItem key={3} value={"3"}>
+                      <SelectItem key={3} value={"واریز به حساب"}>
                         واریز به حساب
                       </SelectItem>
                     </SelectContent>

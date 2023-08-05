@@ -36,7 +36,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Cog6ToothIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  Cog6ToothIcon,
+  PrinterIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Edit3 } from "lucide-react";
 declare module "@tanstack/table-core" {
@@ -53,6 +57,7 @@ interface DataTableProps<TData, TValue> {
   isLoading: boolean;
   onActionClick: (pelak: string, id: string) => void;
   onDeleteClick: (id: any) => void;
+  onPrintClick: (id: any) => void;
   allowEdit?: boolean;
   allowDelete?: boolean;
   hiddenCol: VisibilityState;
@@ -76,6 +81,8 @@ export function DataTable<TData, TValue>({
   isLoading,
   onActionClick,
   onDeleteClick,
+  onPrintClick,
+
   allowEdit,
   allowDelete,
   hiddenCol,
@@ -169,7 +176,7 @@ export function DataTable<TData, TValue>({
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                           {/* <span className="sr-only">Open menu</span> */}
-                          <Cog6ToothIcon className="h-4 w-4" />
+                          <Cog6ToothIcon className="h-5 w-5" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="bordercolor" align="end">
@@ -197,9 +204,17 @@ export function DataTable<TData, TValue>({
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>
+                    <Button
+                      onClick={() => onPrintClick(row.original)}
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                    >
+                      {/* <span className="sr-only">Open menu</span> */}
+                      <PrinterIcon className="h-5 w-5" />
+                    </Button>
                   </td>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="m-0 p-2" key={cell.id}>
+                    <TableCell className="m-0 p-2 " key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

@@ -60,6 +60,7 @@
     "react-icons": "^4.10.1",
     "react-multi-date-picker": "^4.1.2",
     "react-select": "^5.7.4",
+    "react-to-print": "^2.14.13",
     "sonner": "^0.6.2",
     "swr": "^2.2.0",
     "tailwind-merge": "^1.13.2",
