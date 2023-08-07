@@ -174,19 +174,19 @@ model option1 {
 
 /// @@Gen.model(hide: true)
 model owner {
-  orow     Int
-  pelak    String? @db.Char(6)
-  ofname   String? @db.Char(30)
-  olname   String? @db.Char(40)
-  ofather  String? @db.Char(30)
-  ojob     String? @db.Char(100)
-  omobile  String? @db.Char(11)
-  otel     String? @db.Char(11)
-  oaddress String? @db.Char(200)
-  omeli    String? @db.Char(12)
-  sex      String? @db.Char(4)
-  cposti   String? @db.Char(10)
-  id       BigInt  @id(map: "PK_owner") @default(autoincrement())
+  trow       Int     @id(map: "PK_owner") @default(autoincrement())
+  pelak      String? @db.NVarChar(6)
+  tfname     String? @db.NVarChar(50)
+  tlname     String? @db.NVarChar(50)
+  tfather    String? @db.NVarChar(50)
+  tjob       String? @db.NVarChar(250)
+  tmobile    String? @db.NVarChar(50)
+  ttel       String? @db.NVarChar(50)
+  taddress   String? @db.NVarChar(250)
+  tmeli      String? @db.NVarChar(50)
+  sex        String? @db.NVarChar(50)
+  cposti     String? @db.NVarChar(50)
+  storePelak String? @db.NVarChar(50)
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -241,14 +241,14 @@ model sharj {
 model store {
   pelak         String          @id(map: "PK_store") @db.Char(6)
   nov           Int?
-  name          String?         @db.Char(30)
+  name          String?         @db.NVarChar(50)
   metraj        Float?
   bazar         Int?
   tabagh        Int?
   rahro         Int?
-  tel1          String?         @db.Char(7)
-  tel2          String?         @db.Char(7)
-  cposti        String?         @db.Char(10)
+  tel1          String?         @db.NVarChar(50)
+  tel2          String?         @db.NVarChar(50)
+  cposti        String?         @db.NVarChar(50)
   rent          Float?          @db.Money
   active        Boolean?
   tovzeh        String?         @db.Char(400)
@@ -270,20 +270,21 @@ model store {
 
 /// @@Gen.model(hide: true)
 model Tenant {
-  trow     Int     @id(map: "PK_Tenant") @default(autoincrement())
-  pelak    String? @db.Char(6)
-  tfname   String? @db.Char(30)
-  tlname   String? @db.Char(40)
-  tfather  String? @db.Char(30)
-  tjob     String? @db.Char(100)
-  tmobile  String? @db.Char(11)
-  ttel     String? @db.Char(11)
-  taddress String? @db.Char(200)
-  tmeli    String? @db.Char(12)
-  stdate   String? @db.Char(10)
-  endate   String? @db.Char(10)
-  sex      String? @db.Char(4)
-  cposti   String? @db.Char(10)
+  trow       Int     @id(map: "PK_Tenant") @default(autoincrement())
+  pelak      String? @db.NVarChar(6)
+  tfname     String? @db.NVarChar(50)
+  tlname     String? @db.NVarChar(50)
+  tfather    String? @db.NVarChar(50)
+  tjob       String? @db.NVarChar(50)
+  tmobile    String? @db.NVarChar(50)
+  ttel       String? @db.NVarChar(50)
+  taddress   String? @db.NVarChar(50)
+  tmeli      String? @db.NVarChar(50)
+  stdate     String? @db.NVarChar(50)
+  endate     String? @db.NVarChar(50)
+  sex        String? @db.NVarChar(50)
+  cposti     String? @db.NVarChar(50)
+  storePelak String? @db.NVarChar(50)
 }
 
 model stores_events {
@@ -419,8 +420,8 @@ model new_account {
   discountDiscription String?  @db.NVarChar(250)
   paidExtraAsset      Decimal  @default(0, map: "DF_new_account_paidExtraAsset") @db.Decimal(18, 0)
   created_at          String?  @db.NVarChar(50)
-  updated_at          String?  @db.NVarChar(50)
   created_user        Int?
-  Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
+  updated_at          String?  @db.NVarChar(50)
   updated_user        Int?
+  Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
 }

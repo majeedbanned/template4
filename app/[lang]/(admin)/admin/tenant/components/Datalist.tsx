@@ -1,31 +1,22 @@
 "use client";
-import { columns } from "@/app/[lang]/(admin)/admin/stores/components/columns";
+import { columns } from "@/app/[lang]/(admin)/admin/tenant/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
-import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-import { FacetedFilter } from "./faceted-filter";
-import useAddEditStoreModal, {
-  AddEditStoreModal,
-} from "@/app/[lang]/components/modals/AddEditStoreModal";
-
-import useDeleteStoreModal, {
-  DeleteStoreModal,
-} from "@/app/[lang]/components/modals/DeleteStoreModal";
-
-import useFilter from "@/lib/hooks/useFilter";
+import useAddEditTenantModal from "@/app/[lang]/components/modals/AddEditTenantModal";
+import useDeleteTenantModal from "@/app/[lang]/components/modals/DeleteTenantModal";
 import { z } from "zod";
-import { StoreSchema } from "@/lib/schemas";
+import { Tenantschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle, SlidersHorizontal } from "lucide-react";
-import { FcAddRow } from "react-icons/fc";
+import { PlusCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
+import { AddEditTenantModal } from "@/app/[lang]/components/modals/AddEditTenantModal";
+import { DeleteTenantModal } from "@/app/[lang]/components/modals/DeleteTenantModal";
 
 type Props = {};
 
@@ -35,7 +26,7 @@ export default function Datalist({
   permission?: Session | null;
 }) {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [editstore, setEditstore] = useState<z.infer<typeof StoreSchema>>();
+  const [edittenant, setEdittenant] = useState<z.infer<typeof Tenantschema>>();
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
@@ -43,89 +34,61 @@ export default function Datalist({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
-  const AddUserModal = useAddEditStoreModal();
-  const _DeleteStoreModal = useDeleteStoreModal();
-  const { data: session } = useSession();
-  const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
-  const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
-  const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
-  const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
-
-  // const canAdd = session?.user?.Permission?.find((item) => {
-  //   return item.systemID === 1 && item.add === true;
-  // });
+  const AddUserModal = useAddEditTenantModal();
+  const _DeleteTenantModal = useDeleteTenantModal();
 
   const canEdit = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.edit === true;
+    return item.systemID === 3 && item.edit === true;
   });
-
   const canDelete = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.print === true;
+    return item.systemID === 3 && item.print === true;
+  });
+  let canAdd = permission?.user?.Permission?.find((item) => {
+    return item.systemID === 3 && item.add === true;
   });
 
-  const canAdd = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.add === true;
-  });
+  const pelak = searchParams.get("pelak")?.toUpperCase();
 
   const AddRecord = () => {
-    setEditstore({
-      pelakCH: "",
-      pelakNU: "",
-      nov: "",
-      bazar: "",
-      tabagh: "",
-      rahro: "",
-      name: "",
-      active: false,
-      metraj: 0,
-      ChekGift: false,
-      ChekRol: "",
-      tovzeh: "",
+    setEdittenant({
+      taddress: "",
+      tfather: "",
+      tfname: "",
+      tjob: "",
+      tlname: "",
+      tmeli: "",
+      tmobile: "",
+      ttel: "",
+      sex: "",
       cposti: "",
-      Tahvil: "",
-      tel1: "",
-      tel2: "",
+      pelak: pelak ? pelak : "",
+      trow: 0,
     });
 
     setTimeout(() => {
       AddUserModal.onOpen("");
     }, 100);
-
-    //AddUserModal.onOpen("");
   };
   const {
-    data: stores,
+    data: tenant,
     isLoading,
     mutate,
-  } = useSWR<StoreProps[]>(
-    `/api/store${searchParams ? `?${searchParams.toString()}` : ""}`,
+  } = useSWR<z.infer<typeof Tenantschema>[]>(
+    `/api/tenant${searchParams ? `?${searchParams.toString()}` : ""}`,
     fetcher,
     {
       // revalidateOnMount: true,
     }
   );
 
-  const setQueryString = (type: string, e: string[]) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    if (e.length === 0) {
-      current.delete(type);
-    } else {
-      current.set(type, String(e.join(",")));
-    }
-    const search = current.toString();
-    const query = search ? `?${search}` : "";
-    router.push(`${pathname}${query}`);
-  };
-
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        setDeleteID(rowData.pelak);
+        setDeleteID(rowData.trow);
         setDelLable1(`پلاک : ${rowData.pelak}`);
-        setDelLable2(rowData.name);
-
+        setDelLable2(rowData.tlname + " " + rowData.tfname);
         setTimeout(() => {
-          _DeleteStoreModal.onOpen(rowData.pelak);
+          _DeleteTenantModal.onOpen(rowData.trow);
           resolve("");
         }, 100);
       });
@@ -140,24 +103,18 @@ export default function Datalist({
     });
   };
 
-  const handlePrintClick = (rowData: any) => {
-    // setPrint(rowData);
-    // console.log(rowData);
-    // setTimeout(() => {
-    //   handlePrint();
-    // }, 100);
-  };
+  const handlePrintClick = (rowData: any) => {};
 
-  const handleActionClick = (rowData: string) => {
+  const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
+        fetch("/api/tenant/" + (rowData.trow !== "" ? rowData.trow : "1")).then(
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
-              setEditstore(val);
+              setEdittenant(val);
               setTimeout(() => {
-                AddUserModal.onOpen(rowData);
+                AddUserModal.onOpen(rowData.trow);
                 resolve("");
               }, 100);
             } else {
@@ -179,20 +136,16 @@ export default function Datalist({
   };
   return (
     <div>
-      <DeleteStoreModal
+      <DeleteTenantModal
         mutation={mutate}
         data={deleteID}
         delLabel1={delLable1}
         delLabel2={delLable2}
-      ></DeleteStoreModal>
-      <AddEditStoreModal
+      ></DeleteTenantModal>
+      <AddEditTenantModal
         mutation={mutate}
-        data={editstore}
-        nov={_nov}
-        bazar={_bazar}
-        tabagh={_tabagh}
-        rahro={_rahro}
-      ></AddEditStoreModal>
+        data={edittenant}
+      ></AddEditTenantModal>
       <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
         <DebouncedInput
           value={globalFilter ?? ""}
@@ -212,69 +165,28 @@ export default function Datalist({
             }
           }}
           className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
-          placeholder="جستجو در پلاک و نام واحد"
+          placeholder="جستجو در نام و فامیل و پلاک  "
         />
-        <FacetedFilter
-          selected={searchParams.get("nov")?.toString().split(",").map(Number)}
-          filterOption="nov"
-          title="نوع"
-          options={_nov}
-          onChange={(e) => setQueryString("nov", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("tabagh")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="tabagh"
-          title="تراز"
-          options={_tabagh}
-          onChange={(e) => setQueryString("tabagh", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("bazar")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="bazar"
-          title="بلوک"
-          options={_bazar}
-          onChange={(e) => setQueryString("bazar", e)}
-        ></FacetedFilter>
-        <Suspense fallback="Loading..."></Suspense>
-        <FacetedFilter
-          filterOption="rahro"
-          title="راهرو"
-          options={_rahro}
-          selected={searchParams
-            .get("rahro")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          onChange={(e) => setQueryString("rahro", e)}
-        ></FacetedFilter>
       </div>
 
-      {canAdd ? (
+      {canAdd && pelak ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
           onClick={AddRecord}
           variant={"outline"}
         >
           <PlusCircle className="mx-1 h-4 w-4 text-white" />
-          <span className="text-white">واحد جدید</span>
+          <span className="text-white">مستاجر جدید</span>
         </Button>
       ) : (
         <div className="h-8"></div>
       )}
-      {stores ? (
-        stores.length > 0 ? (
+      {tenant ? (
+        tenant.length > 0 ? (
           <DataTable
             hiddenCol={{}}
             columns={columns}
-            data={stores}
+            data={tenant}
             onPrintClick={handlePrintClick}
             isLoading={isLoading}
             onActionClick={handleActionClick}

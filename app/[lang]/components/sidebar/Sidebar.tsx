@@ -15,13 +15,21 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Sidebar({
+  onExpand,
   children,
   lang,
 }: {
   children: ReactNode;
   lang: string;
+  onExpand: (id: boolean) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const icons = {
@@ -31,7 +39,7 @@ export default function Sidebar({
   return (
     <aside className="h-screen hidden sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
       <nav className="h-full flex flex-col  shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className="p-3  pb-1 flex justify-between items-center">
           <img
             src="https://img.logoipsum.com/243.svg"
             className={`overflow-hidden transition-all ${
@@ -40,10 +48,17 @@ export default function Sidebar({
             alt=""
           />
           <button
-            onClick={() => setExpanded((curr) => !curr)}
-            className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100"
+            onClick={() => {
+              onExpand(!expanded);
+              setExpanded((curr) => !curr);
+            }}
+            className="px-4 py-2  rounded-lg bg-gray-50 dark:bg-[#121415]  hover:bg-gray-200"
           >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
+            {expanded ? (
+              <ChevronLast className="dark:text-gray-200 " />
+            ) : (
+              <ChevronFirst className="dark:text-gray-200" />
+            )}
           </button>
         </div>
 
@@ -79,18 +94,45 @@ interface MenuItemProps {
   title: string;
   link: string;
   icon: ReactNode;
+  active: boolean;
+  selected: boolean;
+  onClick: () => void;
 }
-export function MenuItem({ title, link, icon }: MenuItemProps) {
+export function MenuItem({
+  title,
+  link,
+  icon,
+  active,
+  onClick,
+  selected,
+}: MenuItemProps) {
   return (
     <div>
       <Link
         // key={sub.id}
-        className="relative  gap-2 items-center p-2 flex "
+        className={`${
+          selected ? "bg-orange-400/10  hover:bg-orange-400/10" : ""
+        } relative  hover:dark:bg-[#2b2e31] gap-2 hover:bg-slate-100 my-1 rounded-lg items-center p-2 flex`}
+        // className="relative  hover:dark:bg-[#2b2e31] gap-2 hover:bg-slate-100 my-1 rounded-lg items-center p-2 flex "
         content="no-underline"
         href={link}
+        onClick={onClick}
       >
-        {icon}
-        <span>{title}</span>
+        <TooltipProvider delayDuration={400}>
+          <Tooltip>
+            <TooltipTrigger asChild>{icon}</TooltipTrigger>
+            <TooltipContent>
+              <p> {title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        {/* {icon} */}
+
+        {active && (
+          <span className={`${selected ? "text-orange-500 " : ""}`}>
+            {title}
+          </span>
+        )}
       </Link>
     </div>
   );
@@ -101,14 +143,19 @@ interface SidebarItemProps {
   text: string;
   active: boolean;
   alert: boolean;
+  selected: boolean;
+
   children: ReactNode;
   // link: string;
   onselect: (id: number) => void;
+  //setopenclode: () => void;
   icon: ReactNode;
 }
 export function SidebarItem({
   id,
   icon,
+  //setopenclode,
+  selected,
   text,
   active,
   alert,
@@ -118,35 +165,52 @@ export function SidebarItem({
   children,
 }: SidebarItemProps) {
   const expanded = useContext(SidebarContext);
+
   // console.log("expanded>", expanded);
   return (
     <li
-      onClick={() => onselect(id)}
+      // onClick={() => onselect(id)}
       className={`
       
-        relative flex items-start py-3 px-3 my-2
-        font-medium rounded-md cursor-pointer
+      gap-2 
+        relative flex flex-col items-start  py-3 px-2 my-2
+        font-medium rounded-md cursor-pointer justify-center
         transition-colors group
         ${
           active
-            ? " shadow-sm dark:bg-[#0f172b] bg-slate-50 dark:text-white text-indigo-800"
+            ? " shadow-sm dark:bg-[#121415] bg-slate-50 dark:text-white text-slate-600"
             : "hover:bg-slate-50  text-gray-600"
         }
     `}
     >
-      <div className="">{icon}</div>
+      {/* <div className="" onClick={() => setopenclode()}> */}
+
+      <div className="">
+        <TooltipProvider delayDuration={500}>
+          <Tooltip>
+            <TooltipTrigger className="mr-2" asChild>
+              <div onClick={() => onselect(id)}>{icon}</div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p> {text}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <span
-        className={`overflow-hidden transition-all ${
-          expanded.expanded ? "w-52 ml-3 text-md" : " text-sm w-0"
+        className={`  transition-all ${
+          expanded.expanded ? "w-52 ml-3 text-md" : " text-sm w-10"
         }`}
       >
-        <Collapsible className="shadow-none" open={active}>
-          <CollapsibleTrigger>
-            <span className="text-gray-600 font-bold  dark:text-white  no-underline">
-              {text}
-            </span>
+        <Collapsible className="shadow-none  relative " open={active}>
+          <CollapsibleTrigger className="absolute  z-[999] -top-8 right-10">
+            {expanded.expanded && (
+              <span className="text-gray-600 font-bold  dark:text-slate-300   no-underline">
+                {text}
+              </span>
+            )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="">
+          <CollapsibleContent>
             {children}
             {/* <ul className="flex flex-col gap-3">
               {subMenu?.map(
@@ -166,13 +230,13 @@ export function SidebarItem({
           </CollapsibleContent>
         </Collapsible>
       </span>
-      {alert && (
+      {/* {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
             expanded.expanded ? "" : "top-2"
           }`}
         />
-      )}
+      )} */}
 
       {!expanded && (
         <div

@@ -1,5 +1,51 @@
 import { z } from "zod";
 
+export const Tenantschema = z.object({
+  pelak: z
+  .string({
+    invalid_type_error: "کاراکتر",
+  })
+  .min(4, { message: "*" }),
+  trow: z.number(),
+  tfname: z.string().optional(),
+  tlname: z.string().optional(),
+  tfather: z.string().optional(),
+  tjob: z.string().optional(),
+  tmobile: z.string().optional(),
+  ttel: z.string().optional(),
+  taddress: z.string().optional(),
+  tmeli: z.string().optional(),
+  stdate: z.string().optional(),
+  endate: z.string().optional(),
+  sex: z.string().optional(),
+  cposti: z.string().optional(),
+  storePelak: z.string().optional(),
+
+
+})
+
+export const Ownerschema = z.object({
+  pelak: z
+  .string({
+    invalid_type_error: "کاراکتر",
+  })
+  .min(4, { message: "*" }),
+  id: z.number(),
+  ofname: z.string().optional(),
+  olname: z.string().optional(),
+  ofather: z.string().optional(),
+  ojob: z.string().optional(),
+  omobile: z.string().optional(),
+  otel: z.string().optional(),
+  oaddress: z.string().optional(),
+  omeli: z.string().optional(),
+  sex: z.string().optional(),
+  cposti: z.string().optional(),
+  // storePelak: z.string().optional(),
+
+
+})
+
 export const Chargechema = z.object({
   updated_at: z.string().optional(),
   created_at: z.string().optional(),

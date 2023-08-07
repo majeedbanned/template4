@@ -46,9 +46,9 @@ export default function RootLayout({
           </div>
         </div>
 
-        <div className="shadow-lg flex border border-white/10 absolute lg:mx-36 rounded-[55px] my-20 bg-white/20 m-auto top-0 right-0 left-0 bottom-0">
-          <div className="shadow-sm m-3 flex flex-row flex-1 max-h-max rounded-[45px] bg-gradient-to-r from-[#065bbb] to-[#008dff]">
-            <div className="flex z-40 lg:flex-[1.3] flex-[1.6] rounded-r-[45px] m-0 justify-center items-center rounded-l-[45px] shadow-sm bg-white">
+        <div className="shadow-lg flex border border-white/10 absolute lg:mx-36 sm:rounded-[55px] sm:my-20 bg-white/20 m-auto top-0 right-0 left-0 bottom-0">
+          <div className="shadow-sm m-3 flex flex-row flex-1 max-h-max sm:rounded-[45px] bg-gradient-to-r from-[#065bbb] to-[#008dff]">
+            <div className="flex z-40 lg:flex-[1.3] flex-[1.6] px-4 sm:rounded-r-[45px] m-0 justify-center items-center sm:rounded-l-[45px] shadow-sm bg-white">
               {children}
             </div>
             <div className="flex lg:flex-[.751] flex-[.3]  bg-transparent"></div>

@@ -130,25 +130,25 @@ export default function Datalist({
     });
   };
 
-  const handleActionClick = (rowData: string, id: string) => {
+  const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/charge/edit/" + (id !== "" ? id : "1")).then(
-          async (res) => {
-            if (res.status === 200) {
-              const val = await res.json();
-              seteditCharge(val);
-              setTimeout(() => {
-                AddUserModal.onOpen(id);
-                resolve("");
-              }, 100);
-            } else {
-              const error = await res.text();
-              toast.error(error);
-              rejects;
-            }
+        fetch(
+          "/api/charge/edit/" + (rowData.id !== "" ? rowData.id : "1")
+        ).then(async (res) => {
+          if (res.status === 200) {
+            const val = await res.json();
+            seteditCharge(val);
+            setTimeout(() => {
+              AddUserModal.onOpen(rowData.id);
+              resolve("");
+            }, 100);
+          } else {
+            const error = await res.text();
+            toast.error(error);
+            rejects;
           }
-        );
+        });
       });
     toast.promise(promise, {
       loading: "دریافت اطلاعات ...",
