@@ -12,6 +12,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -20,20 +32,45 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Divide, Settings2, SettingsIcon } from "lucide-react";
-import { BuildingStorefrontIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  Divide,
+  Settings2,
+  SettingsIcon,
+  SortAsc,
+} from "lucide-react";
+import {
+  BuildingStorefrontIcon,
+  ChevronUpDownIcon,
+} from "@heroicons/react/24/outline";
 import Profile from "./header/Profile";
 import Notifications from "./header/Notifications";
 import Chat from "./header/Chat";
 import Search from "./header/Search";
 import Projects from "./header/Projects";
 import LangSelect from "./header/LangSelect";
+import { Session } from "next-auth/core/types";
+import { cn } from "@/lib/utils";
 type Props = {};
-
-export default function AdminHeader({}: Props) {
+const frameworks = [
+  {
+    value: "کافي شاپ فودلند 2",
+    label: "کافي شاپ فودلند 2",
+  },
+  {
+    value: "مرغ پاچيني",
+    label: "مرغ پاچيني",
+  },
+  {
+    value: "رستوران ايتاليايي",
+    label: "رستوران ايتاليايي",
+  },
+];
+export default function AdminHeader({ cu }: { cu?: Session | null }) {
   const { data: session } = useSession();
   console.log("sessionnn>>", session);
-
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
   return (
     <div className="flex flex-row flex-1 ">
       <div className="basis-1/2">
@@ -41,11 +78,52 @@ export default function AdminHeader({}: Props) {
       </div>
       <div className="basis-1/2 flex justify-end  gap-2">
         <Search></Search>
-        <LangSelect></LangSelect>
+        {/* <LangSelect></LangSelect>
 
         <Chat></Chat>
-        <Notifications></Notifications>
-        <Profile></Profile>
+        <Notifications></Notifications> */}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger className="rounded-full" asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+            >
+              {value
+                ? frameworks.find((framework) => framework.value === value)
+                    ?.label
+                : "انتخاب واحد..."}
+              <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandInput placeholder="Search ..." className="h-9" />
+              <CommandEmpty>No found.</CommandEmpty>
+              <CommandGroup>
+                {frameworks.map((framework) => (
+                  <CommandItem
+                    key={framework.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    {framework.label}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        value === framework.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        <Profile cu={cu}></Profile>
       </div>
     </div>
   );

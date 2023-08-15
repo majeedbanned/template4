@@ -43,6 +43,30 @@ String.prototype.toPersianDigits = function () {
   });
 };
 
+
+export   const formatNumber = (value: string) => {
+  if (!value) return "";
+  value = value.replace(/\D/g, "");
+  const characterToReplace = ",";
+  const replacementCharacter = "";
+
+  const nval = value.replace(
+    new RegExp(characterToReplace, "g"),
+    replacementCharacter
+  );
+
+  const amount = BigInt(nval.toEnglishDigits());
+
+  // console.log("naval", nval.toEnglishDigits());
+  const formatted = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "IRR",
+  }).format(amount);
+  let ret = formatted.replace("IRR", "").trim();
+  const y = ret.toPersianDigits();
+  // console.log("yyy", ret);
+  return ret;
+};
 export const setQueryString = (
   router: Router,
   param: string,

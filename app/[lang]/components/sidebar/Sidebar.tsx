@@ -6,6 +6,8 @@ import {
   TvIcon,
   MessageCircle,
 } from "lucide-react";
+import logo from "@/public/images/logo.png";
+
 import Link from "next/link";
 import { useContext, createContext, useState, ReactNode } from "react";
 import { motion } from "framer-motion";
@@ -21,6 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Image from "next/image";
 
 export default function Sidebar({
   onExpand,
@@ -40,13 +43,23 @@ export default function Sidebar({
     <aside className="h-screen hidden sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
       <nav className="h-full flex flex-col  shadow-sm">
         <div className="p-3  pb-1 flex justify-between items-center">
-          <img
+          {/* <img
             src="https://img.logoipsum.com/243.svg"
             className={`overflow-hidden transition-all ${
               expanded ? "w-32" : "w-0"
             }`}
             alt=""
-          />
+          /> */}
+
+          <Image
+            className={`overflow-hidden transition-all ${
+              expanded ? "w-44" : "w-0"
+            }`}
+            src={logo}
+            width={200}
+            height={200}
+            alt=""
+          ></Image>
           <button
             onClick={() => {
               onExpand(!expanded);
@@ -67,23 +80,23 @@ export default function Sidebar({
         </SidebarContext.Provider>
 
         <div className="border-t flex p-3">
-          <img
+          {/* <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
             alt=""
             className="w-10 h-10 rounded-md"
-          />
-          <div
+          /> */}
+          {/* <div
             className={`
               flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+              overflow-hidden transition-all ${expanded ? "w-44 ml-3" : "w-0"}
           `}
-          >
-            <div className="leading-4">
+          > */}
+          {/* <div className="leading-4">
               <h4 className="font-semibold">John Doe</h4>
               <span className="text-xs text-gray-600">johndoe@gmail.com</span>
-            </div>
-            <MoreVertical size={20} />
-          </div>
+            </div> */}
+          {/* <MoreVertical size={20} /> */}
+          {/* </div> */}
         </div>
       </nav>
     </aside>
@@ -192,25 +205,38 @@ export function SidebarItem({
               <div onClick={() => onselect(id)}>{icon}</div>
             </TooltipTrigger>
             <TooltipContent>
-              <p> {text}</p>
+              <div onClick={() => onselect(id)}>
+                <p> {text}</p>
+              </div>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
       <span
         className={`  transition-all ${
-          expanded.expanded ? "w-52 ml-3 text-md" : " text-sm w-10"
+          expanded.expanded ? "w-48 ml-3 text-md" : " text-sm w-10"
         }`}
       >
-        <Collapsible className="shadow-none  relative " open={active}>
+        <Collapsible
+          className="shadow-none  relative 
+        transition-all duration-300 ease-in-out 
+        "
+          open={active}
+        >
           <CollapsibleTrigger className="absolute  z-[999] -top-8 right-10">
             {expanded.expanded && (
-              <span className="text-gray-600 font-bold  dark:text-slate-300   no-underline">
-                {text}
-              </span>
+              <div className="font-extralight" onClick={() => onselect(id)}>
+                <span className="text-gray-500 font-bold  dark:text-slate-300 text-sm  no-underline">
+                  {text}
+                </span>
+              </div>
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent>
+          <CollapsibleContent
+          //     className="shadow-none
+          // transition-all duration-300 ease-in-out
+          //"
+          >
             {children}
             {/* <ul className="flex flex-col gap-3">
               {subMenu?.map(

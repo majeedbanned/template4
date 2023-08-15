@@ -62,6 +62,7 @@
     "react-multi-date-picker": "^4.1.2",
     "react-select": "^5.7.4",
     "react-to-print": "^2.14.13",
+    "recharts": "^2.7.3",
     "sonner": "^0.6.2",
     "swr": "^2.2.0",
     "tailwind-merge": "^1.13.2",

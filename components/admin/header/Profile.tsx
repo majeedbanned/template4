@@ -19,9 +19,15 @@ import useLoginModal, {
   LoginModal,
 } from "@/app/[lang]/components/modals/LoginModal";
 import { Toaster, toast } from "sonner";
+import { Session } from "next-auth/core/types";
+import {
+  ArrowRightIcon,
+  ArrowRightOnRectangleIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
 type Props = {};
 
-export default function Profile({}: Props) {
+export default function Profile({ cu }: { cu?: Session | null }) {
   const { data: session, status } = useSession();
   // const { status } = useSession({
   //   required: true,
@@ -60,14 +66,20 @@ export default function Profile({}: Props) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="rounded-[20px]">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel className="flex justify-end">
+            {cu?.user.name + " " + cu?.user.lname}
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem onClick={promiseToast}>
-            Tost Promise
+          <DropdownMenuItem className="flex justify-end">
+            پروفایل کاربر
+            <UserCircleIcon className="w-4 h-4"></UserCircleIcon>
           </DropdownMenuItem>
+          {/* <DropdownMenuItem onClick={promiseToast}>
+            Tost Promise
+          </DropdownMenuItem> */}
 
           <DropdownMenuItem
+            className="flex justify-end"
             onClick={() => {
               toast.message("Signing Out", {
                 description: "Please wait...",
@@ -75,12 +87,13 @@ export default function Profile({}: Props) {
               signOut();
             }}
           >
-            SignOut
+            خروج
+            <ArrowRightOnRectangleIcon className="w-4 h-4"></ArrowRightOnRectangleIcon>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => loginModal.onOpen()}>
+          {/* <DropdownMenuItem onClick={() => loginModal.onOpen()}>
             Login
-          </DropdownMenuItem>
-          <DropdownMenuItem
+          </DropdownMenuItem> */}
+          {/* <DropdownMenuItem
             onClick={() =>
               toast.message("Event has been created", {
                 description: "Monday, January 3rd at 6:00pm",
@@ -88,7 +101,7 @@ export default function Profile({}: Props) {
             }
           >
             Toast
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

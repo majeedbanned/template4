@@ -14,7 +14,9 @@ export default async function students({}: Props) {
     return item.systemID === 1 && item.view === true;
   });
 
-  if (!access) redirect("/admin/dashboard");
+  const isadmin = currentUser?.user?.role === "admin";
+
+  if (!isadmin) if (!access) redirect("/admin/main");
 
   return (
     <PageWrapper>

@@ -127,6 +127,7 @@ export const AddEditStoreModal = ({
   rahro,
   nov,
   tabagh,
+  profile,
   data,
 }: {
   mutation: () => void;
@@ -134,6 +135,8 @@ export const AddEditStoreModal = ({
   rahro?: FilterOptions[];
   nov?: FilterOptions[];
   tabagh?: FilterOptions[];
+  profile?: FilterOptions[];
+
   data?: z.infer<typeof StoreSchema>;
 }) => {
   const router = useRouter();
@@ -385,6 +388,44 @@ export const AddEditStoreModal = ({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="chargeProfile"
+          render={({ field }) => (
+            <FormItem>
+              <div className=" flex flex-row justify-between">
+                <FormLabel> تعرفه پرداخت :</FormLabel>
+                <FormMessage />
+              </div>
+
+              <Select
+                // @ts-ignore: Unreachable code error
+
+                onValueChange={field.onChange}
+                defaultValue={field.value?.toString()}
+              >
+                <FormControl className="bg-white text-center">
+                  <SelectTrigger className="text-center">
+                    <SelectValue
+                      style={{ textAlign: "center" }}
+                      className="text-center "
+                      placeholder="لطفا انتخاب کنید"
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-white text-center">
+                  {profile?.map((item: FilterOptions) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="bazar"

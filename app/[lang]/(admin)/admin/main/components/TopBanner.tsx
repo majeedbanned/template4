@@ -1,14 +1,69 @@
 "use client";
-import { HomeIcon } from "lucide-react";
+import { CalculatorIcon, HomeIcon } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
-import { AcademicCapIcon } from "@heroicons/react/24/outline";
+import {
+  AcademicCapIcon,
+  BanknotesIcon,
+  BuildingStorefrontIcon,
+  UserIcon,
+  UserMinusIcon,
+  WrenchScrewdriverIcon,
+} from "@heroicons/react/24/outline";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+} from "recharts";
+import Link from "next/link";
 type Props = {};
 
+const data = [
+  {
+    revenue: 10400,
+    subscription: 240,
+  },
+  {
+    revenue: 14405,
+    subscription: 300,
+  },
+  {
+    revenue: 9400,
+    subscription: 200,
+  },
+  {
+    revenue: 8200,
+    subscription: 278,
+  },
+  {
+    revenue: 7000,
+    subscription: 189,
+  },
+  {
+    revenue: 9600,
+    subscription: 239,
+  },
+  {
+    revenue: 11244,
+    subscription: 278,
+  },
+  {
+    revenue: 26475,
+    subscription: 189,
+  },
+];
 export default function TopBanner({}: Props) {
+  const daily = new Intl.NumberFormat("fa-IR", {
+    style: "currency",
+    currency: "IRR",
+  }).format(124340000);
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-row gap-8 ">
+    <div className="flex flex-col gap-8 mt-8">
+      {/* <div className="flex flex-row gap-8 ">
         <motion.div
           key={1}
           initial={{ opacity: 0, x: -100 }}
@@ -71,9 +126,183 @@ export default function TopBanner({}: Props) {
           <div className="w-[120px] h-[120px] absolute -left-14 -top-14  rounded-full bg-white/40"></div>
           <HomeIcon className="text-white w-12 h-12  absolute left-0 bg-transparent"></HomeIcon>
         </motion.div>
+      </div> */}
+
+      <div className="grid h-48 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {/* <Card className="h-40 bg-green-50 border-0">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-base font-normal">
+              پرداخت های روزانه
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{daily.toPersianDigits()}</div>
+            <p className="text-xs text-muted-foreground"></p>
+            <div className="h-[80px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={data}
+                  margin={{
+                    top: 5,
+                    right: 10,
+                    left: 10,
+                    bottom: 0,
+                  }}
+                >
+                  <Line
+                    type="monotone"
+                    strokeWidth={2}
+                    dataKey="revenue"
+                    activeDot={{
+                      r: 6,
+                      style: { fill: "var(--theme-primary)", opacity: 0.25 },
+                    }}
+                    style={
+                      {
+                        stroke: "orange",
+                        // "--theme-primary": `hsl(${
+                        //   theme?.cssVars[mode === "dark" ? "dark" : "light"]
+                        //     .primary
+                        // })`,
+                      } as React.CSSProperties
+                    }
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card> */}
+        {/* <Card className="h-40 bg-gradient-to-r from-[#8968ff] to-[#af98ff] border-0">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$45,231.89</div>
+            <p className="text-xs text-muted-foreground">
+              +20.1% from last month
+            </p>
+          </CardContent>
+        </Card> */}
+        {/* <Card className="h-40 bg-slate-50 border-0">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex flex-col gap-2">
+              <p>واحد های فعال : ۱۶۹۹</p>
+              <p>واحد های غیر فعال : ۸۷۱</p>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">
+            تصویه نشده این ماه : 
+            ۸۲۳
+            </div>
+            <p className="text-xs text-muted-foreground">
+              واحد های بدهکار : ۲۳۴
+            </p>
+          </CardContent>
+        </Card> */}
+        <motion.div
+          key={1}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="h-40 bg-slate-50 border-0 cookieCard"
+        >
+          <p className="cookieHeading text-lg">پرداخت های روزانه</p>
+          <p className="cookieDescription text-xl">{daily.toPersianDigits()}</p>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 10,
+                left: 10,
+                bottom: 0,
+              }}
+            >
+              <Line
+                type="monotone"
+                strokeWidth={2}
+                dataKey="revenue"
+                activeDot={{
+                  r: 6,
+                  style: { fill: "var(--theme-primary)", opacity: 0.25 },
+                }}
+                style={
+                  {
+                    stroke: "orange",
+                    // "--theme-primary": `hsl(${
+                    //   theme?.cssVars[mode === "dark" ? "dark" : "light"]
+                    //     .primary
+                    // })`,
+                  } as React.CSSProperties
+                }
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          {/* <button className="acceptButton">Understood</button> */}
+        </motion.div>
+
+        <motion.div
+          key={1}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="cookieCard1 h-40 bg-gradient-to-r from-[#ff7f68] to-[#efa7a2] border-0 cookieCard"
+        >
+          <p className="cookieHeading text-lg">واحد های فعال : ۱۶۹۹</p>
+          {/* <p>واحد های غیر فعال : ۸۷۱</p> */}
+
+          <p className="cookieDescription mb-0">واحد های بدهکار : ۲۳۴</p>
+          <p className="cookieDescription  ">واحد های غیر فعال : ۳۴۱</p>
+          {/* <button className="acceptButton">Understood</button> */}
+        </motion.div>
+
+        <motion.div
+          key={1}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="cookieCard2 h-40 bg-gradient-to-r from-[#68bbff] to-[#a2cbef] border-0 cookieCard"
+        >
+          <p className="cookieHeading text-lg"> تصویه نشده این ماه </p>
+
+          <p className="cookieDescription text-3xl">۸۳۲</p>
+          <p className="cookieDescription  ">واحد های غیر فعال : ۳۴۱</p>
+
+          {/* <button className="acceptButton">Understood</button> */}
+        </motion.div>
+        <motion.div
+          key={1}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="cookieCard3 h-40 bg-gradient-to-r from-[#f268ff] to-[#eaa2ef] border-0 cookieCard"
+        >
+          <p className="cookieHeading">گزارشات</p>
+          <p className="cookieDescription">گزارشات پرداخت آنلاین</p>
+          <button
+            className="acceptButton self-end hover:shadow-xl bg-gradient-to-r from-[#f268ff] to-[#eaa2ef] 
+          border-lg shadow rounded-lg
+          "
+          >
+            مشاهده
+          </button>
+        </motion.div>
       </div>
 
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 flex-wrap">
         {/* <div className="w-[170px] h-[200px] rounded-3xl shadow-slate-200 shadow-lg flex justify-center flex-col gap-4 items-center">
           <div
             className=" w-[90px] h-[90px] rounded-l-3xl bg-[#fff8ec]
@@ -89,7 +318,7 @@ export default function TopBanner({}: Props) {
           <span className="text-[#ffa600]">اطلاعات واحد</span>
         </div> */}
 
-        <div className="w-[170px] h-[200px] rounded-3xl shadow-slate-200 shadow-lg flex justify-center flex-col gap-4 items-center">
+        {/* <div className="w-[170px] h-[200px] rounded-3xl shadow-slate-200 shadow-lg flex justify-center flex-col gap-4 items-center">
           <div
             className=" w-[90px] h-[90px] rounded-l-3xl bg-[#ecefff]
                   rounded-tl-[105px] 
@@ -103,50 +332,23 @@ export default function TopBanner({}: Props) {
           </div>
 
           <span className="text-[#6541f6]">اطلاعات واحد</span>
-        </div>
+        </div> */}
 
-        <a className="card human-resources" href="#">
+        <Link className="card human-resources" href={"/admin/stores"}>
           <div className="overlay"></div>
           <div className="circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="66"
-              height="77"
-              viewBox="1855 26 66 77"
-            >
-              <g
-                fill="none"
-                fillRule="evenodd"
-                stroke="none"
-                strokeWidth="1"
-                transform="translate(1855 26)"
-              >
-                <path
-                  fill="#AFCEFF"
-                  d="M4.289 42.746c0-3.415 1.127-8.984 2.117-12.255 4.186 1.619 7.896 4.63 12.29 4.63 12.298 0 23.88-6.405 31.303-17.22 6.804 5.987 10.82 15.145 10.82 24.845 0 18.071-13.209 33.923-28.265 33.923-15.057 0-28.265-15.852-28.265-33.923"
-                ></path>
-                <path
-                  fill="#3B6CB7"
-                  d="M64.337 31.183l-1.495 15.42-2.199.18-.809-12.104-12.177-9.345C44.291 34.068 34.346 40.29 24.468 40.29c-6.712 0-14.422-2.873-18.663-7.49v13.803H4.289L1.302 27.88c0-6.9 2.221-12.337 5.97-16.522C13.132 4.796 21.812.049 30.567.343c6.893.226 12.1 2.387 20.263 0 .633 1.101 1.032 2.662.757 4.882-.124 1.658-.376 2.298-.757 3.226 7.856 5.747 13.507 12.256 13.507 22.732"
-                ></path>
-                <path
-                  fill="#568ADC"
-                  d="M58.94 54.558c3.134.269 6.42-1.957 6.695-5.02a5.494 5.494 0 00-1.317-4.08 5.714 5.714 0 00-3.865-1.976L58.94 54.558z"
-                ></path>
-                <path
-                  fill="#568ADC"
-                  d="M6.324 54.675c-3.142.174-5.84-2.18-6.017-5.249a5.501 5.501 0 011.445-4.037 5.716 5.716 0 013.927-1.859l.645 11.145z"
-                ></path>
-              </g>
-            </svg>
+            <BanknotesIcon
+              fontSize={20}
+              className={`
+                      w-12 h-12 dark:text-white text-blue-500  hover:text-blue-400`}
+            ></BanknotesIcon>
           </div>
-          <p>Human Resources</p>
-        </a>
-
-        <a className="card credentialing" href="#">
+          <p className=" text-blue-400">مدیریت شارژ</p>
+        </Link>
+        <Link className="card credentialing" href={"/admin/owner/all"}>
           <div className="overlay"></div>
           <div className="circle">
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
               width="64"
@@ -205,28 +407,49 @@ export default function TopBanner({}: Props) {
                   ></path>
                 </g>
               </g>
-            </svg>
+            </svg> */}
+            <UserIcon
+              fontSize={20}
+              className={`
+                    w-12 h-12 dark:text-white text-green-500  hover:text-green-400`}
+            ></UserIcon>
           </div>
-          <p>Credentialing</p>
-        </a>
-
-        <div className="card wallet">
+          <p className="text-green-400">اطلاعات مالکین</p>
+        </Link>
+        <Link className="card human-resources" href={"/admin/tenant/all"}>
+          <div className="card wallet">
+            <div className="overlay"></div>
+            <div className="circle">
+              <BuildingStorefrontIcon
+                fontSize={20}
+                className={`
+                    w-12 h-12 dark:text-white text-purple-500  hover:text-purple-400`}
+              ></BuildingStorefrontIcon>
+            </div>
+            <p className="text-purple-500">اطلاعات مستاجرین</p>
+          </div>
+        </Link>
+        <div className="card fani">
           <div className="overlay"></div>
           <div className="circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon"
-              viewBox="0 0 1024 1024"
-              width="66"
-              height="77"
-            >
-              <g fill="#b38bf4">
-                <path d="M278.343 471.64h141.91v141.91h-141.91zm525.653 81.767c-34.647-35.794-91.922-36.725-127.687-2.079-17.333 16.779-27.093 39.3-27.479 63.413-.283 17.183 4.415 33.617 13.095 47.967l-29.31 28.373-25.716-26.568c-7.79-8.048-20.64-8.246-28.668-.475-8.048 7.79-8.256 20.629-.475 28.668l25.726 26.575-19.206 18.592-41.66-43.03c-7.781-8.048-20.62-8.237-28.669-.456-8.037 7.78-8.245 20.619-.455 28.668l41.65 43.018-12.172 11.782c-8.047 7.79-8.255 20.63-.475 28.668a20.235 20.235 0 0014.571 6.177 20.222 20.222 0 0014.096-5.702l26.741-25.886c.005-.005.011-.005.016-.01.005-.005.005-.01.01-.015l48.309-46.76.008-.007.006-.008 43.876-42.474c14.063 9.144 30.336 14.375 47.524 14.657.495.01 1 .01 1.505.01 23.56 0 45.792-8.997 62.76-25.42 17.333-16.778 27.092-39.298 27.478-63.412.398-24.116-8.62-46.943-25.4-64.266z"></path>
-                <path d="M927.079 664.235c0-73.157-31.346-138.975-81.092-185.274v-64.864l47.763 40.222a20.2 20.2 0 0013.046 4.761 20.259 20.259 0 0015.52-7.216c7.207-8.563 6.108-21.352-2.454-28.568L560.928 121.03c-22.836-19.233-55.869-19.154-78.567.179L339.162 242.92v-75.373c0-33.538-27.281-60.82-60.819-60.82s-60.819 27.282-60.819 60.82v178.762l-114.49 97.328c-8.533 7.246-9.573 20.046-2.316 28.569 4.01 4.722 9.71 7.146 15.452 7.146 4.642 0 9.305-1.584 13.116-4.83l47.693-40.544v387.874c0 33.538 27.281 60.82 60.818 60.82h308.031c37.584 22.082 81.185 34.974 127.838 34.974 51.893 0 100.158-15.732 140.376-42.6 5.33-2.906 10.286-6.38 14.503-10.682 59.814-46.394 98.534-118.743 98.534-200.129zM217.524 821.853V399.511l33.4-28.393c.21-.178.29-.438.491-.623 1.087-.998 1.86-2.222 2.708-3.436.681-.976 1.477-1.855 1.965-2.915.506-1.088.666-2.293.974-3.476.361-1.402.79-2.748.847-4.191.01-.28.161-.517.161-.8v-188.13c0-11.175 9.098-20.272 20.273-20.272 11.176 0 20.273 9.097 20.273 20.273V286.75c0 .99.426 1.836.563 2.787.197 1.412.338 2.785.837 4.144.509 1.383 1.303 2.544 2.086 3.767.503.793.72 1.693 1.346 2.429.18.21.438.29.623.492.998 1.085 2.218 1.855 3.43 2.702.982.684 1.867 1.485 2.935 1.977 1.065.495 2.244.648 3.4.954 1.43.375 2.807.81 4.28.866.272.01.5.155.775.155.96 0 1.78-.416 2.704-.545 1.449-.196 2.857-.346 4.25-.86 1.364-.503 2.507-1.29 3.715-2.06.802-.51 1.714-.73 2.457-1.365l176.607-150.098c7.563-6.444 18.58-6.454 26.183-.05l270.932 228.158c-.037.514-.298.952-.298 1.476v66.515c-38.454-23.545-83.476-37.37-131.774-37.37-139.733 0-253.412 113.679-253.412 253.412 0 69.277 27.995 132.1 73.201 177.891H237.797c-11.175 0-20.273-9.098-20.273-20.274zm243.277-157.618c0-117.37 95.494-212.866 212.866-212.866s212.867 95.494 212.867 212.866-95.495 212.867-212.867 212.867-212.866-95.496-212.866-212.867z"></path>
-              </g>
-            </svg>
+            <WrenchScrewdriverIcon
+              fontSize={20}
+              className={`
+                    w-12 h-12 dark:text-white text-red-400  hover:text-red-400`}
+            ></WrenchScrewdriverIcon>
           </div>
-          <p>Wallet</p>
+          <p className="text-red-400">فنی مهندسی</p>
+        </div>
+        <div className="card tarif">
+          <div className="overlay"></div>
+          <div className="circle">
+            <CalculatorIcon
+              fontSize={20}
+              className={`
+                    w-12 h-12 dark:text-white text-yellow-500  hover:text-yellow-400`}
+            ></CalculatorIcon>
+          </div>
+          <p className="text-yellow-400">تعرفه ها</p>
         </div>
       </div>
     </div>

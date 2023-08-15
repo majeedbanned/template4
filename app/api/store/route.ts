@@ -1,17 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Session, withUserAuth } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import { getServerSession } from "next-auth";
 import { log } from "@/lib/utils";
 
-import { PrismaClient } from "@prisma-second-db";
 import client from "@/lib/prismadb1";
-import { bigint, number } from "zod";
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
-import { redirect } from "next/dist/server/api-utils";
 
 
 export async function POST(req: NextRequest) {
@@ -51,7 +46,7 @@ export async function POST(req: NextRequest) {
   const [pelakExist] = await Promise.all([
     client.store.findUnique({
       where: {
-        pelak: pelakNU + "-" + pelakCH,
+        pelak: pelakNU + "-" + pelakCH.toUpperCase(),
       },
       select: {
         pelak: true,
@@ -70,11 +65,13 @@ export async function POST(req: NextRequest) {
 
   const newres = {
     ...res,
-    pelak:res.pelakNU + "-" + res.pelakCH,
+    pelak:res.pelakNU + "-" + res.pelakCH.toUpperCase(),
     nov: parseInt(res.nov),
     tabagh: parseInt(res.tabagh),
     rahro: parseInt(res.rahro),
     bazar: parseInt(res.bazar),
+    chargeProfile: parseInt(res.chargeProfile),
+
   };
   // @ts-ignore: Unreachable code error
   delete newres.pelakNU;
@@ -124,6 +121,8 @@ export async function PUT(req: NextRequest) {
     tabagh: parseInt(res.tabagh),
     rahro: parseInt(res.rahro),
     bazar: parseInt(res.bazar),
+    chargeProfile: parseInt(res.chargeProfile),
+
   };
   // @ts-ignore: Unreachable code error
   delete newres.pelakNU;
@@ -158,6 +157,10 @@ export async function GET(request: NextRequest) {
   const nov =
     url.searchParams.get("nov")?.toString().split(",").map(Number) || undefined;
 
+    const profile =
+    url.searchParams.get("profile")?.toString().split(",").map(Number) || undefined;
+
+
   if (!session) {
     return NextResponse.json(
       {
@@ -186,6 +189,9 @@ export async function GET(request: NextRequest) {
         ...(bazar && {
           bazar: { in: bazar },
         }),
+        ...(profile && {
+          chargeProfile: { in: profile },
+        }),
       },
       select: {
         pelak: true,
@@ -198,6 +204,7 @@ export async function GET(request: NextRequest) {
         types_bazar: { select: { id: true, bazar: true } },
         types_nov: { select: { nov: true } },
         types_tabagh: { select: { tabagh: true } },
+        chargeDef:{select:{name:true}}
       },
       orderBy: {
         pelak: "desc",

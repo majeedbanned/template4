@@ -106,6 +106,24 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
 
   {
+    accessorKey: "chargeDef.name",
+    id: "تعرفه پرداخت",
+    cell: ({ row }) => {
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {row.getValue("تعرفه پرداخت")}
+        </Badge>
+      );
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تعرفه پرداخت" />
+    ),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
     accessorKey: "types_bazar.bazar",
     id: "بلوک",
     cell: ({ row }) => {

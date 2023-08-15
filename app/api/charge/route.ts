@@ -127,7 +127,7 @@ export async function PUT(req: NextRequest) {
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const pelak = url.searchParams.get("pelak") || undefined;
-
+console.log(pelak)
   
   try {
     const response = await client.new_account.findMany({

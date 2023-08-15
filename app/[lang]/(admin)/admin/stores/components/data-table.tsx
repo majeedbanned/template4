@@ -37,12 +37,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  BanknotesIcon,
+  BuildingStorefrontIcon,
   Cog6ToothIcon,
   PrinterIcon,
   TrashIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Edit3 } from "lucide-react";
+import Link from "next/link";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -61,6 +65,10 @@ interface DataTableProps<TData, TValue> {
   allowEdit?: boolean;
   allowDelete?: boolean;
   hiddenCol: VisibilityState;
+  showPrint?: boolean;
+  onChargeClick?: (id: any) => void;
+  onOwnerClick?: (id: any) => void;
+  onTenantClick?: (id: any) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -82,10 +90,13 @@ export function DataTable<TData, TValue>({
   onActionClick,
   onDeleteClick,
   onPrintClick,
-
+  showPrint,
   allowEdit,
   allowDelete,
   hiddenCol,
+  onTenantClick,
+  onChargeClick,
+  onOwnerClick,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
 
@@ -147,7 +158,7 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                <th className="text-primaryText">منو</th>
+                <th className="text-primaryText text-right pr-6">منو</th>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead className="p-0" key={header.id}>
@@ -180,6 +191,34 @@ export function DataTable<TData, TValue>({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="bordercolor" align="end">
+                        {onChargeClick && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onChargeClick(row.original)}
+                          >
+                            اطلاعات شارژ
+                            <BanknotesIcon className="w-4 h-4"></BanknotesIcon>
+                          </DropdownMenuItem>
+                        )}
+                        {onOwnerClick && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onOwnerClick(row.original)}
+                          >
+                            مشخصات مالک
+                            <UserIcon className="w-4 h-4"></UserIcon>
+                          </DropdownMenuItem>
+                        )}
+                        {onTenantClick && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onTenantClick(row.original)}
+                          >
+                            مشخصات مستاجر
+                            <BuildingStorefrontIcon className="w-4 h-4"></BuildingStorefrontIcon>
+                          </DropdownMenuItem>
+                        )}
+
                         {/* <DropdownMenuLabel>ویرایش</DropdownMenuLabel> */}
                         {allowEdit && (
                           <DropdownMenuItem
@@ -202,14 +241,16 @@ export function DataTable<TData, TValue>({
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button
-                      onClick={() => onPrintClick(row.original)}
-                      variant="ghost"
-                      className="h-8 w-8 p-0"
-                    >
-                      {/* <span className="sr-only">Open menu</span> */}
-                      <PrinterIcon className="h-5 w-5" />
-                    </Button>
+                    {showPrint && (
+                      <Button
+                        onClick={() => onPrintClick(row.original)}
+                        variant="ghost"
+                        className="h-8 w-8 p-0"
+                      >
+                        {/* <span className="sr-only">Open menu</span> */}
+                        <PrinterIcon className="h-5 w-5" />
+                      </Button>
+                    )}
                   </td>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="m-0 p-2 " key={cell.id}>

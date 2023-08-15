@@ -4,9 +4,14 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 import useSWR from "swr";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 import { FacetedFilter } from "./faceted-filter";
 import useAddEditStoreModal, {
@@ -43,6 +48,7 @@ export default function Datalist({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
+
   const AddUserModal = useAddEditStoreModal();
   const _DeleteStoreModal = useDeleteStoreModal();
   const { data: session } = useSession();
@@ -50,22 +56,20 @@ export default function Datalist({
   const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
   const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
   const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
+  const { filters: _profile } = useFilter({ filter: "profile" }) || undefined;
 
   // const canAdd = session?.user?.Permission?.find((item) => {
   //   return item.systemID === 1 && item.add === true;
   // });
 
-  const canEdit = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.edit === true;
+  let per = permission?.user?.Permission?.find((item) => {
+    return item.systemID === 2 && item.edit === true;
   });
 
-  const canDelete = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.print === true;
-  });
-
-  const canAdd = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.add === true;
-  });
+  let canAction = { ...per };
+  if (permission?.user.role === "admin") {
+    canAction = { ...per, add: true, edit: true, print: true, view: true };
+  }
 
   const AddRecord = () => {
     setEditstore({
@@ -75,6 +79,7 @@ export default function Datalist({
       bazar: "",
       tabagh: "",
       rahro: "",
+      chargeProfile: "",
       name: "",
       active: false,
       metraj: 0,
@@ -105,6 +110,16 @@ export default function Datalist({
     }
   );
 
+  // const createQueryString = useCallback(
+  //   (name: string, value: string) => {
+  //     const params = new URLSearchParams(searchParams);
+  //     params.set(name, value);
+
+  //     return params.toString();
+  //   },
+  //   [searchParams]
+  // );
+
   const setQueryString = (type: string, e: string[]) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     if (e.length === 0) {
@@ -116,7 +131,34 @@ export default function Datalist({
     const query = search ? `?${search}` : "";
     router.push(`${pathname}${query}`);
   };
+  const handleChargeClick = (rowData: any) => {
+    // const current = new URLSearchParams();
 
+    // current.set("pelak", String(rowData.pelak));
+
+    // const search = current.toString();
+    // const query = search ? `?${search}` : "";
+    // //alert(query);
+    // router.push({
+    //   pathname: "/admin/charge",
+    //   query: {
+    //     type: "interim",
+    //   },
+    // });
+    // setQueryString("pelak", ["2324-t"]);
+    // router.push(`/admin/nov`);
+    //console.log(createQueryString("sort", "asc"));
+    router.push(`/admin/charge/${rowData.pelak}`);
+    // redirect("/charge/" + rowData.pelak);
+  };
+  const handleOwnerClick = (rowData: any) => {
+    router.push(`/admin/owner/${rowData.pelak}`);
+    //redirect("/owner/" + rowData.pelak);
+  };
+  const handleTenantClick = (rowData: any) => {
+    router.push(`/admin/tenant/${rowData.pelak}`);
+    //redirect("/tenant/" + rowData.pelak);
+  };
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -148,25 +190,25 @@ export default function Datalist({
     // }, 100);
   };
 
-  const handleActionClick = (rowData: string) => {
+  const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/store/" + (rowData !== "" ? rowData : "1")).then(
-          async (res) => {
-            if (res.status === 200) {
-              const val = await res.json();
-              setEditstore(val);
-              setTimeout(() => {
-                AddUserModal.onOpen(rowData);
-                resolve("");
-              }, 100);
-            } else {
-              const error = await res.text();
-              toast.error(error);
-              rejects;
-            }
+        fetch(
+          "/api/store/" + (rowData.pelak !== "" ? rowData.pelak : "1")
+        ).then(async (res) => {
+          if (res.status === 200) {
+            const val = await res.json();
+            setEditstore(val);
+            setTimeout(() => {
+              AddUserModal.onOpen(rowData.pelak);
+              resolve("");
+            }, 100);
+          } else {
+            const error = await res.text();
+            toast.error(error);
+            rejects;
           }
-        );
+        });
       });
     toast.promise(promise, {
       loading: "دریافت اطلاعات ...",
@@ -192,72 +234,94 @@ export default function Datalist({
         bazar={_bazar}
         tabagh={_tabagh}
         rahro={_rahro}
+        profile={_profile}
       ></AddEditStoreModal>
-      <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onChange={(value: string | number) => {
-            if (true) {
-              const current = new URLSearchParams(
-                Array.from(searchParams.entries())
-              );
-              if (!value) {
-                current.delete("search");
-              } else {
-                current.set("search", String(value));
+      <div className="flex flex-col p-2 py-4 text-slate-400 text-sm">
+        <div>
+          <div> امکانات / مدیریت شارژ</div>
+        </div>
+        <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value: string | number) => {
+              if (true) {
+                const current = new URLSearchParams(
+                  Array.from(searchParams.entries())
+                );
+                if (!value) {
+                  current.delete("search");
+                } else {
+                  current.set("search", String(value));
+                }
+                const search = current.toString();
+                const query = search ? `?${search}` : "";
+                router.push(`${pathname}${query}`);
               }
-              const search = current.toString();
-              const query = search ? `?${search}` : "";
-              router.push(`${pathname}${query}`);
-            }
-          }}
-          className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
-          placeholder="جستجو در پلاک و نام واحد"
-        />
-        <FacetedFilter
-          selected={searchParams.get("nov")?.toString().split(",").map(Number)}
-          filterOption="nov"
-          title="نوع"
-          options={_nov}
-          onChange={(e) => setQueryString("nov", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("tabagh")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="tabagh"
-          title="تراز"
-          options={_tabagh}
-          onChange={(e) => setQueryString("tabagh", e)}
-        ></FacetedFilter>
-        <FacetedFilter
-          selected={searchParams
-            .get("bazar")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          filterOption="bazar"
-          title="بلوک"
-          options={_bazar}
-          onChange={(e) => setQueryString("bazar", e)}
-        ></FacetedFilter>
-        <Suspense fallback="Loading..."></Suspense>
-        <FacetedFilter
-          filterOption="rahro"
-          title="راهرو"
-          options={_rahro}
-          selected={searchParams
-            .get("rahro")
-            ?.toString()
-            .split(",")
-            .map(Number)}
-          onChange={(e) => setQueryString("rahro", e)}
-        ></FacetedFilter>
+            }}
+            className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
+            placeholder="جستجو در پلاک و نام واحد"
+          />
+          <FacetedFilter
+            selected={searchParams
+              .get("nov")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            filterOption="nov"
+            title="نوع"
+            options={_nov}
+            onChange={(e) => setQueryString("nov", e)}
+          ></FacetedFilter>
+          <FacetedFilter
+            selected={searchParams
+              .get("tabagh")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            filterOption="tabagh"
+            title="تراز"
+            options={_tabagh}
+            onChange={(e) => setQueryString("tabagh", e)}
+          ></FacetedFilter>
+          <FacetedFilter
+            selected={searchParams
+              .get("bazar")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            filterOption="bazar"
+            title="بلوک"
+            options={_bazar}
+            onChange={(e) => setQueryString("bazar", e)}
+          ></FacetedFilter>
+          <Suspense fallback="Loading..."></Suspense>
+          <FacetedFilter
+            filterOption="rahro"
+            title="راهرو"
+            options={_rahro}
+            selected={searchParams
+              .get("rahro")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("rahro", e)}
+          ></FacetedFilter>
+
+          <FacetedFilter
+            filterOption="chargeProfile"
+            title="تعرفه"
+            options={_profile}
+            selected={searchParams
+              .get("profile")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("profile", e)}
+          ></FacetedFilter>
+        </div>
       </div>
 
-      {canAdd ? (
+      {canAction.add ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
           onClick={AddRecord}
@@ -272,6 +336,7 @@ export default function Datalist({
       {stores ? (
         stores.length > 0 ? (
           <DataTable
+            showPrint={false}
             hiddenCol={{}}
             columns={columns}
             data={stores}
@@ -279,8 +344,11 @@ export default function Datalist({
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
-            allowEdit={canEdit?.edit}
-            allowDelete={canDelete?.print}
+            allowEdit={canAction?.edit}
+            allowDelete={canAction?.print}
+            onChargeClick={handleChargeClick}
+            onTenantClick={handleTenantClick}
+            onOwnerClick={handleOwnerClick}
           ></DataTable>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">

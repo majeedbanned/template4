@@ -12,14 +12,16 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { BellAlertIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "lucide-react";
-
+import logo from "@/public/images/logo.png";
+import Image from "next/image";
 type Props = {};
 
 export default function Projects({}: Props) {
   return (
     <div className="flex flex-row gap-2">
-      <div className="hidden gap-2 md:inline-flex">
-        <Select>
+      <Image src={logo} width={200} height={200} alt="logo"></Image>
+      {/* <div className="hidden gap-2 md:inline-flex">
+ <Select>
           <SelectTrigger className=" font-semibold w-[130px] rounded-[25px]">
             <SelectValue className="font-semibold" placeholder="Your work" />
           </SelectTrigger>
@@ -56,11 +58,11 @@ export default function Projects({}: Props) {
       <Button
         className="relative border-0 p-2 shadow-lg shadow-[#6d93ec]/50 px-4 bg-[#6d93ec] rounded-full  h-9 "
         variant="secondary"
-      >
+      > 
         <PlusIcon className=" w-4 h-4 text-white font-bold" fontSize={32} />
         <Separator orientation="vertical" className="mx-2 text-white" />
         <p className="font-semibold  text-white">Create</p>
-      </Button>
+      </Button>*/}
     </div>
   );
 }

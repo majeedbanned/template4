@@ -103,29 +103,29 @@ export const AddEditChargeModal = ({
   }, [__discount, __debt, __penalty, __paidExtra]);
 
   // Format numeric value with commas
-  const formatNumber = (value: string) => {
-    if (!value) return "";
-    value = value.replace(/\D/g, "");
-    const characterToReplace = ",";
-    const replacementCharacter = "";
+  // const formatNumber = (value: string) => {
+  //   if (!value) return "";
+  //   value = value.replace(/\D/g, "");
+  //   const characterToReplace = ",";
+  //   const replacementCharacter = "";
 
-    const nval = value.replace(
-      new RegExp(characterToReplace, "g"),
-      replacementCharacter
-    );
+  //   const nval = value.replace(
+  //     new RegExp(characterToReplace, "g"),
+  //     replacementCharacter
+  //   );
 
-    const amount = BigInt(nval.toEnglishDigits());
+  //   const amount = BigInt(nval.toEnglishDigits());
 
-    // console.log("naval", nval.toEnglishDigits());
-    const formatted = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "IRR",
-    }).format(amount);
-    let ret = formatted.replace("IRR", "").trim();
-    const y = ret.toPersianDigits();
-    // console.log("yyy", ret);
-    return ret;
-  };
+  //   // console.log("naval", nval.toEnglishDigits());
+  //   const formatted = new Intl.NumberFormat("en-US", {
+  //     style: "currency",
+  //     currency: "IRR",
+  //   }).format(amount);
+  //   let ret = formatted.replace("IRR", "").trim();
+  //   const y = ret.toPersianDigits();
+  //   // console.log("yyy", ret);
+  //   return ret;
+  // };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
@@ -191,7 +191,7 @@ export const AddEditChargeModal = ({
 
   const bodyContent = (
     <Form {...form}>
-      <div>{JSON.stringify(form.formState.errors)}</div>
+      {/* <div>{JSON.stringify(form.formState.errors)}</div> */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Tabs defaultValue="account" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -607,6 +607,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Chargechema } from "@/lib/schemas";
+import { formatNumber } from "@/lib/utils";
 
 interface AddEditChargeModal {
   isOpen: boolean;

@@ -6,7 +6,12 @@ import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import useSWR from "swr";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import useDeleteChargeModal, {
   DeleteChargeModal,
 } from "@/app/[lang]/components/modals/DeleteChargeModal";
@@ -22,12 +27,15 @@ import useAddEditChargeModal, {
 } from "@/app/[lang]/components/modals/AddEditChargeModal";
 import ComponentToPrint from "@/app/[lang]/components/prints/fish";
 import { useReactToPrint } from "react-to-print";
+import { redirect } from "next/navigation";
 
 export default function Datalist({
   permission,
 }: {
   permission?: Session | null;
 }) {
+  const pelak = useParams();
+
   const [editCharge, seteditCharge] = useState<z.infer<typeof Chargechema>>();
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<any>();
@@ -38,26 +46,22 @@ export default function Datalist({
   const AddUserModal = useAddEditChargeModal();
   const _DeleteChargeModal = useDeleteChargeModal();
 
-  const canEdit = permission?.user?.Permission?.find((item) => {
+  let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 1 && item.edit === true;
   });
 
-  const canDelete = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.print === true;
-  });
+  let canAction = { ...per };
+  if (permission?.user.role === "admin") {
+    canAction = { ...per, add: true, edit: true, print: true, view: true };
+  }
 
-  const canAdd = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.add === true;
-  });
+  // const pelak = searchParams.get("pelak")?.toUpperCase();
 
-  const pelak = searchParams.get("pelak")?.toUpperCase();
-
-  if (!pelak) router.push("admin/main");
-
+  // if (!pelak) router.push("admin/main");
   const AddRecord = () => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/charge/" + pelak).then(async (res) => {
+        fetch("/api/charge/" + pelak?.pelak).then(async (res) => {
           if (res.status === 200) {
             const val = await res.json();
             seteditCharge(val);
@@ -87,7 +91,7 @@ export default function Datalist({
     isLoading,
     mutate,
   } = useSWR<StoreProps[]>(
-    `/api/charge${searchParams ? `?${searchParams.toString()}` : ""}`,
+    `/api/charge?pelak=${pelak ? `${pelak?.pelak.toString()}` : ""}`,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -100,6 +104,7 @@ export default function Datalist({
     content: () => componentRef.current,
     documentTitle: "AwesomeFileName",
   });
+
   const handlePrintClick = (rowData: any) => {
     setPrint(rowData);
     console.log(rowData);
@@ -171,11 +176,15 @@ export default function Datalist({
         mutation={mutate}
         data={editCharge}
       ></AddEditChargeModal>
-      <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
-
+      <div className="flex flex-col p-2 py-4 text-blue-400 text-sm">
+        <div>
+          <div> امکانات / لیست شارژ</div>
+        </div>
+        <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
+      </div>
       <ComponentToPrint data={print} ref={componentRef} />
 
-      {canAdd ? (
+      {canAction.add ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
           onClick={AddRecord}
@@ -203,12 +212,13 @@ export default function Datalist({
             }}
             columns={columns}
             data={charges}
+            showPrint={true}
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
             onPrintClick={handlePrintClick}
-            allowEdit={canEdit?.edit}
-            allowDelete={canDelete?.print}
+            allowEdit={canAction?.edit}
+            allowDelete={canAction?.print}
           ></DataTable>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">

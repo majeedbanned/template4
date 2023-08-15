@@ -5,7 +5,12 @@ import { Button } from "@/components/ui/button";
 import { fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import useAddEditTenantModal from "@/app/[lang]/components/modals/AddEditTenantModal";
 import useDeleteTenantModal from "@/app/[lang]/components/modals/DeleteTenantModal";
 import { z } from "zod";
@@ -37,18 +42,17 @@ export default function Datalist({
   const AddUserModal = useAddEditTenantModal();
   const _DeleteTenantModal = useDeleteTenantModal();
 
-  const canEdit = permission?.user?.Permission?.find((item) => {
+  let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 3 && item.edit === true;
   });
-  const canDelete = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 3 && item.print === true;
-  });
-  let canAdd = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 3 && item.add === true;
-  });
 
-  const pelak = searchParams.get("pelak")?.toUpperCase();
+  let canAction = { ...per };
+  if (permission?.user.role === "admin") {
+    canAction = { ...per, add: true, edit: true, print: true, view: true };
+  }
 
+  // const pelak = searchParams.get("pelak")?.toUpperCase();
+  const pelak = useParams();
   const AddRecord = () => {
     setEdittenant({
       taddress: "",
@@ -61,7 +65,7 @@ export default function Datalist({
       ttel: "",
       sex: "",
       cposti: "",
-      pelak: pelak ? pelak : "",
+      pelak: pelak ? pelak?.pelak.toString() : "",
       trow: 0,
     });
 
@@ -74,7 +78,9 @@ export default function Datalist({
     isLoading,
     mutate,
   } = useSWR<z.infer<typeof Tenantschema>[]>(
-    `/api/tenant${searchParams ? `?${searchParams.toString()}` : ""}`,
+    `/api/tenant?pelak=${pelak ? `${pelak?.pelak.toString()}` : ""}${
+      searchParams ? `&${searchParams}` : ``
+    } `,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -146,30 +152,34 @@ export default function Datalist({
         mutation={mutate}
         data={edittenant}
       ></AddEditTenantModal>
-      <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onChange={(value: string | number) => {
-            if (true) {
-              const current = new URLSearchParams(
-                Array.from(searchParams.entries())
-              );
-              if (!value) {
-                current.delete("search");
-              } else {
-                current.set("search", String(value));
+      <div className="flex flex-col p-2 py-4 text-slate-400 text-sm">
+        <div>
+          <div> امکانات / تعریف مستاجرین</div>
+        </div>
+        <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value: string | number) => {
+              if (true) {
+                const current = new URLSearchParams(
+                  Array.from(searchParams.entries())
+                );
+                if (!value) {
+                  current.delete("search");
+                } else {
+                  current.set("search", String(value));
+                }
+                const search = current.toString();
+                const query = search ? `?${search}` : "";
+                router.push(`${pathname}${query}`);
               }
-              const search = current.toString();
-              const query = search ? `?${search}` : "";
-              router.push(`${pathname}${query}`);
-            }
-          }}
-          className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
-          placeholder="جستجو در نام و فامیل و پلاک  "
-        />
+            }}
+            className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
+            placeholder="جستجو در نام و فامیل و پلاک  "
+          />
+        </div>
       </div>
-
-      {canAdd && pelak ? (
+      {canAction.add && pelak?.pelak != "all" ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
           onClick={AddRecord}
@@ -191,8 +201,8 @@ export default function Datalist({
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
-            allowEdit={canEdit?.edit}
-            allowDelete={canDelete?.print}
+            allowEdit={canAction?.edit}
+            allowDelete={canAction?.print}
           ></DataTable>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">

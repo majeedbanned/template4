@@ -10,11 +10,9 @@ type Props = {};
 export default async function students({}: Props) {
   const currentUser = await getServerSession(authOptions);
 
-  const access = currentUser?.user?.Permission?.find((item) => {
-    return item.systemID === 3 && item.view === true;
-  });
+  const access = currentUser?.user?.role;
 
-  if (!access) redirect("/admin/main");
+  if (access != "admin") redirect("/admin/main");
 
   return (
     <PageWrapper>

@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
             { tmobile: { contains: search } },
           ],
         }),
-        ...(pelak1 && {pelak: pelak1}),
+        ...(pelak1!='all' && {pelak: pelak1}),
 
       },
 
