@@ -85,26 +85,34 @@ const Login = () => {
     setError("");
     signIn("credentials", {
       ...values,
-      redirect: true,
-      callbackUrl: "/admin/main",
-    }).then((callback) => {
-      setIsLoading(false);
-      console.log(callback);
-      if (callback?.ok) {
-        //redirect("/admin/main");
-        //  toast.success('Logged in');
-        //  router.refresh();
-        //**** */  router.push("/admin/dashboard");
-        // router.replace("/profile");
-        // loginModal.onClose();
-      }
-
-      if (callback?.error) {
-        setError(callback?.error);
+      redirect: false,
+      //callbackUrl: "/admin/main",
+    })
+      .then((callback) => {
+        //  return;
         setIsLoading(false);
-        //  toast.error(callback.error);
-      }
-    });
+        console.log(callback);
+        if (callback?.ok) {
+          //redirect("/admin/main");
+          //  toast.success('Logged in');
+          //  router.refresh();
+          //**** */  router.push("/admin/dashboard");
+          router.push("/admin/main");
+          // loginModal.onClose();
+        }
+
+        if (callback?.error) {
+          console.log(callback);
+          //setError(callback?.error);
+          setError("نام کاربری یا کلمه عبور اشتباه است");
+
+          setIsLoading(false);
+          //  toast.error(callback.error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -199,7 +207,7 @@ const Login = () => {
           </motion.div>
         </div>
 
-        <div>{error}</div>
+        <div className="text-sm text-red-400">{error}</div>
       </form>
     </Form>
   );

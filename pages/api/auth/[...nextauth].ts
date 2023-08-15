@@ -29,7 +29,8 @@ export const authOptions: AuthOptions = {
       //@ts-ignore
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-          throw new Error("Invalid credentials1");
+         // throw new Error("Invalid credentials1");
+         return null;
         }
 
         const user = await client.users.findFirst({
@@ -47,7 +48,9 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user?.password) {
-          throw new Error("Invalid credentials2");
+//          throw new Error("Invalid credentials2");
+         return null;
+
         }
 
         // const isCorrectPassword = await bcrypt.compare(
@@ -58,7 +61,9 @@ export const authOptions: AuthOptions = {
         const isCorrectPassword = credentials.password === user.password;
 
         if (!isCorrectPassword) {
-          throw new Error("Invalid credentials3");
+//          throw new Error("Invalid credentials3");
+         return null;
+
         }
         const { password, ...userWithoutPass } = user;
         console.log(user);
