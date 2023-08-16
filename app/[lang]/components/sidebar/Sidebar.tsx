@@ -40,9 +40,9 @@ export default function Sidebar({
     MessageCircle: MessageCircle,
   };
   return (
-    <aside className="h-screen hidden sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
+    <aside className="h-screen  sm:inline-flex rounded-[15px] dark:bg-[#2b2e31] bg-[#eef2f5] sm:mt-2 sm:mx-4">
       <nav className="h-full flex flex-col  shadow-sm">
-        <div className="p-3  pb-1 flex justify-between items-center">
+        <div className="sm:p-3  pb-1 flex justify-between items-center">
           {/* <img
             src="https://img.logoipsum.com/243.svg"
             className={`overflow-hidden transition-all ${
@@ -76,27 +76,27 @@ export default function Sidebar({
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul className="flex-1 sm:px-3">{children}</ul>
         </SidebarContext.Provider>
 
         <div className="border-t flex p-3">
-          {/* <img
+          <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
             alt=""
             className="w-10 h-10 rounded-md"
-          /> */}
-          {/* <div
+          />
+          <div
             className={`
               flex justify-between items-center
               overflow-hidden transition-all ${expanded ? "w-44 ml-3" : "w-0"}
           `}
-          > */}
-          {/* <div className="leading-4">
+          >
+            {/* <div className="leading-4">
               <h4 className="font-semibold">John Doe</h4>
               <span className="text-xs text-gray-600">johndoe@gmail.com</span>
             </div> */}
-          {/* <MoreVertical size={20} /> */}
-          {/* </div> */}
+            {/* <MoreVertical size={20} /> */}
+          </div>
         </div>
       </nav>
     </aside>

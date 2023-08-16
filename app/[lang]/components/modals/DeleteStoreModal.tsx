@@ -39,7 +39,7 @@ export const DeleteStoreModal = ({
         }).then(async (res) => {
           setIsLoading(false);
           if (res.status === 200) {
-            toast.success(`removed from project!`);
+            toast.success(`اطلاعات با موفقیت حذف شد`);
             mutation();
             _DeleteStoreModal.onClose();
             resolve("");
@@ -107,13 +107,13 @@ export const DeleteStoreModal = ({
       return {
         method: "PUT",
         url: `/api/store`,
-        successMessage: "Successfully updated domain!",
+        successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
         url: `/api/store`,
-        successMessage: "Successfully added domain!",
+        successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
   }, [_DeleteStoreModal.editID]);

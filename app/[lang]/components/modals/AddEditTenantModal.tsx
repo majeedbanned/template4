@@ -73,13 +73,13 @@ export const AddEditTenantModal = ({
       return {
         method: "PUT",
         url: `/api/tenant`,
-        successMessage: "Successfully updated domain!",
+        successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
         url: `/api/tenant`,
-        successMessage: "Successfully added domain!",
+        successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
   }, [AddEditTenantModal.editID]);

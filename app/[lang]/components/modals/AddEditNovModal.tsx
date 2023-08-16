@@ -83,13 +83,13 @@ export const AddEditNovModal = ({
       return {
         method: "PUT",
         url: `/api/nov`,
-        successMessage: "Successfully updated domain!",
+        successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
         url: `/api/nov`,
-        successMessage: "Successfully added domain!",
+        successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
   }, [AddEditNovModal.editID]);

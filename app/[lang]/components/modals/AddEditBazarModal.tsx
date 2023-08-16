@@ -83,13 +83,13 @@ export const AddEditBazarModal = ({
       return {
         method: "PUT",
         url: `/api/bazar`,
-        successMessage: "Successfully updated domain!",
+        successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
         url: `/api/bazar`,
-        successMessage: "Successfully added domain!",
+        successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
   }, [AddEditBazarModal.editID]);

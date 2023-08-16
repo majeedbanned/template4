@@ -101,7 +101,7 @@ export default async function Root({
         )}
       >
         <div
-          className=" container  dark:bg-[#121415] overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
+          className=" container   dark:bg-[#121415] overflow-hidden relative md:rounded-[30px]  mx-auto  bg-white md:mt-14 mb-52  h-auto
                       shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         >
           <NextAuthProvider>

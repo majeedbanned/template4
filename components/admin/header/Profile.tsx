@@ -81,8 +81,8 @@ export default function Profile({ cu }: { cu?: Session | null }) {
           <DropdownMenuItem
             className="flex justify-end"
             onClick={() => {
-              toast.message("Signing Out", {
-                description: "Please wait...",
+              toast.message("خروج از سامانه", {
+                description: "لطفا منتظر باشید...",
               });
               signOut();
             }}

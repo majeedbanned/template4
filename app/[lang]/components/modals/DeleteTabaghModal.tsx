@@ -28,7 +28,7 @@ export const DeleteTabaghModal = ({
         }).then(async (res) => {
           setIsLoading(false);
           if (res.status === 200) {
-            toast.success(`removed from project!`);
+            toast.success(`اطلاعات با موفقیت حذف شد`);
             mutation();
             _DeleteTabaghModal.onClose();
             resolve("");

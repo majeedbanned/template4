@@ -173,13 +173,13 @@ export const AddEditChargeModal = ({
       return {
         method: "PUT",
         url: `/api/charge`,
-        successMessage: "Successfully updated domain!",
+        successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
         url: `/api/charge`,
-        successMessage: "Successfully added domain!",
+        successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
   }, [AddEditChargeModal.editID]);
