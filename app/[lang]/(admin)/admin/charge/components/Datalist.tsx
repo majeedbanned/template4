@@ -15,7 +15,7 @@ import {
 import useDeleteChargeModal, {
   DeleteChargeModal,
 } from "@/app/[lang]/components/modals/DeleteChargeModal";
-import { z } from "zod";
+import { any, z } from "zod";
 import { Chargechema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
@@ -45,6 +45,8 @@ export default function Datalist({
   const searchParams = useSearchParams()!;
   const AddUserModal = useAddEditChargeModal();
   const _DeleteChargeModal = useDeleteChargeModal();
+  const [printStore, setPrintStore] = useState();
+  const [printChargeDef, setPrintChargeDef] = useState();
 
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 1 && item.edit === true;
@@ -105,9 +107,32 @@ export default function Datalist({
     documentTitle: "AwesomeFileName",
   });
 
-  const handlePrintClick = (rowData: any) => {
+  const handlePrintClick = async (rowData: any) => {
     setPrint(rowData);
-    console.log(rowData);
+
+    const [_store]: any = await Promise.all([
+      fetch("/api/store/" + rowData?.pelak).then(async (res) => {
+        if (res.status === 200) {
+          const val = await res.json();
+          setPrintStore(val);
+          return val;
+        }
+      }),
+    ]);
+    //console.log("_storee", _store);
+
+    const [_chargedef] = await Promise.all([
+      fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
+        if (res.status === 200) {
+          const val = await res.json();
+          console.log("_defff", val);
+
+          setPrintChargeDef(val);
+        }
+      }),
+    ]);
+
+    //console.log(rowData);
     setTimeout(() => {
       handlePrint();
     }, 100);
@@ -182,7 +207,12 @@ export default function Datalist({
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
       </div>
-      <ComponentToPrint data={print} ref={componentRef} />
+      <ComponentToPrint
+        data={print}
+        chargeDef={printChargeDef}
+        store={printStore}
+        ref={componentRef}
+      />
 
       {canAction.add ? (
         <Button
