@@ -71,6 +71,7 @@ export async function POST(req: NextRequest) {
     rahro: parseInt(res.rahro),
     bazar: parseInt(res.bazar),
     chargeProfile: parseInt(res.chargeProfile),
+    ejareh: parseInt(res.ejareh.toString().replace(/,/g, "")),
 
   };
   // @ts-ignore: Unreachable code error
@@ -122,6 +123,8 @@ export async function PUT(req: NextRequest) {
     rahro: parseInt(res.rahro),
     bazar: parseInt(res.bazar),
     chargeProfile: parseInt(res.chargeProfile),
+    ejareh: parseInt(res.ejareh.toString().replace(/,/g, "")),
+
 
   };
   // @ts-ignore: Unreachable code error
@@ -197,6 +200,7 @@ export async function GET(request: NextRequest) {
         pelak: true,
         name: true,
         metraj: true,
+        ejareh:true,
         tel1: true,
         tel2: true,
         tovzeh: true,

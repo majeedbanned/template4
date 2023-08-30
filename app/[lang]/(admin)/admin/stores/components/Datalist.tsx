@@ -83,6 +83,7 @@ export default function Datalist({
       name: "",
       active: false,
       metraj: 0,
+      ejareh: 0,
       ChekGift: false,
       ChekRol: "",
       tovzeh: "",

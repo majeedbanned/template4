@@ -198,6 +198,7 @@ export default function Datalist({
         row={delLable1}
       ></DeleteChargeModal>
       <AddEditChargeModal
+        role={permission?.user.role}
         mutation={mutate}
         data={editCharge}
       ></AddEditChargeModal>

@@ -204,7 +204,16 @@ export const Chargechema = z.object({
   //     })
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
+
   paidBill: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
+
+    ezafPardakht: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
       invalid_type_error: "2مقدار عددی  وارد کنید",
@@ -336,6 +345,16 @@ export const StoreSchema = z.object({
     })
     .min(1, { message: "لطفا این فیلد را انتخاب کنید" })
     .max(2),
+
+    ejareh: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
+
+
   tel1: z.string().optional(),
   tel2: z.string().optional(),
   cposti: z.string().optional(),

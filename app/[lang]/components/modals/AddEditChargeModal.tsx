@@ -23,6 +23,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 
 export const AddEditChargeModal = ({
+  role,
   mutation,
   bazar,
   rahro,
@@ -30,6 +31,7 @@ export const AddEditChargeModal = ({
   tabagh,
   data,
 }: {
+  role?: string;
   mutation: () => void;
   bazar?: FilterOptions[];
   rahro?: FilterOptions[];
@@ -64,6 +66,7 @@ export const AddEditChargeModal = ({
     //       },
   });
   const __discount = form.watch("discount");
+  const __paidBiil = form.watch("paidBill");
   const __debt = form.watch("debt");
   const __monthbill = form.watch("monthbill");
   const __penalty = form.watch("penalty");
@@ -94,13 +97,21 @@ export const AddEditChargeModal = ({
     // console.log(__monthbill, __discount);
     let newval =
       Number(__monthbill) +
-      Number(__debt?.toString().replace(",", "")) +
-      Number(__penalty?.toString().replace(",", "")) -
-      Number(__discount?.toString().replace(",", "")) -
-      Number(__paidExtra?.toString().replace(",", ""));
+      Number(__debt?.toString().replace(/,/g, "")) +
+      Number(__penalty?.toString().replace(/,/g, "")) -
+      Number(__discount?.toString().replace(/,/g, "")) -
+      Number(__paidExtra?.toString().replace(/,/g, ""));
     if (newval < 0) newval = 0;
     form.setValue("TotalBill", newval);
-  }, [__discount, __debt, __penalty, __paidExtra]);
+    // console.log("hi", Number(__paidBiil?.toString().replace(/,/g, "");
+
+    // if (Number(__paidBiil?.toString().replace(/,/g, "")) > newval) {
+    //   form.setValue(
+    //     "paidExtraAsset",
+    //     Number(__paidBiil?.toString().replace(/,/g, "")) - newval
+    //   );
+    //}
+  }, [__discount, __debt, __penalty, __paidExtra, __paidBiil]);
 
   // Format numeric value with commas
   // const formatNumber = (value: string) => {
@@ -191,7 +202,7 @@ export const AddEditChargeModal = ({
 
   const bodyContent = (
     <Form {...form}>
-      {/* <div>{JSON.stringify(form.formState.errors)}</div> */}
+      {<div>{JSON.stringify(form.formState.errors)}</div>}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Tabs defaultValue="account" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -214,11 +225,11 @@ export const AddEditChargeModal = ({
                   </div>
                   <FormControl>
                     <Input
-                      readOnly
+                      readOnly={role === "admin" ? false : true}
                       className="font-bold text-lg text-white border-0 bg-green-600 text-center"
                       placeholder=""
                       {...field}
-                      disabled={true}
+                      disabled={role === "admin" ? false : true}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       onChange={field.onChange}
@@ -257,6 +268,32 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="ezafPardakht"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: اضافه پرداخت </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      className="font-bold text-lg text-green-600 text-center"
+                      placeholder=""
+                      {...field}
+                      disabled={isLoading}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      onChange={field.onChange}
+                      value={formatNumber(
+                        form.getValues("ezafPardakht")?.toString() || ""
+                      )}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -272,7 +309,8 @@ export const AddEditChargeModal = ({
                       className="font-bold text-lg text-green-600 text-center"
                       placeholder=""
                       {...field}
-                      disabled={true}
+                      readOnly={role === "admin" ? false : true}
+                      disabled={role === "admin" ? false : true}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       onChange={field.onChange}
@@ -299,7 +337,8 @@ export const AddEditChargeModal = ({
                         className="font-bold text-lg text-green-600 text-center"
                         placeholder=""
                         {...field}
-                        disabled={isLoading}
+                        disabled={role === "admin" ? false : true}
+                        readOnly={role === "admin" ? false : true}
                         inputMode="numeric"
                         pattern="[0-9]*"
                         onChange={field.onChange}
@@ -326,7 +365,8 @@ export const AddEditChargeModal = ({
                         className="font-bold text-lg text-green-600 text-center"
                         placeholder=""
                         {...field}
-                        disabled={isLoading}
+                        disabled={role === "admin" ? false : true}
+                        readOnly={role === "admin" ? false : true}
                         inputMode="numeric"
                         pattern="[0-9]*"
                         onChange={field.onChange}
@@ -382,7 +422,8 @@ export const AddEditChargeModal = ({
                         className="font-bold text-lg text-red-600 text-center"
                         placeholder=""
                         {...field}
-                        disabled={isLoading}
+                        disabled={role === "admin" ? false : true}
+                        readOnly={role === "admin" ? false : true}
                         inputMode="numeric"
                         pattern="[0-9]*"
                         onChange={field.onChange}
@@ -409,7 +450,8 @@ export const AddEditChargeModal = ({
                       className="font-bold text-lg text-green-600 text-center"
                       placeholder=""
                       {...field}
-                      disabled={isLoading}
+                      disabled={role === "admin" ? false : true}
+                      readOnly={role === "admin" ? false : true}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       onChange={field.onChange}
@@ -435,7 +477,8 @@ export const AddEditChargeModal = ({
                       className="font-bold text-lg text-slate-600 text-center"
                       placeholder=""
                       {...field}
-                      disabled={isLoading}
+                      disabled={role === "admin" ? false : true}
+                      readOnly={role === "admin" ? false : true}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       onChange={field.onChange}

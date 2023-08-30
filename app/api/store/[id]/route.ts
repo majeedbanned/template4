@@ -75,6 +75,8 @@ export async function GET(
       tabagh: store?.tabagh?.toString(),
       rahro: store?.rahro?.toString(),
       bazar: store?.bazar?.toString(),
+      ejareh: store?.ejareh?.toString(),
+
       chargeProfile:store?.chargeProfile?.toString(),
       pelakNU:store?.pelak.split('-')[0],
       pelakCH:store?.pelak.split('-')[1]

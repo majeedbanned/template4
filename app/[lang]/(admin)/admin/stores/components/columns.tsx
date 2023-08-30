@@ -106,6 +106,30 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
 
   {
+    accessorKey: "ejareh",
+    id: "اجاره ماهیانه",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("اجاره ماهیانه"));
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(amount);
+
+      return (
+        <Badge variant={"outline"} className="rounded-sm text-sm text-blue-400">
+          {formatted.replace("ریال", "")}
+        </Badge>
+      );
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="اجاره ماهیانه" />
+    ),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
     accessorKey: "chargeDef.name",
     id: "تعرفه پرداخت",
     cell: ({ row }) => {

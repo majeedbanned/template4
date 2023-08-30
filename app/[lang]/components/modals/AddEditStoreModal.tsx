@@ -388,7 +388,21 @@ export const AddEditStoreModal = ({
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="ejareh"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel>اجاره ماهیانه :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="chargeProfile"
@@ -422,6 +436,10 @@ export const AddEditStoreModal = ({
                   ))}
                 </SelectContent>
               </Select>
+              <FormDescription>
+                در صورتی که در تعرفه مبلغ شارژ تعریف شده باشد اجاره ماهیانه بر
+                اساس تعرفه محاسبه میگردد
+              </FormDescription>
             </FormItem>
           )}
         />

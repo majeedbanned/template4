@@ -49,15 +49,16 @@ export async function GET(
   }
 
   let firstRecord = {
-    updated_at:"-",
-     created_at:"1",
-    created_user:0,
-    updated_user:0,
-    id:0,
+    updated_at: "-",
+    created_at: "1",
+    created_user: 0,
+    updated_user: 0,
+    id: 0,
     pelak: "",
     penalty: 0,
     TotalBill: 0,
     paidBill: 0,
+    ezafPardakht:0,
     month: "",
     monthbill: 0,
     debt: 0,
@@ -72,9 +73,9 @@ export async function GET(
     discountDiscription: "",
     discription: "",
     paidExtraAsset: 0,
+   
   };
 
-  
   const pelak = params.id.toUpperCase();
   const currentDate = jalaliMoment().format("jYYYY/jMM/jDD");
   const currentMonth = jalaliMoment().format("jYYYY/jMM");
@@ -93,7 +94,9 @@ export async function GET(
 
   const metraj = Number(store?.metraj ?? 0);
   const charge = chargeProfile?.charge ?? 0;
-  const _chargeBill = metraj * Number(charge);
+  let _chargeBill = 0;
+  const ejareh = store?.ejareh ?? 0;
+  _chargeBill = charge === 0 ? Number(ejareh) : metraj * Number(charge);
 
   //its the first charge of client
   if (lastCharge.length === 0) {
@@ -112,7 +115,7 @@ export async function GET(
   );
   const nextMonthDate = initialDate.add(1, "jMonth").format("jYYYY-jMM");
 
-  console.log('inid',lastCharge[0].month?.toString())
+  console.log("inid", lastCharge[0].month?.toString());
   firstRecord.pelak = pelak;
   firstRecord.month = nextMonthDate;
   firstRecord.monthbill = _chargeBill;
@@ -121,11 +124,11 @@ export async function GET(
 
   let _debt;
   //اگر ماه پبش کامل پرداخت کرده
-  if (lastCharge[0].paidBill === lastCharge[0].TotalBill) {
+  if (Number(lastCharge[0].paidBill) === Number(lastCharge[0].TotalBill)) {
     firstRecord.debt = 0;
   }
   //اگر ماه پبش کمتر پرداخت کرده
-  else if (lastCharge[0].paidBill < (lastCharge[0].TotalBill ?? 0)) {
+  else if (Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill ?? 0)) {
     firstRecord.debt =
       Number(lastCharge[0].TotalBill) - Number(lastCharge[0].paidBill);
   }
@@ -136,22 +139,27 @@ export async function GET(
     Number(lastCharge[0].deptPeriod) + 1 >=
     Number(chargeProfile?.penaltyMonth)
   ) {
-    if (Number(lastCharge[0].paidBill) === 0)
-     { firstRecord.penalty =
-      Math.round( (Number(chargeProfile?.penaltyPersand) / 100) *
-        Number(lastCharge[0].TotalBill));
-        firstRecord.deptPeriod =Number(firstRecord.deptPeriod)+1
-      }
+    if (Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill)) {
+      firstRecord.penalty = Math.round(
+        (Number(chargeProfile?.penaltyPersand) / 100) *
+          (Number(lastCharge[0].TotalBill) -
+          Number(lastCharge[0].paidBill))
+      );
+      firstRecord.deptPeriod = Number(lastCharge[0].deptPeriod) + 1;
+    }
   }
 
   // deptPeriod
 
-  if (lastCharge[0].paidBill === lastCharge[0].TotalBill)
+  if (
+    Number(lastCharge[0].paidBill) === Number(lastCharge[0].TotalBill) ||
+    Number(lastCharge[0].TotalBill) === 0
+  )
     firstRecord = { ...firstRecord, deptPeriod: 0 };
   else
     firstRecord = {
       ...firstRecord,
-      deptPeriod: Number(firstRecord.deptPeriod) + 1,
+      deptPeriod: Number(lastCharge[0].deptPeriod) + 1,
     };
 
   //paid extra
@@ -171,17 +179,18 @@ export async function GET(
         firstRecord.paidExtraAsset = 0;
         firstRecord.paidExtra = Number(lastCharge[0].paidExtraAsset);
         firstRecord.paidBill = Number(lastCharge[0].paidExtraAsset);
+        
 
       } else if (tmp1 > 0) {
         firstRecord.paidExtraAsset = tmp1;
         firstRecord.paidExtra = tmpTotalpay;
         firstRecord.paidBill = tmpTotalpay;
+      
 
       } else if (tmp1 < 0) {
         firstRecord.paidExtra = Number(lastCharge[0].paidExtraAsset);
         firstRecord.paidExtraAsset = 0;
-        firstRecord.paidBill = Number(lastCharge[0].paidExtraAsset);
-
+        // firstRecord.paidBill = Number(lastCharge[0].paidExtraAsset);
       }
     }
   }
@@ -194,5 +203,4 @@ export async function GET(
   return NextResponse.json(firstRecord, {
     status: 200,
   });
-
 }

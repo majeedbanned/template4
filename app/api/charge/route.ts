@@ -46,19 +46,21 @@ export async function POST(req: NextRequest) {
     //@ts-ignore
     deptPeriod: parseInt(res.deptPeriod),
     paidBill: res.paidBill.toString().replace(/\D/g, ""),
+    ezafPardakht: res.ezafPardakht.toString().replace(/\D/g, ""),
+
     discount: parseInt(res.discount.replace(/,/g, "")),
     debt: parseInt(res.debt.toString().replace(/,/g, "")),
     monthbill: parseInt(res.monthbill.toString().replace(/,/g, "")),
     paidExtra: parseInt(res.paidExtra.toString().replace(/,/g, "")),
-    paidExtraAsset: parseInt(res.paidExtraAsset.toString().replace(/,/g, "")),
-
+    paidExtraAsset:
+      parseInt(res.paidExtraAsset.toString().replace(/,/g, "")) +
+      parseInt(res.ezafPardakht.toString().replace(/,/g, "")),
     created_at: jalaliMoment().format("jYYYY/jMM/jDD HH:MM"),
     created_user: session.user.id,
     updated_at: "",
     updated_user: 0,
   };
   const { TotalBill, id, ...newObject } = newres;
-
 
   const response = await client.new_account.create({
     data: newObject,
@@ -99,6 +101,8 @@ export async function PUT(req: NextRequest) {
     ...res,
     pelak: res.pelak.toString().toUpperCase(),
     paidBill: res.paidBill.toString().replace(/\D/g, ""),
+    ezafPardakht: res.ezafPardakht.toString().replace(/\D/g, ""),
+
     paidDate: res.paidDate.toEnglishDigits(),
     //@ts-ignore
     deptPeriod: parseInt(res.deptPeriod),
@@ -109,9 +113,25 @@ export async function PUT(req: NextRequest) {
     monthbill: parseInt(res.monthbill.toString().replace(/,/g, "")),
     paidExtra: parseInt(res.paidExtra.toString().replace(/,/g, "")),
     paidExtraAsset: parseInt(res.paidExtraAsset.toString().replace(/,/g, "")),
-
   };
-  
+
+
+  //manuplating ezafpardakht
+  const originalCharge = await client.new_account.findUnique({
+    where: { id: Number(res.id) },
+  });
+
+  let new_paidExtraAsset;
+  if(Number(originalCharge?.ezafPardakht?? 0)>Number(newres.ezafPardakht))
+  {
+    newres.paidExtraAsset-=Number(originalCharge?.ezafPardakht?? 0)-Number(newres.ezafPardakht);
+  }
+  else if(Number(originalCharge?.ezafPardakht?? 0)<Number(newres.ezafPardakht))
+  {
+    newres.paidExtraAsset+=Number(newres.ezafPardakht)-Number(originalCharge?.ezafPardakht?? 0);
+  }
+
+
   const { TotalBill, id, ...newObject } = newres;
   const response = await client.new_account.update({
     where: {
@@ -127,8 +147,8 @@ export async function PUT(req: NextRequest) {
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const pelak = url.searchParams.get("pelak") || undefined;
-console.log(pelak)
-  
+  console.log(pelak);
+
   try {
     const response = await client.new_account.findMany({
       where: {
