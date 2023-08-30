@@ -176,6 +176,7 @@ export async function GET(request: NextRequest) {
         paidTime: true,
         paidType: true,
         paidExtraAsset: true,
+        ezafPardakht:true
       },
       orderBy: {
         id: "desc",

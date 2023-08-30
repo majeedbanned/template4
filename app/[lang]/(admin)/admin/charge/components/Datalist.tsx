@@ -239,6 +239,7 @@ export default function Datalist({
               "مهلت پرداخت": false,
               "بستانکاراز قبل": false,
               کد: false,
+              "مانده بستانکاری": false,
               "اضافه پرداخت": false,
             }}
             columns={columns}

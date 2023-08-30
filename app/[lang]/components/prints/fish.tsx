@@ -17,7 +17,7 @@ export const ComponentToPrint = React.forwardRef(
           //@ts-ignore
           ref={ref}
           dir="rtl"
-          className="bg-white flex-col   gap-2 flex justify-center items-center rounded-lg  px-2 py-2 w-full  mx-auto mt-2"
+          className="bg-white flex-col   gap-2 flex justify-center items-center rounded-lg  px-2 py-2    mt-2 mx-4"
         >
           <div className="flex w-full flex-row justify-between items-center flex-1">
             <div className=" p-2 font-bold">
@@ -30,28 +30,28 @@ export const ComponentToPrint = React.forwardRef(
             </div>
           </div>
           <table className="w-full mx-4">
-            <tr className="h-10 border bg-gray-100">
+            <tr className="h-10 border border-gray-800 bg-gray-100">
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 دوره جاری
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 نام دارنده سرقفلی
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 پلاک
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 موقعیت
               </th>
@@ -59,25 +59,25 @@ export const ComponentToPrint = React.forwardRef(
             <tr className="h-10 ">
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {data?.month?.toString()}
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className="  text-center border p-2"
+                className="  text-center border border-gray-800 p-2"
               >
                 {store?.name}
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {data?.pelak}
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {store?.types_tabagh.tabagh} - {store?.types_bazar.bazar}
               </td>
@@ -85,40 +85,40 @@ export const ComponentToPrint = React.forwardRef(
           </table>
 
           <table className="w-full mx-2">
-            <tr className="h-10 border  bg-gray-100">
+            <tr className="h-10 border border-gray-800  bg-gray-100">
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 متراژ
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 مبلغ شارژ هر متر مربع
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 مبلغ شارژ این دوره
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 دوره بدهی
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 بدهی قبلی
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
-                className="border text-sm"
+                className="border border-gray-800 text-sm"
               >
                 دیرکرد
               </th>
@@ -126,13 +126,13 @@ export const ComponentToPrint = React.forwardRef(
             <tr className="h-10 ">
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {store?.metraj}
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className="  text-center border p-2"
+                className="  text-center border border-gray-800 p-2"
               >
                 {new Intl.NumberFormat("fa-IR", {
                   style: "currency",
@@ -143,7 +143,7 @@ export const ComponentToPrint = React.forwardRef(
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {new Intl.NumberFormat("fa-IR", {
                   style: "currency",
@@ -154,13 +154,13 @@ export const ComponentToPrint = React.forwardRef(
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {data?.deptPeriod}
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {new Intl.NumberFormat("fa-IR", {
                   style: "currency",
@@ -171,7 +171,7 @@ export const ComponentToPrint = React.forwardRef(
               </td>
               <td
                 style={{ fontFamily: "CustomFont" }}
-                className=" text-center border p-2"
+                className=" text-center border border-gray-800 p-2"
               >
                 {new Intl.NumberFormat("fa-IR", {
                   style: "currency",
@@ -186,23 +186,31 @@ export const ComponentToPrint = React.forwardRef(
           <table className="w-full mx-2">
             <tr
               style={{ fontFamily: "CustomFont" }}
-              className="h-10 border  bg-gray-100"
+              className="h-10 border border-gray-800  bg-gray-100"
             >
-              <th className="border text-sm">بانک محل پرداخت</th>
-              <th className="border text-sm">نام صاحب حساب</th>
-              <th className="border text-sm">شماره حساب</th>
-              <th className="border text-sm">بستانکاری</th>
+              <th className="border border-gray-800 text-sm">
+                بانک محل پرداخت
+              </th>
+              <th className="border border-gray-800 text-sm">نام صاحب حساب</th>
+              <th className="border border-gray-800 text-sm">شماره حساب</th>
+              <th className="border border-gray-800 text-sm">بستانکاری</th>
             </tr>
             <tr style={{ fontFamily: "CustomFont" }} className="h-10 ">
-              <td className=" text-center border p-2">پاسارگاد</td>
-              <td className="  text-center border p-2">محمد حسنی</td>
-              <td className=" text-center border p-2">603799178800</td>
-              <td className=" text-center border p-2">
+              <td className=" text-center border border-gray-800 p-2">
+                پاسارگاد
+              </td>
+              <td className="  text-center border border-gray-800 p-2">
+                محمد حسنی
+              </td>
+              <td className=" text-center border border-gray-800 p-2">
+                603799178800
+              </td>
+              <td className=" text-center border border-gray-800 p-2">
                 {new Intl.NumberFormat("fa-IR", {
                   style: "currency",
                   currency: "IRR",
                 })
-                  .format(23400000)
+                  .format(data?.paidExtraAsset)
                   .replace("ریال", "")}
               </td>
             </tr>
@@ -213,12 +221,12 @@ export const ComponentToPrint = React.forwardRef(
               style={{ fontFamily: "CustomFont" }}
               className="flex flex-col gap-2 flex-[.5] "
             >
-              <div className="border p-2 pb-8 ">
+              <div className="border border-gray-800 p-2 pb-8 ">
                 مهلت پرداخت
                 <br />
                 <p className="text-center text-xl">۱۴۰۲/۰۳/۰۲</p>
               </div>
-              <div className="border p-2 pb-8  bg-gray-100">
+              <div className="border border-gray-800 p-2 pb-8  bg-gray-100">
                 مبلغ قابل پرداخت
                 <br />
                 <p className="text-center text-2xl ">
@@ -227,14 +235,14 @@ export const ComponentToPrint = React.forwardRef(
                     style: "currency",
                     currency: "IRR",
                   })
-                    .format(23500000)
+                    .format(data?.TotalBill)
                     .replace("ریال", "")}
                 </p>
               </div>
             </div>
             <div
               style={{ fontFamily: "CustomFont" }}
-              className="border flex flex-col flex-1 p-1 "
+              className="border border-gray-800 flex flex-col flex-1 p-1 "
             >
               <div className="flex flex-1  justify-start">
                 بدون ثبت ماشینی اعتبار ندارد

@@ -347,11 +347,17 @@ export const columns: ColumnDef<StoreProps>[] = [
     accessorKey: "paidType",
     id: "نوع پرداخت",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("اضافه پرداخت"));
+      const amount = parseFloat(row.getValue("مانده بستانکاری"));
       const formatted = new Intl.NumberFormat("fa-IR", {
         style: "currency",
         currency: "IRR",
       }).format(amount);
+
+      const ez = parseFloat(row.getValue("اضافه پرداخت"));
+      const formattedez = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(ez);
 
       let val = String(row.getValue("نوع پرداخت"));
 
@@ -362,6 +368,13 @@ export const columns: ColumnDef<StoreProps>[] = [
               {"نوع پرداخت" + " : " + val}
             </Badge>
           )}
+
+          {formattedez.replace("ریال", "").toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {"اضافه پرداخت" + " : " + formattedez.replace("ریال", "")}
+            </Badge>
+          )}
+
           {formatted.replace("ریال", "").toString().trim() && (
             <Badge className="rounded-sm w-fit" variant="secondary">
               {"مانده بستانکاری" + " : " + formatted.replace("ریال", "")}
@@ -403,10 +416,10 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "paidExtraAsset",
-    id: "اضافه پرداخت",
+    id: "مانده بستانکاری",
 
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("اضافه پرداخت"));
+      const amount = parseFloat(row.getValue("مانده بستانکاری"));
       const formatted = new Intl.NumberFormat("fa-IR", {
         style: "currency",
         currency: "IRR",
@@ -419,6 +432,29 @@ export const columns: ColumnDef<StoreProps>[] = [
         //     The React Framework – created and maintained by @vercel.
         //   </HoverCardContent>
         // </HoverCard>
+        <div className="text-right font-medium">
+          {formatted.replace("ریال", "")}
+        </div>
+      );
+    },
+
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="مانده بستانکاری" />
+    ),
+  },
+
+  {
+    accessorKey: "ezafPardakht",
+    id: "اضافه پرداخت",
+
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("اضافه پرداخت"));
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(amount);
+
+      return (
         <div className="text-right font-medium">
           {formatted.replace("ریال", "")}
         </div>
