@@ -8,7 +8,6 @@ import client from "@/lib/prismadb1";
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
 
-
 export async function POST(req: NextRequest) {
   // **  Auth **//
   const session = await getServerSession(authOptions);
@@ -65,14 +64,13 @@ export async function POST(req: NextRequest) {
 
   const newres = {
     ...res,
-    pelak:res.pelakNU + "-" + res.pelakCH.toUpperCase(),
+    pelak: res.pelakNU + "-" + res.pelakCH.toUpperCase(),
     nov: parseInt(res.nov),
     tabagh: parseInt(res.tabagh),
     rahro: parseInt(res.rahro),
     bazar: parseInt(res.bazar),
     chargeProfile: parseInt(res.chargeProfile),
     ejareh: parseInt(res.ejareh.toString().replace(/,/g, "")),
-
   };
   // @ts-ignore: Unreachable code error
   delete newres.pelakNU;
@@ -88,8 +86,7 @@ export async function POST(req: NextRequest) {
   });
 }
 export async function PUT(req: NextRequest) {
-
-//  **  Auth **//
+  //  **  Auth **//
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json(
@@ -102,17 +99,16 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-
   const res: z.infer<typeof StoreSchema> = await req.json();
 
   //** pars request body */
   const validation = StoreSchema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-    console.log(errors)
+    console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
-      statusText:'s1'
+      statusText: "s1",
     });
   }
 
@@ -124,14 +120,11 @@ export async function PUT(req: NextRequest) {
     bazar: parseInt(res.bazar),
     chargeProfile: parseInt(res.chargeProfile),
     ejareh: parseInt(res.ejareh.toString().replace(/,/g, "")),
-
-
   };
   // @ts-ignore: Unreachable code error
   delete newres.pelakNU;
   // @ts-ignore: Unreachable code error
   delete newres.pelakCH;
-
 
   const response = await client.store.update({
     where: {
@@ -160,9 +153,9 @@ export async function GET(request: NextRequest) {
   const nov =
     url.searchParams.get("nov")?.toString().split(",").map(Number) || undefined;
 
-    const profile =
-    url.searchParams.get("profile")?.toString().split(",").map(Number) || undefined;
-
+  const profile =
+    url.searchParams.get("profile")?.toString().split(",").map(Number) ||
+    undefined;
 
   if (!session) {
     return NextResponse.json(
@@ -200,7 +193,7 @@ export async function GET(request: NextRequest) {
         pelak: true,
         name: true,
         metraj: true,
-        ejareh:true,
+        ejareh: true,
         tel1: true,
         tel2: true,
         tovzeh: true,
@@ -208,7 +201,14 @@ export async function GET(request: NextRequest) {
         types_bazar: { select: { id: true, bazar: true } },
         types_nov: { select: { nov: true } },
         types_tabagh: { select: { tabagh: true } },
-        chargeDef:{select:{name:true}}
+        chargeDef: { select: { name: true,charge:true,type:true } },
+        stores_discounts: {
+          select: {
+            id: true,
+            discountID: true,
+            discountDef: { select: { name: true, discountPersand: true } },
+          },
+        },
       },
       orderBy: {
         pelak: "desc",

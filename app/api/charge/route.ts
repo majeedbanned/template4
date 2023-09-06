@@ -37,6 +37,19 @@ export async function POST(req: NextRequest) {
     });
   }
 
+
+  //** check for payment date */
+if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
+{
+  if(res.paidDate.toString().trim()==='')
+  {
+    return NextResponse.json('لطفا تاریخ پرداخت را وارد نمایید', {
+      status: 400,
+      statusText:'date'
+    });
+  }
+}
+
   //** check for duplicate pelak */
 
   const newres = {
@@ -84,6 +97,8 @@ export async function PUT(req: NextRequest) {
     );
   }
 
+  
+
   const res: z.infer<typeof Chargechema> = await req.json();
 
   //** pars request body */
@@ -96,6 +111,18 @@ export async function PUT(req: NextRequest) {
       statusText: "s1",
     });
   }
+
+
+  if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
+{
+  if(res.paidDate.toString().trim()==='')
+  {
+    return NextResponse.json('لطفا تاریخ پرداخت را وارد نمایید', {
+      status: 400,
+      statusText:'date'
+    });
+  }
+}
 
   const newres = {
     ...res,

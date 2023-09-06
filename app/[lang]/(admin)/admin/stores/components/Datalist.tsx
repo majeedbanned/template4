@@ -338,7 +338,13 @@ export default function Datalist({
         stores.length > 0 ? (
           <DataTable
             showPrint={false}
-            hiddenCol={{}}
+            hiddenCol={{
+              تراز: false,
+              راهرو: false,
+              "نوع تعرفه": false,
+              تعرفه: false,
+              تلفن: false,
+            }}
             columns={columns}
             data={stores}
             onPrintClick={handlePrintClick}

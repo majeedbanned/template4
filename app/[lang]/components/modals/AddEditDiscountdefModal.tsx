@@ -33,20 +33,20 @@ const systems = [
 ];
 const locations = ["نمایش", "ویرایش", "حذف", "افزودن"];
 
-export const AddEditChargedefModal = ({
+export const AddEditDiscountdefModal = ({
   mutation,
   data,
 }: {
   mutation: () => void;
-  data?: z.infer<typeof Chargedefschema>;
+  data?: z.infer<typeof Discountdefschema>;
 }) => {
-  const AddEditChargedefModal = useAddEditChargedefModal();
+  const AddEditDiscountdefModal = useAddEditDiscountdefModal();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const form = useForm<z.infer<typeof Chargedefschema>>({
-    resolver: zodResolver(Chargedefschema),
-    defaultValues: AddEditChargedefModal.editID !== "" ? data : {},
+  const form = useForm<z.infer<typeof Discountdefschema>>({
+    resolver: zodResolver(Discountdefschema),
+    defaultValues: AddEditDiscountdefModal.editID !== "" ? data : {},
   });
 
   // const { fields, append, remove } = useFieldArray({
@@ -72,7 +72,7 @@ export const AddEditChargedefModal = ({
       await setTimeout(async () => {
         setIsLoading(false);
         if (res.status === 200) {
-          AddEditChargedefModal.onClose();
+          AddEditDiscountdefModal.onClose();
           toast.success(endpoint.successMessage);
           await mutation();
         } else if (res.status === 422) {
@@ -85,25 +85,25 @@ export const AddEditChargedefModal = ({
   };
 
   // const onToggle = useCallback(() => {
-  //   AddEditChargedefModal.onClose();
+  //   AddEditDiscountdefModal.onClose();
   //   //  registerModal.onOpen();
-  // }, [AddEditChargedefModal]);
+  // }, [AddEditDiscountdefModal]);
 
   const endpoint = useMemo(() => {
-    if (AddEditChargedefModal.editID !== "") {
+    if (AddEditDiscountdefModal.editID !== "") {
       return {
         method: "PUT",
-        url: `/api/chargedef`,
+        url: `/api/discountdef`,
         successMessage: "اطلاعات با موفقیت ویرایش شد",
       };
     } else {
       return {
         method: "POST",
-        url: `/api/chargedef`,
+        url: `/api/discountdef`,
         successMessage: "اطلاعات با موفقیت ذخیره شد",
       };
     }
-  }, [AddEditChargedefModal.editID]);
+  }, [AddEditDiscountdefModal.editID]);
 
   const bodyContent = (
     <Form {...form}>
@@ -127,95 +127,7 @@ export const AddEditChargedefModal = ({
 
         <FormField
           control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>نوع تعرفه :</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  /*
-      // @ts-ignore */
-
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex gap-2 items-center ltr:justify-start rtl:justify-end">
-                    <FormLabel className="font-normal">هر متر</FormLabel>
-
-                    <FormControl>
-                      <RadioGroupItem value="1" />
-                    </FormControl>
-                  </FormItem>
-                  <FormItem className="flex items-center gap-2   ltr:justify-start rtl:justify-end">
-                    <FormLabel className="font-normal">ثابت</FormLabel>
-
-                    <FormControl>
-                      <RadioGroupItem value="2" />
-                    </FormControl>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="charge"
-          render={({ field }) => (
-            <FormItem className="">
-              <div className=" flex flex-row justify-between">
-                <FormLabel> مبلغ شارژ :</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input
-                  className="font-bold text-lg text-green-600 text-center"
-                  placeholder=""
-                  {...field}
-                  disabled={isLoading}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  onChange={field.onChange}
-                  value={formatNumber(
-                    form.getValues("charge")?.toString() || ""
-                  )}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="penaltyMonth"
-          render={({ field }) => (
-            <FormItem className="">
-              <div className=" flex flex-row justify-between">
-                <FormLabel> ماه جریمه :</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input
-                  className="font-bold text-lg text-green-600 text-center"
-                  placeholder=""
-                  {...field}
-                  disabled={isLoading}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  onChange={field.onChange}
-                  value={formatNumber(
-                    form.getValues("penaltyMonth")?.toString() || ""
-                  )}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="penaltyPersand"
+          name="discountPersand"
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
@@ -232,7 +144,7 @@ export const AddEditChargedefModal = ({
                   pattern="[0-9]*"
                   onChange={field.onChange}
                   value={formatNumber(
-                    form.getValues("penaltyPersand")?.toString() || ""
+                    form.getValues("discountPersand")?.toString() || ""
                   )}
                 />
               </FormControl>
@@ -250,17 +162,17 @@ export const AddEditChargedefModal = ({
   return (
     <Modaltall
       disabled={isLoading}
-      isOpen={AddEditChargedefModal.isOpen}
+      isOpen={AddEditDiscountdefModal.isOpen}
       title={
-        AddEditChargedefModal.editID === ""
+        AddEditDiscountdefModal.editID === ""
           ? "ثبت رکورد جدید"
-          : "ویرایش پلاک " + AddEditChargedefModal.editID
+          : "ویرایش پلاک " + AddEditDiscountdefModal.editID
       }
       // "افزودن واحد"
-      actionLabel={AddEditChargedefModal.editID === "" ? "افزودن" : "ویرایش"}
+      actionLabel={AddEditDiscountdefModal.editID === "" ? "افزودن" : "ویرایش"}
       secondaryActionLabel="انصراف"
-      secondaryAction={AddEditChargedefModal.onClose}
-      onClose={AddEditChargedefModal.onClose}
+      secondaryAction={AddEditDiscountdefModal.onClose}
+      onClose={AddEditDiscountdefModal.onClose}
       onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -274,7 +186,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modaltall from "./Modaltall";
 import { toast } from "sonner";
-import { Chargedefschema, Userschema } from "@/lib/schemas";
+import { Discountdefschema, Userschema } from "@/lib/schemas";
 import DatePicker from "react-multi-date-picker";
 import {
   Select,
@@ -293,18 +205,18 @@ import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-interface AddEditChargedefModal {
+interface AddEditDiscountdefModal {
   isOpen: boolean;
   editID: string;
   onOpen: (id: string) => void;
   onClose: () => void;
 }
 
-const useAddEditChargedefModal = create<AddEditChargedefModal>((set) => ({
+const useAddEditDiscountdefModal = create<AddEditDiscountdefModal>((set) => ({
   isOpen: false,
   editID: "",
   onOpen: (id) => set({ isOpen: true, editID: id }),
   onClose: () => set({ isOpen: false }),
 }));
 
-export default useAddEditChargedefModal;
+export default useAddEditDiscountdefModal;

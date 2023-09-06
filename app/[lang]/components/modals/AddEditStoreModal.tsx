@@ -282,6 +282,8 @@ export const AddEditStoreModal = ({
 
   const bodyContent = (
     <Form {...form}>
+      {/* <div>{JSON.stringify(form.formState.errors)}</div> */}
+      {/* ddddd */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-row gap-2 ">
           <FormField
@@ -409,7 +411,7 @@ export const AddEditStoreModal = ({
           render={({ field }) => (
             <FormItem>
               <div className=" flex flex-row justify-between">
-                <FormLabel> تعرفه پرداخت :</FormLabel>
+                <FormLabel> تعرفه شارژ :</FormLabel>
                 <FormMessage />
               </div>
 

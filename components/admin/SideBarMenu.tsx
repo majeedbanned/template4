@@ -25,6 +25,7 @@ import {
   HomeModernIcon,
   KeyIcon,
   PencilSquareIcon,
+  TicketIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth/core/types";
@@ -191,6 +192,22 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
                     activeMenu === 10 ? " text-orange-400" : "text-[#8b99a4]"
                   } w-6 h-6 dark:text-white `}
                 ></CalculatorIcon>
+              }
+            ></MenuItem>
+
+            <MenuItem
+              onClick={() => setActiveMenu(15)}
+              selected={activeMenu === 15}
+              active={exp}
+              title="تخفیف ها"
+              link="admin/discountdef"
+              icon={
+                <TicketIcon
+                  fontSize={20}
+                  className={`${
+                    activeMenu === 15 ? " text-orange-400" : "text-[#8b99a4]"
+                  } w-6 h-6 dark:text-white `}
+                ></TicketIcon>
               }
             ></MenuItem>
 

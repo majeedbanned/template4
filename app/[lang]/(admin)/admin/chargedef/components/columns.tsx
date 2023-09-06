@@ -25,6 +25,24 @@ export const columns: ColumnDef<z.infer<typeof Chargedefschema>>[] = [
       return value.includes(row.getValue(id));
     },
   },
+
+  {
+    accessorKey: "type",
+    id: "نوع تعرفه",
+    cell: ({ row }) => {
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {row.getValue("نوع تعرفه") === "1" ? "هر متر" : "ثابت"}
+        </Badge>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="نوع تعرفه" />;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
   {
     accessorKey: "charge",
     id: "مبلغ شارژ",

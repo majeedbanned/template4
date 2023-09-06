@@ -79,7 +79,8 @@ export const ComponentToPrint = React.forwardRef(
                 style={{ fontFamily: "CustomFont" }}
                 className=" text-center border border-gray-800 p-2"
               >
-                {store?.types_tabagh.tabagh} - {store?.types_bazar.bazar}
+                {store?.types_tabagh.tabagh} - {store?.types_bazar.bazar} -{" "}
+                {store?.types_rahro.rahro}
               </td>
             </tr>
           </table>
@@ -96,7 +97,9 @@ export const ComponentToPrint = React.forwardRef(
                 style={{ fontFamily: "CustomFont" }}
                 className="border border-gray-800 text-sm"
               >
-                مبلغ شارژ هر متر مربع
+                {chargeDef?.type === "1"
+                  ? " مبلغ شارژ هر متر مربع"
+                  : "مبلغ شارژ"}
               </th>
               <th
                 style={{ fontFamily: "CustomFont" }}
@@ -194,16 +197,17 @@ export const ComponentToPrint = React.forwardRef(
               <th className="border border-gray-800 text-sm">نام صاحب حساب</th>
               <th className="border border-gray-800 text-sm">شماره حساب</th>
               <th className="border border-gray-800 text-sm">بستانکاری</th>
+              <th className="border border-gray-800 text-sm">تخفیف</th>
             </tr>
             <tr style={{ fontFamily: "CustomFont" }} className="h-10 ">
               <td className=" text-center border border-gray-800 p-2">
-                پاسارگاد
+                {/* پاسارگاد */}
               </td>
               <td className="  text-center border border-gray-800 p-2">
-                محمد حسنی
+                {/* محمد حسنی */}
               </td>
               <td className=" text-center border border-gray-800 p-2">
-                603799178800
+                {/* 603799178800 */}
               </td>
               <td className=" text-center border border-gray-800 p-2">
                 {new Intl.NumberFormat("fa-IR", {
@@ -213,18 +217,30 @@ export const ComponentToPrint = React.forwardRef(
                   .format(data?.paidExtraAsset)
                   .replace("ریال", "")}
               </td>
+
+              <td className=" text-center border border-gray-800 p-2">
+                {new Intl.NumberFormat("fa-IR", {
+                  style: "currency",
+                  currency: "IRR",
+                })
+                  .format(data?.discount)
+                  .replace("ریال", "")}
+              </td>
             </tr>
           </table>
 
-          <div className="flex flex-row flex-1 w-full gap-2  h-[400px]">
+          <div className="flex flex-row flex-1 w-full gap-2  h-[380px]">
             <div
               style={{ fontFamily: "CustomFont" }}
               className="flex flex-col gap-2 flex-[.5] "
             >
-              <div className="border border-gray-800 p-2 pb-8 ">
+              <div className="border border-gray-800 p-2 pb-2 ">
                 مهلت پرداخت
-                <br />
-                <p className="text-center text-xl">۱۴۰۲/۰۳/۰۲</p>
+                {/* <br /> */}
+                <p className="text-center text-xl">
+                  {data?.month.toString().replace("-", "/") + "/30"}
+                </p>
+                <p>مهلت داده شده شامل بدهی نمیشود</p>
               </div>
               <div className="border border-gray-800 p-2 pb-8  bg-gray-100">
                 مبلغ قابل پرداخت
@@ -244,15 +260,21 @@ export const ComponentToPrint = React.forwardRef(
               style={{ fontFamily: "CustomFont" }}
               className="border border-gray-800 flex flex-col flex-1 p-1 "
             >
-              <div className="flex flex-1  justify-start">
-                بدون ثبت ماشینی اعتبار ندارد
+              <div className="flex flex-1 flex-col justify-start">
+                <p>بدون ثبت ماشینی اعتبار ندارد</p>
+
+                <p>
+                  پرداخت به صورت غیر حضوری توسط سامانه https://charge.pgcm.ir
+                </p>
+
+                <p> و یا از طریق وب کیوسک مستقر در مدیریت بازار اقدام نمایید</p>
               </div>
               <div className="flex flex-row  justify-end">
                 <Image src={logo} width={150} height={150} alt="Image" />
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <p className="text-sm">پرداخت آنلاین</p>
                   <QRCodeSVG size={80} value="https://charge.pgcm.ir/" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

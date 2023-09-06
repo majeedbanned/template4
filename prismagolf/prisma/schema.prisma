@@ -239,34 +239,34 @@ model sharj {
 }
 
 model store {
-  pelak         String          @id(map: "PK_store") @db.Char(6)
-  nov           Int?
-  name          String?         @db.NVarChar(150)
-  metraj        Float?
-  bazar         Int?
-  tabagh        Int?
-  rahro         Int?
-  tel1          String?         @db.NVarChar(50)
-  tel2          String?         @db.NVarChar(50)
-  cposti        String?         @db.NVarChar(50)
-  rent          Float?          @db.Money
-  active        Boolean?
-  tovzeh        String?         @db.Char(400)
-  ChekGift      Boolean?
-  ChekRol       String?         @db.NChar(1)
-  Tahvil        String?         @db.NChar(10)
-  created_at    String?         @db.NVarChar(50)
-  updated_at    String?         @db.NVarChar(50)
-  created_user  Int?
-  updated_user  Int?
-  chargeProfile Int?
-  ejareh        Decimal?        @db.Decimal(18, 0)
-  chargeDef     chargeDef?      @relation(fields: [chargeProfile], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store__chargeDef")
-  types_bazar   types_bazar?    @relation(fields: [bazar], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_bazar")
-  types_nov     types_nov?      @relation(fields: [nov], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_nov")
-  types_rahro   types_rahro?    @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
-  types_tabagh  types_tabagh?   @relation(fields: [tabagh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_tabagh")
-  stores_events stores_events[]
+  pelak            String             @id(map: "PK_store") @db.Char(6)
+  nov              Int?
+  name             String?            @db.NVarChar(150)
+  metraj           Float?
+  bazar            Int?
+  tabagh           Int?
+  rahro            Int?
+  tel1             String?            @db.NVarChar(50)
+  tel2             String?            @db.NVarChar(50)
+  cposti           String?            @db.NVarChar(50)
+  rent             Float?             @db.Money
+  active           Boolean?
+  tovzeh           String?            @db.Char(400)
+  ChekGift         Boolean?
+  ChekRol          String?            @db.NChar(1)
+  Tahvil           String?            @db.NChar(10)
+  created_at       String?            @db.NVarChar(50)
+  updated_at       String?            @db.NVarChar(50)
+  created_user     Int?
+  updated_user     Int?
+  chargeProfile    Int?
+  ejareh           Decimal?           @db.Decimal(18, 0)
+  chargeDef        chargeDef?         @relation(fields: [chargeProfile], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store__chargeDef")
+  types_bazar      types_bazar?       @relation(fields: [bazar], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_bazar")
+  types_nov        types_nov?         @relation(fields: [nov], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_nov")
+  types_rahro      types_rahro?       @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
+  types_tabagh     types_tabagh?      @relation(fields: [tabagh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_tabagh")
+  stores_discounts stores_discounts[]
 }
 
 /// @@Gen.model(hide: true)
@@ -286,17 +286,6 @@ model Tenant {
   sex        String? @db.NVarChar(50)
   cposti     String? @db.NVarChar(50)
   storePelak String? @db.NVarChar(50)
-}
-
-model stores_events {
-  id           Int     @id(map: "PK_stores_events") @default(autoincrement())
-  text         String? @db.NVarChar(750)
-  pelak        String? @db.Char(6)
-  created_at   String? @db.NVarChar(50)
-  updated_at   String? @db.NVarChar(50)
-  created_user Int?
-  updated_user Int?
-  store        store?  @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_events_store")
 }
 
 model types_bazar {
@@ -392,11 +381,12 @@ model account {
 }
 
 model chargeDef {
-  id             Int      @id(map: "PK__chargeDef") @default(autoincrement())
-  name           String?  @db.NVarChar(50)
-  charge         Decimal? @db.Decimal(18, 0)
+  id             Int     @id(map: "PK__chargeDef") @default(autoincrement())
+  name           String? @db.NVarChar(50)
+  charge         Int?
   penaltyPersand Int?
   penaltyMonth   Int?
+  type           String? @db.NVarChar(50)
   store          store[]
 }
 
@@ -426,7 +416,7 @@ model new_account {
   updated_user        Int?
   metraj              Float?
   tarif               Float?
-  ezafPardakht        Decimal? @db.Decimal(18, 0)
+  ezafPardakht        Decimal? @default(0, map: "DF_new_account_ezafPardakht") @db.Decimal(18, 0)
   Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
 }
 
@@ -465,6 +455,33 @@ model excel {
   // توضیحات String? @map("توضیحات") @db.NVarChar(255)
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   // مازاد Float? @map("مازاد")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
@@ -527,6 +544,33 @@ model excel11 {
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   momo          String?  @db.NVarChar(255)
   created_at    String?  @db.NVarChar(50)
   updated_at    String?  @db.NVarChar(50)
@@ -535,4 +579,23 @@ model excel11 {
   chargeProfile Int?
 
   @@ignore
+}
+
+model discountDef {
+  id               Int                @id(map: "PK__discountDef") @default(autoincrement())
+  name             String?            @db.NVarChar(50)
+  discountPersand  Int?
+  stores_discounts stores_discounts[]
+}
+
+model stores_discounts {
+  id           Int          @id(map: "PK_stores_events") @default(autoincrement())
+  discountID   Int?
+  pelak        String?      @db.Char(6)
+  created_at   String?      @db.NVarChar(50)
+  updated_at   String?      @db.NVarChar(50)
+  created_user Int?
+  updated_user Int?
+  discountDef  discountDef? @relation(fields: [discountID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_discounts_discountDef")
+  store        store?       @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_events_store")
 }

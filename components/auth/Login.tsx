@@ -174,6 +174,7 @@ const Login = () => {
 
                 <FormControl>
                   <Input
+                    type="password"
                     className="focus:ring-0 text-center rounded-3xl  w-[290px] "
                     disabled={isLoading}
                     placeholder=""

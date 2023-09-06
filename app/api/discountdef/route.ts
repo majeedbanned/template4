@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { log } from "@/lib/utils";
 import client from "@/lib/prismadb1";
 import { z } from "zod";
-import { Chargedefschema, Userschema } from "@/lib/schemas";
+import { Discountdefschema, Userschema } from "@/lib/schemas";
 
 export async function POST(req: NextRequest) {
   // **  Auth **//
@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
   // const svix_timestamp = req.headers.get("svix-timestamp") ?? '';
   // const svix_signature = req.headers.get("svix-signature") ?? '';
 
-  const res: z.infer<typeof Chargedefschema> = await req.json();
+  const res: z.infer<typeof Discountdefschema> = await req.json();
 
   //** pars request body */
-  const validation = Chargedefschema.safeParse(res);
+  const validation = Discountdefschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
     return NextResponse.json(errors, {
@@ -40,16 +40,16 @@ export async function POST(req: NextRequest) {
 
   const newres = {
     ...res,
-    charge: parseInt(res.charge.toString().replace(/,/g, "")),
-    penaltyMonth: parseInt(res.penaltyMonth.toString().replace(/,/g, "")),
+    // charge: parseInt(res.charge.toString().replace(/,/g, "")),
+    // penaltyMonth: parseInt(res.penaltyMonth.toString().replace(/,/g, "")),
   // type: parseInt(res.type.toString().replace(/,/g, "")),
 
 
-    penaltyPersand: parseInt(res.penaltyPersand.toString().replace(/,/g, "")),
+  discountPersand: parseInt(res.discountPersand.toString().replace(/,/g, "")),
 
   };
 
-  const duplicate = await client.chargeDef.findFirst({
+  const duplicate = await client.discountDef.findFirst({
     where: { name: newres.name },
   });
 
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { id,  ...newres1 } = newres;
-  const response = await client.chargeDef.create({
+  const response = await client.discountDef.create({
     data: newres1,
   });
 
@@ -88,10 +88,10 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-  const res: z.infer<typeof Chargedefschema> = await req.json();
+  const res: z.infer<typeof Discountdefschema> = await req.json();
 
   //** pars request body */
-  const validation = Chargedefschema.safeParse(res);
+  const validation = Discountdefschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
     console.log(errors);
@@ -103,14 +103,14 @@ export async function PUT(req: NextRequest) {
 
   const newres = {
     ...res,
-    charge: parseInt(res.charge.toString().replace(/,/g, "")),
-    penaltyMonth: parseInt(res.penaltyMonth.toString().replace(/,/g, "")),
+  //  charge: parseInt(res.charge.toString().replace(/,/g, "")),
+  ///  penaltyMonth: parseInt(res.penaltyMonth.toString().replace(/,/g, "")),
     //type: parseInt(res.type.toString().replace(/,/g, "")),
-    penaltyPersand: parseInt(res.penaltyPersand.toString().replace(/,/g, "")),
+    discountPersand: parseInt(res.discountPersand.toString().replace(/,/g, "")),
   };
   const { id, ...newres1 } = newres;
   
-  const response = await client.chargeDef.update({
+  const response = await client.discountDef.update({
     where: {
       id: Number(res.id),
     },
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
     );
   }
   try {
-    const response = await client.chargeDef.findMany({
+    const response = await client.discountDef.findMany({
       // where: {
       //   ...(search && {
       //     OR: [

@@ -58,7 +58,7 @@ export async function GET(
     penalty: 0,
     TotalBill: 0,
     paidBill: 0,
-    ezafPardakht:0,
+    ezafPardakht: 0,
     month: "",
     monthbill: 0,
     debt: 0,
@@ -73,7 +73,6 @@ export async function GET(
     discountDiscription: "",
     discription: "",
     paidExtraAsset: 0,
-   
   };
 
   const pelak = params.id.toUpperCase();
@@ -87,17 +86,42 @@ export async function GET(
   });
   const store = await client.store.findUnique({
     where: { pelak: pelak },
+    include: {
+      chargeDef: { select: { name: true, charge: true, type: true } },
+      stores_discounts: {
+        select: {
+          id: true,
+          discountID: true,
+          discountDef: { select: { name: true, discountPersand: true } },
+        },
+      },
+    },
   });
   const chargeProfile = await client.chargeDef.findUnique({
     where: { id: store?.chargeProfile || 0 },
   });
 
+  ////takhfif
+  let takhfif = store?.stores_discounts.reduce(function (s, a) {
+    return s + Number(a.discountDef?.discountPersand);
+  }, 0);
+  ///////////
   const metraj = Number(store?.metraj ?? 0);
   const charge = chargeProfile?.charge ?? 0;
   let _chargeBill = 0;
   const ejareh = store?.ejareh ?? 0;
-  _chargeBill = charge === 0 ? Number(ejareh) : metraj * Number(charge);
+  _chargeBill =
+    ejareh !== 0
+      ? Number(ejareh)
+      : (Number(takhfif) / 100) * (metraj * Number(charge));
+  if (ejareh !== 0) _chargeBill = Number(ejareh);
+  else {
+    const kh = (Number(takhfif) / 100) * (metraj * Number(charge.toFixed(0)));
 
+    if(chargeProfile?.type==='1') //tarefe beezaye metraj
+    _chargeBill = Number((metraj * Number(charge) - kh).toFixed(0));
+    else _chargeBill=Number(chargeProfile?.charge)
+  }
   //its the first charge of client
   if (lastCharge.length === 0) {
     firstRecord.pelak = pelak;
@@ -128,7 +152,9 @@ export async function GET(
     firstRecord.debt = 0;
   }
   //اگر ماه پبش کمتر پرداخت کرده
-  else if (Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill ?? 0)) {
+  else if (
+    Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill ?? 0)
+  ) {
     firstRecord.debt =
       Number(lastCharge[0].TotalBill) - Number(lastCharge[0].paidBill);
   }
@@ -142,9 +168,9 @@ export async function GET(
     if (Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill)) {
       firstRecord.penalty = Math.round(
         (Number(chargeProfile?.penaltyPersand) / 100) *
-          (Number(lastCharge[0].TotalBill) -
-          Number(lastCharge[0].paidBill))
+          (Number(lastCharge[0].TotalBill) - Number(lastCharge[0].paidBill))
       );
+      firstRecord.discount = firstRecord.penalty;
       firstRecord.deptPeriod = Number(lastCharge[0].deptPeriod) + 1;
     }
   }
@@ -179,14 +205,10 @@ export async function GET(
         firstRecord.paidExtraAsset = 0;
         firstRecord.paidExtra = Number(lastCharge[0].paidExtraAsset);
         firstRecord.paidBill = Number(lastCharge[0].paidExtraAsset);
-        
-
       } else if (tmp1 > 0) {
         firstRecord.paidExtraAsset = tmp1;
         firstRecord.paidExtra = tmpTotalpay;
         firstRecord.paidBill = tmpTotalpay;
-      
-
       } else if (tmp1 < 0) {
         firstRecord.paidExtra = Number(lastCharge[0].paidExtraAsset);
         firstRecord.paidExtraAsset = 0;

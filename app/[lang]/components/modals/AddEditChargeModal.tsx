@@ -168,7 +168,10 @@ export const AddEditChargeModal = ({
           // if (domainErrorResponse) {
           toast.error("پلاک تکراری است");
         } else {
-          toast.error(res.statusText);
+          //console.log(res);
+          if (res.statusText === "date")
+            toast.error("لطفا تاریخ پرداخت را وارد نمایید");
+          else toast.error(res.statusText);
         }
       }, 3);
     });
@@ -395,9 +398,11 @@ export const AddEditChargeModal = ({
                         className="font-bold text-lg text-red-600 text-center"
                         placeholder=""
                         {...field}
-                        disabled={isLoading}
+                        //    disabled={isLoading}
                         inputMode="numeric"
                         pattern="[0-9]*"
+                        disabled={role === "admin" ? false : true}
+                        readOnly={role === "admin" ? false : true}
                         // onChange={field.onChange}
                         onChange={field.onChange}
                         value={formatNumber(

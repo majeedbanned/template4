@@ -4,6 +4,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { StoreProps } from "@/lib/types";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { Badge } from "@/components/ui/badge";
+import { Divide } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 export const columns: ColumnDef<StoreProps>[] = [
   // {
   //   id: "select",
@@ -107,9 +114,9 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "ejareh",
-    id: "اجاره ماهیانه",
+    id: "تعرفه ثابت",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("اجاره ماهیانه"));
+      const amount = parseFloat(row.getValue("تعرفه ثابت"));
       const formatted = new Intl.NumberFormat("fa-IR", {
         style: "currency",
         currency: "IRR",
@@ -122,7 +129,7 @@ export const columns: ColumnDef<StoreProps>[] = [
       );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="اجاره ماهیانه" />
+      <DataTableColumnHeader column={column} title="تعرفه ثابت" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
@@ -131,16 +138,131 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "chargeDef.name",
-    id: "تعرفه پرداخت",
+    id: "تعرفه شارژ",
     cell: ({ row }) => {
+      const ttype = row.getValue("نوع تعرفه");
+      let amount = 0;
+      if (ttype == "2") amount = row.getValue("تعرفه");
+      else
+        amount =
+          parseFloat(row.getValue("تعرفه")) * parseFloat(row.getValue("متراژ"));
+
+      let takhfif = 0;
+      // takhfif += row.getValue("تخفیف").map((item, i: number) => {
+      //   return item.discountPersand;
+      // });
+      //@ts-ignore
+
+      takhfif = row.getValue("تخفیف").reduce(function (s, a) {
+        return s + parseFloat(a.discountDef.discountPersand);
+      }, 0);
+
+      const tkh = (takhfif / 100) * Number(amount.toFixed(0));
+      const mablagh = Number((amount - tkh).toFixed(0));
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(mablagh);
+
+      const tar1 = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(row.getValue("تعرفه"));
+      const met1 = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(row.getValue("متراژ"));
+
       return (
-        <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("تعرفه پرداخت")}
-        </Badge>
+        <div className="flex flex-col gap-1">
+          <TooltipProvider delayDuration={400}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <p className="rounded-sm cursor-pointer">
+                  {row.getValue("تعرفه شارژ")}
+                </p>
+              </TooltipTrigger>
+              <TooltipContent>{tar1.toPersianDigits()}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider delayDuration={400}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <p className="rounded-sm">
+                  {<div>{formatted.replace("ریال", "")}</div>}
+                </p>
+              </TooltipTrigger>
+              <TooltipContent>
+                {tar1.replace("ریال", "") +
+                  " * " +
+                  met1.replace("ریال", "") +
+                  " - " +
+                  takhfif +
+                  "%"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          {/* <Badge className="rounded-sm" variant="secondary">
+            {<div>{formatted.replace("ریال", "")}</div>}
+          </Badge> */}
+          {/* <Badge>{mablagh}</Badge> */}
+        </div>
       );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="تعرفه پرداخت" />
+      <DataTableColumnHeader column={column} title="تعرفه شارژ" />
+    ),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
+    accessorKey: "chargeDef.type",
+    id: "نوع تعرفه",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="نوع تعرفه" />
+    ),
+  },
+  {
+    accessorKey: "chargeDef.charge",
+    id: "تعرفه",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تعرفه" />
+    ),
+  },
+
+  {
+    accessorKey: "stores_discounts",
+    id: "تخفیف",
+    cell: ({ row }) => {
+      return (
+        <p className="flex flex-col gap-1 ">
+          {
+            //@ts-ignore
+            row.getValue("تخفیف").map((item, i: number) => {
+              return (
+                <Badge
+                  className="p-0 flex flex-row gap-1 justify-around rounded-sm "
+                  key={i}
+                  variant={"secondary"}
+                >
+                  {item.discountDef.name}
+                  <div className="text-white text-sm px-1 flex flex-row justify-around gap-1 rounded-sm  bg-red-500 w-8">
+                    <p className="text-[10px]">{"%"}</p>
+                    {String(item.discountDef.discountPersand).toPersianDigits()}
+                  </div>
+                </Badge>
+              );
+            })
+          }
+        </p>
+      );
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تخفیف" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
@@ -152,13 +274,21 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "بلوک",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("بلوک")}
-        </Badge>
+        <div className="flex flex-col gap-1">
+          <Badge className="rounded-sm" variant="secondary">
+            {row.getValue("بلوک")}
+          </Badge>
+          <Badge className="rounded-sm" variant="secondary">
+            {row.getValue("تراز")}
+          </Badge>
+          <Badge className="rounded-sm" variant="secondary">
+            {row.getValue("راهرو")}
+          </Badge>
+        </div>
       );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="بلوک" />
+      <DataTableColumnHeader column={column} title="موقعیت" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));

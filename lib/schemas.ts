@@ -118,6 +118,25 @@ export const Chargedefschema = z.object({
     .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
     .transform((val) => removeCommas(val.toString()))
     .or(z.string().min(1, { message: "این فیلد اجباری است" })),
+
+    type: z
+    .string().min(1, { message: "این فیلد اجباری است" }),
+});
+
+export const Discountdefschema = z.object({
+  id: z.number(),
+  name: z.string().min(1, { message: "این فیلد اجباری است" }),
+  
+    discountPersand: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .transform((val) => removeCommas(val.toString()))
+    .or(z.string().min(1, { message: "این فیلد اجباری است" })),
+  
+    
 });
 
 export const Chargechema = z.object({

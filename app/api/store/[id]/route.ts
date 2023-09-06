@@ -54,11 +54,27 @@ export async function GET(
   const store = await client.store.findUnique({
     where: { pelak: id },
     include: {
+
+      stores_discounts: {
+        select: {
+          id: true,
+          discountID: true,
+          discountDef: { select: { name: true, discountPersand: true } },
+        },
+      },
+
+      chargeDef: { select: { name: true,charge:true,type:true } },
       
       types_bazar: {
         select: {
           id: true,
           bazar: true,
+        },
+      },
+      types_rahro: {
+        select: {
+          id: true,
+          rahro: true,
         },
       },
       types_tabagh: {

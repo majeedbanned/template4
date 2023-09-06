@@ -1,19 +1,19 @@
 "use client";
-import { columns } from "@/app/[lang]/(admin)/admin/chargedef/components/columns";
+import { columns } from "@/app/[lang]/(admin)/admin/discountdef/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useAddEditChargedefModal, {
-  AddEditChargedefModal,
-} from "@/app/[lang]/components/modals/AddEditChargedefModal";
-import useDeleteChargedefModal, {
-  DeleteChargedefModal,
-} from "@/app/[lang]/components/modals/DeleteChargedefModal";
+import useAddEditDiscountdefModal, {
+  AddEditDiscountdefModal,
+} from "@/app/[lang]/components/modals/AddEditDiscountdefModal";
+import useDeleteDiscountdefModal, {
+  DeleteDiscountdefModal,
+} from "@/app/[lang]/components/modals/DeleteDiscountdefModal";
 import { z } from "zod";
-import { Chargedefschema } from "@/lib/schemas";
+import { Discountdefschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
 import { PlusCircle } from "lucide-react";
@@ -28,8 +28,8 @@ export default function Datalist({
   permission?: Session | null;
 }) {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [editchargedef, setEditchargedef] =
-    useState<z.infer<typeof Chargedefschema>>();
+  const [editdiscountdef, setEditdiscountdef] =
+    useState<z.infer<typeof Discountdefschema>>();
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
@@ -37,31 +37,29 @@ export default function Datalist({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
-  const AddChargedefModal = useAddEditChargedefModal();
-  const _DeletechargedefModal = useDeleteChargedefModal();
+  const AddDiscountdefModal = useAddEditDiscountdefModal();
+  const _DeletediscountdefModal = useDeleteDiscountdefModal();
 
   const pelak = searchParams.get("pelak")?.toUpperCase();
 
   const AddRecord = () => {
-    setEditchargedef({
+    setEditdiscountdef({
       id: 0,
       name: "",
-      charge: "",
-      penaltyMonth: "",
-      penaltyPersand: "",
-      type: "1",
+
+      discountPersand: "",
     });
 
     setTimeout(() => {
-      AddChargedefModal.onOpen("");
+      AddDiscountdefModal.onOpen("");
     }, 100);
   };
   const {
-    data: chargedef,
+    data: discountdef,
     isLoading,
     mutate,
-  } = useSWR<z.infer<typeof Chargedefschema>[]>(
-    `/api/chargedef${searchParams ? `?${searchParams.toString()}` : ""}`,
+  } = useSWR<z.infer<typeof Discountdefschema>[]>(
+    `/api/discountdef${searchParams ? `?${searchParams.toString()}` : ""}`,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -75,7 +73,7 @@ export default function Datalist({
         setDelLable1(`نام  : ${rowData.name}`);
         setDelLable2(rowData.charge);
         setTimeout(() => {
-          _DeletechargedefModal.onOpen(rowData.id);
+          _DeletediscountdefModal.onOpen(rowData.id);
           resolve("");
         }, 100);
       });
@@ -95,23 +93,23 @@ export default function Datalist({
   const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/chargedef/" + (rowData.id !== "" ? rowData.id : "1")).then(
-          async (res) => {
-            if (res.status === 200) {
-              const val = await res.json();
-              console.log("valval>", val);
-              setEditchargedef(val);
-              setTimeout(() => {
-                AddChargedefModal.onOpen(rowData.id);
-                resolve("");
-              }, 100);
-            } else {
-              const error = await res.text();
-              toast.error(error);
-              rejects;
-            }
+        fetch(
+          "/api/discountdef/" + (rowData.id !== "" ? rowData.id : "1")
+        ).then(async (res) => {
+          if (res.status === 200) {
+            const val = await res.json();
+            console.log("valval>", val);
+            setEditdiscountdef(val);
+            setTimeout(() => {
+              AddDiscountdefModal.onOpen(rowData.id);
+              resolve("");
+            }, 100);
+          } else {
+            const error = await res.text();
+            toast.error(error);
+            rejects;
           }
-        );
+        });
       });
     toast.promise(promise, {
       loading: "دریافت اطلاعات ...",
@@ -124,19 +122,19 @@ export default function Datalist({
   };
   return (
     <div>
-      <DeleteChargedefModal
+      <DeleteDiscountdefModal
         mutation={mutate}
         data={deleteID}
         delLabel1={delLable1}
         delLabel2={delLable2}
-      ></DeleteChargedefModal>
-      <AddEditChargedefModal
+      ></DeleteDiscountdefModal>
+      <AddEditDiscountdefModal
         mutation={mutate}
-        data={editchargedef}
-      ></AddEditChargedefModal>
+        data={editdiscountdef}
+      ></AddEditDiscountdefModal>
       <div className="flex flex-col p-2 py-4 text-slate-400 text-sm">
         <div>
-          <div> اطلاعات پایه / تعریف تعرفه ها</div>
+          <div> اطلاعات پایه / تعریف تخفیف ها</div>
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
       </div>
@@ -147,18 +145,18 @@ export default function Datalist({
           variant={"outline"}
         >
           <PlusCircle className="mx-1 h-4 w-4 text-white" />
-          <span className="text-white">تعرفه جدید</span>
+          <span className="text-white">تخفیف جدید</span>
         </Button>
       ) : (
         <div className="h-8"></div>
       )}
-      {chargedef ? (
-        chargedef.length > 0 ? (
+      {discountdef ? (
+        discountdef.length > 0 ? (
           <DataTable
             hiddenCol={{}}
             showPrint={false}
             columns={columns}
-            data={chargedef}
+            data={discountdef}
             onPrintClick={handlePrintClick}
             isLoading={isLoading}
             onActionClick={handleActionClick}

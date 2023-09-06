@@ -473,12 +473,15 @@ export const columns: ColumnDef<StoreProps>[] = [
     cell: ({ row }) => {
       return (
         <div>
-          {row.getValue("توضیحات") != "" ? (
+          {String(row.getValue("توضیحات")).trim() !== "null" &&
+          String(row.getValue("توضیحات")).trim() !== "" ? (
             <HoverCard openDelay={200}>
               <HoverCardTrigger>
-                <InformationCircleIcon className="w-6 h-6 cursor-pointer"></InformationCircleIcon>
+                <InformationCircleIcon className="text-red-500 w-6 h-6 cursor-pointer"></InformationCircleIcon>
               </HoverCardTrigger>
-              <HoverCardContent>{row.getValue("توضیحات")}</HoverCardContent>
+              <HoverCardContent>
+                {String(row.getValue("توضیحات"))}
+              </HoverCardContent>
             </HoverCard>
           ) : (
             <div></div>
