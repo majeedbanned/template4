@@ -182,9 +182,9 @@ export function SidebarItem({
   // console.log("expanded>", expanded);
   return (
     <li
-      // onClick={() => onselect(id)}
+      //onClick={() => onselect(id)}
       className={`
-      
+      border
       gap-2 
         relative flex flex-col items-start  py-3 px-2 my-2
         font-medium rounded-md cursor-pointer justify-center
@@ -198,11 +198,11 @@ export function SidebarItem({
     >
       {/* <div className="" onClick={() => setopenclode()}> */}
 
-      <div className="">
+      <div className=" px-2" onClick={() => onselect(id)}>
         <TooltipProvider delayDuration={500}>
           <Tooltip>
-            <TooltipTrigger className="mr-2" asChild>
-              <div onClick={() => onselect(id)}>{icon}</div>
+            <TooltipTrigger className="mr-0" asChild>
+              <div>{icon}</div>
             </TooltipTrigger>
             <TooltipContent>
               <div onClick={() => onselect(id)}>

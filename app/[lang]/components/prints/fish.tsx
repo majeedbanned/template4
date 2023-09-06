@@ -229,7 +229,7 @@ export const ComponentToPrint = React.forwardRef(
             </tr>
           </table>
 
-          <div className="flex flex-row flex-1 w-full gap-2  h-[380px]">
+          <div className="flex flex-row flex-1 w-full gap-2  h-[340px]">
             <div
               style={{ fontFamily: "CustomFont" }}
               className="flex flex-col gap-2 flex-[.5] "
@@ -242,7 +242,7 @@ export const ComponentToPrint = React.forwardRef(
                 </p>
                 <p>مهلت داده شده شامل بدهی نمیشود</p>
               </div>
-              <div className="border border-gray-800 p-2 pb-8  bg-gray-100">
+              <div className="border border-gray-800 p-2 pb-2  bg-gray-100">
                 مبلغ قابل پرداخت
                 <br />
                 <p className="text-center text-2xl ">
