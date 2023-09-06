@@ -29,7 +29,7 @@ export const DeleteStoreModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("deleted >" + _DeleteStoreModal.editID);
+    //console.log("deleted >" + _DeleteStoreModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);
@@ -63,7 +63,7 @@ export const DeleteStoreModal = ({
 
     return;
 
-    console.log(data);
+    // console.log(data);
     setIsLoading(true);
     await fetch(endpoint.url, {
       method: endpoint.method,

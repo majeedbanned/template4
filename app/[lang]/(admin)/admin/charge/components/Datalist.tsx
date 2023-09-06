@@ -125,7 +125,7 @@ export default function Datalist({
       fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
         if (res.status === 200) {
           const val = await res.json();
-          console.log("_defff", val);
+          //  console.log("_defff", val);
 
           setPrintChargeDef(val);
         }

@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function NavMenu({ dictionary }: Props) {
-  console.log();
+  // console.log();
   //const dictionary = await getDictionary(lang);
   return (
     <nav className="  border-gray-200 ">

@@ -18,7 +18,7 @@ export const DeleteDiscountdefModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("deleted >" + _DeleteDiscountdefModal.editID);
+    //  console.log("deleted >" + _DeleteDiscountdefModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

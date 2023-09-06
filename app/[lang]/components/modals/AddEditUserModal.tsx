@@ -26,10 +26,10 @@ import persian_fa from "react-date-object/locales/persian_fa";
 
 const systems = [
   "لطفا انتخاب کنید",
+  "تعریف واحد",
   "مدیریت شارژ",
   "مستاجرین",
   "مالکین",
-  "تعریف واحد ها",
 ];
 const locations = ["نمایش", "ویرایش", "حذف", "افزودن"];
 

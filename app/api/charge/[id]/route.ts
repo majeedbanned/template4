@@ -139,7 +139,7 @@ export async function GET(
   );
   const nextMonthDate = initialDate.add(1, "jMonth").format("jYYYY-jMM");
 
-  console.log("inid", lastCharge[0].month?.toString());
+ // console.log("inid", lastCharge[0].month?.toString());
   firstRecord.pelak = pelak;
   firstRecord.month = nextMonthDate;
   firstRecord.monthbill = _chargeBill;

@@ -79,9 +79,9 @@ export default async function Root({
   const dictionary = await getDictionary(params.lang);
   //const currentUser = await getCurrentUser();
   const currentUser = await getServerSession(authOptions);
-  console.log("currentUser server>>", currentUser);
+  // console.log("currentUser server>>", currentUser);
   if (!currentUser) redirect("/signin");
-  console.log("currentUser server>>", currentUser);
+  //  console.log("currentUser server>>", currentUser);
   return (
     <html
       suppressHydrationWarning

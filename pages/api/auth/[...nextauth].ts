@@ -66,7 +66,7 @@ export const authOptions: AuthOptions = {
 
         }
         const { password, ...userWithoutPass } = user;
-        console.log(user);
+      //  console.log(user);
 
         //https://github.com/vahid-nejad/next-auth-fullstack/blob/main/src/lib/jwt.ts
 

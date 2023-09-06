@@ -124,7 +124,7 @@ export const log = async ({
   /* Log a message to the console */
   
   const HOOK = logTypeToEnv[type];
-  console.log(HOOK)
+  //console.log(HOOK)
 
   if (!HOOK) return;
   try {

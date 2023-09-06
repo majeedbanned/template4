@@ -53,7 +53,7 @@ export default function Datalist({
 
   //const pelak = searchParams.get("pelak")?.toUpperCase();
   const pelak = useParams();
-  console.log(pelak?.pelak);
+  // console.log(pelak?.pelak);
   const AddRecord = () => {
     setEditowner({
       taddress: "",

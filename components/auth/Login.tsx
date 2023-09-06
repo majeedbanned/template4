@@ -79,7 +79,7 @@ const Login = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    //   console.log(values);
     //return;
     setIsLoading(true);
     setError("");
@@ -91,7 +91,7 @@ const Login = () => {
       .then((callback) => {
         //  return;
         setIsLoading(false);
-        console.log(callback);
+        //  console.log(callback);
         if (callback?.ok) {
           //redirect("/admin/main");
           //  toast.success('Logged in');
@@ -102,7 +102,7 @@ const Login = () => {
         }
 
         if (callback?.error) {
-          console.log(callback);
+          //    console.log(callback);
           //setError(callback?.error);
           setError("نام کاربری یا کلمه عبور اشتباه است");
 
@@ -111,7 +111,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 

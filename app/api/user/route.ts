@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   const search = url.searchParams.get("search") || undefined;
-  console.log(search);
+  //console.log(search);
   if (!session) {
     return NextResponse.json(
       {
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-    console.log("errr");
+   // console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

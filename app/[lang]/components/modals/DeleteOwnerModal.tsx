@@ -18,7 +18,7 @@ export const DeleteOwnerModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("deleted >" + _DeleteOwnerModal.editID);
+    //  console.log("deleted >" + _DeleteOwnerModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

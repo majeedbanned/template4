@@ -108,7 +108,7 @@ export default function Datalist({
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
-              console.log("valval>", val);
+              // console.log("valval>", val);
               setEdituser(val);
               setTimeout(() => {
                 AddUserModal.onOpen(rowData.id);

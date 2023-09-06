@@ -11,7 +11,7 @@ export default async function students({}: Props) {
   const currentUser = await getServerSession(authOptions);
 
   const access = currentUser?.user?.Permission?.find((item) => {
-    return item.systemID === 1 && item.view === true;
+    return item.systemID === 2 && item.view === true;
   });
 
   const isadmin = currentUser?.user?.role === "admin";

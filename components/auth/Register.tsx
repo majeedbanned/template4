@@ -60,7 +60,7 @@ const Register = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    //console.log(values);
     //return;
     setIsLoading(true);
 
@@ -68,7 +68,7 @@ const Register = () => {
       .post("/api/register", values)
       .then((data) => {
         setError(JSON.stringify(data));
-        console.log(data);
+        //console.log(data);
         //  toast.success("Registered!");
         // registerModal.onClose();
         // loginModal.onOpen();

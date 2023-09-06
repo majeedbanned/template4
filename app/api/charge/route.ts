@@ -105,7 +105,7 @@ export async function PUT(req: NextRequest) {
   const validation = Chargechema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-    console.log(errors);
+   // console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -174,7 +174,7 @@ export async function PUT(req: NextRequest) {
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const pelak = url.searchParams.get("pelak") || undefined;
-  console.log(pelak);
+  //console.log(pelak);
 
   try {
     const response = await client.new_account.findMany({
@@ -221,7 +221,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-    console.log(error.message);
+  //  console.log(error.message);
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",
