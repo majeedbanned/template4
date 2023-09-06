@@ -269,13 +269,13 @@ export const ComponentToPrint = React.forwardRef(
 
                 <p> و یا از طریق وب کیوسک مستقر در مدیریت بازار اقدام نمایید</p>
               </div>
-              <div className="flex flex-row  justify-end">
+              {/* <div className="flex flex-row  justify-end">
                 <Image src={logo} width={150} height={150} alt="Image" />
-                {/* <div className="flex flex-col">
+                <div className="flex flex-col">
                   <p className="text-sm">پرداخت آنلاین</p>
                   <QRCodeSVG size={80} value="https://charge.pgcm.ir/" />
-                </div> */}
-              </div>
+                </div>
+              </div> */}
             </div>
           </div>
           {/* <img src={logo} alt="" className="w-10 h-10 rounded-md" />
