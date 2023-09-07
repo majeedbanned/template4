@@ -118,9 +118,10 @@ export async function GET(
   else {
     const kh = (Number(takhfif) / 100) * (metraj * Number(charge.toFixed(0)));
 
-    if(chargeProfile?.type==='1') //tarefe beezaye metraj
-    _chargeBill = Number((metraj * Number(charge) - kh).toFixed(0));
-    else _chargeBill=Number(chargeProfile?.charge)
+    if (chargeProfile?.type === "1")
+      //tarefe beezaye metraj
+      _chargeBill = Number((metraj * Number(charge) - kh).toFixed(0));
+    else _chargeBill = Number(chargeProfile?.charge);
   }
   //its the first charge of client
   if (lastCharge.length === 0) {
@@ -139,7 +140,7 @@ export async function GET(
   );
   const nextMonthDate = initialDate.add(1, "jMonth").format("jYYYY-jMM");
 
- // console.log("inid", lastCharge[0].month?.toString());
+  // console.log("inid", lastCharge[0].month?.toString());
   firstRecord.pelak = pelak;
   firstRecord.month = nextMonthDate;
   firstRecord.monthbill = _chargeBill;
@@ -156,9 +157,13 @@ export async function GET(
     Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill ?? 0)
   ) {
     firstRecord.debt =
-   (   Number(lastCharge[0].TotalBill)-Number(lastCharge[0].penalty))-
-       - Number(lastCharge[0].paidBill);
+      Number(lastCharge[0].TotalBill) -
+      Number(lastCharge[0].penalty) -
+      Number(lastCharge[0].paidBill);
   }
+  console.log("TotalBill", lastCharge[0].TotalBill);
+  console.log("penalty", lastCharge[0].penalty);
+  console.log("paidBill", lastCharge[0].paidBill);
 
   //penalty:
 
