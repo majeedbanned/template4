@@ -156,7 +156,8 @@ export async function GET(
     Number(lastCharge[0].paidBill) < Number(lastCharge[0].TotalBill ?? 0)
   ) {
     firstRecord.debt =
-      Number(lastCharge[0].TotalBill) - Number(lastCharge[0].paidBill);
+   (   Number(lastCharge[0].TotalBill)-Number(lastCharge[0].penalty))-
+       - Number(lastCharge[0].paidBill);
   }
 
   //penalty:
