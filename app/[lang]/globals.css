@@ -83,6 +83,20 @@
 }
 @layer components{
 
+  @media all {
+    .pagebreak {
+      display: none;
+    }
+  }
+  
+  @media print {
+    .pagebreak {
+      margin-top: 1rem;
+      display: block;
+      page-break-before: always;
+    }
+  }
+
   .credentialing {
     --bg-color: #B8F9D3;
     --bg-color-light: #e2fced;

@@ -261,7 +261,10 @@ model store {
   updated_user     Int?
   chargeProfile    Int?
   ejareh           Decimal?           @db.Decimal(18, 0)
+  new_account      new_account[]
   chargeDef        chargeDef?         @relation(fields: [chargeProfile], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store__chargeDef")
+  store            store              @relation("storeTostore", fields: [pelak], references: [pelak], onUpdate: NoAction, map: "FK_store_store")
+  other_store      store?             @relation("storeTostore")
   types_bazar      types_bazar?       @relation(fields: [bazar], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_bazar")
   types_nov        types_nov?         @relation(fields: [nov], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_nov")
   types_rahro      types_rahro?       @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
@@ -344,6 +347,7 @@ model Users {
   password    String?       @db.NVarChar(50)
   role        String?       @db.NVarChar(50)
   active      Boolean?
+  file_       String?       @db.NVarChar(50)
   Permission  Permission[]
   Users       Users         @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
   other_Users Users?        @relation("UsersToUsers")
@@ -418,6 +422,7 @@ model new_account {
   tarif               Float?
   ezafPardakht        Decimal? @default(0, map: "DF_new_account_ezafPardakht") @db.Decimal(18, 0)
   Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
+  store               store?   @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_new_account_store")
 }
 
 model excel {
@@ -491,6 +496,15 @@ model excel {
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   momo          String?  @db.NVarChar(255)
   created_at    String?  @db.NVarChar(50)
   updated_at    String?  @db.NVarChar(50)
@@ -501,6 +515,65 @@ model excel {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model excel11 {
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // رديف String? @map("رديف") @db.NVarChar(255)
+  pelak String  @db.NChar(6)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // مترا‍ژ String? @map("مترا‍ژ") @db.NVarChar(255)
+  nov   String? @db.NVarChar(255)
+
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // شار‍ژ ماهانه Float? @map("شار‍ژ ماهانه")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // دوره بدهی Float? @map("دوره بدهی")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // بدهی قبلی Float? @map("بدهی قبلی")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // جريمه Float? @map("جريمه")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // مبلغ قبض Float? @map("مبلغ قبض")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // مبلغ پرداختی Float? @map("مبلغ پرداختی")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // کل پرداختی Float? @map("کل پرداختی")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // تاریخ پرداخت String? @map("تاریخ پرداخت") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // توضیحات String? @map("توضیحات") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // مازاد Float? @map("مازاد")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // کسری Float? @map("کسری")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // مالك String? @map("مالك") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // موقعيت String? @map("موقعيت") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // وضعیت String? @map("وضعیت") @db.NVarChar(255)
+  @@ignore
+}
+
+model discountDef {
+  id               Int                @id(map: "PK__discountDef") @default(autoincrement())
+  name             String?            @db.NVarChar(50)
+  discountPersand  Int?
+  stores_discounts stores_discounts[]
+}
+
+model stores_discounts {
+  id           Int          @id(map: "PK_stores_events") @default(autoincrement())
+  discountID   Int?
+  pelak        String?      @db.Char(6)
+  created_at   String?      @db.NVarChar(50)
+  updated_at   String?      @db.NVarChar(50)
+  created_user Int?
+  updated_user Int?
+  discountDef  discountDef? @relation(fields: [discountID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_discounts_discountDef")
+  store        store?       @relation(fields: [pelak], references: [pelak], onDelete: NoAction, map: "FK_stores_events_store")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model excel11old {
   pelak         String   @db.Char(6)
   nov           Int?
   name          String?  @db.NVarChar(255)
@@ -535,42 +608,6 @@ model excel11 {
   // توضیحات String? @map("توضیحات") @db.NVarChar(255)
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   // مازاد Float? @map("مازاد")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   momo          String?  @db.NVarChar(255)
   created_at    String?  @db.NVarChar(50)
   updated_at    String?  @db.NVarChar(50)
@@ -579,23 +616,4 @@ model excel11 {
   chargeProfile Int?
 
   @@ignore
-}
-
-model discountDef {
-  id               Int                @id(map: "PK__discountDef") @default(autoincrement())
-  name             String?            @db.NVarChar(50)
-  discountPersand  Int?
-  stores_discounts stores_discounts[]
-}
-
-model stores_discounts {
-  id           Int          @id(map: "PK_stores_events") @default(autoincrement())
-  discountID   Int?
-  pelak        String?      @db.Char(6)
-  created_at   String?      @db.NVarChar(50)
-  updated_at   String?      @db.NVarChar(50)
-  created_user Int?
-  updated_user Int?
-  discountDef  discountDef? @relation(fields: [discountID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_discounts_discountDef")
-  store        store?       @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_stores_events_store")
 }
