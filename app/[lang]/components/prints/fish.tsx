@@ -80,7 +80,7 @@ export const ComponentToPrint = React.forwardRef(
                 className=" text-center border border-gray-800 p-2"
               >
                 {store?.types_tabagh.tabagh} - {store?.types_bazar.bazar} -{" "}
-                {store?.types_rahro.rahro}
+                {store?.types_rahro?.rahro}
               </td>
             </tr>
           </table>

@@ -482,8 +482,8 @@ export const AddEditChargeModal = ({
                       className="font-bold text-lg text-slate-600 text-center"
                       placeholder=""
                       {...field}
-                      disabled={role === "admin" ? false : true}
-                      readOnly={role === "admin" ? false : true}
+                      // disabled={role === "admin" ? false : true}
+                      // readOnly={role === "admin" ? false : true}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       onChange={field.onChange}

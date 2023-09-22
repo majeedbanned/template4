@@ -20,6 +20,83 @@ export const getfish = async (formData: FormData) => {
   revalidatePath("/autocharge");
 };
 
+export const getGroupPrint = async (month: string, tabagh: string, pelak:string) => {
+  
+  let data;
+  if(pelak==='')
+  {
+    data = await client.store.findMany({
+      where: { AND: [{ tabagh: Number(tabagh) }, { active: true }] },
+      select: {
+        types_tabagh: { select: { tabagh: true } },
+        types_rahro: { select: { rahro: true } },
+        types_bazar: { select: { bazar: true } },
+  
+        pelak: true,
+        name:true,
+        metraj: true,
+        ChekRol:true,
+
+        new_account: {
+          select: {
+            month: true,
+            pelak: true,
+            monthbill: true,
+            deptPeriod: true,
+            debt: true,
+            penalty: true,
+            paidExtraAsset: true,
+            discount: true,
+            TotalBill: true,
+          },
+          where: { month: month },
+        },
+        chargeDef: { select: { type: true, charge: true } },
+      },
+     //  take: 10,
+    });
+  }
+  else
+
+  {
+    data = await client.store.findMany({
+      where: { AND: [{ pelak: (pelak) }] },
+      select: {
+        types_tabagh: { select: { tabagh: true } },
+        types_rahro: { select: { rahro: true } },
+        types_bazar: { select: { bazar: true } },
+  
+        pelak: true,
+        name:true,
+        metraj: true,
+        ChekRol:true,
+        new_account: {
+          select: {
+            month: true,
+            pelak: true,
+            monthbill: true,
+            deptPeriod: true,
+            debt: true,
+            penalty: true,
+            paidExtraAsset: true,
+            discount: true,
+            TotalBill: true,
+          },
+          where: { month: month },
+        },
+        chargeDef: { select: { type: true, charge: true } },
+      },
+       take: 1,
+    });
+  }
+
+
+  return data;
+};
+export const getTabagh = async () => {
+  const tabagh = await client.types_tabagh.findMany({});
+  return tabagh;
+};
 export const getfish1 = async (formData: string) => {
   //  return formData
   // const idate = formData.get("month");
@@ -33,7 +110,7 @@ export const getfish1 = async (formData: string) => {
       active: false,
     },
   });
-  const issued = await client.store.findMany({take:10});
+  const issued = await client.store.findMany({  });
 
   // const issued = await client.store.findMany({
   //   where: {
@@ -51,13 +128,12 @@ export const getfish1 = async (formData: string) => {
   //   // },
 
   // });
-let count=0;
+  let count = 0;
   let ret;
   for (var j = 0; j < issued.length; j++) {
-count++;
     ret = await newCharge(String(issued[j].pelak), formData);
+    if (ret === "saved!") count++;
   }
-
 
   return {
     active: _active.length.toString(),
@@ -196,7 +272,6 @@ export const newCharge = async (pelak: string, month: string) => {
         Number(lastCharge[0].penalty) -
         Number(lastCharge[0].paidBill);
     } else {
-
       firstRecord.debt =
         Number(lastCharge[0].TotalBill) +
         Number(lastCharge[0].penalty) -

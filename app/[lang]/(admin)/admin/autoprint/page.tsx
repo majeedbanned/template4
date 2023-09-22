@@ -16,22 +16,20 @@ export default async function page({}: Props) {
   //     month: "1402/05",
   //   },
   // });
+  let idate = "";
   const currentUser = await getServerSession(authOptions);
   const access = currentUser?.user?.Permission?.find((item) => {
-    return item.systemID === 7 && item.view === true;
+    return item.systemID === 8 && item.view === true;
   });
 
   const isadmin = currentUser?.user?.role === "admin";
 
   if (!isadmin) if (!access) redirect("/admin/main");
-
-  let idate = "";
-
   return (
     <div>
       <div className="flex flex-col p-2 py-4 text-blue-400 text-sm">
         <div>
-          <div> مدیریت / صدور قبض شارژ</div>
+          <div> مدیریت / چاپ گروهی قبض شارژ</div>
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
           {/* {data.length} */}

@@ -4,7 +4,7 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { startTransition, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   useParams,
@@ -25,9 +25,11 @@ import { Session } from "next-auth/core/types";
 import useAddEditChargeModal, {
   AddEditChargeModal,
 } from "@/app/[lang]/components/modals/AddEditChargeModal";
-import ComponentToPrint from "@/app/[lang]/components/prints/fish";
+// import ComponentToPrint from "@/app/[lang]/components/prints/fish";
 import { useReactToPrint } from "react-to-print";
 import { redirect } from "next/navigation";
+import { getGroupPrint } from "@/actions/actions";
+import ComponentToPrint from "@/app/[lang]/components/prints/groupfish";
 
 export default function Datalist({
   permission,
@@ -35,6 +37,7 @@ export default function Datalist({
   permission?: Session | null;
 }) {
   const pelak = useParams();
+  const [printData, setPrintData] = useState<any>([]);
 
   const [editCharge, seteditCharge] = useState<z.infer<typeof Chargechema>>();
   const [deleteID, setDeleteID] = useState<string>("");
@@ -110,32 +113,38 @@ export default function Datalist({
   const handlePrintClick = async (rowData: any) => {
     setPrint(rowData);
 
-    const [_store]: any = await Promise.all([
-      fetch("/api/store/" + rowData?.pelak).then(async (res) => {
-        if (res.status === 200) {
-          const val = await res.json();
-          setPrintStore(val);
-          return val;
-        }
-      }),
-    ]);
-    //console.log("_storee", _store);
+    // const [_store]: any = await Promise.all([
+    //   fetch("/api/store/" + rowData?.pelak).then(async (res) => {
+    //     if (res.status === 200) {
+    //       const val = await res.json();
+    //       setPrintStore(val);
+    //       return val;
+    //     }
+    //   }),
+    // ]);
 
-    const [_chargedef] = await Promise.all([
-      fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
-        if (res.status === 200) {
-          const val = await res.json();
-          //  console.log("_defff", val);
+    // const [_chargedef] = await Promise.all([
+    //   fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
+    //     if (res.status === 200) {
+    //       const val = await res.json();
+    //       //  console.log("_defff", val);
 
-          setPrintChargeDef(val);
-        }
-      }),
-    ]);
+    //       setPrintChargeDef(val);
+    //     }
+    //   }),
+    // ]);
+    //@ts-ignore
+    startTransition(async () => {
+      const ret = await getGroupPrint(rowData?.month, "", rowData?.pelak);
+      // console.log(ret);
+      setPrintData(ret);
+
+      setTimeout(() => {
+        handlePrint();
+      }, 100);
+    });
 
     //console.log(rowData);
-    setTimeout(() => {
-      handlePrint();
-    }, 100);
   };
 
   const handleDeleteClick = (rowData: any) => {
@@ -208,10 +217,17 @@ export default function Datalist({
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
       </div>
-      <ComponentToPrint
+      {/* <ComponentToPrint
         data={print}
         chargeDef={printChargeDef}
         store={printStore}
+        ref={componentRef}
+      /> */}
+
+      <ComponentToPrint
+        data={printData}
+        // chargeDef={printChargeDef}
+        // store={printStore}
         ref={componentRef}
       />
 
