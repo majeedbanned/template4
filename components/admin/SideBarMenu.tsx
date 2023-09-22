@@ -15,6 +15,8 @@ import {
   EnvelopeIcon,
   HomeIcon,
   LockClosedIcon,
+  PrinterIcon,
+  RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 import {
   BanknotesIcon,
@@ -208,6 +210,38 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
                     activeMenu === 15 ? " text-orange-400" : "text-[#8b99a4]"
                   } w-6 h-6 dark:text-white `}
                 ></TicketIcon>
+              }
+            ></MenuItem>
+
+            <MenuItem
+              onClick={() => setActiveMenu(16)}
+              selected={activeMenu === 16}
+              active={exp}
+              title="صدور گروهی قبض"
+              link="admin/autocharge"
+              icon={
+                <RectangleStackIcon
+                  fontSize={20}
+                  className={`${
+                    activeMenu === 16 ? " text-orange-400" : "text-[#8b99a4]"
+                  } w-6 h-6 dark:text-white `}
+                ></RectangleStackIcon>
+              }
+            ></MenuItem>
+
+            <MenuItem
+              onClick={() => setActiveMenu(17)}
+              selected={activeMenu === 17}
+              active={exp}
+              title="چاپ گروهی قبض"
+              link="admin/autoprint"
+              icon={
+                <PrinterIcon
+                  fontSize={20}
+                  className={`${
+                    activeMenu === 17 ? " text-orange-400" : "text-[#8b99a4]"
+                  } w-6 h-6 dark:text-white `}
+                ></PrinterIcon>
               }
             ></MenuItem>
 
