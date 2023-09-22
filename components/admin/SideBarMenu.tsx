@@ -16,7 +16,6 @@ import {
   HomeIcon,
   LockClosedIcon,
   PrinterIcon,
-  RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 import {
   BanknotesIcon,
@@ -29,6 +28,7 @@ import {
   PencilSquareIcon,
   TicketIcon,
   UserIcon,
+  RectangleStackIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth/core/types";
 type Props = {};
@@ -214,38 +214,6 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
             ></MenuItem>
 
             <MenuItem
-              onClick={() => setActiveMenu(16)}
-              selected={activeMenu === 16}
-              active={exp}
-              title="صدور گروهی قبض"
-              link="admin/autocharge"
-              icon={
-                <RectangleStackIcon
-                  fontSize={20}
-                  className={`${
-                    activeMenu === 16 ? " text-orange-400" : "text-[#8b99a4]"
-                  } w-6 h-6 dark:text-white `}
-                ></RectangleStackIcon>
-              }
-            ></MenuItem>
-
-            <MenuItem
-              onClick={() => setActiveMenu(17)}
-              selected={activeMenu === 17}
-              active={exp}
-              title="چاپ گروهی قبض"
-              link="admin/autoprint"
-              icon={
-                <PrinterIcon
-                  fontSize={20}
-                  className={`${
-                    activeMenu === 17 ? " text-orange-400" : "text-[#8b99a4]"
-                  } w-6 h-6 dark:text-white `}
-                ></PrinterIcon>
-              }
-            ></MenuItem>
-
-            <MenuItem
               onClick={() => setActiveMenu(11)}
               selected={activeMenu === 11}
               active={exp}
@@ -358,6 +326,38 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
                   activeMenu === 21 ? " text-orange-400" : "text-[#8b99a4]"
                 } w-6 h-6 dark:text-white `}
               ></FingerPrintIcon>
+            }
+          ></MenuItem>
+
+          <MenuItem
+            onClick={() => setActiveMenu(22)}
+            selected={activeMenu === 22}
+            active={exp}
+            title="صدور گروهی قبض"
+            link="admin/autocharge"
+            icon={
+              <RectangleStackIcon
+                fontSize={20}
+                className={`${
+                  activeMenu === 22 ? " text-orange-400" : "text-[#8b99a4]"
+                } w-6 h-6 dark:text-white `}
+              ></RectangleStackIcon>
+            }
+          ></MenuItem>
+
+          <MenuItem
+            onClick={() => setActiveMenu(23)}
+            selected={activeMenu === 23}
+            active={exp}
+            title="چاپ گروهی قبض"
+            link="admin/autoprint"
+            icon={
+              <PrinterIcon
+                fontSize={20}
+                className={`${
+                  activeMenu === 23 ? " text-orange-400" : "text-[#8b99a4]"
+                } w-6 h-6 dark:text-white `}
+              ></PrinterIcon>
             }
           ></MenuItem>
         </SidebarItem>
