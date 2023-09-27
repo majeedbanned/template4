@@ -143,7 +143,12 @@ export const AddEditRobModal = ({
                 <FormMessage />
               </div>
               <FormControl>
-                <Input disabled={isLoading} placeholder="" {...field} />
+                <Textarea
+                  disabled={isLoading}
+                  placeholder="توضیحات پرداخت"
+                  className="resize-none"
+                  {...field}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -205,7 +210,11 @@ export const AddEditRobModal = ({
                 <FormMessage />
               </div>
               <FormControl>
-                <Input disabled={isLoading} placeholder="" {...field} />
+                <Textarea
+                  placeholder="توضیحات"
+                  className="resize-none"
+                  {...field}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -247,6 +256,7 @@ import Modaltall from "./Modaltall";
 import { toast } from "sonner";
 import { Robschema } from "@/lib/schemas";
 import DatePicker from "react-multi-date-picker";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AddEditRobModal {
   isOpen: boolean;

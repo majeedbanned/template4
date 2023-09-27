@@ -160,6 +160,11 @@ export default function Datalist({
     router.push(`/admin/tenant/${rowData.pelak}`);
     //redirect("/tenant/" + rowData.pelak);
   };
+
+  const handleRobClick = (rowData: any) => {
+    router.push(`/admin/rob/${rowData.pelak}`);
+    //redirect("/tenant/" + rowData.pelak);
+  };
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -355,6 +360,7 @@ export default function Datalist({
             allowDelete={canAction?.print}
             onChargeClick={handleChargeClick}
             onTenantClick={handleTenantClick}
+            onRobClick={handleRobClick}
             onOwnerClick={handleOwnerClick}
           ></DataTable>
         ) : (

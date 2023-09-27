@@ -89,11 +89,11 @@ export default function Datalist({
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        setDeleteID(rowData.trow);
+        setDeleteID(rowData.id);
         setDelLable1(`پلاک : ${rowData.pelak}`);
         setDelLable2(rowData.tlname + " " + rowData.tfname);
         setTimeout(() => {
-          _DeleteRobModal.onOpen(rowData.trow);
+          _DeleteRobModal.onOpen(rowData.id);
           resolve("");
         }, 100);
       });
@@ -113,13 +113,13 @@ export default function Datalist({
   const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
-        fetch("/api/rob/" + (rowData.trow !== "" ? rowData.trow : "1")).then(
+        fetch("/api/rob/" + (rowData.id !== "" ? rowData.id : "1")).then(
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
               setEditrob(val);
               setTimeout(() => {
-                AddUserModal.onOpen(rowData.trow);
+                AddUserModal.onOpen(rowData.id);
                 resolve("");
               }, 100);
             } else {

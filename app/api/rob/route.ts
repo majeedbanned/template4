@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
+import jalaliMoment from "jalali-moment";
 import { log } from "@/lib/utils";
 import client from "@/lib/prismadb1";
 import { z } from "zod";
@@ -41,6 +42,12 @@ export async function POST(req: NextRequest) {
 
   const newres = {
     ...res,
+    created_at: jalaliMoment().format("jYYYY/jMM/jDD HH:MM"),
+    created_user: session.user.id,
+    updated_at: "",
+    updated_user: 1,
+    price: parseInt(res.price.replace(/,/g, "")),
+
   };
 
   const { id, ...newres1 } = newres;
@@ -81,7 +88,10 @@ export async function PUT(req: NextRequest) {
 
   const newres = {
     ...res,
-    
+    updated_at: jalaliMoment().format("jYYYY/jMM/jDD hh:mm"),
+    updated_user: session.user.id,
+    price: parseInt(res.price.replace(/,/g, "")),
+
   };
   const { id, ...newres1 } = newres;
 

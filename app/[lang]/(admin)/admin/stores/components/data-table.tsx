@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   BanknotesIcon,
+  BookOpenIcon,
   BuildingStorefrontIcon,
   Cog6ToothIcon,
   PrinterIcon,
@@ -69,6 +70,7 @@ interface DataTableProps<TData, TValue> {
   onChargeClick?: (id: any) => void;
   onOwnerClick?: (id: any) => void;
   onTenantClick?: (id: any) => void;
+  onRobClick?: (id: any) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -95,6 +97,8 @@ export function DataTable<TData, TValue>({
   allowDelete,
   hiddenCol,
   onTenantClick,
+  onRobClick,
+
   onChargeClick,
   onOwnerClick,
 }: DataTableProps<TData, TValue>) {
@@ -215,6 +219,16 @@ export function DataTable<TData, TValue>({
                           >
                             مشخصات مستاجر
                             <BuildingStorefrontIcon className="w-4 h-4"></BuildingStorefrontIcon>
+                          </DropdownMenuItem>
+                        )}
+
+                        {onRobClick && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onRobClick(row.original)}
+                          >
+                            اطلاعات سرقفلی
+                            <BookOpenIcon className="w-4 h-4"></BookOpenIcon>
                           </DropdownMenuItem>
                         )}
 

@@ -29,6 +29,7 @@ import {
   TicketIcon,
   UserIcon,
   RectangleStackIcon,
+  BookOpenIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth/core/types";
 type Props = {};
@@ -51,6 +52,11 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
   const usersAcc = cu?.user?.Permission?.find((item) => {
     return item.systemID === 6 && item.view === true;
   });
+
+  const robAcc = cu?.user?.Permission?.find((item) => {
+    return item.systemID === 9 && item.view === true;
+  });
+
   let isAdmin = false;
   if (cu?.user.role === "admin") {
     isAdmin = true;
@@ -155,6 +161,25 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
                     activeMenu === 4 ? " text-orange-400" : "text-[#8b99a4]"
                   } w-6 h-6 dark:text-white `}
                 ></BuildingStorefrontIcon>
+              }
+            ></MenuItem>
+          )}
+
+          {(robAcc || isAdmin) && (
+            <MenuItem
+              onClick={() => setActiveMenu(5)}
+              selected={activeMenu === 5}
+              active={exp}
+              title="
+            سرقفلی"
+              link="admin/rob/all"
+              icon={
+                <BookOpenIcon
+                  fontSize={20}
+                  className={`${
+                    activeMenu === 5 ? " text-orange-400" : "text-[#8b99a4]"
+                  } w-6 h-6 dark:text-white `}
+                ></BookOpenIcon>
               }
             ></MenuItem>
           )}
