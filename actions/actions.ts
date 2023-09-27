@@ -20,13 +20,13 @@ export const getfish = async (formData: FormData) => {
   revalidatePath("/autocharge");
 };
 
-export const getGroupPrint = async (month: string, tabagh: string, pelak:string) => {
+export const getGroupPrint = async (month: string, nov: string, pelak:string) => {
   
   let data;
   if(pelak==='')
   {
     data = await client.store.findMany({
-      where: { AND: [{ tabagh: Number(tabagh) }, { active: true }] },
+      where: { AND: [{ nov: Number(nov) }] },
       select: {
         types_tabagh: { select: { tabagh: true } },
         types_rahro: { select: { rahro: true } },
@@ -93,9 +93,9 @@ export const getGroupPrint = async (month: string, tabagh: string, pelak:string)
 
   return data;
 };
-export const getTabagh = async () => {
-  const tabagh = await client.types_tabagh.findMany({});
-  return tabagh;
+export const getNov = async () => {
+  const nov = await client.types_nov.findMany({});
+  return nov;
 };
 export const getfish1 = async (formData: string) => {
   //  return formData

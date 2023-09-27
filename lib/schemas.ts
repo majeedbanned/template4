@@ -22,6 +22,32 @@ export const Tenantschema = z.object({
   // storePelak: z.string().optional(),
 });
 
+export const Robschema = z.object({
+  id: z.number(),
+  pelak: z
+    .string({
+      invalid_type_error: "کاراکتر",
+    })
+    .min(4, { message: "*" }),
+  invitedate: z.string().optional(),
+  paydiscription: z.string().optional(),
+  paydate: z.string().optional(),
+  price: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .transform((val) => removeCommas(val.toString()))
+    .or(z.string().min(1, { message: "این فیلد اجباری است" })),
+
+  disc: z.string().optional(),
+  created_at: z.string().optional(),
+  created_user: z.number(),
+  updated_at: z.string().optional(),
+  updated_user: z.number(),
+});
+
 export const Ownerschema = z.object({
   pelak: z
     .string({
@@ -49,27 +75,22 @@ const EducationSchema = z.object({
   locations: z.array(z.string()),
 });
 
-
 export const Rahroschema = z.object({
   id: z.number(),
-  rahro:  z.string().min(1, { message: "این فیلد اجباری است" }),
-
-})
+  rahro: z.string().min(1, { message: "این فیلد اجباری است" }),
+});
 export const Novschema = z.object({
   id: z.number(),
-  nov:  z.string().min(1, { message: "این فیلد اجباری است" }),
-
-})
+  nov: z.string().min(1, { message: "این فیلد اجباری است" }),
+});
 export const Bazarschema = z.object({
   id: z.number(),
-  bazar:  z.string().min(1, { message: "این فیلد اجباری است" }),
-
-})
+  bazar: z.string().min(1, { message: "این فیلد اجباری است" }),
+});
 export const Tabaghschema = z.object({
   id: z.number(),
-  tabagh:  z.string().min(1, { message: "این فیلد اجباری است" }),
-
-})
+  tabagh: z.string().min(1, { message: "این فیلد اجباری است" }),
+});
 
 export const Userschema = z.object({
   id: z.number(),
@@ -119,15 +140,14 @@ export const Chargedefschema = z.object({
     .transform((val) => removeCommas(val.toString()))
     .or(z.string().min(1, { message: "این فیلد اجباری است" })),
 
-    type: z
-    .string().min(1, { message: "این فیلد اجباری است" }),
+  type: z.string().min(1, { message: "این فیلد اجباری است" }),
 });
 
 export const Discountdefschema = z.object({
   id: z.number(),
   name: z.string().min(1, { message: "این فیلد اجباری است" }),
-  
-    discountPersand: z
+
+  discountPersand: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
       invalid_type_error: "2مقدار عددی  وارد کنید",
@@ -135,8 +155,6 @@ export const Discountdefschema = z.object({
     .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
     .transform((val) => removeCommas(val.toString()))
     .or(z.string().min(1, { message: "این فیلد اجباری است" })),
-  
-    
 });
 
 export const Chargechema = z.object({
@@ -232,7 +250,7 @@ export const Chargechema = z.object({
     .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
     .or(z.string()),
 
-    ezafPardakht: z
+  ezafPardakht: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
       invalid_type_error: "2مقدار عددی  وارد کنید",
@@ -358,21 +376,20 @@ export const StoreSchema = z.object({
     })
     .min(1, { message: "لطفا این فیلد را انتخاب کنید" })
     .max(2),
-    chargeProfile: z
+  chargeProfile: z
     .string({
       required_error: "این فیلد اجباری است",
     })
     .min(1, { message: "لطفا این فیلد را انتخاب کنید" })
     .max(2),
 
-    ejareh: z
+  ejareh: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
       invalid_type_error: "2مقدار عددی  وارد کنید",
     })
     .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
     .or(z.string()),
-
 
   tel1: z.string().optional(),
   tel2: z.string().optional(),

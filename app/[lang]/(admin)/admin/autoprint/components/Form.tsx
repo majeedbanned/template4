@@ -1,5 +1,5 @@
 "use client";
-import { getGroupPrint, getTabagh, getfish, getfish1 } from "@/actions/actions";
+import { getGroupPrint, getNov, getfish, getfish1 } from "@/actions/actions";
 import LoadingDots from "@/components/loading/loading-dots";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,11 +27,11 @@ type Props = {};
 
 export default function Form({}: Props) {
   const [ret, setRet] = useState({});
-  const [tabagh, setTabagh] = useState<any>([]);
+  const [nov, setNov] = useState<any>([]);
   const [printData, setPrintData] = useState<any>([]);
 
   const [value, setValue] = React.useState("1402-06");
-  const [tabaghvalue, setTabaghValue] = React.useState("1");
+  const [novvalue, setNovValue] = React.useState("1");
 
   let [pending, startTransition] = useTransition();
   // const onclick = () => {
@@ -46,7 +46,7 @@ export default function Form({}: Props) {
   });
 
   useEffect(() => {
-    getTabagh().then((data) => setTabagh(data));
+    getNov().then((data) => setNov(data));
   }, []);
 
   return (
@@ -102,16 +102,16 @@ export default function Form({}: Props) {
               </SelectContent>
             </Select>
             <p> تجاری : </p>
-            <Select onValueChange={setTabaghValue} defaultValue="1">
+            <Select onValueChange={setNovValue} defaultValue="1">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="دوره را انتخاب کنید" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   {/* <SelectLabel>Fruits</SelectLabel> */}
-                  {tabagh?.map((item: any) => (
+                  {nov?.map((item: any) => (
                     <SelectItem key={item.id} value={item.id}>
-                      {item.tabagh}
+                      {item.nov}
                     </SelectItem>
                   ))}
                   {/* <SelectItem value="1402-06">1402-06</SelectItem>
@@ -130,7 +130,7 @@ export default function Form({}: Props) {
               variant={"outline"}
               onClick={async () => {
                 startTransition(async () => {
-                  const ret = await getGroupPrint(value, tabaghvalue, "");
+                  const ret = await getGroupPrint(value, novvalue, "");
                   console.log(ret);
                   setPrintData(ret);
 

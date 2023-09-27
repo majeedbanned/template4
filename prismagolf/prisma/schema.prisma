@@ -262,6 +262,7 @@ model store {
   chargeProfile    Int?
   ejareh           Decimal?           @db.Decimal(18, 0)
   new_account      new_account[]
+  sarghofli        sarghofli[]
   chargeDef        chargeDef?         @relation(fields: [chargeProfile], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store__chargeDef")
   store            store              @relation("storeTostore", fields: [pelak], references: [pelak], onUpdate: NoAction, map: "FK_store_store")
   other_store      store?             @relation("storeTostore")
@@ -270,6 +271,8 @@ model store {
   types_rahro      types_rahro?       @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
   types_tabagh     types_tabagh?      @relation(fields: [tabagh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_tabagh")
   stores_discounts stores_discounts[]
+
+  @@index([pelak], map: "NonClusteredIndex-20230921-150557")
 }
 
 /// @@Gen.model(hide: true)
@@ -340,18 +343,20 @@ model Systems {
 }
 
 model Users {
-  id          Int           @id(map: "PK__Users") @default(autoincrement())
-  name        String?       @db.NVarChar(50)
-  lname       String?       @db.NVarChar(50)
-  username    String?       @db.NVarChar(50)
-  password    String?       @db.NVarChar(50)
-  role        String?       @db.NVarChar(50)
-  active      Boolean?
-  file_       String?       @db.NVarChar(50)
-  Permission  Permission[]
-  Users       Users         @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
-  other_Users Users?        @relation("UsersToUsers")
-  new_account new_account[]
+  id                                      Int           @id(map: "PK__Users") @default(autoincrement())
+  name                                    String?       @db.NVarChar(50)
+  lname                                   String?       @db.NVarChar(50)
+  username                                String?       @db.NVarChar(50)
+  password                                String?       @db.NVarChar(50)
+  role                                    String?       @db.NVarChar(50)
+  active                                  Boolean?
+  file_                                   String?       @db.NVarChar(50)
+  Permission                              Permission[]
+  Users                                   Users         @relation("UsersToUsers", fields: [id], references: [id], onUpdate: NoAction, map: "FK__Users__Users")
+  other_Users                             Users?        @relation("UsersToUsers")
+  new_account                             new_account[]
+  sarghofli_sarghofli_updated_userToUsers sarghofli[]   @relation("sarghofli_updated_userToUsers")
+  sarghofli_sarghofli_created_userToUsers sarghofli[]   @relation("sarghofli_created_userToUsers")
 
   @@map("_Users")
 }
@@ -423,6 +428,8 @@ model new_account {
   ezafPardakht        Decimal? @default(0, map: "DF_new_account_ezafPardakht") @db.Decimal(18, 0)
   Users               Users?   @relation(fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__new_account__Users")
   store               store?   @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_new_account_store")
+
+  @@index([pelak, month], map: "NonClusteredIndex-20230921-150212")
 }
 
 model excel {
@@ -505,6 +512,15 @@ model excel {
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   momo          String?  @db.NVarChar(255)
   created_at    String?  @db.NVarChar(50)
   updated_at    String?  @db.NVarChar(50)
@@ -517,9 +533,11 @@ model excel {
 model excel11 {
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   // رديف String? @map("رديف") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   pelak String  @db.NChar(6)
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   // مترا‍ژ String? @map("مترا‍ژ") @db.NVarChar(255)
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   nov   String? @db.NVarChar(255)
 
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
@@ -608,6 +626,15 @@ model excel11old {
   // توضیحات String? @map("توضیحات") @db.NVarChar(255)
   /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   // مازاد Float? @map("مازاد")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
   momo          String?  @db.NVarChar(255)
   created_at    String?  @db.NVarChar(50)
   updated_at    String?  @db.NVarChar(50)
@@ -616,4 +643,21 @@ model excel11old {
   chargeProfile Int?
 
   @@ignore
+}
+
+model sarghofli {
+  id                                  Int      @id(map: "PK_sarghofli") @default(autoincrement())
+  pelak                               String?  @db.Char(6)
+  invitedate                          String?  @db.NChar(10)
+  paydiscription                      String?  @db.NVarChar(Max)
+  paydate                             String?  @db.NChar(10)
+  price                               Decimal? @db.Decimal(18, 0)
+  disc                                String?  @db.NVarChar(Max)
+  created_at                          String?  @db.NVarChar(50)
+  created_user                        Int?
+  updated_at                          String?  @db.NVarChar(50)
+  updated_user                        Int?
+  Users_sarghofli_updated_userToUsers Users?   @relation("sarghofli_updated_userToUsers", fields: [updated_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_sarghofli__Users")
+  Users_sarghofli_created_userToUsers Users?   @relation("sarghofli_created_userToUsers", fields: [created_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_sarghofli__Users1")
+  store                               store?   @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_sarghofli_store1")
 }
