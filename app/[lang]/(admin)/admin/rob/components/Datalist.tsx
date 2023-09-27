@@ -43,7 +43,7 @@ export default function Datalist({
   const _DeleteRobModal = useDeleteRobModal();
 
   let per = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 3 && item.edit === true;
+    return item.systemID === 9 && item.edit === true;
   });
 
   let canAction = { ...per };
