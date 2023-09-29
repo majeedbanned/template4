@@ -608,6 +608,26 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="fichnum"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel> : شماره فیش </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Textarea
+                      placeholder="شماره فیش"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </TabsContent>
         </Tabs>
 

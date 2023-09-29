@@ -300,6 +300,8 @@ export const Chargechema = z.object({
 
   // )
   discription: z.string(),
+  fichnum: z.string(),
+
   discountDiscription: z.string(),
   paidExtraAsset: z
     .number({

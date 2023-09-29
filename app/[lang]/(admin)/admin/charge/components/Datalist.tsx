@@ -135,7 +135,13 @@ export default function Datalist({
     // ]);
     //@ts-ignore
     startTransition(async () => {
-      const ret = await getGroupPrint(rowData?.month, "", rowData?.pelak);
+      const ret = await getGroupPrint(
+        rowData?.month,
+        "",
+        rowData?.pelak,
+        "",
+        ""
+      );
       // console.log(ret);
       setPrintData(ret);
 

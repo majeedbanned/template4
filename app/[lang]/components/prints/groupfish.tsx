@@ -66,6 +66,12 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   >
                     موقعیت
                   </th>
+                  <th
+                    style={{ fontFamily: "CustomFont" }}
+                    className="border border-gray-800 text-sm"
+                  >
+                    وضعیت
+                  </th>
                 </tr>
                 <tr className="h-10 ">
                   <td
@@ -92,6 +98,13 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   >
                     {item?.types_tabagh?.tabagh} - {item?.types_bazar?.bazar} -
                     {item?.types_rahro?.rahro}
+                  </td>
+
+                  <td
+                    style={{ fontFamily: "CustomFont" }}
+                    className=" text-center border border-gray-800 p-2"
+                  >
+                    {item?.active.toString() === "true" ? "فعال" : "غیر فعال"}
                   </td>
                 </tr>
               </table>
@@ -211,6 +224,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   <th className="border border-gray-800 text-sm">شماره حساب</th>
                   <th className="border border-gray-800 text-sm">بستانکاری</th>
                   <th className="border border-gray-800 text-sm">تخفیف</th>
+                  <th className="border border-gray-800 text-sm">پرداخت شده</th>
                 </tr>
                 <tr style={{ fontFamily: "CustomFont" }} className="h-10 ">
                   <td className=" text-center border border-gray-800 p-2">
@@ -237,6 +251,14 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       currency: "IRR",
                     })
                       .format(item?.new_account[0]?.discount)
+                      .replace("ریال", "")}
+                  </td>
+                  <td className=" text-center border border-gray-800 p-2">
+                    {new Intl.NumberFormat("fa-IR", {
+                      style: "currency",
+                      currency: "IRR",
+                    })
+                      .format(item?.new_account[0]?.paidBill)
                       .replace("ریال", "")}
                   </td>
                 </tr>
@@ -266,7 +288,10 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                         style: "currency",
                         currency: "IRR",
                       })
-                        .format(item?.new_account[0]?.TotalBill)
+                        .format(
+                          item?.new_account[0]?.TotalBill -
+                            item?.new_account[0]?.paidBill
+                        )
                         .replace("ریال", "")}
                     </p>
                   </div>

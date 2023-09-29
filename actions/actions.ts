@@ -4,7 +4,7 @@ import jalaliMoment, { months } from "jalali-moment";
 import client from "@/lib/prismadb1";
 import { Select } from "@radix-ui/react-select";
 import { revalidatePath } from "next/cache";
-import { string } from "zod";
+import { boolean, string } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
@@ -20,22 +20,38 @@ export const getfish = async (formData: FormData) => {
   revalidatePath("/autocharge");
 };
 
-export const getGroupPrint = async (month: string, nov: string, pelak:string) => {
-  
+export const getGroupPrint = async (
+  month: string,
+  nov: string,
+  pelak: string,
+  rahrovalue: string,
+  vaziat: string
+) => {
   let data;
-  if(pelak==='')
-  {
+  if (pelak === "") {
     data = await client.store.findMany({
-      where: { AND: [{ nov: Number(nov) }] },
+      where: {
+        ...(nov && { nov: Number(nov) }),
+        ...(rahrovalue && {
+          tabagh: Number(rahrovalue),
+        }),
+        ...(vaziat==='True' && {
+          active:Boolean( 1),
+        }),
+        ...(vaziat==='False' && {
+          active:Boolean( 0),
+        }),
+      },
       select: {
         types_tabagh: { select: { tabagh: true } },
         types_rahro: { select: { rahro: true } },
         types_bazar: { select: { bazar: true } },
-  
+
         pelak: true,
-        name:true,
+        name: true,
         metraj: true,
-        ChekRol:true,
+        ChekRol: true,
+        active: true,
 
         new_account: {
           select: {
@@ -43,6 +59,7 @@ export const getGroupPrint = async (month: string, nov: string, pelak:string) =>
             pelak: true,
             monthbill: true,
             deptPeriod: true,
+            paidBill: true,
             debt: true,
             penalty: true,
             paidExtraAsset: true,
@@ -53,29 +70,29 @@ export const getGroupPrint = async (month: string, nov: string, pelak:string) =>
         },
         chargeDef: { select: { type: true, charge: true } },
       },
-     //  take: 10,
+      //  take: 10,
     });
-  }
-  else
-
-  {
+  } else {
     data = await client.store.findMany({
-      where: { AND: [{ pelak: (pelak) }] },
+      where: { AND: [{ pelak: pelak }] },
       select: {
         types_tabagh: { select: { tabagh: true } },
         types_rahro: { select: { rahro: true } },
         types_bazar: { select: { bazar: true } },
-  
+
         pelak: true,
-        name:true,
+        name: true,
         metraj: true,
-        ChekRol:true,
+        ChekRol: true,
+        active: true,
         new_account: {
           select: {
             month: true,
             pelak: true,
             monthbill: true,
             deptPeriod: true,
+            paidBill: true,
+
             debt: true,
             penalty: true,
             paidExtraAsset: true,
@@ -86,16 +103,20 @@ export const getGroupPrint = async (month: string, nov: string, pelak:string) =>
         },
         chargeDef: { select: { type: true, charge: true } },
       },
-       take: 1,
+      take: 1,
     });
   }
-
 
   return data;
 };
 export const getNov = async () => {
   const nov = await client.types_nov.findMany({});
   return nov;
+};
+
+export const getRahro = async () => {
+  const rahro = await client.types_tabagh.findMany({});
+  return rahro;
 };
 export const getfish1 = async (formData: string) => {
   //  return formData
@@ -110,7 +131,7 @@ export const getfish1 = async (formData: string) => {
       active: false,
     },
   });
-  const issued = await client.store.findMany({  });
+  const issued = await client.store.findMany({});
 
   // const issued = await client.store.findMany({
   //   where: {

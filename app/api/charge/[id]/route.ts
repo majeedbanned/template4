@@ -71,6 +71,7 @@ export async function GET(
     paidType: "",
     discount: 0,
     discountDiscription: "",
+    fichnum:'',
     discription: "",
     paidExtraAsset: 0,
   };

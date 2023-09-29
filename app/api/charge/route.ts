@@ -196,6 +196,7 @@ export async function GET(request: NextRequest) {
         discount: true,
         discountDiscription: true,
         discription: true,
+        fichnum:true,
         TotalBill: true,
         paidBill: true,
         paidDate: true,
@@ -203,7 +204,8 @@ export async function GET(request: NextRequest) {
         paidTime: true,
         paidType: true,
         paidExtraAsset: true,
-        ezafPardakht:true
+        ezafPardakht:true,
+
       },
       orderBy: {
         id: "desc",

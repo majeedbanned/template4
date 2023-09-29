@@ -1,5 +1,11 @@
 "use client";
-import { getGroupPrint, getNov, getfish, getfish1 } from "@/actions/actions";
+import {
+  getGroupPrint,
+  getNov,
+  getRahro,
+  getfish,
+  getfish1,
+} from "@/actions/actions";
 import LoadingDots from "@/components/loading/loading-dots";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +38,11 @@ export default function Form({}: Props) {
 
   const [value, setValue] = React.useState("1402-06");
   const [novvalue, setNovValue] = React.useState("1");
+  const [rahrov, setNrahrov] = React.useState("");
+
+  const [vaziat, setVaziat] = React.useState("");
+
+  const [rahrovalue, setRahroValue] = React.useState<any>([]);
 
   let [pending, startTransition] = useTransition();
   // const onclick = () => {
@@ -47,6 +58,7 @@ export default function Form({}: Props) {
 
   useEffect(() => {
     getNov().then((data) => setNov(data));
+    getRahro().then((data) => setRahroValue(data));
   }, []);
 
   return (
@@ -81,72 +93,107 @@ export default function Form({}: Props) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-row gap-2 justify-start items-center">
-            <p>چاپ قبض شارژ گروهی برای دوره :</p>
-            <Select onValueChange={setValue} defaultValue="1402-06">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="دوره را انتخاب کنید" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {/* <SelectLabel>Fruits</SelectLabel> */}
-                  <SelectItem value="1402-05">1402-05</SelectItem>
+            <div className="flex flex-col gap-2">
+              <p> دوره : </p>
 
-                  <SelectItem value="1402-06">1402-06</SelectItem>
-                  <SelectItem value="1402-07">1402-07</SelectItem>
-                  <SelectItem value="1402-08">1402-08</SelectItem>
-                  <SelectItem value="1402-09">1402-09</SelectItem>
-                  <SelectItem value="1402-10">1402-10</SelectItem>
-                  <SelectItem value="1402-11">1402-11</SelectItem>
-                  <SelectItem value="1402-12">1402-12</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <p> تجاری : </p>
-            <Select onValueChange={setNovValue} defaultValue="1">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="دوره را انتخاب کنید" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {/* <SelectLabel>Fruits</SelectLabel> */}
-                  {nov?.map((item: any) => (
-                    <SelectItem key={item.id} value={item.id}>
-                      {item.nov}
-                    </SelectItem>
-                  ))}
-                  {/* <SelectItem value="1402-06">1402-06</SelectItem>
-              <SelectItem value="1402-07">1402-07</SelectItem>
-              <SelectItem value="1402-08">1402-08</SelectItem>
-              <SelectItem value="1402-09">1402-09</SelectItem>
-              <SelectItem value="1402-10">1402-10</SelectItem>
-              <SelectItem value="1402-11">1402-11</SelectItem>
-              <SelectItem value="1402-12">1402-12</SelectItem> */}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+              <Select onValueChange={setValue} defaultValue="1402-06">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="دوره را انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                    <SelectItem value="1402-05">1402-05</SelectItem>
+                    <SelectItem value="1402-06">1402-06</SelectItem>
+                    <SelectItem value="1402-07">1402-07</SelectItem>
+                    <SelectItem value="1402-08">1402-08</SelectItem>
+                    <SelectItem value="1402-09">1402-09</SelectItem>
+                    <SelectItem value="1402-10">1402-10</SelectItem>
+                    <SelectItem value="1402-11">1402-11</SelectItem>
+                    <SelectItem value="1402-12">1402-12</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <p> نوع : </p>
+              <Select onValueChange={setNovValue} defaultValue="1">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="دوره را انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                    {nov?.map((item: any) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.nov}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <p> تجاری : </p>
+              <Select onValueChange={setNrahrov} defaultValue="">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="دوره را انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                    <SelectItem value="">لطفا انتخاب کنید</SelectItem>
 
-            <Button
-              disabled={pending}
-              variant={"outline"}
-              onClick={async () => {
-                startTransition(async () => {
-                  const ret = await getGroupPrint(value, novvalue, "");
-                  console.log(ret);
-                  setPrintData(ret);
+                    {rahrovalue?.map((item: any) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.tabagh}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <p> وضعیت : </p>
+              <Select onValueChange={setVaziat} defaultValue="">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="دوره را انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="">لطفا انتخاب کنید</SelectItem>
 
-                  setTimeout(() => {
-                    handlePrint();
-                  }, 100);
-                });
-              }}
+                    <SelectItem value="True">فعال</SelectItem>
+                    <SelectItem value="False">غیر فعال</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
 
-              /// onClick={onclick}
-            >
-              <div className="flex gap-2">
-                <p> چاپ</p>
-                {pending && <LoadingDots color="#000"></LoadingDots>}
-              </div>
-            </Button>
+              <Button
+                disabled={pending}
+                variant={"secondary"}
+                onClick={async () => {
+                  console.log(vaziat);
+
+                  startTransition(async () => {
+                    const ret = await getGroupPrint(
+                      value,
+                      novvalue,
+                      "",
+                      rahrov,
+                      vaziat
+                    );
+                    console.log(ret.length);
+                    setPrintData(ret);
+
+                    setTimeout(() => {
+                      handlePrint();
+                    }, 5000);
+                  });
+                }}
+
+                /// onClick={onclick}
+              >
+                <div className="flex gap-2">
+                  <p> چاپ</p>
+                  {pending && <LoadingDots color="#000"></LoadingDots>}
+                </div>
+              </Button>
+            </div>
           </div>
         </CardContent>
         <CardFooter>{/* <p>Card Footer</p> */}</CardFooter>
