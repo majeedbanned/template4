@@ -24,18 +24,18 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
           <div
             key={index}
             className="w-full px-2 "
-            // className="bg-white flex-col   gap-2 flex justify-center items-center rounded-lg  px-2 py-2    mt-2 mx-4"
+            // className="bg-white flex-col   gap-1 flex justify-center items-center rounded-lg  px-2 py-2    mt-2 mx-4"
           >
             <div className="flex flex-col justify-center w-full items-center px-2 py-0    mt-0 mx-0">
               <div className="flex w-full flex-row justify-between items-center flex-1">
-                <div className=" p-2 font-bold">
+                <div className=" p-1 font-bold">
                   <p style={{ fontFamily: "CustomFont" }}>
                     قبض پرداخت شارژ ماهیانه
                   </p>
                 </div>
                 <div
                   style={{ fontFamily: "CustomFont" }}
-                  className="p-2 font-bold"
+                  className="p-1 font-bold"
                 >
                   مجتمع خلیج فارس
                 </div>
@@ -76,25 +76,25 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                 <tr className="h-8 ">
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.new_account[0]?.month?.toString()}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className="  text-center border border-gray-800 p-2"
+                    className="  text-center border border-gray-800 p-1"
                   >
                     {item?.name}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.pelak}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.types_tabagh?.tabagh} - {item?.types_bazar?.bazar} -
                     {item?.types_rahro?.rahro}
@@ -102,7 +102,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
 
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.active.toString() === "true" ? "فعال" : "غیر فعال"}
                   </td>
@@ -153,13 +153,13 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                 <tr className="h-8 ">
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.metraj}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className="  text-center border border-gray-800 p-2"
+                    className="  text-center border border-gray-800 p-1"
                   >
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
@@ -170,7 +170,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
@@ -181,13 +181,13 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {item?.new_account[0]?.deptPeriod}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
@@ -198,7 +198,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
-                    className=" text-center border border-gray-800 p-2"
+                    className=" text-center border border-gray-800 p-1"
                   >
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
@@ -227,16 +227,16 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   <th className="border border-gray-800 text-sm">پرداخت شده</th>
                 </tr>
                 <tr style={{ fontFamily: "CustomFont" }} className="h-8 ">
-                  <td className=" text-center border border-gray-800 p-2">
+                  <td className=" text-center border border-gray-800 p-1">
                     {/* پاسارگاد */}
                   </td>
-                  <td className="  text-center border border-gray-800 p-2">
+                  <td className="  text-center border border-gray-800 p-1">
                     {/* محمد حسنی */}
                   </td>
-                  <td className=" text-center border border-gray-800 p-2">
+                  <td className=" text-center border border-gray-800 p-1">
                     {/* 603799178800 */}
                   </td>
-                  <td className=" text-center border border-gray-800 p-2">
+                  <td className=" text-center border border-gray-800 p-1">
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
                       currency: "IRR",
@@ -245,7 +245,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       .replace("ریال", "")}
                   </td>
 
-                  <td className=" text-center border border-gray-800 p-2">
+                  <td className=" text-center border border-gray-800 p-1">
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
                       currency: "IRR",
@@ -253,7 +253,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       .format(item?.new_account[0]?.discount)
                       .replace("ریال", "")}
                   </td>
-                  <td className=" text-center border border-gray-800 p-2">
+                  <td className=" text-center border border-gray-800 p-1">
                     {new Intl.NumberFormat("fa-IR", {
                       style: "currency",
                       currency: "IRR",
@@ -264,12 +264,12 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                 </tr>
               </table>
 
-              <div className="flex flex-row flex-1 w-full gap-2  ">
+              <div className="flex flex-row flex-1 w-full gap-1  ">
                 <div
                   style={{ fontFamily: "CustomFont" }}
-                  className="flex flex-col gap-2 flex-[.5] "
+                  className="flex flex-col gap-1 flex-[.5] "
                 >
-                  <div className="border border-gray-800 p-2 pb-2 ">
+                  <div className="border border-gray-800 p-1 pb-2 ">
                     مهلت پرداخت
                     {/* <br /> */}
                     <p className="text-center text-xl">
@@ -279,7 +279,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     </p>
                     <p>مهلت داده شده شامل بدهی نمیشود</p>
                   </div>
-                  <div className="border border-gray-800 p-2 pb-2  bg-gray-100">
+                  <div className="border border-gray-800 p-1 pb-2  bg-gray-100">
                     مبلغ قابل پرداخت
                     <br />
                     <p className="text-center text-2xl ">
