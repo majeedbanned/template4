@@ -41,7 +41,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                 </div>
               </div>
               <table className="w-full mx-0">
-                <tr className="h-10 border border-gray-800 bg-gray-100">
+                <tr className="h-8 border border-gray-800 bg-gray-100">
                   <th
                     style={{ fontFamily: "CustomFont" }}
                     className="border border-gray-800 text-sm"
@@ -73,7 +73,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     وضعیت
                   </th>
                 </tr>
-                <tr className="h-10 ">
+                <tr className="h-8 ">
                   <td
                     style={{ fontFamily: "CustomFont" }}
                     className=" text-center border border-gray-800 p-2"
@@ -110,7 +110,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
               </table>
 
               <table className="w-full mx-0">
-                <tr className="h-10 border border-gray-800  bg-gray-100">
+                <tr className="h-8 border border-gray-800  bg-gray-100">
                   <th
                     style={{ fontFamily: "CustomFont" }}
                     className="border border-gray-800 text-sm"
@@ -150,7 +150,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     دیرکرد
                   </th>
                 </tr>
-                <tr className="h-10 ">
+                <tr className="h-8 ">
                   <td
                     style={{ fontFamily: "CustomFont" }}
                     className=" text-center border border-gray-800 p-2"
@@ -213,7 +213,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
               <table className="w-full mx-0">
                 <tr
                   style={{ fontFamily: "CustomFont" }}
-                  className="h-10 border border-gray-800  bg-gray-100"
+                  className="h-8 border border-gray-800  bg-gray-100"
                 >
                   <th className="border border-gray-800 text-sm">
                     بانک محل پرداخت
@@ -226,7 +226,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   <th className="border border-gray-800 text-sm">تخفیف</th>
                   <th className="border border-gray-800 text-sm">پرداخت شده</th>
                 </tr>
-                <tr style={{ fontFamily: "CustomFont" }} className="h-10 ">
+                <tr style={{ fontFamily: "CustomFont" }} className="h-8 ">
                   <td className=" text-center border border-gray-800 p-2">
                     {/* پاسارگاد */}
                   </td>
