@@ -73,7 +73,9 @@ if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
     updated_at: "",
     updated_user: 0,
   };
+  
   const { TotalBill, id, ...newObject } = newres;
+
 
   const response = await client.new_account.create({
     data: newObject,
@@ -83,6 +85,7 @@ if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
     status: 200,
   });
 }
+
 export async function PUT(req: NextRequest) {
   //  **  Auth **//
   const session = await getServerSession(authOptions);
