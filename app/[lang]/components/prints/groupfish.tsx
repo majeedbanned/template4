@@ -289,7 +289,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                         currency: "IRR",
                       })
                         .format(
-                          item?.new_account[0]?.TotalBill === 0
+                          item?.new_account[0]?.TotalBill === "0"
                             ? 0
                             : item?.new_account[0]?.TotalBill -
                                 item?.new_account[0]?.paidBill
