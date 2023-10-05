@@ -303,7 +303,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   className="border border-gray-800 flex flex-col flex-1 p-1 "
                 >
                   <div className="flex flex-1 flex-col justify-start">
-                    <p>بدون ثبت ماشینی اعتبار ندارد</p>
+                    {/* <p>بدون ثبت ماشینی اعتبار ندارد</p> */}
 
                     <p>
                       پرداخت به صورت غیر حضوری توسط سامانه
