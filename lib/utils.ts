@@ -103,7 +103,7 @@ export async function fetcher<JSON = any>(
     err.status = res.status;
     throw err;
   }
-
+//console.log(res.json())
   return res.json();
 }
 

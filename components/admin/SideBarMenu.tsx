@@ -30,6 +30,7 @@ import {
   UserIcon,
   RectangleStackIcon,
   BookOpenIcon,
+  DocumentChartBarIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth/core/types";
 type Props = {};
@@ -408,18 +409,18 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
           }
         >
           <MenuItem
-            onClick={() => setActiveMenu(7)}
-            selected={activeMenu === 7}
+            onClick={() => setActiveMenu(30)}
+            selected={activeMenu === 30}
             active={exp}
-            title="datalist"
-            link="admin/datalist"
+            title="گزارشات"
+            link="admin/reports?date=1402-05"
             icon={
-              <ChatBubbleLeftIcon
+              <DocumentChartBarIcon
                 fontSize={20}
                 className={`${
-                  activeMenu === 1 ? " text-orange-400" : "text-[#8b99a4]"
+                  activeMenu === 30 ? " text-orange-400" : "text-[#8b99a4]"
                 } w-6 h-6 dark:text-white `}
-              ></ChatBubbleLeftIcon>
+              ></DocumentChartBarIcon>
             }
           ></MenuItem>
         </SidebarItem>
