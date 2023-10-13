@@ -46,7 +46,10 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "پلاک",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-lg bordercolor font-bold" variant="outline">
+        <Badge
+          className="rounded-lg whitespace-nowrap bordercolor font-bold"
+          variant="outline"
+        >
           {row.getValue("پلاک")}
         </Badge>
       );
@@ -474,9 +477,17 @@ export const columns: ColumnDef<StoreProps>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-row gap-1">
-          <p className="text-[11px]">{row.getValue("بلوک")}</p>|
-          <p className="text-[11px]">{row.getValue("تراز")}</p>|
-          <p className="text-[11px]">{row.getValue("راهرو")}</p>
+          <p className="whitespace-nowrap text-[11px]">
+            {row.getValue("بلوک")}
+          </p>
+          |
+          <p className="whitespace-nowrap text-[11px]">
+            {row.getValue("تراز")}
+          </p>
+          |
+          <p className=" whitespace-nowrap text-[11px]">
+            {row.getValue("راهرو")}
+          </p>
         </div>
       );
     },

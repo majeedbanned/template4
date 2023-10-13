@@ -4,7 +4,7 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/reports/components/data-ta
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { Suspense, useCallback, useState } from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   redirect,
@@ -32,6 +32,9 @@ import { FcAddRow } from "react-icons/fc";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { Badge } from "@/components/ui/badge";
+import { PrinterIcon } from "@heroicons/react/24/solid";
+import ComponentToPrint from "./groupfish";
+import { useReactToPrint } from "react-to-print";
 
 type Props = {};
 
@@ -71,6 +74,7 @@ export default function Datalist({
   if (permission?.user.role === "admin") {
     canAction = { ...per, add: true, edit: true, print: true, view: true };
   }
+  const [printData, setPrintData] = useState<any>([]);
 
   const AddRecord = () => {
     setEditstore({
@@ -197,6 +201,12 @@ export default function Datalist({
     // }, 100);
   };
 
+  const componentRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "پرینت گزارش",
+  });
   const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -379,13 +389,37 @@ export default function Datalist({
         </div>
       </div>
 
-      <Badge
-        className=" shadow-[#6d93ec]/50 border-0 text-sm mr-28 h-8  "
-        variant={"secondary"}
-      >
-        تعداد ردیف : {stores?.length}{" "}
-      </Badge>
-
+      <div className=" flex flex-row shadow-[#6d93ec]/50 border-0 text-sm mr-28 h-8  ">
+        <Badge
+          className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  "
+          variant={"secondary"}
+        >
+          تعداد ردیف : {stores?.length}
+        </Badge>
+        <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
+          <Button
+            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm mr-[10px] h-8  "
+            variant={"secondary"}
+            onClick={async () => {
+              // startTransition(async () => {
+              setPrintData(stores);
+              setTimeout(() => {
+                handlePrint();
+              }, 2000);
+              // });
+            }}
+          >
+            <PrinterIcon className="w-4 h-4"></PrinterIcon>
+            پرینت
+          </Button>
+          <ComponentToPrint
+            data={printData}
+            // chargeDef={printChargeDef}
+            // store={printStore}
+            ref={componentRef}
+          />
+        </div>
+      </div>
       {/* {canAction.add ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
