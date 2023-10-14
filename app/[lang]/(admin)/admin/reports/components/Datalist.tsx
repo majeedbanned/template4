@@ -371,7 +371,20 @@ export default function Datalist({
               .map(Number)}
             onChange={(e) => setQueryString("date", e)}
           ></FacetedFilter>
-
+          <FacetedFilter
+            filterOption="debt"
+            title="دوره بدهی"
+            options={[
+              { value: "1", label: "۱ تا ۵ دوره" },
+              { value: "2", label: "۶ دوره به بالا" },
+            ]}
+            selected={searchParams
+              .get("debt")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("debt", e)}
+          ></FacetedFilter>
           <FacetedFilter
             filterOption="pardakht"
             title="وضعیت پرداخت"

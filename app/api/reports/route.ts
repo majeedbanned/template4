@@ -169,6 +169,11 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("profile")?.toString().split(",").map(Number) ||
     undefined;
 
+    const debt =
+    url.searchParams.get("debt")?.toString().split(",").map(Number) ||
+    undefined;
+
+
   const date =
     url.searchParams.get("date")?.toString().split(",").map(String)|| undefined;
   // console.log(date)
@@ -287,7 +292,15 @@ export async function GET(request: NextRequest) {
     if (tabagh) {
       tabaghq = ` AND (dbo.store.tabagh in (${tabagh}) ) `;
     }
-
+    let debtq='';
+    if (debt) {
+      if (debt?.includes(1)) {
+      debtq = ` AND (dbo.new_account.deptPeriod>0 and dbo.new_account.deptPeriod<=5 ) `;
+      }
+      if (debt?.includes(2)) {
+        debtq = ` AND (dbo.new_account.deptPeriod>=6  ) `;
+        }
+    }
 
     const wrappedStrings = date?.map(str => `'${str}'`);
 
@@ -336,7 +349,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB}`);                   
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by dbo.new_account.deptPeriod`);                   
 
     const res = JSON.parse(
       JSON.stringify(
