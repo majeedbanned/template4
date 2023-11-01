@@ -34,6 +34,8 @@ import { Session } from "next-auth/core/types";
 import { Badge } from "@/components/ui/badge";
 import { PrinterIcon } from "@heroicons/react/24/solid";
 import ComponentToPrint from "./groupfish";
+import ComponentToPrintfani from "./groupfishfani";
+
 import { useReactToPrint } from "react-to-print";
 
 type Props = {};
@@ -67,7 +69,7 @@ export default function Datalist({
   // });
 
   let per = permission?.user?.Permission?.find((item) => {
-    return item.systemID === 2 && item.edit === true;
+    return item.systemID === 10 && item.edit === true;
   });
 
   let canAction = { ...per };
@@ -75,6 +77,7 @@ export default function Datalist({
     canAction = { ...per, add: true, edit: true, print: true, view: true };
   }
   const [printData, setPrintData] = useState<any>([]);
+  const [printType, setPrintType] = useState<string>("");
 
   const AddRecord = () => {
     setEditstore({
@@ -202,7 +205,12 @@ export default function Datalist({
   };
 
   const componentRef = useRef(null);
+  // const componentRef1 = useRef(null);
 
+  // const handlePrint1 = useReactToPrint({
+  //   content: () => componentRef1.current,
+  //   documentTitle: "پرینت گزارش",
+  // });
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     documentTitle: "پرینت گزارش",
@@ -416,6 +424,7 @@ export default function Datalist({
             onClick={async () => {
               // startTransition(async () => {
               setPrintData(stores);
+              setPrintType("standard");
               setTimeout(() => {
                 handlePrint();
               }, 2000);
@@ -425,12 +434,42 @@ export default function Datalist({
             <PrinterIcon className="w-4 h-4"></PrinterIcon>
             پرینت
           </Button>
+
           <ComponentToPrint
             data={printData}
+            type={printType}
             // chargeDef={printChargeDef}
             // store={printStore}
             ref={componentRef}
           />
+        </div>
+
+        <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
+          <Button
+            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm mr-[10px] h-8  "
+            variant={"secondary"}
+            onClick={async () => {
+              // startTransition(async () => {
+              setPrintData(stores);
+              setPrintType("fani");
+
+              setTimeout(() => {
+                handlePrint();
+              }, 2000);
+              // });
+            }}
+          >
+            <PrinterIcon className="w-4 h-4"></PrinterIcon>
+            پرینت برای بخش فنی
+          </Button>
+
+          {/* <ComponentToPrint
+            data={printData}
+            type="fani"
+            // chargeDef={printChargeDef}
+            // store={printStore}
+            ref={componentRef}
+          /> */}
         </div>
       </div>
       {/* {canAction.add ? (

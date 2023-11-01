@@ -643,11 +643,12 @@ export const AddEditChargeModal = ({
     <Modaltall
       disabled={isLoading}
       isOpen={AddEditChargeModal.isOpen}
-      title={
-        AddEditChargeModal.editID === ""
-          ? "ثبت رکورد جدید"
-          : "ویرایش پلاک " + AddEditChargeModal.editID
-      }
+      // title={
+      //   AddEditChargeModal.editID === ""
+      //     ? "ثبت رکورد جدید"
+      //     : "ویرایش پلاک " + AddEditChargeModal.editID
+      // }
+      title=""
       // "افزودن واحد"
       actionLabel={AddEditChargeModal.editID === "" ? "افزودن" : "ویرایش"}
       secondaryActionLabel="انصراف"
