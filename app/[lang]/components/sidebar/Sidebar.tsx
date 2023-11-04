@@ -87,6 +87,7 @@ export default function Sidebar({
           />
           <div
             className={`
+            border-2
               flex justify-between items-center
               overflow-hidden transition-all ${expanded ? "w-44 ml-3" : "w-0"}
           `}

@@ -300,6 +300,11 @@ export async function GET(request: NextRequest) {
       if (debt?.includes(2)) {
         debtq = ` AND (dbo.new_account.deptPeriod>=6  ) `;
         }
+
+        if (debt?.includes(3)) {
+          debtq = ` AND (dbo.new_account.deptPeriod>=2 and dbo.new_account.deptPeriod<=5 ) `;
+
+          }
     }
 
     const wrappedStrings = date?.map(str => `'${str}'`);

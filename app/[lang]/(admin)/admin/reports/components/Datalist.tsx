@@ -384,6 +384,7 @@ export default function Datalist({
             title="دوره بدهی"
             options={[
               { value: "1", label: "۱ تا ۵ دوره" },
+              { value: "3", label: "۲ تا ۵ دوره" },
               { value: "2", label: "۶ دوره به بالا" },
             ]}
             selected={searchParams
