@@ -354,7 +354,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by dbo.new_account.deptPeriod`);                   
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by newid()`);                   
 
     const res = JSON.parse(
       JSON.stringify(
