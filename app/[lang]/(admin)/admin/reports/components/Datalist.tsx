@@ -4,6 +4,15 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/reports/components/data-ta
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import React, { Suspense, useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import {
@@ -411,7 +420,7 @@ export default function Datalist({
         </div>
       </div>
 
-      <div className=" flex flex-row shadow-[#6d93ec]/50 border-0 text-sm mr-28 h-8  ">
+      <div className=" flex flex-row shadow-[#6d93ec]/50 border-0 text-sm mr-28 h-8 gap-2 ">
         <Badge
           className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  "
           variant={"secondary"}
@@ -420,7 +429,7 @@ export default function Datalist({
         </Badge>
         <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
           <Button
-            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm mr-[10px] h-8  "
+            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm  h-8  "
             variant={"secondary"}
             onClick={async () => {
               // startTransition(async () => {
@@ -447,7 +456,7 @@ export default function Datalist({
 
         <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
           <Button
-            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm mr-[10px] h-8  "
+            className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm  h-8  "
             variant={"secondary"}
             onClick={async () => {
               // startTransition(async () => {
@@ -471,6 +480,23 @@ export default function Datalist({
             // store={printStore}
             ref={componentRef}
           /> */}
+        </div>
+        <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
+          <Select
+            defaultValue="p"
+            onValueChange={(e: string) => setQueryString("sort", [e])}
+          >
+            <SelectTrigger className="w-[180px] h-8">
+              <SelectValue placeholder="Select a fruit" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>مرتب سازی بر اساس</SelectLabel>
+                <SelectItem value="p">پلاک</SelectItem>
+                <SelectItem value="r">تصادفی</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       {/* {canAction.add ? (

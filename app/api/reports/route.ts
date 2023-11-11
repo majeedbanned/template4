@@ -148,6 +148,10 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("active")?.toString().split(",").toString() ||
     undefined;
 
+    const sort =
+    url.searchParams.get("sort")?.toString().split(",").toString() ||
+    undefined;
+
   const rahro =
     url.searchParams.get("rahro")?.toString().split(",").map(Number) ||
     undefined;
@@ -283,7 +287,13 @@ export async function GET(request: NextRequest) {
     if (rahro) {
       rahroq = ` AND (dbo.store.rahro in (${rahro}) ) `;
     }
-
+    let sortq='';
+    if (sort) {
+      sortq =sort==='r'?' newid()':' dbo.store.pelak ' ;
+    }
+    else{
+      sortq=  ' dbo.store.pelak ' ;
+    }
     let bazarq='';
     if (bazar) {
       bazarq = ` AND (dbo.store.bazar in (${bazar}) ) `;
@@ -354,7 +364,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by newid()`);                   
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by ${sortq}`);                   
 
     const res = JSON.parse(
       JSON.stringify(
