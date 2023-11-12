@@ -68,9 +68,14 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "نوع واحد",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("نوع واحد")}
-        </Badge>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Badge className="rounded-sm" variant="secondary">
+            {row.getValue("نوع واحد")}
+          </Badge>
+          <Badge className="rounded-sm" variant="secondary">
+            {row.getValue("وضعیت")?.toString() === "true" ? "فعال" : "غیر فعال"}
+          </Badge>
+        </div>
       );
     },
     header: ({ column }) => {
@@ -93,6 +98,22 @@ export const columns: ColumnDef<StoreProps>[] = [
     },
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="نام واحد" />;
+    },
+  },
+
+  {
+    accessorKey: "active",
+    id: "وضعیت",
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 font-medium">
+          {row.getValue("وضعیت")?.toString() === "true" ? "فعال" : "غیر فعال"}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="وضعیت" />;
     },
   },
   {

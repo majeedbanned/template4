@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { log } from "@/lib/utils";
 
 import client from "@/lib/prismadb1";
-import {Prisma} from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
@@ -148,9 +148,16 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("active")?.toString().split(",").toString() ||
     undefined;
 
-    const sort =
-    url.searchParams.get("sort")?.toString().split(",").toString() ||
+  const fromdate =
+    url.searchParams.get("fromdate")?.toString().split(",").toString() ||
     undefined;
+
+  const todate =
+    url.searchParams.get("todate")?.toString().split(",").toString() ||
+    undefined;
+
+  const sort =
+    url.searchParams.get("sort")?.toString().split(",").toString() || undefined;
 
   const rahro =
     url.searchParams.get("rahro")?.toString().split(",").map(Number) ||
@@ -173,13 +180,13 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("profile")?.toString().split(",").map(Number) ||
     undefined;
 
-    const debt =
+  const debt =
     url.searchParams.get("debt")?.toString().split(",").map(Number) ||
     undefined;
 
-
   const date =
-    url.searchParams.get("date")?.toString().split(",").map(String)|| undefined;
+    url.searchParams.get("date")?.toString().split(",").map(String) ||
+    undefined;
   // console.log(date)
   if (!session) {
     return NextResponse.json(
@@ -279,81 +286,81 @@ export async function GET(request: NextRequest) {
     //   take: 100,
     // });
 
-    let novq='';
+    let fromdateq = "";
+    if (fromdate) {
+      if (todate)
+        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}'  ) 
+                      AND (dbo.new_account.paidDate <= '${todate}'  ) `;
+      else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' ) `;
+    }
+
+    let novq = "";
     if (nov) {
       novq = ` AND (dbo.store.nov in (${nov}) ) `;
     }
-    let rahroq='';
+    let rahroq = "";
     if (rahro) {
       rahroq = ` AND (dbo.store.rahro in (${rahro}) ) `;
     }
-    let sortq='';
+    let sortq = "";
     if (sort) {
-      sortq =sort==='r'?' newid()':' dbo.store.pelak ' ;
+      sortq = sort === "r" ? " newid()" : " dbo.store.pelak ";
+    } else {
+      sortq = " dbo.store.pelak ";
     }
-    else{
-      sortq=  ' dbo.store.pelak ' ;
-    }
-    let bazarq='';
+    let bazarq = "";
     if (bazar) {
       bazarq = ` AND (dbo.store.bazar in (${bazar}) ) `;
     }
-    let tabaghq='';
+    let tabaghq = "";
     if (tabagh) {
       tabaghq = ` AND (dbo.store.tabagh in (${tabagh}) ) `;
     }
-    let debtq='';
+    let debtq = "";
     if (debt) {
       if (debt?.includes(1)) {
-      debtq = ` AND (dbo.new_account.deptPeriod>0 and dbo.new_account.deptPeriod<=5 ) `;
+        debtq = ` AND (dbo.new_account.deptPeriod>0 and dbo.new_account.deptPeriod<=5 ) `;
       }
       if (debt?.includes(2)) {
         debtq = ` AND (dbo.new_account.deptPeriod>=6  ) `;
-        }
+      }
 
-        if (debt?.includes(3)) {
-          debtq = ` AND (dbo.new_account.deptPeriod>=2 and dbo.new_account.deptPeriod<=5 ) `;
-
-          }
+      if (debt?.includes(3)) {
+        debtq = ` AND (dbo.new_account.deptPeriod>=2 and dbo.new_account.deptPeriod<=5 ) `;
+      }
     }
 
-    const wrappedStrings = date?.map(str => `'${str}'`);
+    const wrappedStrings = date?.map((str) => `'${str}'`);
 
-    let dateq='';
+    let dateq = "";
     if (date) {
       dateq = ` AND (dbo.new_account.month in (${wrappedStrings}) ) `;
-    }
-    else
-    {
-
+    } else {
       dateq = ` AND (dbo.new_account.month ='1402-05' ) `;
-
     }
-    let activeq='';
+    let activeq = "";
     if (active) {
       activeq = ` AND (dbo.store.active in (${active}) ) `;
     }
 
-    let pardakhtq='';
+    let pardakhtq = "";
     if (pardakht?.includes(1)) {
-
       pardakhtq = ` AND (dbo.new_account.paidBill= dbo.new_account.TotalBill 
                          or dbo.new_account.TotalBill=0) `;
     }
 
-    let pardakhtqB='';
+    let pardakhtqB = "";
     if (pardakht?.includes(2)) {
-
       pardakhtqB = ` AND (dbo.new_account.paidBill<dbo.new_account.TotalBill 
                          ) `;
     }
 
-    let searchq='';
+    let searchq = "";
     if (search) {
       searchq = ` AND (dbo.store.pelak like '%${search}%' or dbo.store.name like '%${search}%' ) `;
     }
 
- // const serializedIds = JSON.stringify(ids);
+    // const serializedIds = JSON.stringify(ids);
     const response = await client.$queryRawUnsafe(`
    SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active, dbo.new_account.deptPeriod, 
                          dbo.new_account.TotalBill, dbo.new_account.paidBill,dbo.new_account.discription
@@ -364,7 +371,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} order by ${sortq}`);                   
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} order by ${sortq}`);
 
     const res = JSON.parse(
       JSON.stringify(
@@ -376,7 +383,7 @@ FROM            dbo.new_account INNER JOIN
       status: 200,
     });
   } catch (error: any) {
-     console.log(error.message);
+    console.log(error.message);
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

@@ -46,6 +46,9 @@ import ComponentToPrint from "./groupfish";
 import ComponentToPrintfani from "./groupfishfani";
 
 import { useReactToPrint } from "react-to-print";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 type Props = {};
 
@@ -497,6 +500,53 @@ export default function Datalist({
               </SelectGroup>
             </SelectContent>
           </Select>
+        </div>
+        <div>
+          <DatePicker
+            placeholder="پرداخت از تاریخ"
+            onChange={(date) => {
+              // field.onChange(date ? date.toString() : "");
+              setQueryString(
+                "fromdate",
+                date ? [date.toString().toEnglishDigits()] : []
+              );
+            }}
+            style={{
+              width: "50px !important",
+
+              height: "30px",
+              borderRadius: "8px",
+              fontSize: "14px",
+              padding: "3px 10px !important",
+            }}
+            format={"YYYY/MM/DD"}
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-center"
+          />
+        </div>
+        <div>
+          <DatePicker
+            placeholder="پرداخت تا تاریخ"
+            onChange={(date) => {
+              setQueryString(
+                "todate",
+                date ? [date.toString().toEnglishDigits()] : []
+              );
+            }}
+            style={{
+              width: "50px !important",
+
+              height: "30px",
+              borderRadius: "8px",
+              fontSize: "14px",
+              padding: "3px 10px !important",
+            }}
+            format={"YYYY/MM/DD"}
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-center"
+          />
         </div>
       </div>
       {/* {canAction.add ? (

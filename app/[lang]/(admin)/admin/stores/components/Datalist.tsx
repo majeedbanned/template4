@@ -349,6 +349,7 @@ export default function Datalist({
               "نوع تعرفه": false,
               تعرفه: false,
               تلفن: false,
+              وضعیت: false,
             }}
             columns={columns}
             data={stores}

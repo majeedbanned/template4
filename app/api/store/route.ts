@@ -195,6 +195,7 @@ export async function GET(request: NextRequest) {
         metraj: true,
         ejareh: true,
         tel1: true,
+        active:true,
         tel2: true,
         tovzeh: true,
         types_rahro: { select: { id: true, rahro: true } },
