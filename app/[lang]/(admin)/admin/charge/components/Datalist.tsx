@@ -142,7 +142,7 @@ export default function Datalist({
         "",
         ""
       );
-      // console.log(ret);
+      console.log(ret);
       setPrintData(ret);
 
       setTimeout(() => {

@@ -19,6 +19,10 @@ export const Tenantschema = z.object({
   endate: z.string().optional(),
   sex: z.string().optional(),
   cposti: z.string().optional(),
+  disc: z.string().optional(),
+
+  datemojavez: z.string().optional(),
+
   // storePelak: z.string().optional(),
 });
 

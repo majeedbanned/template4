@@ -123,7 +123,7 @@ export const AddEditTenantModal = ({
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel> فامیل :</FormLabel>
+                <FormLabel> نام خانوادگی :</FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
@@ -150,11 +150,11 @@ export const AddEditTenantModal = ({
         />
         <FormField
           control={form.control}
-          name="tjob"
+          name="tmeli"
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel> شغل :</FormLabel>
+                <FormLabel> کد ملی :</FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
@@ -169,53 +169,7 @@ export const AddEditTenantModal = ({
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel> موبایل :</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input disabled={isLoading} placeholder="" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="ttel"
-          render={({ field }) => (
-            <FormItem className="">
-              <div className=" flex flex-row justify-between">
-                <FormLabel> تلفن :</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input disabled={isLoading} placeholder="" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="taddress"
-          render={({ field }) => (
-            <FormItem className="">
-              <div className=" flex flex-row justify-between">
-                <FormLabel> آدرس :</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input disabled={isLoading} placeholder="" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="tmeli"
-          render={({ field }) => (
-            <FormItem className="">
-              <div className=" flex flex-row justify-between">
-                <FormLabel> کد ملی :</FormLabel>
+                <FormLabel> شماره همراه :</FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
@@ -231,7 +185,7 @@ export const AddEditTenantModal = ({
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel>: تاریخ شروع </FormLabel>
+                <FormLabel>: تاریخ شروع قرارداد </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
@@ -263,7 +217,7 @@ export const AddEditTenantModal = ({
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel>: تاریخ پایان </FormLabel>
+                <FormLabel>: تاریخ پایان قرارداد </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
@@ -288,6 +242,103 @@ export const AddEditTenantModal = ({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="tjob"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> صنف :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        {/* تاریخ مجوز کاربری */}
+        <FormField
+          control={form.control}
+          name="datemojavez"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel>: تاریخ مجوز کاربری </FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <DatePicker
+                  value={field.value || ""}
+                  onChange={(date) => {
+                    field.onChange(date ? date.toString() : "");
+                  }}
+                  style={{
+                    width: "100% !important",
+                    height: "34px",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    padding: "3px 10px !important",
+                  }}
+                  format={"YYYY/MM/DD"}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-center"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="ttel"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> وکیل/ نماینده :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="taddress"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> آدرس پلاک :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="disc"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> توضیحات :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Textarea disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        {/* توضیحات */}
 
         <div>{error}</div>
       </form>
@@ -325,6 +376,7 @@ import Modaltall from "./Modaltall";
 import { toast } from "sonner";
 import { Tenantschema } from "@/lib/schemas";
 import DatePicker from "react-multi-date-picker";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AddEditTenantModal {
   isOpen: boolean;

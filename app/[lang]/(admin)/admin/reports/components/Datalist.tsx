@@ -420,6 +420,23 @@ export default function Datalist({
               .map(Number)}
             onChange={(e) => setQueryString("pardakht", e)}
           ></FacetedFilter>
+
+          <FacetedFilter
+            filterOption="npardakht"
+            title="نوع پرداخت"
+            options={[
+              { value: "1", label: "پوز" },
+              { value: "2", label: "پرداخت آنلاین" },
+              { value: "3", label: "واریز به حساب" },
+              { value: "4", label: "پوز اطلاعات" },
+            ]}
+            selected={searchParams
+              .get("npardakht")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("npardakht", e)}
+          ></FacetedFilter>
         </div>
       </div>
 

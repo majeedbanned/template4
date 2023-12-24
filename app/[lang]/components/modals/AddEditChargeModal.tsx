@@ -583,6 +583,9 @@ export const AddEditChargeModal = ({
                       <SelectItem key={3} value={"واریز به حساب"}>
                         واریز به حساب
                       </SelectItem>
+                      <SelectItem key={4} value={"پوز اطلاعات"}>
+                        پوز اطلاعات
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>

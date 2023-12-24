@@ -173,6 +173,10 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("pardakht")?.toString().split(",").map(Number) ||
     undefined;
 
+    const npardakht =
+    url.searchParams.get("npardakht")?.toString().split(",").map(Number) ||
+    undefined;
+
   const nov =
     url.searchParams.get("nov")?.toString().split(",").map(Number) || undefined;
 
@@ -342,6 +346,26 @@ export async function GET(request: NextRequest) {
     if (active) {
       activeq = ` AND (dbo.store.active in (${active}) ) `;
     }
+
+
+    let npardakhtq = "";
+    if (npardakht) {
+
+      if (npardakht?.includes(1)) {
+        npardakhtq +=`  (dbo.new_account.paidtype = N'پوز' ) or`
+      }
+      if (npardakht?.includes(2)) {
+        npardakhtq +=`  (dbo.new_account.paidtype = N'پرداخت آنلاین' ) or`
+      }
+      if (npardakht?.includes(3)) {
+        npardakhtq +=`  (dbo.new_account.paidtype = N'واریز به حساب' ) or`
+      }
+      if (npardakht?.includes(4)) {
+        npardakhtq +=`  (dbo.new_account.paidtype = N'پوز اطلاعات' ) or`
+      }
+      npardakhtq = ` AND ( ${npardakhtq.substring(0, npardakhtq.length - 2)} ) `;
+    }
+
 
     let pardakhtq = "";
     if (pardakht?.includes(1)) {
