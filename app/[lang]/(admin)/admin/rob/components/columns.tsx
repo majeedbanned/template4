@@ -60,6 +60,14 @@ export const columns: ColumnDef<z.infer<typeof Robschema>>[] = [
     accessorKey: "paydate",
     id: "تاریخ پرداخت",
 
+    cell: ({ row }) => {
+      let val = String(row.getValue("تاریخ پرداخت"));
+
+      return (
+        <div className="text-right font-medium">{val?.toPersianDigits()}</div>
+      );
+    },
+
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="تاریخ پرداخت" />
     ),
@@ -67,6 +75,19 @@ export const columns: ColumnDef<z.infer<typeof Robschema>>[] = [
   {
     accessorKey: "price",
     id: "مبلغ",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("مبلغ"));
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(amount);
+
+      return (
+        <div className="text-right font-medium">
+          {formatted.replace("ریال", "")}
+        </div>
+      );
+    },
 
     header: ({ column }) => {
       return <div className="flex m-0 px-0  font-semibold">مبلغ </div>;
