@@ -161,10 +161,13 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                <th className="text-primaryText text-right pr-6">منو</th>
+                <th className="text-primaryText text-right pr-0 text-[12px] -rotate-90">
+                  ردیف
+                </th>
+                <th className="text-primaryText text-right pr-0"></th>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead className="p-0" key={header.id}>
+                    <TableHead className="p-0 " key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -179,13 +182,14 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody className="">
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
                   className="p-3  "
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  <td className="px-4 py-2">
+                  <td className="px-1 py-2">{index + 1}</td>
+                  <td className="px-0 py-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -266,7 +270,10 @@ export function DataTable<TData, TValue>({
                     )}
                   </td>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="m-0 p-2 " key={cell.id}>
+                    <TableCell
+                      className="m-0 p-[1px] text-center border-x "
+                      key={cell.id}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

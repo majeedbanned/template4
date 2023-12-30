@@ -95,7 +95,7 @@ export const columns: ColumnDef<StoreProps>[] = [
 
     cell: ({ row }) => {
       return (
-        <div className="text-slate-600 font-medium">
+        <div className="text-slate-600 text-[12px] font-medium">
           {row.getValue("نام واحد")}
         </div>
       );
@@ -104,14 +104,20 @@ export const columns: ColumnDef<StoreProps>[] = [
       return <DataTableColumnHeader column={column} title="نام واحد" />;
     },
   },
-  // {
-  //   accessorKey: "metraj",
-  //   id: "متراژ",
-
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="متراژ" />
-  //   ),
-  // },
+  {
+    accessorKey: "metraj",
+    id: "متراژ",
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 font-medium text-sm">
+          {String(row.getValue("متراژ")).toPersianDigits()}
+        </div>
+      );
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="متراژ" />
+    ),
+  },
   // {
   //   accessorKey: "tel1",
   //   id: "تلفن",
@@ -168,6 +174,84 @@ export const columns: ColumnDef<StoreProps>[] = [
     },
   },
 
+  {
+    accessorKey: "debt",
+    id: "بدهی",
+
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="بدهی" />;
+    },
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 font-medium">
+          {
+            //@ts-ignore
+            row.getValue("بدهی") ? (
+              <Badge
+                className="rounded-lg w-fit bordercolor text-sm  border-0 text-[#000] text-[12px] "
+                variant="outline"
+              >
+                {
+                  //@ts-ignore
+                  new Intl.NumberFormat("fa-IR", {
+                    style: "currency",
+                    currency: "IRR",
+                  })
+                    .format(
+                      //@ts-ignore
+                      row.getValue("بدهی")
+                    )
+                    .replace("ریال", "")
+                }
+              </Badge>
+            ) : (
+              <p></p>
+            )
+          }
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "penalty",
+    id: "جریمه",
+
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="جریمه" />;
+    },
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 font-medium">
+          {
+            //@ts-ignore
+            row.getValue("جریمه") ? (
+              <Badge
+                className="rounded-lg w-fit bordercolor text-sm  border-0 text-[#000] text-[12px] "
+                variant="outline"
+              >
+                {
+                  //@ts-ignore
+                  new Intl.NumberFormat("fa-IR", {
+                    style: "currency",
+                    currency: "IRR",
+                  })
+                    .format(
+                      //@ts-ignore
+                      row.getValue("جریمه")
+                    )
+                    .replace("ریال", "")
+                }
+              </Badge>
+            ) : (
+              <p></p>
+            )
+          }
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "TotalBill",
     id: "شارژ",
@@ -250,7 +334,7 @@ export const columns: ColumnDef<StoreProps>[] = [
 
   {
     accessorKey: "deptPeriod",
-    id: "بدهی",
+    id: "دوره بدهی",
 
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="دوره بدهی" />;
@@ -261,7 +345,7 @@ export const columns: ColumnDef<StoreProps>[] = [
         <div className="text-slate-600 font-medium">
           {
             //@ts-ignore
-            row.getValue("بدهی") ? (
+            row.getValue("دوره بدهی") ? (
               <div>
                 {
                   //@ts-ignore
@@ -272,7 +356,7 @@ export const columns: ColumnDef<StoreProps>[] = [
                   })
                     .format(
                       //@ts-ignore
-                      row.getValue("بدهی")
+                      row.getValue("دوره بدهی")
                     )
                     .replace("ریال", "")
                 }
@@ -476,15 +560,15 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "بلوک",
     cell: ({ row }) => {
       return (
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-col ">
           <p className="whitespace-nowrap text-[11px]">
             {row.getValue("بلوک")}
           </p>
-          |
+
           <p className="whitespace-nowrap text-[11px]">
             {row.getValue("تراز")}
           </p>
-          |
+
           <p className=" whitespace-nowrap text-[11px]">
             {row.getValue("راهرو")}
           </p>

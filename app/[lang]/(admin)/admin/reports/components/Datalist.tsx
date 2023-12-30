@@ -1,4 +1,6 @@
 "use client";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import { columns } from "@/app/[lang]/(admin)/admin/reports/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/reports/components/data-table";
 import { Button } from "@/components/ui/button";
@@ -49,6 +51,7 @@ import { useReactToPrint } from "react-to-print";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { AiFillFileExcel } from "react-icons/ai";
 
 type Props = {};
 
@@ -79,6 +82,18 @@ export default function Datalist({
   // const canAdd = session?.user?.Permission?.find((item) => {
   //   return item.systemID === 1 && item.add === true;
   // });
+  const exportToExcel = (apiData: any, fileName: string): void => {
+    const worksheet = XLSX.utils.json_to_sheet(apiData);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
+    FileSaver.saveAs(blob, fileName + ".xlsx");
+  };
 
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 10 && item.edit === true;
@@ -447,6 +462,9 @@ export default function Datalist({
         >
           تعداد ردیف : {stores?.length}
         </Badge>
+        <button onClick={() => exportToExcel(stores, "خروجی اکسل")}>
+          <AiFillFileExcel color="green" size={30}></AiFillFileExcel>
+        </button>
         <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
           <Button
             className="flex flex-row gap-2 shadow-[#6d93ec]/50 border-0 text-sm  h-8  "

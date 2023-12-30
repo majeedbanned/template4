@@ -386,7 +386,7 @@ export async function GET(request: NextRequest) {
 
     // const serializedIds = JSON.stringify(ids);
     const response = await client.$queryRawUnsafe(`
-   SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active, dbo.new_account.deptPeriod, 
+   SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod, new_account.debt,new_account.penalty,
                          dbo.new_account.TotalBill, dbo.new_account.paidBill,dbo.new_account.discription
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN
