@@ -124,11 +124,13 @@ export const getfish1 = async (formData: string) => {
   const _active = await client.store.findMany({
     where: {
       active: true,
+      tajmi:false
     },
   });
   const _unactive = await client.store.findMany({
     where: {
       active: false,
+      tajmi:false
     },
   });
   const issued = await client.store.findMany({});
@@ -176,6 +178,13 @@ export const newCharge = async (pelak: string, month: string) => {
     penalty: 0,
     TotalBill: 0,
     paidBill: 0,
+    paidBill1: 0,
+    paidBill2: 0,
+    paidBill3: 0,
+fich1:'',
+fich2:'',
+fich3:'',
+
     ezafPardakht: 0,
     month: "",
     monthbill: 0,
@@ -184,6 +193,11 @@ export const newCharge = async (pelak: string, month: string) => {
     deadline: "",
     isueeDate: "",
     paidDate: "",
+    paidDate1: "",
+
+    paidDate2: "",
+    paidDate3: "",
+
     paidExtra: 0,
     paidTime: "",
     paidType: "",

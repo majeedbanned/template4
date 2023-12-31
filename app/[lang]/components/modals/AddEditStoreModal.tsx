@@ -4,6 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 //import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { FilterOptions, StoreProps } from "@/lib/types";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 import {
   FieldValues,
@@ -645,7 +648,81 @@ export const AddEditStoreModal = ({
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">وضعیت :</FormLabel>
-                    <FormDescription>فعال / غیر فعال</FormDescription>
+                    <FormDescription> فعال / غیر فعال </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      // disabled
+                      // aria-readonly
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="changedate"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: تاریخ تغییر مالکیت </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <DatePicker
+                      value={field.value || ""}
+                      onChange={(date) => {
+                        field.onChange(date ? date.toString() : "");
+                      }}
+                      style={{
+                        width: "100% !important",
+
+                        height: "34px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        padding: "3px 10px !important",
+                      }}
+                      format={"YYYY/MM/DD"}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-center"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="aghsat"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">پرداخت اقساطی :</FormLabel>
+                    <FormDescription>بلی / خیر</FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      // disabled
+                      // aria-readonly
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tajmi"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">تجمیع واحد :</FormLabel>
+                    <FormDescription>خیر / بلی </FormDescription>
                   </div>
                   <FormControl>
                     <Switch

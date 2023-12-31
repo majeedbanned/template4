@@ -208,7 +208,9 @@ export const AddEditChargeModal = ({
       {<div>{JSON.stringify(form.formState.errors)}</div>}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Tabs defaultValue="account" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="tafkiki">پرداخت تفکیکی</TabsTrigger>
+
             <TabsTrigger value="password">اطلاعات پرداخت</TabsTrigger>
 
             <TabsTrigger value="account">صورتحساب</TabsTrigger>
@@ -586,6 +588,9 @@ export const AddEditChargeModal = ({
                       <SelectItem key={4} value={"پوز اطلاعات"}>
                         پوز اطلاعات
                       </SelectItem>
+                      <SelectItem key={5} value={"پوز دفتر مرکزی"}>
+                        پوز دفتر مرکزی
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -631,6 +636,248 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+          </TabsContent>
+
+          <TabsContent
+            className="flex flex-col gap-4 justify-start"
+            value="tafkiki"
+          >
+            <FormField
+              control={form.control}
+              name="paidDate1"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: تاریخ پرداخت </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <DatePicker
+                      value={field.value || ""}
+                      onChange={(date) => {
+                        field.onChange(date ? date.toString() : "");
+                      }}
+                      style={{
+                        width: "100% !important",
+
+                        height: "34px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        padding: "3px 10px !important",
+                      }}
+                      format={"YYYY/MM/DD"}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-center"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="paidBill1"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: مبلغ پرداخت شده</FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      className="font-bold text-lg text-green-600 text-center"
+                      placeholder=""
+                      {...field}
+                      disabled={isLoading}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      onChange={field.onChange}
+                      value={formatNumber(
+                        form.getValues("paidBill1")?.toString() || ""
+                      )}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fich1"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel> : شماره فیش </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      placeholder="شماره فیش"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <hr />
+
+            <FormField
+              control={form.control}
+              name="paidDate2"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: تاریخ پرداخت </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <DatePicker
+                      value={field.value || ""}
+                      onChange={(date) => {
+                        field.onChange(date ? date.toString() : "");
+                      }}
+                      style={{
+                        width: "100% !important",
+
+                        height: "34px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        padding: "3px 10px !important",
+                      }}
+                      format={"YYYY/MM/DD"}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-center"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="paidBill2"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: مبلغ پرداخت شده</FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      className="font-bold text-lg text-green-600 text-center"
+                      placeholder=""
+                      {...field}
+                      disabled={isLoading}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      onChange={field.onChange}
+                      value={formatNumber(
+                        form.getValues("paidBill1")?.toString() || ""
+                      )}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fich2"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel> : شماره فیش </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      placeholder="شماره فیش"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <hr />
+
+            <FormField
+              control={form.control}
+              name="paidDate3"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: تاریخ پرداخت </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <DatePicker
+                      value={field.value || ""}
+                      onChange={(date) => {
+                        field.onChange(date ? date.toString() : "");
+                      }}
+                      style={{
+                        width: "100% !important",
+
+                        height: "34px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        padding: "3px 10px !important",
+                      }}
+                      format={"YYYY/MM/DD"}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-center"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="paidBill3"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel>: مبلغ پرداخت شده</FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      className="font-bold text-lg text-green-600 text-center"
+                      placeholder=""
+                      {...field}
+                      disabled={isLoading}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      onChange={field.onChange}
+                      value={formatNumber(
+                        form.getValues("paidBill1")?.toString() || ""
+                      )}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fich3"
+              render={({ field }) => (
+                <FormItem className="">
+                  <div className=" flex flex-row-reverse justify-between">
+                    <FormLabel> : شماره فیش </FormLabel>
+                    <FormMessage />
+                  </div>
+                  <FormControl>
+                    <Input
+                      placeholder="شماره فیش"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <hr />
           </TabsContent>
         </Tabs>
 

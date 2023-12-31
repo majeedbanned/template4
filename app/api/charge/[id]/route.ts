@@ -58,6 +58,10 @@ export async function GET(
     penalty: 0,
     TotalBill: 0,
     paidBill: 0,
+    paidBill1: 0,
+    paidBill2: 0,
+    paidBill3: 0,
+
     ezafPardakht: 0,
     month: "",
     monthbill: 0,
@@ -66,12 +70,20 @@ export async function GET(
     deadline: "",
     isueeDate: "",
     paidDate: "",
+    paidDate1: "",
+    paidDate2: "",
+    paidDate3: "",
+
     paidExtra: 0,
     paidTime: "",
     paidType: "",
     discount: 0,
     discountDiscription: "",
     fichnum:'',
+    fich1:'',
+    fich2:'',
+    fich3:'',
+
     discription: "",
     paidExtraAsset: 0,
   };

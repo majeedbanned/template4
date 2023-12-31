@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+
 import {
   Form,
   FormControl,
@@ -114,6 +115,40 @@ export const AddEditOwnerModal = ({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="changeOwner"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel>: تاریخ تغییر مالکیت </FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <DatePicker
+                  value={field.value || ""}
+                  onChange={(date) => {
+                    field.onChange(date ? date.toString() : "");
+                  }}
+                  style={{
+                    width: "100% !important",
+
+                    height: "34px",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    padding: "3px 10px !important",
+                  }}
+                  format={"YYYY/MM/DD"}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-center"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="tfname"

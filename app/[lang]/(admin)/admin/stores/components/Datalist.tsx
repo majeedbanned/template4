@@ -350,6 +350,7 @@ export default function Datalist({
               تعرفه: false,
               تلفن: false,
               وضعیت: false,
+              تجمیع: false,
             }}
             columns={columns}
             data={stores}

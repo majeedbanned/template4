@@ -131,6 +131,10 @@ export async function PUT(req: NextRequest) {
     ...res,
     pelak: res.pelak.toString().toUpperCase(),
     paidBill: res.paidBill.toString().replace(/\D/g, ""),
+    paidBill1: res.paidBill1.toString().replace(/\D/g, ""),
+    paidBill2: res.paidBill2.toString().replace(/\D/g, ""),
+    paidBill3: res.paidBill3.toString().replace(/\D/g, ""),
+
     ezafPardakht: res.ezafPardakht.toString().replace(/\D/g, ""),
 
     paidDate: res.paidDate.toEnglishDigits(),
@@ -200,9 +204,21 @@ export async function GET(request: NextRequest) {
         discountDiscription: true,
         discription: true,
         fichnum:true,
+        fich1:true,
+        fich3:true,
+        fich2:true,
+
         TotalBill: true,
         paidBill: true,
+        paidBill1: true,
+        paidBill2: true,
+        paidBill3: true,
+
         paidDate: true,
+        paidDate1: true,
+        paidDate2: true,
+        paidDate3: true,
+
         paidExtra: true,
         paidTime: true,
         paidType: true,

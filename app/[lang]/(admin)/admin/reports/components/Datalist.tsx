@@ -52,6 +52,7 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { AiFillFileExcel } from "react-icons/ai";
+import { Input } from "@/components/ui/input";
 
 type Props = {};
 
@@ -311,7 +312,7 @@ export default function Datalist({
               }
             }}
             className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
-            placeholder="جستجو در پلاک و نام واحد"
+            placeholder="  پلاک , نام واحد,مبلغ,شماره فیش"
           />
           <FacetedFilter
             selected={searchParams
@@ -438,12 +439,13 @@ export default function Datalist({
 
           <FacetedFilter
             filterOption="npardakht"
-            title="نوع پرداخت"
+            title="روش پرداخت"
             options={[
               { value: "1", label: "پوز" },
               { value: "2", label: "پرداخت آنلاین" },
               { value: "3", label: "واریز به حساب" },
               { value: "4", label: "پوز اطلاعات" },
+              { value: "5", label: "پوز دفتر مرکزی" },
             ]}
             selected={searchParams
               .get("npardakht")
@@ -451,6 +453,21 @@ export default function Datalist({
               .split(",")
               .map(Number)}
             onChange={(e) => setQueryString("npardakht", e)}
+          ></FacetedFilter>
+
+          <FacetedFilter
+            filterOption="shive"
+            title="شیوه پرداخت"
+            options={[
+              { value: "1", label: "اقساطی" },
+              { value: "0", label: "نقدی" },
+            ]}
+            selected={searchParams
+              .get("shive")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("shive", e)}
           ></FacetedFilter>
         </div>
       </div>

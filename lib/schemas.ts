@@ -71,6 +71,8 @@ export const Ownerschema = z.object({
   // endate: z.string().optional(),
   sex: z.string().optional(),
   cposti: z.string().optional(),
+  changeOwner: z.string().optional(),
+
   // storePelak: z.string().optional(),
 });
 
@@ -254,6 +256,31 @@ export const Chargechema = z.object({
     .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
     .or(z.string()),
 
+
+    paidBill1: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
+
+    paidBill2: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
+
+    paidBill3: z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
+
   ezafPardakht: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
@@ -283,6 +310,10 @@ export const Chargechema = z.object({
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
   // )
   paidDate: z.string(),
+  paidDate1: z.string(),
+  paidDate2: z.string(),
+  paidDate3: z.string(),
+
   paidType: z.string(),
   paidTime: z.string(),
   discount: z
@@ -305,6 +336,10 @@ export const Chargechema = z.object({
   // )
   discription: z.string(),
   fichnum: z.string(),
+  fich1: z.string(),
+  fich2: z.string(),
+  fich3: z.string(),
+
 
   discountDiscription: z.string(),
   paidExtraAsset: z
@@ -402,6 +437,10 @@ export const StoreSchema = z.object({
   cposti: z.string().optional(),
   Tahvil: z.string().optional(),
   active: z.boolean().default(false).optional(),
+  aghsat: z.boolean().default(false).optional(),
+  tajmi: z.boolean().default(false).optional(),
+  changedate: z.string().optional(),
+
   ChekGift: z.boolean().default(false).optional(),
   ChekRol: z.string().optional(),
   tovzeh: z.string().optional(),

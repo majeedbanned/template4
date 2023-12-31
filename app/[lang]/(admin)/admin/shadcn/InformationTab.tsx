@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+// import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 import { Badge, CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -152,14 +152,14 @@ export default function InformationTab({}: Props) {
               </div>
 
               <div className="w-1/3  flex justify-start">
-                <ToggleGroup type="single">
+                {/* <ToggleGroup type="single">
                   <ToggleGroupItem value="bold" aria-label="Toggle bold">
                     <div className="h-4 w-18">Daly Basis</div>
                   </ToggleGroupItem>
                   <ToggleGroupItem value="italic" aria-label="Toggle italic">
                     <div className="h-4 w-18">Monthly Basis</div>
                   </ToggleGroupItem>
-                </ToggleGroup>
+                </ToggleGroup> */}
               </div>
             </div>
           </form>

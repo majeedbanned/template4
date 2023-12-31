@@ -42,6 +42,23 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
     },
   },
   {
+    accessorKey: "tmeli",
+    id: "ملی",
+    cell: ({ row }) => {
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {row.getValue("ملی")}
+        </Badge>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="کد ملی" />;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
     accessorKey: "tlname",
     id: "فامیل",
 
@@ -64,14 +81,6 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
       <DataTableColumnHeader column={column} title="موبایل" />
     ),
   },
-  {
-    accessorKey: "tfather",
-    id: "نام پدر",
-
-    header: ({ column }) => {
-      return <div className="flex m-0 px-0  font-semibold">نام پدر</div>;
-    },
-  },
 
   {
     accessorKey: "ttel",
@@ -92,17 +101,17 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
   },
 
   {
-    accessorKey: "tjob",
-    id: "شغل",
+    accessorKey: "changeOwner",
+    id: "تاریخ",
     cell: ({ row }) => {
       return (
         <Badge className="rounded-sm" variant="secondary">
-          {row.getValue("شغل")}
+          {row.getValue("تاریخ")}
         </Badge>
       );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="شغل" />
+      <DataTableColumnHeader column={column} title="تاریخ شروع مالکیت جدید" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));

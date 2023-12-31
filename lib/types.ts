@@ -33,6 +33,8 @@ export interface StoreProps {
   cposti: string;
   rent: number;
   active: boolean;
+  aghsat:boolean;
+  tajmi:boolean;
   ChekGift: boolean;
   ChekRol: number;
   Tahvil: string;

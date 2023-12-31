@@ -4,7 +4,7 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
 import { fetcher } from "@/lib/utils";
-import React, { startTransition, useRef, useState } from "react";
+import React, { startTransition, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   useParams,
@@ -30,6 +30,7 @@ import { useReactToPrint } from "react-to-print";
 import { redirect } from "next/navigation";
 import { getGroupPrint } from "@/actions/actions";
 import ComponentToPrint from "@/app/[lang]/components/prints/groupfish";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Datalist({
   permission,
@@ -102,6 +103,32 @@ export default function Datalist({
       // revalidateOnMount: true,
     }
   );
+
+  const { data: stores, isLoading: isLoadingS } = useSWR<StoreProps[]>(
+    `/api/store?search=${pelak ? `${pelak?.pelak.toString()}` : ""}`,
+    fetcher,
+    {
+      // revalidateOnMount: true,
+    }
+  );
+
+  //console.log("isLoadingS >", stores);
+  // useEffect(() => {
+
+  //   const promise = () =>
+  //     new Promise((resolve) =>
+  //       // setTimeout(() => resolve({ name: "Sonner" }), 2000)
+  //       fetch("/api/store?search=9999-X")
+  //     );
+
+  //   toast.promise(promise, {
+  //     loading: "Loading...",
+  //     success: (data) => {
+  //       return `${JSON.stringify(data)} toast has been added`;
+  //     },
+  //     error: "Error",
+  //   });
+  // }, []);
 
   const componentRef = useRef(null);
 
@@ -223,6 +250,41 @@ export default function Datalist({
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap"></div>
       </div>
+      <p className="flex flex-row gap-4 justify-center items-center bg-sky-100 border-sky-100 border p-1 my-2 rounded-lg">
+        <p className="text-[12px]">{!isLoadingS && stores && stores[0].name}</p>
+        <p className="text-[14px] font-bold text-red-600">
+          توضیحات: {!isLoadingS && stores && stores[0].tovzeh}
+        </p>
+        <p className="text-[12px] mr-auto flex flex-row gap-3 justify-center items-center">
+          <span className="flex flex-row gap-1 justify-center items-center">
+            <Checkbox
+              checked={stores && stores[0].aghsat}
+              id="terms2"
+              disabled
+            />
+            <label
+              htmlFor="terms2"
+              className="text-[12px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              پرداخت اقساطی
+            </label>
+          </span>
+          <span className="flex gap-1 flex-row justify-center items-center">
+            <Checkbox
+              checked={stores && stores[0].aghsat}
+              id="terms2"
+              disabled
+            />
+            <label
+              htmlFor="terms2"
+              className="text-[12px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              تجمیع شده
+            </label>
+          </span>
+        </p>
+      </p>
+
       {/* <ComponentToPrint
         data={print}
         chargeDef={printChargeDef}

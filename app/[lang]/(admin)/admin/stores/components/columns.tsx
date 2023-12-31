@@ -40,7 +40,10 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "پلاک",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-lg bordercolor font-bold" variant="outline">
+        <Badge
+          className="rounded-lg whitespace-nowrap bordercolor font-bold"
+          variant="outline"
+        >
           {row.getValue("پلاک")}
         </Badge>
       );
@@ -85,6 +88,44 @@ export const columns: ColumnDef<StoreProps>[] = [
       return value.includes(row.getValue(id));
     },
   },
+
+  {
+    accessorKey: "aghsat",
+    id: "نحوه",
+
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col gap-1">
+          <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-yellow-500">
+            {row.getValue("نحوه")?.toString() === "true" ? " اقساطی" : ""}
+          </div>
+          <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-green-500">
+            {row.getValue("تجمیع")?.toString() === "true" ? " تجمیع" : ""}
+          </div>
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="نحوه" />;
+    },
+  },
+
+  {
+    accessorKey: "tajmi",
+    id: "تجمیع",
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-yellow-500">
+          {row.getValue("تجمیع")?.toString() === "true" ? " تجمیع" : ""}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="تجمیع" />;
+    },
+  },
+
   {
     accessorKey: "name",
     id: "نام واحد",
@@ -296,13 +337,16 @@ export const columns: ColumnDef<StoreProps>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col gap-1">
-          <Badge className="rounded-sm" variant="secondary">
+          <Badge className="rounded-sm text-[11px]" variant="secondary">
             {row.getValue("بلوک")}
           </Badge>
-          <Badge className="rounded-sm" variant="secondary">
+          <Badge className="rounded-sm text-[11px]" variant="secondary">
             {row.getValue("تراز")}
           </Badge>
-          <Badge className="rounded-sm" variant="secondary">
+          <Badge
+            className="rounded-sm text-[11px] whitespace-nowrap"
+            variant="secondary"
+          >
             {row.getValue("راهرو")}
           </Badge>
         </div>

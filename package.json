@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20.4.1",
     "prisma": "^4.16.2",
     "ts-node": "^10.9.1",
