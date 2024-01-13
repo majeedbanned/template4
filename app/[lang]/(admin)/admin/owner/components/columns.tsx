@@ -42,6 +42,21 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
     },
   },
   {
+    accessorKey: "tlname",
+    id: "فامیل",
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 font-medium">
+          {row.getValue("فامیل")}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="فامیل" />;
+    },
+  },
+  {
     accessorKey: "tmeli",
     id: "ملی",
     cell: ({ row }) => {
@@ -58,21 +73,7 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
       return value.includes(row.getValue(id));
     },
   },
-  {
-    accessorKey: "tlname",
-    id: "فامیل",
 
-    cell: ({ row }) => {
-      return (
-        <div className="text-slate-600 font-medium">
-          {row.getValue("فامیل")}
-        </div>
-      );
-    },
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="فامیل" />;
-    },
-  },
   {
     accessorKey: "tmobile",
     id: "موبایل",

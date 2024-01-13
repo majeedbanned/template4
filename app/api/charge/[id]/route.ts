@@ -171,7 +171,7 @@ export async function GET(
   ) {
     firstRecord.debt =
       Number(lastCharge[0].TotalBill) -
-      Number(lastCharge[0].penalty) -
+    //  Number(lastCharge[0].penalty) -
       Number(lastCharge[0].paidBill);
   }
   console.log("TotalBill", lastCharge[0].TotalBill);
