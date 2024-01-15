@@ -406,14 +406,14 @@ export async function GET(request: NextRequest) {
     if (search) {
       searchq = ` AND (dbo.store.pelak like '%${search}%' or dbo.store.name like '%${search}%' 
       or cast(dbo.new_account.paidBill as nvarchar) = '${search}' 
-      or cast(dbo.new_account.TotalBill as nvarchar) = '${search}') 
+      or cast(dbo.new_account.TotalBill as nvarchar) = '${search}'
       or dbo.new_account.fichnum  like '%${search}%' 
       or dbo.new_account.fich1  like '%${search}%'
       or dbo.new_account.fich2  like '%${search}%'
       or dbo.new_account.fich3  like '%${search}%'
-      or cast(dbo.new_account.paidBill3 as nvarchar) = '${search}') 
-      or cast(dbo.new_account.paidBill2 as nvarchar) = '${search}') 
-      or cast(dbo.new_account.paidBill1 as nvarchar) = '${search}') 
+      or cast(dbo.new_account.paidBill3 as nvarchar) = '${search}' 
+      or cast(dbo.new_account.paidBill2 as nvarchar) = '${search}'
+      or cast(dbo.new_account.paidBill1 as nvarchar) = '${search}'
 
       
       `;
@@ -422,7 +422,7 @@ export async function GET(request: NextRequest) {
     // const serializedIds = JSON.stringify(ids);
     const response = await client.$queryRawUnsafe(`
    SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod, new_account.debt,new_account.penalty,
-                         dbo.new_account.TotalBill, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
+   dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN
                          dbo.types_bazar ON dbo.store.bazar = dbo.types_bazar.id INNER JOIN

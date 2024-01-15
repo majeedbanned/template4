@@ -297,11 +297,11 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "واریز۱",
   },
   {
-    accessorKey: "paidBill1",
+    accessorKey: "paidBill2",
     id: "واریز۲",
   },
   {
-    accessorKey: "paidBill1",
+    accessorKey: "paidBill3",
     id: "واریز۳",
   },
 
@@ -385,6 +385,43 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
 
   {
+    accessorKey: "aghsat",
+    id: "نحوه",
+
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col gap-1">
+          <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-yellow-500">
+            {row.getValue("نحوه")?.toString() === "true" ? " اقساطی" : ""}
+          </div>
+          <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-green-500">
+            {row.getValue("تجمیع")?.toString() === "true" ? " تجمیع" : ""}
+          </div>
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="نحوه" />;
+    },
+  },
+
+  {
+    accessorKey: "tajmi",
+    id: "تجمیع",
+
+    cell: ({ row }) => {
+      return (
+        <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-yellow-500">
+          {row.getValue("تجمیع")?.toString() === "true" ? " تجمیع" : ""}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="تجمیع" />;
+    },
+  },
+
+  {
     accessorKey: "deptPeriod",
     id: "دوره بدهی",
 
@@ -429,6 +466,14 @@ export const columns: ColumnDef<StoreProps>[] = [
     cell: ({ row }) => {
       return (
         <div>
+          <div className="flex flex-col gap-1">
+            <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-yellow-500">
+              {row.getValue("نحوه")?.toString() === "true" ? " اقساطی" : ""}
+            </div>
+            <div className="text-white text-[12px] rounded-md flex justify-center items-center font-medium bg-green-500">
+              {row.getValue("تجمیع")?.toString() === "true" ? " تجمیع" : ""}
+            </div>
+          </div>
           {String(row.getValue("توضیحات")).trim() !== "null" &&
           String(row.getValue("توضیحات")).trim() !== "" ? (
             <HoverCard openDelay={200}>

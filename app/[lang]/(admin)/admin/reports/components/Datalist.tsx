@@ -642,6 +642,8 @@ export default function Datalist({
               واریز۱: false,
               واریز۲: false,
               واریز۳: false,
+              نحوه: false,
+              تجمیع: false,
             }}
             columns={columns}
             data={stores}
