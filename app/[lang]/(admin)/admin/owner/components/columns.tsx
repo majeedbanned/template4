@@ -112,7 +112,7 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
       );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="تاریخ شروع مالکیت جدید" />
+      <DataTableColumnHeader column={column} title="تاریخ انتقال سرقفلی" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));

@@ -122,7 +122,7 @@ export const AddEditOwnerModal = ({
           render={({ field }) => (
             <FormItem className="">
               <div className=" flex flex-row justify-between">
-                <FormLabel>: تاریخ تغییر مالکیت </FormLabel>
+                <FormLabel>: تاریخ انتقال سرقفلی </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
