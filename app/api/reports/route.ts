@@ -413,10 +413,11 @@ export async function GET(request: NextRequest) {
       or dbo.new_account.fich3  like '%${search}%'
       or cast(dbo.new_account.paidBill3 as nvarchar) = '${search}' 
       or cast(dbo.new_account.paidBill2 as nvarchar) = '${search}'
-      or cast(dbo.new_account.paidBill1 as nvarchar) = '${search}'
+      or cast(dbo.new_account.paidBill1 as nvarchar) = '${search}')
 
       
       `;
+     
     }
 
     // const serializedIds = JSON.stringify(ids);
