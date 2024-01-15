@@ -293,6 +293,19 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
 
   {
+    accessorKey: "paidBill1",
+    id: "واریز۱",
+  },
+  {
+    accessorKey: "paidBill1",
+    id: "واریز۲",
+  },
+  {
+    accessorKey: "paidBill1",
+    id: "واریز۳",
+  },
+
+  {
     accessorKey: "paidBill",
     id: "حساب",
 
@@ -305,24 +318,63 @@ export const columns: ColumnDef<StoreProps>[] = [
           {
             //@ts-ignore
             row.getValue("حساب") ? (
-              <Badge
-                className="rounded-lg w-fit bordercolor text-sm bg-white  border-[#6cd46c] border text-slate-600 font-bold"
-                variant="outline"
-              >
-                {
-                  //@ts-ignore
+              <>
+                <Badge
+                  className="rounded-lg w-fit bordercolor text-sm bg-white  border-[#6cd46c] border text-slate-600 font-bold"
+                  variant="outline"
+                >
+                  {
+                    //@ts-ignore
 
-                  new Intl.NumberFormat("fa-IR", {
-                    style: "currency",
-                    currency: "IRR",
-                  })
-                    .format(
-                      //@ts-ignore
-                      row.getValue("حساب")
-                    )
-                    .replace("ریال", "")
-                }
-              </Badge>
+                    new Intl.NumberFormat("fa-IR", {
+                      style: "currency",
+                      currency: "IRR",
+                    })
+                      .format(
+                        //@ts-ignore
+                        row.getValue("حساب")
+                      )
+                      .replace("ریال", "")
+                  }
+                </Badge>
+                <p>
+                  {row.getValue("واریز۱") != 0 &&
+                    new Intl.NumberFormat("fa-IR", {
+                      style: "currency",
+                      currency: "IRR",
+                    })
+                      .format(
+                        //@ts-ignore
+                        row.getValue("واریز۱")
+                      )
+                      .replace("ریال", "")}
+                </p>
+                <p>
+                  {row.getValue("واریز۲") != 0 &&
+                    new Intl.NumberFormat("fa-IR", {
+                      style: "currency",
+                      currency: "IRR",
+                    })
+                      .format(
+                        //@ts-ignore
+                        row.getValue("واریز۲")
+                      )
+                      .replace("ریال", "")}
+                </p>
+
+                <p>
+                  {row.getValue("واریز۳") != 0 &&
+                    new Intl.NumberFormat("fa-IR", {
+                      style: "currency",
+                      currency: "IRR",
+                    })
+                      .format(
+                        //@ts-ignore
+                        row.getValue("واریز۳")
+                      )
+                      .replace("ریال", "")}
+                </p>
+              </>
             ) : (
               <p></p>
             )

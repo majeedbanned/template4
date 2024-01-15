@@ -772,7 +772,7 @@ export const AddEditChargeModal = ({
                       pattern="[0-9]*"
                       onChange={field.onChange}
                       value={formatNumber(
-                        form.getValues("paidBill1")?.toString() || ""
+                        form.getValues("paidBill2")?.toString() || ""
                       )}
                     />
                   </FormControl>
@@ -851,7 +851,7 @@ export const AddEditChargeModal = ({
                       pattern="[0-9]*"
                       onChange={field.onChange}
                       value={formatNumber(
-                        form.getValues("paidBill1")?.toString() || ""
+                        form.getValues("paidBill3")?.toString() || ""
                       )}
                     />
                   </FormControl>

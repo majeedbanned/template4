@@ -469,6 +469,21 @@ export default function Datalist({
               .map(Number)}
             onChange={(e) => setQueryString("shive", e)}
           ></FacetedFilter>
+
+          <FacetedFilter
+            filterOption="tajmi"
+            title="تجمیع"
+            options={[
+              { value: "1", label: "بلی" },
+              { value: "0", label: "خیر" },
+            ]}
+            selected={searchParams
+              .get("tajmi")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("tajmi", e)}
+          ></FacetedFilter>
         </div>
       </div>
 
@@ -624,6 +639,9 @@ export default function Datalist({
               "نوع تعرفه": false,
               تعرفه: false,
               تلفن: false,
+              واریز۱: false,
+              واریز۲: false,
+              واریز۳: false,
             }}
             columns={columns}
             data={stores}

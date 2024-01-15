@@ -257,8 +257,9 @@ export default function Datalist({
         </p>
         <p className="text-[12px] mr-auto flex flex-row gap-3 justify-center items-center">
           <span className="flex flex-row gap-1 justify-center items-center">
+            {!isLoadingS && stores && stores[0].aghsat}
             <Checkbox
-              checked={stores && stores[0].aghsat}
+              checked={!isLoadingS && stores && stores[0].aghsat}
               id="terms2"
               disabled
             />
@@ -270,8 +271,9 @@ export default function Datalist({
             </label>
           </span>
           <span className="flex gap-1 flex-row justify-center items-center">
+            {!isLoadingS && stores && stores[0].tajmi}
             <Checkbox
-              checked={stores && stores[0].aghsat}
+              checked={!isLoadingS && stores && stores[0].tajmi}
               id="terms2"
               disabled
             />

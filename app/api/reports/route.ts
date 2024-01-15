@@ -153,6 +153,11 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("shive")?.toString().split(",").toString() ||
     undefined;
 
+    const tajmi =
+    url.searchParams.get("tajmi")?.toString().split(",").toString() ||
+    undefined;
+
+
 
   const fromdate =
     url.searchParams.get("fromdate")?.toString().split(",").toString() ||
@@ -357,6 +362,11 @@ export async function GET(request: NextRequest) {
       shiveq = ` AND (dbo.store.aghsat in (${shive}) ) `;
     }
 
+    let tajmiq = "";
+    if (tajmi) {
+      tajmiq = ` AND (dbo.store.tajmi in (${tajmi}) ) `;
+    }
+
 
     let npardakhtq = "";
     if (npardakht) {
@@ -401,6 +411,10 @@ export async function GET(request: NextRequest) {
       or dbo.new_account.fich1  like '%${search}%'
       or dbo.new_account.fich2  like '%${search}%'
       or dbo.new_account.fich3  like '%${search}%'
+      or cast(dbo.new_account.paidBill3 as nvarchar) = '${search}') 
+      or cast(dbo.new_account.paidBill2 as nvarchar) = '${search}') 
+      or cast(dbo.new_account.paidBill1 as nvarchar) = '${search}') 
+
       
       `;
     }
@@ -408,7 +422,7 @@ export async function GET(request: NextRequest) {
     // const serializedIds = JSON.stringify(ids);
     const response = await client.$queryRawUnsafe(`
    SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod, new_account.debt,new_account.penalty,
-                         dbo.new_account.TotalBill, dbo.new_account.paidBill,dbo.new_account.discription,dbo.new_account.fichnum
+                         dbo.new_account.TotalBill, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN
                          dbo.types_bazar ON dbo.store.bazar = dbo.types_bazar.id INNER JOIN
@@ -416,7 +430,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} order by ${sortq}`);
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} order by ${sortq}`);
 
     const res = JSON.parse(
       JSON.stringify(
