@@ -238,7 +238,7 @@ export const ComponentToPrint = React.forwardRef(
                 مهلت پرداخت
                 {/* <br /> */}
                 <p className="text-center text-xl">
-                  {data?.month.toString().replace("-", "/") + "/30"}
+                  {data?.month.toString().replace("-", "/") + "/25"}
                 </p>
                 <p>مهلت داده شده شامل بدهی نمیشود</p>
               </div>
