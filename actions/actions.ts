@@ -308,9 +308,9 @@ fich3:'',
         Number(lastCharge[0].paidBill);
     } else {
       firstRecord.debt =
-        Number(lastCharge[0].TotalBill) +
-        Number(lastCharge[0].penalty) -
-        Number(lastCharge[0].discount) -
+        Number(lastCharge[0].TotalBill) -
+       // Number(lastCharge[0].penalty) -
+       // Number(lastCharge[0].discount) -
         Number(lastCharge[0].paidBill);
     }
   }
