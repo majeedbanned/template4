@@ -22,7 +22,7 @@ export const ComponentToPrint = React.forwardRef(
           <div className="flex w-full flex-row justify-between items-center flex-1">
             <div className=" p-2 font-bold">
               <p style={{ fontFamily: "CustomFont" }}>
-                قبض پرداخت شارژ ماهیانه
+                (علی الحساب) قبض پرداخت شارژ ماهیانه
               </p>
             </div>
             <div style={{ fontFamily: "CustomFont" }} className="p-2 font-bold">
@@ -238,7 +238,7 @@ export const ComponentToPrint = React.forwardRef(
                 مهلت پرداخت
                 {/* <br /> */}
                 <p className="text-center text-xl">
-                  {data?.month.toString().replace("-", "/") + "/25"}
+                  {data?.month.toString().replace("-", "/") + "/31"}
                 </p>
                 <p>مهلت داده شده شامل بدهی نمیشود</p>
               </div>
