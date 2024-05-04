@@ -65,6 +65,7 @@ export const getGroupPrint = async (
             paidExtraAsset: true,
             discount: true,
             TotalBill: true,
+            basebill:true,
           },
           where: { month: month },
         },
@@ -98,6 +99,7 @@ export const getGroupPrint = async (
             paidExtraAsset: true,
             discount: true,
             TotalBill: true,
+            basebill:true
           },
           where: { month: month },
         },
@@ -205,6 +207,7 @@ fich3:'',
     discountDiscription: "",
     discription: "",
     paidExtraAsset: 0,
+    basebill:0
   };
 
   //if charge fich exist
@@ -268,6 +271,11 @@ fich3:'',
       _chargeBill = Number((metraj * Number(charge) - kh).toFixed(0));
     else _chargeBill = Number(chargeProfile?.charge);
   }
+
+  firstRecord.basebill= ejareh !== 0
+  ? Number(ejareh)
+  : (Number(charge));
+  
   //its the first charge of client
   if (lastCharge.length === 0) {
     firstRecord.pelak = pelak;

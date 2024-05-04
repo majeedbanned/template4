@@ -184,7 +184,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                         style: "currency",
                         currency: "IRR",
                       })
-                        .format(item.chargeDef?.charge)
+                        .format(item?.new_account[0]?.basebill)
                         .replace("ریال", "")}
                     </td>
                     <td

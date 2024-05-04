@@ -86,6 +86,7 @@ export async function GET(
 
     discription: "",
     paidExtraAsset: 0,
+    basebill:0
   };
 
   const pelak = params.id.toUpperCase();
@@ -136,6 +137,12 @@ export async function GET(
       _chargeBill = Number((metraj * Number(charge) - kh).toFixed(0));
     else _chargeBill = Number(chargeProfile?.charge);
   }
+
+  //basebill
+  firstRecord.basebill= ejareh !== 0
+  ? Number(ejareh)
+  : (Number(charge));
+
   //its the first charge of client
   if (lastCharge.length === 0) {
     firstRecord.pelak = pelak;
