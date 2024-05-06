@@ -72,7 +72,7 @@ if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
     created_user: session.user.id,
     updated_at: "",
     updated_user: 0,
-    basebill:res.basebill
+    basebill:parseInt(res.basebill.toString())
   };
   
   const { TotalBill, id, ...newObject } = newres;
@@ -148,7 +148,7 @@ export async function PUT(req: NextRequest) {
     monthbill: parseInt(res.monthbill.toString().replace(/,/g, "")),
     paidExtra: parseInt(res.paidExtra.toString().replace(/,/g, "")),
     paidExtraAsset: parseInt(res.paidExtraAsset.toString().replace(/,/g, "")),
-  
+    basebill:(res.basebill.toString())
   };
 
 
@@ -226,7 +226,7 @@ export async function GET(request: NextRequest) {
         paidType: true,
         paidExtraAsset: true,
         ezafPardakht:true,
-
+        basebill:true
       },
       orderBy: {
         id: "desc",

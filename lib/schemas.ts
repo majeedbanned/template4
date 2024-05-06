@@ -339,8 +339,14 @@ export const Chargechema = z.object({
   fich1: z.string(),
   fich2: z.string(),
   fich3: z.string(),
-  
-basebill:z.number(),
+
+basebill:z
+    .number({
+      required_error: "1مقدار عددی  وارد کنید",
+      invalid_type_error: "2مقدار عددی  وارد کنید",
+    })
+    .min(0, { message: "3مقدار عددی مثبت وارد کنید" })
+    .or(z.string()),
 
   discountDiscription: z.string(),
   paidExtraAsset: z

@@ -142,7 +142,7 @@ export async function GET(
   firstRecord.basebill= ejareh !== 0
   ? Number(ejareh)
   : (Number(charge));
-
+  //firstRecord.basebill=200
   //its the first charge of client
   if (lastCharge.length === 0) {
     firstRecord.pelak = pelak;
