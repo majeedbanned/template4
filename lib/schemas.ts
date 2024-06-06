@@ -52,6 +52,20 @@ export const Robschema = z.object({
   updated_user: z.number(),
 });
 
+
+export const Docschema = z.object({
+
+  // id: z.number(),
+  moduleID: z.number(),
+  CatID: z.number(),
+  rowId: z.number(),
+  name: z.string().optional(),
+  date_: z.string().optional(),
+  userID: z.string().optional(),
+  pelak: z.string().optional(),
+ 
+});
+
 export const Ownerschema = z.object({
   pelak: z
     .string({
