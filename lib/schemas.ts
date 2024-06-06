@@ -63,6 +63,8 @@ export const Docschema = z.object({
   date_: z.string().optional(),
   userID: z.string().optional(),
   pelak: z.string().optional(),
+  mode: z.string().optional(),
+
  
 });
 
