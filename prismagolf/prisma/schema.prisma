@@ -877,7 +877,7 @@ model Doc_files {
   CatID    Int?
   name     String?  @db.NVarChar(250)
   date_    String?  @db.NChar(10)
-  userID   String?  @db.NChar(10)
+  userID   Int?
   pelak    String?  @db.Char(6)
   rowId    Int?
   Doc_cat  Doc_cat? @relation(fields: [CatID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Doc_cat")

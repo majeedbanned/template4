@@ -61,7 +61,7 @@ export const Docschema = z.object({
   rowId: z.number(),
   name: z.string().optional(),
   date_: z.string().optional(),
-  userID: z.string().optional(),
+  userID: z.number(),
   pelak: z.string().optional(),
   mode: z.string().optional(),
 
