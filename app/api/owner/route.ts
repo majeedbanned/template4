@@ -72,7 +72,7 @@ export async function PUT(req: NextRequest) {
   const validation = Ownerschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-   //console.log(errors);
+    //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -81,7 +81,6 @@ export async function PUT(req: NextRequest) {
 
   const newres = {
     ...res,
-    
   };
   const { trow, ...newres1 } = newres;
 
@@ -102,7 +101,7 @@ export async function GET(request: NextRequest) {
   const search = url.searchParams.get("search") || undefined;
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
- // console.log('ppp',pelak1)
+  // console.log('ppp',pelak1)
 
   if (!session) {
     return NextResponse.json(
@@ -125,8 +124,39 @@ export async function GET(request: NextRequest) {
             { tmobile: { contains: search } },
           ],
         }),
-        ...(pelak1!=='all' && {pelak: pelak1}),
+        ...(pelak1 !== "all" && { pelak: pelak1 }),
+      },
+      select: {
+        trow: true,
+        pelak: true,
+        tfname: true,
+        tlname: true,
+        tfather: true,
+        tjob: true,
+        tmobile: true,
+        ttel: true,
+        taddress: true,
+        tmeli: true,
+        sex: true,
+        cposti: true,
+        storePelak: true,
+        changeOwner: true,
+        Doc_files: {
+          select: {
+            id: true,
 
+            moduleID: true,
+            CatID: true,
+            name: true,
+            date_: true,
+            userID: true,
+            pelak: true,
+            rowId: true,
+            Doc_cat: { select: { title: true } },
+          },
+          where: { moduleID: 1 },
+        },
+        
       },
 
       orderBy: {
@@ -135,9 +165,28 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+
+    const docList = await client.doc_cat.findMany({
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
+      },
+      where: {
+        moduleId: 1,
+      },
+    });
+
+   // console.log(docList)
+    const combinedResults = response.map(owner => {
+      //const ownerDocList = docList.filter(doc => doc.id === owner.trow);
+      return { ...owner, list: docList };
+    });
+
     const res = JSON.parse(
       JSON.stringify(
-        response,
+        combinedResults,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );
@@ -145,7 +194,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-  //  console.log("errr");
+    //  console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

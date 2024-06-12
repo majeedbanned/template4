@@ -3,7 +3,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import jalaliMoment from "jalali-moment";
 import { log } from "@/lib/utils";
-import client from "@/lib/prismadb1";
+import client from "@/lib/prismadb1"; 
 import { z } from "zod";
 import { Robschema } from "@/lib/schemas";
 
@@ -137,6 +137,36 @@ export async function GET(request: NextRequest) {
         ...(pelak1!='all' && {pelak: pelak1}),
 
       },
+      select:{
+_count: true,
+        id: true,
+        pelak: true,
+        disc: true,
+        price: true,
+        paydiscription: true,
+        created_at: true,
+        created_user: true,
+        updated_at: true,
+        updated_user: true, 
+        invitedate:true,
+        paydate:true,
+        Doc_files: {
+          select: {
+            id: true,
+
+            moduleID: true,
+            CatID: true,
+            name: true,
+            date_: true,
+            userID: true,
+            pelak: true,
+            rowId: true,
+            Doc_cat: { select: { title: true } },
+          },
+          where: { moduleID: 3 },
+        },
+
+      },
 
       orderBy: {
         id: "desc",
@@ -144,9 +174,24 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+    const docList = await client.doc_cat.findMany({
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
+      },
+      where: {
+        moduleId: 3,
+      },
+    });
+
+    const combinedResults = response.map(owner => {
+      return { ...owner, list: docList };
+    });
     const res = JSON.parse(
       JSON.stringify(
-        response,
+        combinedResults,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );

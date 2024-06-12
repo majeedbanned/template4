@@ -213,6 +213,20 @@ export async function GET(request: NextRequest) {
             discountDef: { select: { name: true, discountPersand: true } },
           },
         },
+        Doc_files: {
+          select: {
+            id: true,
+            moduleID: true,
+            CatID: true,
+            name: true,
+            date_: true,
+            userID: true,
+            pelak: true,
+            rowId: true,
+            Doc_cat: { select: { title: true } },
+          },
+          where: { moduleID: 4},
+        },  
       },
       orderBy: {
         pelak: "desc",
@@ -220,9 +234,28 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+    const docList = await client.doc_cat.findMany({
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
+      },
+      where: {
+        moduleId: 4,
+      },
+    });
+
+   // console.log(docList)
+    const combinedResults = response.map(owner => {
+      //const ownerDocList = docList.filter(doc => doc.id === owner.trow);
+      return { ...owner, list: docList };
+    });
+
+
     const res = JSON.parse(
       JSON.stringify(
-        response,
+        combinedResults,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );

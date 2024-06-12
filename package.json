@@ -42,6 +42,7 @@
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "country-flag-icons": "^1.5.7",
+    "crypto-js": "^4.2.0",
     "date-fns": "^2.30.0",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
@@ -59,6 +60,7 @@
     "postcss": "8.4.24",
     "prisma-zod-generator": "^0.8.13",
     "qrcode.react": "^3.1.0",
+    "query-string": "^9.0.0",
     "react": "18.2.0",
     "react-day-picker": "^8.9.1",
     "react-dom": "18.2.0",
@@ -79,8 +81,10 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/crypto-js": "^4.2.2",
     "@types/file-saver": "^2.0.7",
     "@types/node": "^20.4.1",
+    "@types/uuid": "^9.0.8",
     "prisma": "^4.16.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"

@@ -3,7 +3,23 @@ import { twMerge } from "tailwind-merge"
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { Router } from "next/router";
+import CryptoJS from 'crypto-js';
+import queryString from 'query-string';
+// export const encodeObjectToHashedQueryString=(obj:any)=> {
+//   const queryString = Object.keys(obj)
+//     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]))
+//     .join('&');
+  
+//   const hashedQueryString = CryptoJS.AES.encrypt(queryString, 'your-secret-key').toString();
+//   return hashedQueryString;
+// }
+export function encodeObjectToHashedQueryString(obj:any) {
+  const qs = queryString.stringify(obj);
+  const hashedQueryString = CryptoJS.AES.encrypt(qs, 'your-secret-key').toString();
+  console.log("original", hashedQueryString);
 
+  return encodeURIComponent(hashedQueryString);
+}
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

@@ -33,7 +33,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -41,6 +45,9 @@ import {
   BookOpenIcon,
   BuildingStorefrontIcon,
   Cog6ToothIcon,
+  DocumentIcon,
+  PaperClipIcon,
+  PlusCircleIcon,
   PrinterIcon,
   TrashIcon,
   UserIcon,
@@ -48,6 +55,9 @@ import {
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Edit3 } from "lucide-react";
 import Link from "next/link";
+import { Mail } from "lucide-react";
+import { MessageSquare } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -68,6 +78,9 @@ interface DataTableProps<TData, TValue> {
   hiddenCol: VisibilityState;
   showPrint?: boolean;
   onChargeClick?: (id: any) => void;
+  onFileClick?: (id: any, id1: any) => void;
+  onNewFileClick?: (id: any, id1: any) => void;
+
   onOwnerClick?: (id: any) => void;
   onTenantClick?: (id: any) => void;
   onRobClick?: (id: any) => void;
@@ -98,6 +111,8 @@ export function DataTable<TData, TValue>({
   hiddenCol,
   onTenantClick,
   onRobClick,
+  onFileClick,
+  onNewFileClick,
 
   onChargeClick,
   onOwnerClick,
@@ -162,6 +177,11 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 <th className="text-primaryText text-right pr-6">منو</th>
+                {/* {row.original.list && ( */}
+                {onNewFileClick && (
+                  <th className="text-primaryText text-right pr-6">اسناد</th>
+                )}{" "}
+                {/* )} */}
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead className="p-0" key={header.id}>
@@ -265,6 +285,88 @@ export function DataTable<TData, TValue>({
                       </Button>
                     )}
                   </td>
+                  {row.original.list && (
+                    <td>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            {/* <span className="sr-only">Open menu</span> */}
+                            <PaperClipIcon className="h-5 w-5" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          className="bordercolor"
+                          align="end"
+                        >
+                          <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                              <PlusCircleIcon className="mr-2 h-4 w-4" />
+                              <span>افزودن سند</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                              <DropdownMenuSubContent className="left-[45px] ">
+                                {row.original.list?.map(
+                                  (
+                                    type: { id: number; title: string },
+                                    index: number
+                                  ) => {
+                                    return (
+                                      <DropdownMenuItem
+                                        key={index}
+                                        className="flex justify-end gap-2"
+                                        //
+
+                                        onClick={() =>
+                                          onNewFileClick &&
+                                          onNewFileClick(row.original, type.id)
+                                        }
+                                      >
+                                        {type.title}
+                                        <PlusCircle className="mr-2 h-4 w-4" />
+                                      </DropdownMenuItem>
+                                    );
+                                  }
+                                )}
+                                {/* <DropdownMenuItem>
+                                <MessageSquare className="mr-2 h-4 w-4" />
+                                <span>Message</span>
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem>
+                                <PlusCircle className="mr-2 h-4 w-4" />
+                                <span>More...</span>
+                              </DropdownMenuItem> */}
+                              </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                          </DropdownMenuSub>
+                          <DropdownMenuSeparator />
+
+                          {row.original.Doc_files?.map(
+                            (
+                              type: { id: number; Doc_cat: { title: string } },
+                              index: number
+                            ) => {
+                              return (
+                                <DropdownMenuItem
+                                  key={index}
+                                  className="flex justify-end gap-2"
+                                  //
+
+                                  onClick={() =>
+                                    onFileClick &&
+                                    onFileClick(row.original, type.id)
+                                  }
+                                >
+                                  {type.Doc_cat.title}
+                                  <DocumentIcon className="w-4 h-4"></DocumentIcon>
+                                </DropdownMenuItem>
+                              );
+                            }
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </td>
+                  )}
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="m-0 p-2 " key={cell.id}>
                       {flexRender(

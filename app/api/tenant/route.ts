@@ -127,6 +127,38 @@ export async function GET(request: NextRequest) {
         ...(pelak1!='all' && {pelak: pelak1}),
 
       },
+      select:{
+       cposti:true,
+       datemojavez:true,
+       disc:true,
+       endate:true,
+       pelak:true,
+       sex:true,
+       stdate:true,
+       storePelak:true,
+       taddress:true,
+       tfather:true,
+       tfname:true,
+       tjob:true,
+       tlname:true,
+       tmeli:true,
+       tmobile:true,trow:true,ttel:true,
+       Doc_files: {
+        select: {
+          id: true,
+
+          moduleID: true,
+          CatID: true,
+          name: true,
+          date_: true,
+          userID: true,
+          pelak: true,
+          rowId: true,
+          Doc_cat: { select: { title: true } },
+        },
+        where: { moduleID: 2 },
+      },
+      },
 
       orderBy: {
         trow: "desc",
@@ -134,9 +166,25 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+    const docList = await client.doc_cat.findMany({
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
+      },
+      where: {
+        moduleId: 2,
+      },
+    });
+
+    const combinedResults = response.map(owner => {
+      return { ...owner, list: docList };
+    });
+
     const res = JSON.parse(
       JSON.stringify(
-        response,
+        combinedResults,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );

@@ -226,7 +226,23 @@ export async function GET(request: NextRequest) {
         paidType: true,
         paidExtraAsset: true,
         ezafPardakht:true,
-        basebill:true
+        basebill:true,
+        Doc_files: {
+          select: {
+            id: true,
+            moduleID: true,
+            CatID: true,
+            name: true,
+            date_: true,
+            userID: true,
+            pelak: true,
+            rowId: true,
+            Doc_cat: { select: { title: true } },
+          },
+          where: { moduleID: 5},
+        },  
+
+        
       },
       orderBy: {
         id: "desc",
@@ -234,9 +250,24 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+    const docList = await client.doc_cat.findMany({
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
+      },
+      where: {
+        moduleId: 5,
+      },
+    });
+    const combinedResults = response.map(owner => {
+      //const ownerDocList = docList.filter(doc => doc.id === owner.trow);
+      return { ...owner, list: docList };
+    });
     const res = JSON.parse(
       JSON.stringify(
-        response,
+        combinedResults,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );

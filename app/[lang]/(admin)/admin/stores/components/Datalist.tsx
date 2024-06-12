@@ -3,7 +3,11 @@ import { columns } from "@/app/[lang]/(admin)/admin/stores/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
-import { fetcher } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
+import useTwainModal, {
+  TwainModal,
+} from "@/app/[lang]/components/modals/TwainModal";
+import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
 import React, { Suspense, useCallback, useState } from "react";
 import useSWR from "swr";
 import {
@@ -44,6 +48,7 @@ export default function Datalist({
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
+  const _TwainModal = useTwainModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -120,6 +125,56 @@ export default function Datalist({
   //   },
   //   [searchParams]
   // );
+
+  const handleFileClick = (rowData: any, id: any) => {
+    const newdata = rowData.Doc_files?.find((doc: any) => doc.id === id) ?? {};
+    const myObject = {
+      moduleID: newdata.moduleId,
+      CatID: newdata.CatID,
+      name: newdata.name,
+      date_: newdata.date_,
+      userID: 1,
+      pelak: newdata.pelak,
+      rowId: newdata.rowId,
+      mode: "edit",
+    };
+
+    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
+    const filedata = { ...rowData, hash: hashedQueryString };
+    console.log(filedata);
+    // return;
+    setTimeout(() => {
+      _TwainModal.onOpen(filedata);
+      // resolve("");
+    }, 100);
+  };
+  const handleNewFileClick = (rowData: any, id: any) => {
+    const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
+    console.log(rowData);
+    const myObject = {
+      moduleID: newdata.moduleId,
+      CatID: newdata.id,
+      name: `file_${uuidv4()}.pdf`, // Generate a unique file name with a GUID
+      date_: new Date().toISOString(), // Set to the current date and time
+      userID: 1,
+      pelak: rowData.pelak,
+      rowId: rowData.trow,
+      mode: "add",
+    };
+
+    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
+    const filedata = { ...rowData, hash: hashedQueryString };
+    console.log(filedata);
+    console.log(myObject);
+    console.log("encode", hashedQueryString);
+    console.log(decodeURIComponent(hashedQueryString));
+
+    // return;
+    setTimeout(() => {
+      _TwainModal.onOpen(filedata);
+      // resolve("");
+    }, 100);
+  };
 
   const setQueryString = (type: string, e: string[]) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -227,6 +282,7 @@ export default function Datalist({
   };
   return (
     <div>
+      <TwainModal mutation={mutate}></TwainModal>
       <DeleteStoreModal
         mutation={mutate}
         data={deleteID}
@@ -363,6 +419,8 @@ export default function Datalist({
             onChargeClick={handleChargeClick}
             onTenantClick={handleTenantClick}
             onRobClick={handleRobClick}
+            onFileClick={handleFileClick}
+            onNewFileClick={handleNewFileClick}
             onOwnerClick={handleOwnerClick}
           ></DataTable>
         ) : (
