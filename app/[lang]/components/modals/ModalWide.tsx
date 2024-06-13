@@ -103,7 +103,7 @@ const ModalWide: React.FC<ModalProps> = ({
       overflow-y-hidden rounded-3xl"
         >
           <DialogHeader className="bg-slate-50 dark:bg-[#2b2e31] p-2 rounded-t-3xl border-b-[1px] dark:border-0">
-            <DialogTitle className="flex justify-center">{title}</DialogTitle>
+            {/* <DialogTitle className="flex justify-center">{title}</DialogTitle> */}
             <DialogDescription className="flex justify-center">
               {description}
             </DialogDescription>
