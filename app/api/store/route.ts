@@ -190,6 +190,7 @@ export async function GET(request: NextRequest) {
         }),
       },
       select: {
+        id: true,
         pelak: true,
         name: true,
         metraj: true,
