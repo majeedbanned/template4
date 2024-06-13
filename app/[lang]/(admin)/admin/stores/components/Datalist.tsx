@@ -158,7 +158,7 @@ export default function Datalist({
       date_: new Date().toISOString(), // Set to the current date and time
       userID: 1,
       pelak: rowData.pelak,
-      rowId: rowData.trow,
+      rowId: rowData.id,
       mode: "add",
     };
 

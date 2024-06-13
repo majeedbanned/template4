@@ -241,6 +241,7 @@ model sharj {
 }
 
 model store {
+  id               Int                @unique @default(autoincrement())
   pelak            String             @id(map: "PK_store") @db.Char(6)
   nov              Int?
   name             String?            @db.NVarChar(150)
@@ -535,7 +536,7 @@ model Doc_files {
   pelak       String?      @db.Char(6)
   rowId       Int?
   Doc_cat     Doc_cat?     @relation(fields: [CatID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Doc_cat")
-  store       store?       @relation(fields: [pelak], references: [pelak], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Doc_files")
+  store       store?       @relation(fields: [rowId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Doc_files")
   owner       owner?       @relation(fields: [rowId], references: [trow], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Doc_files1")
   Tenant      Tenant?      @relation(fields: [rowId], references: [trow], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_Tenant")
   sarghofli   sarghofli?   @relation(fields: [rowId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Doc_files_sarghofli")
