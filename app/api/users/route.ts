@@ -78,6 +78,11 @@ export async function POST(req: NextRequest) {
           edit: item.locations.includes("ویرایش"),
           print: item.locations.includes("حذف"),
           view: item.locations.includes("نمایش"),
+
+          docadd: item.locations.includes("ایجاد سند"),
+          docedit: item.locations.includes("تغییر سند"),
+          docview: item.locations.includes("مشاهده سند"),
+
         },
       });
   });
@@ -142,6 +147,10 @@ await client.permission.deleteMany({where:{userID:newres.id}})
           edit: item.locations.includes("ویرایش"),
           print: item.locations.includes("حذف"),
           view: item.locations.includes("نمایش"),
+          docadd: item.locations.includes("ایجاد سند"),
+          docedit: item.locations.includes("تغییر سند"),
+          docview: item.locations.includes("مشاهده سند"),
+
         },
       });
   });

@@ -80,6 +80,9 @@ interface DataTableProps<TData, TValue> {
   onChargeClick?: (id: any) => void;
   onFileClick?: (id: any, id1: any) => void;
   onNewFileClick?: (id: any, id1: any) => void;
+  docadd?: boolean;
+  docview?: boolean;
+  docedit?: boolean;
 
   onOwnerClick?: (id: any) => void;
   onTenantClick?: (id: any) => void;
@@ -113,6 +116,9 @@ export function DataTable<TData, TValue>({
   onRobClick,
   onFileClick,
   onNewFileClick,
+  docadd,
+  docview,
+  docedit,
 
   onChargeClick,
   onOwnerClick,
@@ -178,7 +184,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 <th className="text-primaryText text-right pr-6">منو</th>
                 {/* {row.original.list && ( */}
-                {onNewFileClick && (
+                {onNewFileClick && docview && (
                   <th className="text-primaryText text-right pr-6">اسناد</th>
                 )}{" "}
                 {/* )} */}
@@ -285,7 +291,7 @@ export function DataTable<TData, TValue>({
                       </Button>
                     )}
                   </td>
-                  {row.original.list && (
+                  {row.original.list && docview && (
                     <td>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -298,36 +304,41 @@ export function DataTable<TData, TValue>({
                           className="bordercolor"
                           align="end"
                         >
-                          <DropdownMenuSub>
-                            <DropdownMenuSubTrigger>
-                              <PlusCircleIcon className="mr-2 h-4 w-4" />
-                              <span>افزودن سند</span>
-                            </DropdownMenuSubTrigger>
-                            <DropdownMenuPortal>
-                              <DropdownMenuSubContent className="left-[45px] ">
-                                {row.original.list?.map(
-                                  (
-                                    type: { id: number; title: string },
-                                    index: number
-                                  ) => {
-                                    return (
-                                      <DropdownMenuItem
-                                        key={index}
-                                        className="flex justify-end gap-2"
-                                        //
+                          {docadd && (
+                            <>
+                              <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
+                                  <PlusCircleIcon className="mr-2 h-4 w-4" />
+                                  <span>افزودن سند</span>
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuPortal>
+                                  <DropdownMenuSubContent className="left-[45px] ">
+                                    {row.original.list?.map(
+                                      (
+                                        type: { id: number; title: string },
+                                        index: number
+                                      ) => {
+                                        return (
+                                          <DropdownMenuItem
+                                            key={index}
+                                            className="flex justify-end gap-2"
+                                            //
 
-                                        onClick={() =>
-                                          onNewFileClick &&
-                                          onNewFileClick(row.original, type.id)
-                                        }
-                                      >
-                                        {type.title}
-                                        <PlusCircle className="mr-2 h-4 w-4" />
-                                      </DropdownMenuItem>
-                                    );
-                                  }
-                                )}
-                                {/* <DropdownMenuItem>
+                                            onClick={() =>
+                                              onNewFileClick &&
+                                              onNewFileClick(
+                                                row.original,
+                                                type.id
+                                              )
+                                            }
+                                          >
+                                            {type.title}
+                                            <PlusCircle className="mr-2 h-4 w-4" />
+                                          </DropdownMenuItem>
+                                        );
+                                      }
+                                    )}
+                                    {/* <DropdownMenuItem>
                                 <MessageSquare className="mr-2 h-4 w-4" />
                                 <span>Message</span>
                               </DropdownMenuItem>
@@ -336,10 +347,12 @@ export function DataTable<TData, TValue>({
                                 <PlusCircle className="mr-2 h-4 w-4" />
                                 <span>More...</span>
                               </DropdownMenuItem> */}
-                              </DropdownMenuSubContent>
-                            </DropdownMenuPortal>
-                          </DropdownMenuSub>
-                          <DropdownMenuSeparator />
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuPortal>
+                              </DropdownMenuSub>
+                              <DropdownMenuSeparator />
+                            </>
+                          )}
 
                           {row.original.Doc_files?.map(
                             (

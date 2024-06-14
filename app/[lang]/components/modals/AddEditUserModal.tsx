@@ -36,7 +36,15 @@ const systems = [
   "سرقفلی",
   "",
 ];
-const locations = ["نمایش", "ویرایش", "حذف", "افزودن"];
+const locations = [
+  "نمایش",
+  "ویرایش",
+  "حذف",
+  "افزودن",
+  "مشاهده سند",
+  "تغییر سند",
+  "ایجاد سند",
+];
 
 export const AddEditUserModal = ({
   mutation,

@@ -74,6 +74,11 @@ export async function GET(
           item.edit?  "ویرایش":'',
           item.print?  "حذف":'',
           item.view ? "نمایش":'',
+
+          item.docadd ? "ایجاد سند":'',
+          item.docview ? "مشاهده سند":'',
+          item.docedit ? "تغییر سند":'',
+
         ],
       };
       access.push(accessRow);

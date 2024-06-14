@@ -41,7 +41,7 @@ export const authOptions: AuthOptions = {
             password:true,
             role:true,
             active:true
-            , Permission: { select: { systemID: true,view:true,add:true,edit:true,print:true } } },
+            , Permission: { select: { systemID: true,view:true,add:true,edit:true,print:true,docadd:true,docview:true,docedit:true } } },
           where: {
             username: credentials.username,
           },

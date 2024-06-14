@@ -21,6 +21,9 @@ declare module "next-auth" {
         print: boolean;
         systemID: number;
         view: boolean;
+        docadd: boolean;
+        docedit: boolean;
+        docview: boolean;
       }[],
     }
   }

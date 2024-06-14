@@ -338,8 +338,12 @@ model Permission {
   view     Boolean? @map("_view")
   edit     Boolean? @map("_edit")
   print    Boolean? @map("_print")
-  Systems  Systems? @relation(fields: [systemID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Systems")
-  Users    Users?   @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Users")
+  docadd   Boolean? @map("_docadd")
+  docedit  Boolean? @map("_docedit")
+  docview  Boolean? @map("_docview")
+
+  Systems Systems? @relation(fields: [systemID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Systems")
+  Users   Users?   @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Permission__Users")
 
   @@map("_Permission")
 }
