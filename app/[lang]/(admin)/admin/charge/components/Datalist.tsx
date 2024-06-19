@@ -64,7 +64,16 @@ export default function Datalist({
 
   let canAction = { ...per };
   if (permission?.user.role === "admin") {
-    canAction = { ...per, add: true, edit: true, print: true, view: true };
+    canAction = {
+      ...per,
+      add: true,
+      edit: true,
+      print: true,
+      view: true,
+      docedit: true,
+      docadd: true,
+      docview: true,
+    };
   }
 
   // const pelak = searchParams.get("pelak")?.toUpperCase();
@@ -154,6 +163,7 @@ export default function Datalist({
       pelak: newdata.pelak,
       rowId: newdata.rowId,
       mode: "edit",
+      per: canAction.docedit,
     };
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
@@ -177,6 +187,7 @@ export default function Datalist({
       pelak: rowData.pelak,
       rowId: rowData.id,
       mode: "add",
+      per: canAction.docedit,
     };
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
@@ -396,6 +407,9 @@ export default function Datalist({
             onNewFileClick={handleNewFileClick}
             allowEdit={canAction?.edit}
             allowDelete={canAction?.print}
+            docadd={canAction?.docadd}
+            docedit={canAction?.docedit}
+            docview={canAction?.docview}
           ></DataTable>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">
