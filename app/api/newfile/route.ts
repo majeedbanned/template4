@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
   };
 
   const { mode, ...newres1 } = newres;
+  
   const response = await client.doc_files.create({
     data: newres1,
   });
