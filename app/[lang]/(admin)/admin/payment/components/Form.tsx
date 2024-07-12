@@ -1,14 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 
-const Form = () => {
-  const [terminalID] = useState("69000000");
-  const [token] = useState("AccessToken");
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+interface ResponseData {
+  // Define the shape of the response data here based on what the API returns
+  [key: string]: any;
+}
 
-  const handleSubmit = async (e) => {
+const PaymentForm: React.FC = () => {
+  const [terminalID] = useState<string>("98780551");
+  const [token] = useState<string>("AccessToken");
+  const [response, setResponse] = useState<ResponseData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -23,7 +28,12 @@ const Form = () => {
         method: "POST",
         body: formData,
       });
-      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data: ResponseData = await res.json();
       setResponse(data);
     } catch (err) {
       setError("Error submitting form");
@@ -54,4 +64,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default PaymentForm;
