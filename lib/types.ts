@@ -37,6 +37,8 @@ export interface StoreProps {
   tajmi:boolean;
   ChekGift: boolean;
   ChekRol: number;
+  fine3: number;
+
   Tahvil: string;
   tovzeh: string;
   types_rahro: { rahro: string };

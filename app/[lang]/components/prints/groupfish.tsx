@@ -343,6 +343,12 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       {item?.ChekRol === "1" && (
                         <p className="text-7xl text-slate-700">حقــــــوقــی</p>
                       )}
+                      {item?.fine3 === "1" && (
+                        <p className="text-3xl text-slate-700">
+                          بعلت عدم توجه به قوانین مجتمع و تغییر کاربری، مشمول
+                          جریمه سه برابری شارژ شده اید
+                        </p>
+                      )}
                     </div>
                     {/* <div className="flex flex-row  justify-end">
                 <Image src={logo} width={150} height={150} alt="Image" />

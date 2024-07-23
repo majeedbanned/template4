@@ -466,5 +466,7 @@ export const StoreSchema = z.object({
 
   ChekGift: z.boolean().default(false).optional(),
   ChekRol: z.string().optional(),
+  fine3: z.string().optional(),
+
   tovzeh: z.string().optional(),
 });

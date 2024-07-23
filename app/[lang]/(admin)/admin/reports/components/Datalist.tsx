@@ -122,6 +122,7 @@ export default function Datalist({
       ejareh: 0,
       ChekGift: false,
       ChekRol: "",
+      fine3: "",
       tovzeh: "",
       cposti: "",
       Tahvil: "",

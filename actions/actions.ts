@@ -52,7 +52,7 @@ export const getGroupPrint = async (
         metraj: true,
         ChekRol: true,
         active: true,
-
+        fine3:true,
         new_account: {
           select: {
             month: true,
@@ -85,6 +85,7 @@ export const getGroupPrint = async (
         name: true,
         metraj: true,
         ChekRol: true,
+        fine3:true,
         active: true,
         new_account: {
           select: {

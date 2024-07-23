@@ -241,22 +241,24 @@ model sharj {
 }
 
 model store {
-  id               Int                @unique @default(autoincrement())
-  pelak            String             @id(map: "PK_store") @db.Char(6)
-  nov              Int?
-  name             String?            @db.NVarChar(150)
-  metraj           Float?
-  bazar            Int?
-  tabagh           Int?
-  rahro            Int?
-  tel1             String?            @db.NVarChar(50)
-  tel2             String?            @db.NVarChar(50)
-  cposti           String?            @db.NVarChar(50)
-  rent             Float?             @db.Money
-  active           Boolean?
-  tovzeh           String?            @db.Char(400)
-  ChekGift         Boolean?
-  ChekRol          String?            @db.NChar(1)
+  id       Int      @unique @default(autoincrement())
+  pelak    String   @id(map: "PK_store") @db.Char(6)
+  nov      Int?
+  name     String?  @db.NVarChar(150)
+  metraj   Float?
+  bazar    Int?
+  tabagh   Int?
+  rahro    Int?
+  tel1     String?  @db.NVarChar(50)
+  tel2     String?  @db.NVarChar(50)
+  cposti   String?  @db.NVarChar(50)
+  rent     Float?   @db.Money
+  active   Boolean?
+  tovzeh   String?  @db.Char(400)
+  ChekGift Boolean?
+  ChekRol  String?  @db.NChar(1)
+  fine3    String?  @db.NChar(1)
+
   Tahvil           String?            @db.NChar(10)
   created_at       String?            @db.NVarChar(50)
   updated_at       String?            @db.NVarChar(50)
