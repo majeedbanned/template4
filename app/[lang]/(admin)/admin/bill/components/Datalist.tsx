@@ -219,7 +219,7 @@ export default function Datalist({
         body: new URLSearchParams({
           TerminalID: "",
           //Amount: rowData.TotalBill,
-          Amount: "1500",
+          Amount: "15000",
 
           invoiceID: rowData.id,
         }),
