@@ -218,7 +218,9 @@ export default function Datalist({
         method: "POST",
         body: new URLSearchParams({
           TerminalID: "",
-          Amount: rowData.TotalBill,
+          //Amount: rowData.TotalBill,
+          Amount: "1500",
+
           invoiceID: rowData.id,
         }),
       });
