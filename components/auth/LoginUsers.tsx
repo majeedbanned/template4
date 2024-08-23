@@ -42,7 +42,7 @@ import { Loader2 } from "lucide-react";
 
 // import Input from "../inputs/Input";
 
-const Login = () => {
+const LoginUsers = () => {
   //   const registerModal = useRegisterModal();
   //   const loginModal = useLoginModal();
   const router = useRouter();
@@ -86,19 +86,21 @@ const Login = () => {
     signIn("credentials", {
       ...values,
       redirect: false,
-      type: "admin",
-      //callbackUrl: "/admin/main",
+      type: "user",
+      //callbackUrl: "/admin/main22",
     })
       .then((callback) => {
         //  return;
         setIsLoading(false);
         //  console.log(callback);
         if (callback?.ok) {
+          //console.log(callback);
+          // return;
           //redirect("/admin/main");
           //  toast.success('Logged in');
           //  router.refresh();
           //**** */  router.push("/admin/dashboard");
-          router.push("/admin/main");
+          router.push("/admin/bill");
           // loginModal.onClose();
         }
 
@@ -135,7 +137,7 @@ const Login = () => {
                   <FormMessage className=" space-y-0 mr-auto mt-1 " />
 
                   <FormLabel className="flex justify-end p-2  text-slate-600 ">
-                    : کلمه عبور{" "}
+                    : نام کاربری{" "}
                   </FormLabel>
                 </div>
                 <FormControl className="border">
@@ -215,4 +217,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginUsers;

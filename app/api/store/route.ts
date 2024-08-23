@@ -168,6 +168,8 @@ export async function GET(request: NextRequest) {
     );
   }
   try {
+    // console.log('startttt')
+
     const response = await client.store.findMany({
       where: {
         ...(search && {
@@ -190,9 +192,11 @@ export async function GET(request: NextRequest) {
         }),
       },
       select: {
-        id: true,
+         id: true,
         pelak: true,
         name: true,
+         username:true,
+         password:true,
         metraj: true,
         ejareh: true,
         tel1: true,
@@ -216,10 +220,10 @@ export async function GET(request: NextRequest) {
         },
         Doc_files: {
           select: {
-            id: true,
+           id: true,
             moduleID: true,
             CatID: true,
-            name: true,
+             name: true,
             date_: true,
             userID: true,
             pelak: true,
@@ -236,6 +240,8 @@ export async function GET(request: NextRequest) {
       take: 100,
     });
 
+    // console.log(response)
+// return
     const docList = await client.doc_cat.findMany({
       select: {
         id: true,

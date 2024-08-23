@@ -12,6 +12,7 @@ declare module "next-auth" {
       id: number,
       lname: string,
       username: string,
+     
       password: string,
       role: string,
       active: boolean,

@@ -456,6 +456,9 @@ export const StoreSchema = z.object({
     .or(z.string()),
 
   tel1: z.string().optional(),
+  username: z.string().optional(),
+  password: z.string().optional(),
+
   tel2: z.string().optional(),
   cposti: z.string().optional(),
   Tahvil: z.string().optional(),

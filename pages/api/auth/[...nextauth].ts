@@ -29,27 +29,87 @@ export const authOptions: AuthOptions = {
       //@ts-ignore
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-         // throw new Error("Invalid credentials1");
-         return null;
+          // throw new Error("Invalid credentials1");
+          return null;
         }
+        //@ts-ignore
+        if (credentials.type === "admin") {
+          const user = await client.users.findFirst({
+            select: {
+              id: true,
+              name: true,
+              lname: true,
+              username: true,
+              password: true,
+              role: true,
+              active: true,
+              Permission: {
+                select: {
+                  systemID: true,
+                  view: true,
+                  add: true,
+                  edit: true,
+                  print: true,
+                  docadd: true,
+                  docview: true,
+                  docedit: true,
+                },
+              },
+            },
+            where: {
+              username: credentials.username,
+            },
+          });
 
-        const user = await client.users.findFirst({
-          select: {id:true,
-            name:true,
-            lname:true,
-            username:true,
-            password:true,
-            role:true,
-            active:true
-            , Permission: { select: { systemID: true,view:true,add:true,edit:true,print:true,docadd:true,docview:true,docedit:true } } },
-          where: {
-            username: credentials.username,
-          },
-        });
+          if (!user || !user?.password) {
+            //          throw new Error("Invalid credentials2");
+            return null;
+          }
 
-        if (!user || !user?.password) {
-//          throw new Error("Invalid credentials2");
-         return null;
+          const isCorrectPassword = credentials.password === user.password;
+
+          if (!isCorrectPassword) {
+            //          throw new Error("Invalid credentials3");
+            return null;
+          }
+          const { password, ...userWithoutPass } = user;
+          //  console.log(user);
+
+          //https://github.com/vahid-nejad/next-auth-fullstack/blob/main/src/lib/jwt.ts
+
+          //     const accessToken = signJwtAccessToken(userWithoutPass);
+          //     const result = {
+          //        ...userWithoutPass,
+          //       accessToken,
+          // };
+          return user;
+        } else {
+          const portaluser = await client.store.findFirst({
+            select: {
+               id: true,
+              name: true,
+              active: true,
+              username: true,
+              password: true,
+              pelak:true
+            },
+            where: {
+              username: credentials.username,
+            },
+          });
+
+          if (!portaluser || !portaluser?.password) {
+            return null;
+          }
+
+          const isCorrectPassword = credentials.password === portaluser.password;
+
+          if (!isCorrectPassword) {
+            return null;
+          }
+          const { password, ...userWithoutPass } = portaluser;
+         
+          return portaluser;
 
         }
 
@@ -57,25 +117,6 @@ export const authOptions: AuthOptions = {
         //   credentials.password,
         //   user.hashedPassword
         // );
-
-        const isCorrectPassword = credentials.password === user.password;
-
-        if (!isCorrectPassword) {
-//          throw new Error("Invalid credentials3");
-         return null;
-
-        }
-        const { password, ...userWithoutPass } = user;
-      //  console.log(user);
-
-        //https://github.com/vahid-nejad/next-auth-fullstack/blob/main/src/lib/jwt.ts
-
-    //     const accessToken = signJwtAccessToken(userWithoutPass);
-    //     const result = {
-    //        ...userWithoutPass,
-    //       accessToken,
-    // };
-        return user;
       },
     }),
   ],

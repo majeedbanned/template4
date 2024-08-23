@@ -138,7 +138,7 @@ export const log = async ({
   mention?: boolean;
 }) => {
   /* Log a message to the console */
-  
+  console.log(message)
   const HOOK = logTypeToEnv[type];
   //console.log(HOOK)
 

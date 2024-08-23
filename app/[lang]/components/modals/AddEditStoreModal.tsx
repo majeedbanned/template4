@@ -377,6 +377,36 @@ export const AddEditStoreModal = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> نام کاربری :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel>کلمه عبور :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
