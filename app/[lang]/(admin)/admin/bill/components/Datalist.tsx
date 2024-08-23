@@ -250,10 +250,17 @@ export default function Datalist({
       tokenInput.value = data.Accesstoken; // Assuming 'AccessToken' is returned in the response
       form.appendChild(tokenInput);
 
+      const callbackInput = document.createElement("input");
+      callbackInput.type = "text";
+      callbackInput.name = "callbackURL";
+      callbackInput.value =
+        "https://charge.persiangulfmall.com/fa/admin/callback"; // Assuming 'AccessToken' is returned in the response
+      form.appendChild(callbackInput);
+
       const getMethodInput = document.createElement("input");
       getMethodInput.type = "hidden";
       getMethodInput.name = "getMethod";
-      getMethodInput.value = "1";
+      getMethodInput.value = "0";
       form.appendChild(getMethodInput);
 
       const submitButton = document.createElement("input");
