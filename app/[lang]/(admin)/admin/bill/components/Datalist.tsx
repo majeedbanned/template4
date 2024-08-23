@@ -229,8 +229,8 @@ export default function Datalist({
 
       const data = await res.json();
 
-      // console.log(data);
-      // return;
+      console.log(data);
+      return;
       // Dynamically create and submit the form
       const form = document.createElement("form");
       form.method = "post";
