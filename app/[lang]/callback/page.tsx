@@ -39,7 +39,7 @@ export default async function page({}: Props) {
         </div>
       </div>
 
-      <PostedDataDisplay></PostedDataDisplay>
+      {/* <PostedDataDisplay></PostedDataDisplay> */}
 
       {/* <Form></Form> */}
     </div>
