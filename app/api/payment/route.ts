@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       Amount: parseInt(amount, 10),
       callbackURL: "https://charge.persiangulfmall.com/callback",
       invoiceID: invoiceID,
-      terminalID: parseInt(terminalID, 10),
+      terminalID: parseInt("98780551", 10),
     };
 
     const response = await fetch("https://sepehr.shaparak.ir:8081/V1/PeymentApi/GetToken", {
