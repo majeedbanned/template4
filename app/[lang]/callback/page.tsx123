@@ -1,17 +1,21 @@
+// app/callback/page.tsx
 import React from "react";
-// import PostedDataDisplay from "./components/PostedDataDisplay";
+// import PaymentDetails from './PaymentDetails';
 
-type Props = {
-  searchParams: { [key: string]: string | undefined };
-};
+export default async function CallbackPage() {
+  const res = await fetch("https://charge.persiangulfmall.com/fa/callback", {
+    method: "POST", // or 'GET' depending on your needs
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const receivedData = await res.json();
 
-export default function Page({ searchParams }: Props) {
-  // const data = searchParams.data ? JSON.parse(searchParams.data) : {};
-  // console.log(data);
   return (
-    <div>
-      <h2>Posted Data</h2>
-      {/* <PostedDataDisplay data={data} /> */}
+    <div className="min-h-screen bg-gray-100">
+      hello
+      {JSON.stringify(receivedData)}
+      {/* <PaymentDetails data={receivedData.receivedData} /> */}
     </div>
   );
 }
