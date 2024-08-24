@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/ClientOnly.tsz"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/ClientOnly.tsz", "app/[lang]/callback/route.ts", "app/[lang]/callback/page.tsx123"],
   "exclude": ["node_modules"]
 }
