@@ -260,7 +260,7 @@ export default function Datalist({
       const getMethodInput = document.createElement("input");
       getMethodInput.type = "hidden";
       getMethodInput.name = "getMethod";
-      getMethodInput.value = "0";
+      getMethodInput.value = "1";
       form.appendChild(getMethodInput);
 
       const submitButton = document.createElement("input");
