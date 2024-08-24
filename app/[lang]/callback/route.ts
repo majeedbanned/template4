@@ -12,6 +12,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ receivedData: data });
   } catch (error) {
     // Handle any errors that occur during parsing or processing
-    return NextResponse.json({ error: 'Error processing request' }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
