@@ -1,0 +1,17 @@
+import React from "react";
+// import PostedDataDisplay from "./components/PostedDataDisplay";
+
+type Props = {
+  searchParams: { [key: string]: string | undefined };
+};
+
+export default function Page({ searchParams }: Props) {
+  // const data = searchParams.data ? JSON.parse(searchParams.data) : {};
+  // console.log(data);
+  return (
+    <div>
+      <h2>Posted Data</h2>
+      {/* <PostedDataDisplay data={data} /> */}
+    </div>
+  );
+}
