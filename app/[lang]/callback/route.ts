@@ -1,42 +1,53 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log('Received POST request');
 
-  const contentType = req.headers.get('content-type') || '';
-  if (!contentType.includes('application/json')) {
-    return NextResponse.json({ error: 'Invalid content type, expected application/json' }, { status: 400 });
-  }
+  // Log the content type and other headers for debugging
+  const contentType: string = req.headers.get('content-type') || '';
+  console.log('Content-Type:', contentType);
 
   try {
-    const rawBody = await req.text();
-    console.log('Raw body:', rawBody);
+    let data: Record<string, any> | null = null;
 
-    const data = JSON.parse(rawBody);
+    if (contentType.includes('application/json')) {
+      const rawBody: string = await req.text();
+      console.log('Raw body:', rawBody);
+      data = JSON.parse(rawBody);
+    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+      const formData: FormData = await req.formData();
+      data = {};
+      formData.forEach((value, key) => {
+        data![key] = value;
+      });
+    } else if (contentType.includes('text/plain')) {
+      const rawBody: string = await req.text();
+      data = { text: rawBody };
+    } else {
+      return NextResponse.json({ error: `Unsupported content type: ${contentType}` }, { status: 415 });
+    }
+
     console.log('Parsed data:', data);
 
+    // Return the parsed data as JSON in the response
     return NextResponse.json({ receivedData: data });
   } catch (error) {
-    console.error('Error parsing JSON:', error);
-    return NextResponse.json({ error: 'Failed to parse JSON' }, { status: 400 });
+    console.error('Error parsing data:', error);
+    return NextResponse.json({ error: 'Failed to parse data' }, { status: 400 });
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   console.log('Received GET request');
 
-  // Get the query parameters from the request URL
   const { searchParams } = new URL(req.url);
-  const queryParams = {};
+  const queryParams: Record<string, string> = {};
 
-  // Convert the query parameters into a JavaScript object
   searchParams.forEach((value, key) => {
-  //@ts-ignore
     queryParams[key] = value;
   });
 
   console.log('Query parameters:', queryParams);
 
-  // Return the query parameters as a JSON response
   return NextResponse.json({ receivedQueryParams: queryParams });
 }
