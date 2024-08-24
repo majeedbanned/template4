@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   console.log(req)
-  try {
+  //try {
     console.log('Received POST request');
 
     // Parse the incoming request's JSON body
@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
 
     // Return the parsed data as JSON in the response
     return NextResponse.json({ receivedData: data });
-  } catch (error) {
+ // } catch (error) {
     // Handle any errors that occur during parsing or processing
-    return NextResponse.json({ error: error }, { status: 500 });
-  }
+  //  return NextResponse.json({ error: error }, { status: 500 });
+  //}
 }
