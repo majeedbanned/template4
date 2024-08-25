@@ -87,6 +87,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           endResult = "خطا در پرداخت";
         }
 
+        ////// changing database
+
+
+        const newres = {
+          paidBill: data.amount.toString().replace(/\D/g, ""),
+          paidType:'پرداخت آنلاین',
+          paidDate: data.datepaid,
+         
+        };
+        const response2 = await client.new_account.update({
+          where: {
+            id: Number(data.invoiceid),
+          },
+          data: newres,
+        });
+        ////////////////////////
+
         console.log("API Response:", apiResponse);
       } catch (error) {
         console.error("Error calling API:", error);
@@ -144,12 +161,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           <h1>${endResult}</h1>
           <p>شماره مرجع: ${data?.rrn}</p>
           <p>شماره پیگیری: ${data?.tracenumber}</p>
-          ${
-            apiResponse
-              ? `<pre>پاسخ API: ${JSON.stringify(apiResponse, null, 2)}</pre>`
-              : ""
-          }
-          <a href="/">بازگشت</a>
+        
+          <a href="https://charge.persiangulfmall.com/fa/admin/bill">بازگشت</a>
         </body>
       </html>
     `;
