@@ -82,7 +82,9 @@ export const authOptions: AuthOptions = {
           //        ...userWithoutPass,
           //       accessToken,
           // };
-          return user;
+          const lastuser={...user ,type:'admin'}
+          
+          return lastuser;
         } else {
           const portaluser = await client.store.findFirst({
             select: {
@@ -107,9 +109,10 @@ export const authOptions: AuthOptions = {
           if (!isCorrectPassword) {
             return null;
           }
+
           const { password, ...userWithoutPass } = portaluser;
-         
-          return portaluser;
+          const lastuser={...portaluser ,type:'user'}
+          return lastuser;
 
         }
 

@@ -1,5 +1,5 @@
 "use client";
-import { columns } from "@/app/[lang]/(admin)/admin/charge/components/columns";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
 import { StoreProps } from "@/lib/types";
@@ -412,7 +412,7 @@ export default function Datalist({
         ref={componentRef}
       />
 
-      {canAction.add ? (
+      {false ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
           onClick={AddRecord}
@@ -441,7 +441,7 @@ export default function Datalist({
             }}
             columns={columns}
             data={charges}
-            showPrint={true}
+            showPrint={false}
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}

@@ -10,6 +10,9 @@ type Props = {};
 
 export default async function students({}: Props) {
   const currentUser = await getServerSession(authOptions);
+  // console.log(currentUser);
+  //@ts-ignore
+  if (currentUser?.user?.type === "user") redirect("/admin/bill");
 
   return (
     <div>

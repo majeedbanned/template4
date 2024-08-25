@@ -77,12 +77,12 @@ export default function AdminHeader({ cu }: { cu?: Session | null }) {
         <Projects></Projects>
       </div>
       <div className="basis-1/2 flex justify-end  gap-2">
-        <Search></Search>
+        {/* <Search></Search> */}
         {/* <LangSelect></LangSelect>
 
         <Chat></Chat>
         <Notifications></Notifications> */}
-        <Popover open={open} onOpenChange={setOpen}>
+        {/* <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger className="rounded-full" asChild>
             <Button
               variant="outline"
@@ -122,7 +122,7 @@ export default function AdminHeader({ cu }: { cu?: Session | null }) {
               </CommandGroup>
             </Command>
           </PopoverContent>
-        </Popover>
+        </Popover> */}
         <Profile cu={cu}></Profile>
       </div>
     </div>

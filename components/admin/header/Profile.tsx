@@ -67,7 +67,8 @@ export default function Profile({ cu }: { cu?: Session | null }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="rounded-[20px]">
           <DropdownMenuLabel className="flex justify-end">
-            {cu?.user.name + " " + cu?.user.lname}
+            {cu?.user?.name && cu?.user?.name}
+            {cu?.user?.lname && cu?.user?.lname}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="flex justify-end">

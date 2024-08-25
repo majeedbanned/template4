@@ -56,7 +56,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     },
 
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="پلاک" />
+      <DataTableColumnHeader column={column} title="دوره/پلاک" />
     ),
   },
 
@@ -466,32 +466,32 @@ export const columns: ColumnDef<StoreProps>[] = [
     ),
   },
 
-  {
-    accessorKey: "discription",
-    id: "توضیحات",
+  // {
+  //   accessorKey: "discription",
+  //   id: "توضیحات",
 
-    cell: ({ row }) => {
-      return (
-        <div>
-          {String(row.getValue("توضیحات")).trim() !== "null" &&
-          String(row.getValue("توضیحات")).trim() !== "" ? (
-            <HoverCard openDelay={200}>
-              <HoverCardTrigger>
-                <InformationCircleIcon className="text-red-500 w-6 h-6 cursor-pointer"></InformationCircleIcon>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                {String(row.getValue("توضیحات"))}
-              </HoverCardContent>
-            </HoverCard>
-          ) : (
-            <div></div>
-          )}
-        </div>
-      );
-    },
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div>
+  //         {String(row.getValue("توضیحات")).trim() !== "null" &&
+  //         String(row.getValue("توضیحات")).trim() !== "" ? (
+  //           <HoverCard openDelay={200}>
+  //             <HoverCardTrigger>
+  //               <InformationCircleIcon className="text-red-500 w-6 h-6 cursor-pointer"></InformationCircleIcon>
+  //             </HoverCardTrigger>
+  //             <HoverCardContent>
+  //               {String(row.getValue("توضیحات"))}
+  //             </HoverCardContent>
+  //           </HoverCard>
+  //         ) : (
+  //           <div></div>
+  //         )}
+  //       </div>
+  //     );
+  //   },
 
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="توضیحات" />
-    ),
-  },
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="توضیحات" />
+  //   ),
+  // },
 ];

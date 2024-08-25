@@ -188,7 +188,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 <th className="text-primaryText text-right pr-6">منو</th>
                 {/* {row.original.list && ( */}
-                {onNewFileClick && docview && (
+                {false && onNewFileClick && docview && (
                   <th className="text-primaryText text-right pr-6">اسناد</th>
                 )}{" "}
                 {/* )} */}
@@ -209,20 +209,22 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody className="">
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row, inx) => (
                 <TableRow
                   key={row.id}
                   className="p-3  "
                   data-state={row.getIsSelected() && "selected"}
                 >
                   <td className="px-4 py-2">
-                    <Button
-                      onClick={() => onPaymentClick(row.original)}
-                      variant="default"
-                      className="bg-green-400"
-                    >
-                      پرداخت آنلاین
-                    </Button>
+                    {inx === 0 && row.original.settele_Status !== "Ok" && (
+                      <Button
+                        onClick={() => onPaymentClick(row.original)}
+                        variant="default"
+                        className="bg-green-400"
+                      >
+                        پرداخت آنلاین
+                      </Button>
+                    )}
 
                     {showPrint && (
                       <Button
@@ -235,7 +237,7 @@ export function DataTable<TData, TValue>({
                       </Button>
                     )}
                   </td>
-                  {row.original.list && docview && (
+                  {false && row.original.list && docview && (
                     <td>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
