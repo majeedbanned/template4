@@ -356,6 +356,24 @@ export const Chargechema = z.object({
   fich2: z.string(),
   fich3: z.string(),
 
+  onlineAmount: z.string(),
+  cardnumber: z.string(),
+  rrn: z.string(),
+  tracenumber: z.string(),
+  digitalreceipt: z.string(),
+  datepaid: z.string(),
+  respcode: z.string(),
+  respmsg: z.string(),
+  settele_Status: z.string(),
+  settele_ReturnId: z.string(),
+  settele_Message: z.string(),
+
+
+
+
+
+
+
 basebill:z
     .number({
       required_error: "1مقدار عددی  وارد کنید",

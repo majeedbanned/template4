@@ -1,37 +1,58 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import client from "@/lib/prismadb1";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  console.log('Received POST request');
+  console.log("Received POST request");
 
-  const contentType: string = req.headers.get('content-type') || '';
-  console.log('Content-Type:', contentType);
-
+  const contentType: string = req.headers.get("content-type") || "";
+  console.log("Content-Type:", contentType);
+  let endResult = "";
   try {
     let data: Record<string, any> | null = null;
 
-    if (contentType.includes('application/json')) {
+    if (contentType.includes("application/json")) {
       const rawBody: string = await req.text();
-      console.log('Raw body:', rawBody);
+      console.log("Raw body:", rawBody);
       data = JSON.parse(rawBody);
-    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
       const formData: FormData = await req.formData();
       data = {};
       formData.forEach((value, key) => {
         data![key] = value;
       });
-    } else if (contentType.includes('text/plain')) {
+    } else if (contentType.includes("text/plain")) {
       const rawBody: string = await req.text();
       data = { text: rawBody };
     } else {
-      return NextResponse.json({ error: `Unsupported content type: ${contentType}` }, { status: 415 });
+      return NextResponse.json(
+        { error: `Unsupported content type: ${contentType}` },
+        { status: 415 }
+      );
     }
 
-    console.log('Parsed data:', data);
+    console.log("Parsed data:", data);
 
     let apiResponse: any = null;
 
     if (data?.respcode === "0") {
-      const apiUrl = 'https://sepehr.shaparak.ir:8081/V1/PeymentApi/Advice';
+      let newObject = {
+        onlineAmount: data.amount,
+        cardnumber: data.cardnumber,
+        rrn: data.rrn,
+        tracenumber: data.tracenumber,
+        digitalreceipt: data.digitalreceipt,
+        datepaid: data.datepaid,
+        respcode: data.respcode,
+        respmsg: data.respmsg,
+      };
+      const response = await client.new_account.update({
+        where: {
+          id: Number(data?.invoiceid),
+        },
+        data: newObject,
+      });
+
+      const apiUrl = "https://sepehr.shaparak.ir:8081/V1/PeymentApi/Advice";
       const postData = {
         digitalreceipt: data.digitalreceipt,
         terminalid: data.terminalid,
@@ -39,18 +60,40 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
       try {
         const response = await fetch(apiUrl, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(postData),
         });
 
         apiResponse = await response.json();
-        console.log('API Response:', apiResponse);
+
+        let newObject = {
+          settele_Status: apiResponse.Status,
+          settele_ReturnId: apiResponse.ReturnId,
+          settele_Message: apiResponse.Message,
+        };
+        const responsefinal = await client.new_account.update({
+          where: {
+            id: Number(data?.invoiceid),
+          },
+          data: newObject,
+        });
+
+        if (apiResponse.Status === "Ok") {
+          endResult = "پرداخت با موفقیت انجام شد";
+        } else {
+          endResult = "خطا در پرداخت";
+        }
+
+        console.log("API Response:", apiResponse);
       } catch (error) {
-        console.error('Error calling API:', error);
-        return NextResponse.json({ error: 'Failed to call API' }, { status: 500 });
+        console.error("Error calling API:", error);
+        return NextResponse.json(
+          { error: "Failed to call API" },
+          { status: 500 }
+        );
       }
     }
 
@@ -61,28 +104,38 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           <title>POST Data Result</title>
         </head>
         <body>
-          <h1>Received Data</h1>
-          <p>Card Number: ${data?.cardnumber}</p>
-          ${data ? `<p>API Response: ${JSON.stringify(data)}</p>` : ''}
+          <h1></h1>
+  ${endResult}
+          <p>ref: ${data?.rrn}</p>
+          <p>tracenumber: ${data?.tracenumber}</p>
+
+          ${data ? `<p>API Response: ${JSON.stringify(data)}</p>` : ""}
           <h1>Received Data</h1>
 
-          ${apiResponse ? `<p>API Response: ${JSON.stringify(apiResponse)}</p>` : ''}
+          ${
+            apiResponse
+              ? `<p>API Response: ${JSON.stringify(apiResponse)}</p>`
+              : ""
+          }
           <a href="/">Go Back</a>
         </body>
       </html>
     `;
 
     return new NextResponse(htmlContent, {
-      headers: { 'Content-Type': 'text/html' },
+      headers: { "Content-Type": "text/html" },
     });
   } catch (error) {
-    console.error('Error parsing data:', error);
-    return NextResponse.json({ error: 'Failed to parse data' }, { status: 400 });
+    console.error("Error parsing data:", error);
+    return NextResponse.json(
+      { error: "Failed to parse data" },
+      { status: 400 }
+    );
   }
 }
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  console.log('Received GET request');
+  console.log("Received GET request");
 
   const { searchParams } = new URL(req.url);
   const queryParams: Record<string, string> = {};
@@ -91,7 +144,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     queryParams[key] = value;
   });
 
-  console.log('Query parameters:', queryParams);
+  console.log("Query parameters:", queryParams);
 
   // Create an HTML response for GET requests
   const htmlContent = `
@@ -108,6 +161,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   `;
 
   return new NextResponse(htmlContent, {
-    headers: { 'Content-Type': 'text/html' },
+    headers: { "Content-Type": "text/html" },
   });
 }
