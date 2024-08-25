@@ -29,9 +29,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     console.log('Parsed data:', data);
 
     // Redirect to the UI page with data as a query parameter
-    return NextResponse.json(data);
+    //return NextResponse.json(data);
 
-    return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(data))}`);
+   // return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(data))}`);
   } catch (error) {
     console.error('Error parsing data:', error);
     return NextResponse.json({ error: 'Failed to parse data' }, { status: 400 });
