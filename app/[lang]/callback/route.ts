@@ -6,7 +6,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const contentType: string = req.headers.get("content-type") || "";
   console.log("Content-Type:", contentType);
-  let endResult = "";
+  let endResult = "خطا در تراکنش";
   try {
     let data: Record<string, any> | null = null;
 
@@ -97,27 +97,59 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     }
 
-    // Create an HTML response with the API result
+    // Create a styled HTML response with the API result
     const htmlContent = `
-      <html>
+      <html lang="fa" dir="rtl">
         <head>
-          <title>POST Data Result</title>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>نتیجه تراکنش</title>
+          <style>
+            body {
+              font-family: 'Tahoma', 'Arial', sans-serif;
+              background-color: #f4f4f4;
+              color: #333;
+              direction: rtl;
+              padding: 20px;
+              line-height: 1.6;
+            }
+            h1 {
+              color: #4CAF50;
+              font-size: 24px;
+            }
+            p {
+              font-size: 18px;
+              margin-bottom: 10px;
+            }
+            pre {
+              background-color: #eee;
+              padding: 10px;
+              border-radius: 5px;
+            }
+            a {
+              display: inline-block;
+              margin-top: 20px;
+              padding: 10px 15px;
+              background-color: #007BFF;
+              color: white;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+            a:hover {
+              background-color: #0056b3;
+            }
+          </style>
         </head>
         <body>
-          <h1></h1>
-  ${endResult}
-          <p>ref: ${data?.rrn}</p>
-          <p>tracenumber: ${data?.tracenumber}</p>
-
-          ${data ? `<p>API Response: ${JSON.stringify(data)}</p>` : ""}
-          <h1>Received Data</h1>
-
+          <h1>${endResult}</h1>
+          <p>شماره مرجع: ${data?.rrn}</p>
+          <p>شماره پیگیری: ${data?.tracenumber}</p>
           ${
             apiResponse
-              ? `<p>API Response: ${JSON.stringify(apiResponse)}</p>`
+              ? `<pre>پاسخ API: ${JSON.stringify(apiResponse, null, 2)}</pre>`
               : ""
           }
-          <a href="/">Go Back</a>
+          <a href="/">بازگشت</a>
         </body>
       </html>
     `;
@@ -146,16 +178,49 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   console.log("Query parameters:", queryParams);
 
-  // Create an HTML response for GET requests
+  // Create a styled HTML response for GET requests
   const htmlContent = `
-    <html>
+    <html lang="fa" dir="rtl">
       <head>
-        <title>GET Query Parameters</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>پارامترهای جستجو</title>
+        <style>
+          body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            direction: rtl;
+            padding: 20px;
+            line-height: 1.6;
+          }
+          h1 {
+            color: #4CAF50;
+            font-size: 24px;
+          }
+          pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+          }
+          a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+          }
+          a:hover {
+            background-color: #0056b3;
+          }
+        </style>
       </head>
       <body>
-        <h1>Received Query Parameters</h1>
+        <h1>پارامترهای دریافت‌شده</h1>
         <pre>${JSON.stringify(queryParams, null, 2)}</pre>
-        <a href="/">Go Back</a>
+        <a href="/">بازگشت</a>
       </body>
     </html>
   `;
@@ -164,3 +229,4 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     headers: { "Content-Type": "text/html" },
   });
 }
+
