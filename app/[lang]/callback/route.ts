@@ -30,7 +30,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     let apiResponse: any = null;
 
-    if (data?.respcode === 0) {
+    if (data?.respcode === "0") {
       const apiUrl = 'https://sepehr.shaparak.ir:8081/V1/PeymentApi/Advice';
       const postData = {
         digitalreceipt: data.digitalreceipt,
@@ -63,6 +63,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         <body>
           <h1>Received Data</h1>
           <p>Card Number: ${data?.cardnumber}</p>
+          ${data ? `<p>API Response: ${JSON.stringify(data)}</p>` : ''}
+          <h1>Received Data</h1>
+
           ${apiResponse ? `<p>API Response: ${JSON.stringify(apiResponse)}</p>` : ''}
           <a href="/">Go Back</a>
         </body>
