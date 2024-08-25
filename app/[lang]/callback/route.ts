@@ -36,7 +36,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         </head>
         <body>
           <h1>Received Data</h1>
-          <pre>${JSON.stringify(data, null, 2)}</pre>
+  ${data?.cardnumber}
           <a href="/">Go Back</a>
         </body>
       </html>
