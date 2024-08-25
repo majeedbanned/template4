@@ -28,13 +28,27 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     console.log('Parsed data:', data);
 
-    // Construct absolute URL for redirection
-    const { protocol, host } = new URL(req.url);
-    const absoluteUrl = `${protocol}//${host}/fa/gresult?data=${encodeURIComponent(JSON.stringify(data))}`;
+    // Redirect to the UI page with data as a query parameter
+    return NextResponse.json(data);
 
-    return NextResponse.redirect(absoluteUrl);
+    return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(data))}`);
   } catch (error) {
     console.error('Error parsing data:', error);
     return NextResponse.json({ error: 'Failed to parse data' }, { status: 400 });
   }
+}
+
+export async function GET(req: NextRequest): Promise<NextResponse> {
+  console.log('Received GET request');
+
+  const { searchParams } = new URL(req.url);
+  const queryParams: Record<string, string> = {};
+
+  searchParams.forEach((value, key) => {
+    queryParams[key] = value;
+  });
+
+  console.log('Query parameters:', queryParams);
+
+  return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(queryParams))}`);
 }
