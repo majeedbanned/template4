@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fetch from 'node-fetch';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log('Received POST request');
@@ -28,7 +29,33 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     console.log('Parsed data:', data);
 
-    // Create an HTML response
+    let apiResponse: any = null;
+
+    if (data?.respcode === 0) {
+      const apiUrl = 'https://sepehr.shaparak.ir:8081/V1/PeymentApi/Advice';
+      const postData = {
+        digitalreceipt: data.digitalreceipt,
+        terminalid: data.terminalid,
+      };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+
+        apiResponse = await response.json();
+        console.log('API Response:', apiResponse);
+      } catch (error) {
+        console.error('Error calling API:', error);
+        return NextResponse.json({ error: 'Failed to call API' }, { status: 500 });
+      }
+    }
+
+    // Create an HTML response with the API result
     const htmlContent = `
       <html>
         <head>
@@ -36,7 +63,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         </head>
         <body>
           <h1>Received Data</h1>
-  ${data?.cardnumber}
+          <p>Card Number: ${data?.cardnumber}</p>
+          ${apiResponse ? `<p>API Response: ${JSON.stringify(apiResponse)}</p>` : ''}
           <a href="/">Go Back</a>
         </body>
       </html>
