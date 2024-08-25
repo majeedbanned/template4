@@ -227,6 +227,7 @@ export async function GET(request: NextRequest) {
         paidExtraAsset: true,
         ezafPardakht:true,
         basebill:true,
+        settele_Status:true,
         Doc_files: {
           select: {
             id: true,
