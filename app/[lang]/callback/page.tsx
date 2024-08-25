@@ -25,7 +25,7 @@ const CallbackPage = () => {
         setPostData(data.receivedData);
       } catch (error) {
         console.error("Error fetching POST data:", error);
-        setPostData({ error: error.message });
+        //  setPostData({ error: error.message });
       }
     };
 

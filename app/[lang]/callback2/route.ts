@@ -28,10 +28,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     console.log('Parsed data:', data);
 
-    // Redirect to the UI page with data as a query parameter
-    return NextResponse.json(data);
+    // Create an HTML response
+    const htmlContent = `
+      <html>
+        <head>
+          <title>POST Data Result</title>
+        </head>
+        <body>
+          <h1>Received Data</h1>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+          <a href="/">Go Back</a>
+        </body>
+      </html>
+    `;
 
-   // return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(data))}`);
+    return new NextResponse(htmlContent, {
+      headers: { 'Content-Type': 'text/html' },
+    });
   } catch (error) {
     console.error('Error parsing data:', error);
     return NextResponse.json({ error: 'Failed to parse data' }, { status: 400 });
@@ -50,5 +63,21 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   console.log('Query parameters:', queryParams);
 
-  return NextResponse.redirect(`http://charge.persiangulfmall.com/fa/gresult/?status=success&data=${encodeURIComponent(JSON.stringify(queryParams))}`);
+  // Create an HTML response for GET requests
+  const htmlContent = `
+    <html>
+      <head>
+        <title>GET Query Parameters</title>
+      </head>
+      <body>
+        <h1>Received Query Parameters</h1>
+        <pre>${JSON.stringify(queryParams, null, 2)}</pre>
+        <a href="/">Go Back</a>
+      </body>
+    </html>
+  `;
+
+  return new NextResponse(htmlContent, {
+    headers: { 'Content-Type': 'text/html' },
+  });
 }
