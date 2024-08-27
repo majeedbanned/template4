@@ -350,23 +350,23 @@ export const Chargechema = z.object({
   //     .min(0,{ message: "6مقدار عددی مثبت وارد کنید" })
 
   // )
-  discription: z.string().nullable().optional(),
-  fichnum: z.string().nullable().optional(),
-  fich1: z.string().nullable().optional(),
-  fich2: z.string().nullable().optional(),
-  fich3: z.string().nullable().optional(),
+  discription: z.string(),
+  fichnum: z.string(),
+  fich1: z.string(),
+  fich2: z.string(),
+  fich3: z.string(),
 
-  onlineAmount: z.string().nullable().optional(),
-  cardnumber: z.string().nullable().optional(),
-  rrn: z.string().nullable().optional(),
-  tracenumber: z.string().nullable().optional(),
-  digitalreceipt: z.string().nullable().optional(),
-  datepaid: z.string().nullable().optional(),
-  respcode: z.string().nullable().optional(),
-  respmsg: z.string().nullable().optional(),
-  settele_Status: z.string().nullable().optional(),
-  settele_ReturnId: z.string().nullable().optional(),
-  settele_Message: z.string().nullable().optional(),
+  onlineAmount: z.string(),
+  cardnumber: z.string(),
+  rrn: z.string(),
+  tracenumber: z.string(),
+  digitalreceipt: z.string(),
+  datepaid: z.string(),
+  respcode: z.string(),
+  respmsg: z.string(),
+  settele_Status: z.string(),
+  settele_ReturnId: z.string(),
+  settele_Message: z.string(),
 
 
 
