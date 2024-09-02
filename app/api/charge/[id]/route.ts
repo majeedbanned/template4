@@ -86,7 +86,19 @@ export async function GET(
 
     discription: "",
     paidExtraAsset: 0,
-    basebill:0
+    basebill:0,
+
+    onlineAmount     : "",
+  cardnumber      : "",
+  rrn             : "",
+  tracenumber     : "",
+  digitalreceipt   : "",
+  datepaid         : "",
+  respcode: "",
+  respmsg         : "",
+  settele_Status   : "",
+  settele_ReturnId : "",
+  settele_Message  : "",
   };
 
   const pelak = params.id.toUpperCase();
