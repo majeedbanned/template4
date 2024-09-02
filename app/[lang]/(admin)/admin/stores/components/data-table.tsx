@@ -270,13 +270,18 @@ export function DataTable<TData, TValue>({
                         )}
                         <DropdownMenuSeparator />
                         {allowDelete && (
-                          <DropdownMenuItem
-                            className="flex justify-end gap-2"
-                            onClick={() => onDeleteClick(row.original)}
-                          >
-                            حذف
-                            <TrashIcon className="w-4 h-4"></TrashIcon>
-                          </DropdownMenuItem>
+                          <div>
+                            {row.original.paidType?.trim() !==
+                              "پرداخت آنلاین" && (
+                              <DropdownMenuItem
+                                className="flex justify-end gap-2"
+                                onClick={() => onDeleteClick(row.original)}
+                              >
+                                حذف
+                                <TrashIcon className="w-4 h-4"></TrashIcon>
+                              </DropdownMenuItem>
+                            )}
+                          </div>
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>

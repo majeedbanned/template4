@@ -72,7 +72,18 @@ if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
     created_user: session.user.id,
     updated_at: "",
     updated_user: 0,
-    basebill:parseInt(res.basebill.toString())
+    basebill:parseInt(res.basebill.toString()),
+    onlineAmount:"",
+    cardnumber :"",
+    rrn             :"",
+    tracenumber    :"",
+    digitalreceipt  :"",
+    datepaid        :"",
+    respcode        :"",
+    respmsg        :"",
+    settele_Status   :"",
+    settele_ReturnId :"",
+    settele_Message  :"",
   };
   
   const { TotalBill, id, ...newObject } = newres;

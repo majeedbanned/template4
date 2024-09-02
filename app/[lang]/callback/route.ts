@@ -127,7 +127,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
               background-color: #f4f4f4;
               color: #333;
               direction: rtl;
-              padding: 20px;
+              padding: 40px;
               line-height: 1.6;
             }
             h1 {

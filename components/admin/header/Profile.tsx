@@ -11,10 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { SettingsIcon, User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-// import useLoginModal from "@/app/hooks/useLoginModal";
 import useLoginModal, {
   LoginModal,
 } from "@/app/[lang]/components/modals/LoginModal";
@@ -25,17 +24,12 @@ import {
   ArrowRightOnRectangleIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
+
 type Props = {};
 
 export default function Profile({ cu }: { cu?: Session | null }) {
   const { data: session, status } = useSession();
-  // const { status } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect("/signin");
-  //   },
-  // });
-
+  const router = useRouter();
   const loginModal = useLoginModal();
 
   const promiseToast = () => {
@@ -49,6 +43,7 @@ export default function Profile({ cu }: { cu?: Session | null }) {
       error: "Error",
     });
   };
+
   return (
     <div>
       <LoginModal></LoginModal>
@@ -71,14 +66,13 @@ export default function Profile({ cu }: { cu?: Session | null }) {
             {cu?.user?.lname && cu?.user?.lname}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="flex justify-end">
-            پروفایل کاربر
+          <DropdownMenuItem
+            className="flex justify-end"
+            onClick={() => router.push("/admin/changepassword")} // Redirect to the change password page
+          >
+            تغییر کلمه عبور
             <UserCircleIcon className="w-4 h-4"></UserCircleIcon>
           </DropdownMenuItem>
-          {/* <DropdownMenuItem onClick={promiseToast}>
-            Tost Promise
-          </DropdownMenuItem> */}
-
           <DropdownMenuItem
             className="flex justify-end"
             onClick={() => {
@@ -91,18 +85,6 @@ export default function Profile({ cu }: { cu?: Session | null }) {
             خروج
             <ArrowRightOnRectangleIcon className="w-4 h-4"></ArrowRightOnRectangleIcon>
           </DropdownMenuItem>
-          {/* <DropdownMenuItem onClick={() => loginModal.onOpen()}>
-            Login
-          </DropdownMenuItem> */}
-          {/* <DropdownMenuItem
-            onClick={() =>
-              toast.message("Event has been created", {
-                description: "Monday, January 3rd at 6:00pm",
-              })
-            }
-          >
-            Toast
-          </DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
