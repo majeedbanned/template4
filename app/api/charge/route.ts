@@ -29,13 +29,13 @@ export async function POST(req: NextRequest) {
   const res: z.infer<typeof Chargechema> = await req.json();
 
   //** pars request body */
-  const validation = Chargechema.safeParse(res);
-  if (!validation.success) {
-    const { errors } = validation.error;
-    return NextResponse.json(errors, {
-      status: 400,
-    });
-  }
+  // const validation = Chargechema.safeParse(res);
+  // if (!validation.success) {
+  //   const { errors } = validation.error;
+  //   return NextResponse.json(errors, {
+  //     status: 400,
+  //   });
+  // }
 
 
   //** check for payment date */
@@ -73,17 +73,7 @@ if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
     updated_at: "",
     updated_user: 0,
     basebill:parseInt(res.basebill.toString()),
-    onlineAmount:"",
-    cardnumber :"",
-    rrn             :"",
-    tracenumber    :"",
-    digitalreceipt  :"",
-    datepaid        :"",
-    respcode        :"",
-    respmsg        :"",
-    settele_Status   :"",
-    settele_ReturnId :"",
-    settele_Message  :"",
+   
   };
   
   const { TotalBill, id, ...newObject } = newres;
@@ -117,15 +107,15 @@ export async function PUT(req: NextRequest) {
   const res: z.infer<typeof Chargechema> = await req.json();
 
   //** pars request body */
-  const validation = Chargechema.safeParse(res);
-  if (!validation.success) {
-    const { errors } = validation.error;
-   // console.log(errors);
-    return NextResponse.json(errors, {
-      status: 400,
-      statusText: "s1",
-    });
-  }
+  // const validation = Chargechema.safeParse(res);
+  // if (!validation.success) {
+  //   const { errors } = validation.error;
+  //  // console.log(errors);
+  //   return NextResponse.json(errors, {
+  //     status: 400,
+  //     statusText: "s1",
+  //   });
+  // }
 
 
   if(res.ezafPardakht.toString()!=='0' || res.paidBill.toString()!=='0')
