@@ -460,7 +460,8 @@ export default function SideBarMenu({ cu }: { cu?: Session | null }) {
           </Sidebar>
         ) : (
           //@ts-ignore
-          <Sidebar lang="" onExpand={handleExpand}></Sidebar>
+          // <Sidebar lang="" onExpand={handleExpand}></Sidebar>
+          <></>
         )
       }
     </div>

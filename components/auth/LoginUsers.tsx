@@ -120,7 +120,13 @@ const LoginUsers = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="sm:space-y-8 border-red-100"
+      >
+        <span className="border-1 font-semibold text-center text-2xl">
+          سامانه پرداخت شارژ مجتمع خلیج فارس
+        </span>
         <FormField
           control={form.control}
           name="username"
@@ -135,7 +141,6 @@ const LoginUsers = () => {
               >
                 <div className="flex flex-row  justify-end">
                   <FormMessage className=" space-y-0 mr-auto mt-1 " />
-
                   <FormLabel className="flex justify-end p-2  text-slate-600 ">
                     : نام کاربری{" "}
                   </FormLabel>
@@ -200,7 +205,7 @@ const LoginUsers = () => {
             transition={{ delay: 0.5, duration: 0.8 }}
           >
             <Button
-              className="h-9 mt-4  w-[250px] border-0  bg-[#ff9901] shadow-lg shadow-[#ff9901]/30 rounded-3xl px-2 text-sm text-white transition-all duration-150 ease-in-out hover:bg-[#f7ac51]  focus:outline-none "
+              className="h-9 mt-4  w-[250px] border-0  bg-[#20c9dc] shadow-lg shadow-[#ff9901]/30 rounded-3xl px-2 text-sm text-white transition-all duration-150 ease-in-out hover:bg-[#29e5ec]  focus:outline-none "
               disabled={isLoading}
               type="submit"
             >
@@ -210,7 +215,6 @@ const LoginUsers = () => {
             <span className="text-sm text-slate-500">فراموشی کلمه عبور</span>
           </motion.div>
         </div>
-
         <div className="text-sm text-red-400">{error}</div>
       </form>
     </Form>

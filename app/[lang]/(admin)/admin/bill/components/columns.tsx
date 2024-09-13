@@ -13,6 +13,41 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export const columns: ColumnDef<StoreProps>[] = [
   {
+    accessorKey: "TotalBill",
+    id: "قابل پرداخت",
+
+    cell: ({ row }) => {
+      let val = String(row.getValue("مهلت پرداخت"));
+
+      const amount = parseFloat(row.getValue("قابل پرداخت"));
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(amount);
+
+      return (
+        <div className="flex flex-col gap-1">
+          <Badge
+            className="rounded-lg w-fit bordercolor text-sm bg-[#6cd46c] border-0 text-[#ffffff] font-bold"
+            variant="outline"
+          >
+            {formatted.replace("ریال", "")}
+          </Badge>
+          <span className="text-[11px] text-slate-400">مهلت پرداخت:</span>
+          {val.toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {val.toPersianDigits()}
+            </Badge>
+          )}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="قابل پرداخت" />;
+    },
+  },
+
+  {
     meta: true,
     accessorKey: "id",
     id: "کد",
@@ -229,41 +264,6 @@ export const columns: ColumnDef<StoreProps>[] = [
     },
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="دوره جریمه" />;
-    },
-  },
-
-  {
-    accessorKey: "TotalBill",
-    id: "قابل پرداخت",
-
-    cell: ({ row }) => {
-      let val = String(row.getValue("مهلت پرداخت"));
-
-      const amount = parseFloat(row.getValue("قابل پرداخت"));
-      const formatted = new Intl.NumberFormat("fa-IR", {
-        style: "currency",
-        currency: "IRR",
-      }).format(amount);
-
-      return (
-        <div className="flex flex-col gap-1">
-          <Badge
-            className="rounded-lg w-fit bordercolor text-sm bg-[#6cd46c] border-0 text-[#ffffff] font-bold"
-            variant="outline"
-          >
-            {formatted.replace("ریال", "")}
-          </Badge>
-          <span className="text-[11px] text-slate-400">مهلت پرداخت:</span>
-          {val.toString().trim() && (
-            <Badge className="rounded-sm w-fit" variant="secondary">
-              {val.toPersianDigits()}
-            </Badge>
-          )}
-        </div>
-      );
-    },
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="قابل پرداخت" />;
     },
   },
 

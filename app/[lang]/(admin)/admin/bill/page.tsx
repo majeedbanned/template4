@@ -34,7 +34,9 @@ export default async function students({
 
   return (
     <PageWrapper>
-      <Datalist permission={currentUser}></Datalist>
+      <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
+        <Datalist permission={currentUser}></Datalist>
+      </div>
     </PageWrapper>
   );
 }
