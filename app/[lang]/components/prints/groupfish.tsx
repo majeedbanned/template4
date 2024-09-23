@@ -300,7 +300,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       <p className="text-center text-xl">
                         {item?.new_account[0]?.month
                           ?.toString()
-                          .replace("-", "/") + "/31"}
+                          .replace("-", "/") + "/30"}
                       </p>
                       <p>مهلت داده شده شامل بدهی نمیشود</p>
                     </div>
