@@ -406,6 +406,12 @@ export default function Datalist({
               { value: "1403-04", label: "1403-04" },
               { value: "1403-05", label: "1403-05" },
               { value: "1403-06", label: "1403-06" },
+              { value: "1403-07", label: "1403-07" },
+              { value: "1403-08", label: "1403-08" },
+              { value: "1403-09", label: "1403-09" },
+              { value: "1403-10", label: "1403-10" },
+              { value: "1403-11", label: "1403-11" },
+              { value: "1403-12", label: "1403-12" },
             ]}
             selected={searchParams
               .get("date")
