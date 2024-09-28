@@ -389,7 +389,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-slate-600 text-[12px] font-medium">
-          {row.getValue("تاریخ پرداخت")}
+          {String(row.getValue("تاریخ پرداخت")).toPersianDigits()}
         </div>
       );
     },
