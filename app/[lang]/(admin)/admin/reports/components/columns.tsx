@@ -386,6 +386,13 @@ export const columns: ColumnDef<StoreProps>[] = [
   {
     accessorKey: "paidDate",
     id: "تاریخ پرداخت",
+    cell: ({ row }) => {
+      return (
+        <div className="text-slate-600 text-[12px] font-medium">
+          {row.getValue("تاریخ پرداخت")}
+        </div>
+      );
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="تاریخ پرداخت" />
     ),
