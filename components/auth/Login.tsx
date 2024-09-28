@@ -135,7 +135,7 @@ const Login = () => {
                   <FormMessage className=" space-y-0 mr-auto mt-1 " />
 
                   <FormLabel className="flex justify-end p-2  text-slate-600 ">
-                    : کلمه عبور{" "}
+                    : نام کاربری{" "}
                   </FormLabel>
                 </div>
                 <FormControl className="border">

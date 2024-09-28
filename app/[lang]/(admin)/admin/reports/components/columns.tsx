@@ -383,7 +383,13 @@ export const columns: ColumnDef<StoreProps>[] = [
       );
     },
   },
-
+  {
+    accessorKey: "paiddate",
+    id: "تاریخ پرداخت",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تاریخ پرداخت" />
+    ),
+  },
   {
     accessorKey: "aghsat",
     id: "نحوه",
