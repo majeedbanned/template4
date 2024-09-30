@@ -31,6 +31,12 @@ export const ComponentToPrint = React.forwardRef(
                   style={{ fontFamily: "CustomFont" }}
                   className="break-normal border border-gray-500 p-1"
                 >
+                  ردیف
+                </th>
+                <th
+                  style={{ fontFamily: "CustomFont" }}
+                  className="break-normal border border-gray-500 p-1"
+                >
                   پلاک
                 </th>
                 <th
@@ -75,6 +81,14 @@ export const ComponentToPrint = React.forwardRef(
                     پرداخت شده
                   </th>
                 )}
+
+                <th
+                  style={{ fontFamily: "CustomFont" }}
+                  className="border  border-gray-500 p-1"
+                >
+                  تاریخ
+                </th>
+
                 <th
                   style={{ fontFamily: "CustomFont" }}
                   className="border  border-gray-500 p-1"
@@ -93,6 +107,13 @@ export const ComponentToPrint = React.forwardRef(
               {/* {data?.length > 1 && <div className="pagebreak"></div>} */}
               {data?.map((item: any, index: any) => (
                 <tr className="border" key={index}>
+                  <td
+                    style={{ fontFamily: "CustomFont", whiteSpace: "nowrap" }}
+                    className="border  text-sm  border-gray-500 p-1"
+                  >
+                    {index}
+                  </td>
+
                   <td
                     style={{ fontFamily: "CustomFont", whiteSpace: "nowrap" }}
                     className="border  text-sm  border-gray-500 p-1"
@@ -142,12 +163,21 @@ export const ComponentToPrint = React.forwardRef(
                       {item.paidBill}
                     </td>
                   )}
+
+                  <td
+                    style={{ fontFamily: "CustomFont" }}
+                    className="border  text-sm border-gray-500 p-1"
+                  >
+                    {item.paidDate}
+                  </td>
+
                   <td
                     style={{ fontFamily: "CustomFont" }}
                     className="border  text-sm border-gray-500 p-1"
                   >
                     {item.deptPeriod}
                   </td>
+
                   <td
                     style={{ fontFamily: "CustomFont" }}
                     className="border whitespace-nowrap text-[10px] border-gray-500 p-1"
