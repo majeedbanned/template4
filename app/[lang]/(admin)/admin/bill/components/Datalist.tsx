@@ -214,11 +214,12 @@ export default function Datalist({
     setError(null);
 
     try {
+      const ammount = rowData.TotalBill - rowData.paidBill;
       const res = await fetch("/api/payment", {
         method: "POST",
         body: new URLSearchParams({
           TerminalID: "",
-          Amount: rowData.TotalBill,
+          Amount: String(ammount),
           //Amount: "15000",
 
           invoiceID: rowData.id,

@@ -216,15 +216,19 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   <td className="px-4 py-2">
-                    {inx === 0 && row.original.settele_Status !== "Ok" && (
-                      <Button
-                        onClick={() => onPaymentClick(row.original)}
-                        variant="default"
-                        className="bg-green-400"
-                      >
-                        پرداخت آنلاین
-                      </Button>
-                    )}
+                    {inx === 0 &&
+                      row.original.settele_Status !== "Ok" &&
+                      row.original.paidBill !== row.original.TotalBill && (
+                        <Button
+                          onClick={() => onPaymentClick(row.original)}
+                          variant="default"
+                          className="bg-green-400"
+                        >
+                          پرداخت آنلاین
+                          {/* <br /> */}
+                          {/* {row.original.TotalBill - row.original.paidBill} */}
+                        </Button>
+                      )}
 
                     {showPrint && (
                       <Button
