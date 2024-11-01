@@ -105,7 +105,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           paidType: "پرداخت آنلاین",
           paidDate1: data.datepaid,
           paidBill:
-            existedRow?.paidBill + data.amount.toString().replace(/\D/g, ""),
+            Number(existedRow?.paidBill) + Number( data.amount.toString().replace(/\D/g, "")),
         };
 
         let updateedrow;
