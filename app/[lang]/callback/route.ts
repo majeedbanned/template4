@@ -88,19 +88,38 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         }
 
         ////// changing database
-
+        const existedRow = await client.new_account.findFirst({
+          where: {
+            id: Number(data.invoiceid),
+          },
+        });
 
         const newres = {
           paidBill: data.amount.toString().replace(/\D/g, ""),
-          paidType:'پرداخت آنلاین',
+          paidType: "پرداخت آنلاین",
           paidDate: data.datepaid,
-         
         };
+
+        const Secondnewres = {
+          paidBill1: data.amount.toString().replace(/\D/g, ""),
+          paidType: "پرداخت آنلاین",
+          paidDate1: data.datepaid,
+          paidBill:
+            existedRow?.paidBill + data.amount.toString().replace(/\D/g, ""),
+        };
+
+        let updateedrow;
+        if (existedRow?.paidBill) {
+          updateedrow = Secondnewres;
+        } else {
+          updateedrow = newres;
+        }
+
         const response2 = await client.new_account.update({
           where: {
             id: Number(data.invoiceid),
           },
-          data: newres,
+          data: updateedrow,
         });
         ////////////////////////
 
@@ -242,4 +261,3 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     headers: { "Content-Type": "text/html" },
   });
 }
-
