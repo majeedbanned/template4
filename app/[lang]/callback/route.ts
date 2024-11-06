@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import client from "@/lib/prismadb1";
 
+function formatJalaliDateAndTime(dateString:string) {
+  const date = dateString.substring(0, 10).replace(/-/g, "/");
+  const time = dateString.substring(11, 19); // Extracts "HH:MM:SS"
+  return { date, time };
+}
 export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log("Received POST request");
 
@@ -35,13 +40,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     let apiResponse: any = null;
 
     if (data?.respcode === "0") {
+
+      const { date, time } = formatJalaliDateAndTime(data.datepaid);
+
       let newObject = {
         onlineAmount: data.amount,
         cardnumber: data.cardnumber,
         rrn: data.rrn,
         tracenumber: data.tracenumber,
         digitalreceipt: data.digitalreceipt,
-        datepaid: data.datepaid,
+      //  datepaid: data.datepaid,
+      datepaid: date,       // Formatted date
+      paidTime: time,
         respcode: data.respcode,
         respmsg: data.respmsg,
       };
@@ -97,13 +107,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const newres = {
           paidBill: data.amount.toString().replace(/\D/g, ""),
           paidType: "پرداخت آنلاین",
-          paidDate: data.datepaid,
+         // paidDate: data.datepaid,
+         datepaid: date,       // Formatted date
+         paidTime: time,
         };
 
         const Secondnewres = {
           paidBill1: data.amount.toString().replace(/\D/g, ""),
           paidType: "پرداخت آنلاین",
-          paidDate1: data.datepaid,
+          //paidDate1: data.datepaid,
+          paidDate1: date,       // Formatted date
+          paidTime: time,
           paidBill:
             Number(existedRow?.paidBill) + Number( data.amount.toString().replace(/\D/g, "")),
         };
