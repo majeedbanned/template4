@@ -304,8 +304,8 @@ export async function GET(request: NextRequest) {
     let fromdateq = "";
     if (fromdate) {
       if (todate)
-        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}' or dbo.new_account.paidDate1 >= '${fromdate}'  ) 
-                      AND (dbo.new_account.paidDate <= '${todate}' or dbo.new_account.paidDate1 <= '${todate}'  ) `;
+        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}'   ) 
+                      AND (dbo.new_account.paidDate <= '${todate}'   ) `;
       else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' ) `;
     }
 
