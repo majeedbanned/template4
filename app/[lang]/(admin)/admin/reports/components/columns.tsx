@@ -304,6 +304,10 @@ export const columns: ColumnDef<StoreProps>[] = [
     accessorKey: "paidBill3",
     id: "واریز۳",
   },
+  {
+    accessorKey: "rrn",
+    id: "رهگیری",
+  },
 
   {
     accessorKey: "paidBill",
@@ -337,6 +341,7 @@ export const columns: ColumnDef<StoreProps>[] = [
                       .replace("ریال", "")
                   }
                 </Badge>
+                {row.getValue("رهگیری")}
                 <p>
                   {row.getValue("واریز۱") != 0 &&
                     new Intl.NumberFormat("fa-IR", {
