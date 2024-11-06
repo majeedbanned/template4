@@ -304,8 +304,8 @@ export async function GET(request: NextRequest) {
     let fromdateq = "";
     if (fromdate) {
       if (todate)
-        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}'  ) 
-                      AND (dbo.new_account.paidDate <= '${todate}'  ) `;
+        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}' or dbo.new_account.paidDate1 >= '${fromdate}'  ) 
+                      AND (dbo.new_account.paidDate <= '${todate}' or dbo.new_account.paidDate1 <= '${todate}'  ) `;
       else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' ) `;
     }
 
@@ -319,7 +319,7 @@ export async function GET(request: NextRequest) {
     }
     let sortq = "";
     if (sort) {
-      sortq = sort === "r" ? " newid()" : " dbo.store.pelak ";
+      sortq = sort === "r" ? " newid()" : " dbo.store.paidDate ";
     } else {
       sortq = " dbo.store.paidDate ";
     }
