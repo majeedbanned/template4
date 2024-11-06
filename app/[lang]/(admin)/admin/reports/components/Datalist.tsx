@@ -657,6 +657,7 @@ export default function Datalist({
               واریز۳: false,
               نحوه: false,
               تجمیع: false,
+              رهگیری: false,
             }}
             columns={columns}
             data={stores}
