@@ -321,7 +321,7 @@ export async function GET(request: NextRequest) {
     if (sort) {
       sortq = sort === "r" ? " newid()" : " dbo.store.pelak ";
     } else {
-      sortq = " dbo.store.pelak ";
+      sortq = " dbo.store.paidDate ";
     }
     let bazarq = "";
     if (bazar) {

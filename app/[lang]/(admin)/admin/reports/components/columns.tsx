@@ -341,7 +341,7 @@ export const columns: ColumnDef<StoreProps>[] = [
                       .replace("ریال", "")
                   }
                 </Badge>
-                <p className="text-xs">{row.getValue("رهگیری")}</p>
+                <p className="text-[10px] p-2">{row.getValue("رهگیری")}</p>
                 <p>
                   {row.getValue("واریز۱") != 0 &&
                     new Intl.NumberFormat("fa-IR", {
