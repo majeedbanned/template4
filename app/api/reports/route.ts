@@ -319,9 +319,9 @@ export async function GET(request: NextRequest) {
     }
     let sortq = "";
     if (sort) {
-      sortq = sort === "r" ? " newid()" : " dbo.store.paidDate ";
+      sortq = sort === "r" ? " newid()" : " dbo.new_account.paidDate ";
     } else {
-      sortq = " dbo.store.paidDate ";
+      sortq = " dbo.new_account.paidDate ";
     }
     let bazarq = "";
     if (bazar) {
