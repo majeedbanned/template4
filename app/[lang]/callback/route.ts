@@ -108,7 +108,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           paidBill: data.amount.toString().replace(/\D/g, ""),
           paidType: "پرداخت آنلاین",
          // paidDate: data.datepaid,
-         datepaid: date,       // Formatted date
+         paidDate: date,       // Formatted date
          paidTime: time,
         };
 
