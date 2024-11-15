@@ -123,7 +123,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         };
 
         let updateedrow;
-        if (existedRow?.paidBill) {
+        if (Number(existedRow?.paidBill)!==0) {
           updateedrow = Secondnewres;
         } else {
           updateedrow = newres;
