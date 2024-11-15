@@ -151,7 +151,11 @@ export const ComponentToPrint = React.forwardRef(
                       style={{ fontFamily: "CustomFont" }}
                       className="border text-sm border-gray-500 p-1"
                     >
-                      {item.TotalBill}
+                      {new Intl.NumberFormat("fa-IR", {
+                        style: "currency",
+                        currency: "IRR",
+                      }).format(item.TotalBill)}
+                      {/* {item.TotalBill} */}
                     </td>
                   )}
 
@@ -160,7 +164,12 @@ export const ComponentToPrint = React.forwardRef(
                       style={{ fontFamily: "CustomFont" }}
                       className="border text-sm border-gray-500 p-1"
                     >
-                      {item.paidBill}
+                      {/* {item.paidBill} */}
+
+                      {new Intl.NumberFormat("fa-IR", {
+                        style: "currency",
+                        currency: "IRR",
+                      }).format(item.paidBill)}
                     </td>
                   )}
 
