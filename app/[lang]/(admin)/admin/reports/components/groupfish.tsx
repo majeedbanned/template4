@@ -154,7 +154,9 @@ export const ComponentToPrint = React.forwardRef(
                       {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
-                      }).format(item.TotalBill)}
+                      })
+                        .format(item.TotalBill)
+                        .replace("ریال", "")}
                       {/* {item.TotalBill} */}
                     </td>
                   )}
@@ -169,7 +171,9 @@ export const ComponentToPrint = React.forwardRef(
                       {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
-                      }).format(item.paidBill)}
+                      })
+                        .format(item.paidBill)
+                        .replace("ریال", "")}
                     </td>
                   )}
 
