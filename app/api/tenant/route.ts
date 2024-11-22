@@ -99,7 +99,10 @@ export async function PUT(req: NextRequest) {
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
-  const search = url.searchParams.get("search") || undefined;
+  let search = url.searchParams.get("search") || undefined;
+  if (search)
+  search=decodeURIComponent(String(search))
+  console.log(search)
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
 
@@ -120,8 +123,22 @@ export async function GET(request: NextRequest) {
           OR: [
             { pelak: { contains: search } },
             { tfname: { contains: search } },
-            { tlname: { contains: search } },
-            { tmobile: { contains: search } },
+             { tlname: { contains: search } },
+             { tmobile: { contains: search } },
+             { tmeli: { contains: search } },
+             { tmobile: { contains: search } },
+
+             { datemojavez: { contains: search } },
+
+             { endate: { contains: search } },
+             { stdate: { contains: search } },
+             { tablo: { contains: search } },
+
+
+
+
+             
+             
           ],
         }),
         ...(pelak1!='all' && {pelak: pelak1}),
@@ -140,6 +157,7 @@ export async function GET(request: NextRequest) {
        tfather:true,
        tfname:true,
        tjob:true,
+       tablo:true,
        tlname:true,
        tmeli:true,
        tmobile:true,trow:true,ttel:true,
@@ -166,6 +184,9 @@ export async function GET(request: NextRequest) {
       // include:{maghtatbl:true},
       take: 100,
     });
+
+
+     console.log(response.length)
 
     const docList = await client.doc_cat.findMany({
       select: {

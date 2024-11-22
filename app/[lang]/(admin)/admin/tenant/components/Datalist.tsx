@@ -235,15 +235,15 @@ export default function Datalist({
                 if (!value) {
                   current.delete("search");
                 } else {
-                  current.set("search", String(value));
+                  current.set("search", encodeURIComponent(String(value)));
                 }
                 const search = current.toString();
                 const query = search ? `?${search}` : "";
                 router.push(`${pathname}${query}`);
               }
             }}
-            className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
-            placeholder="جستجو در نام و فامیل و پلاک  "
+            className="placeholder-[#8ba5e2] bordercolor h-8 w-[350px] lg:w-[550px] border px-2 rounded-md my-4"
+            placeholder="جستجو در نام , فامیل , پلاک , کد ملی , موبایل , تاریخ شروع , پایان , تاریخ مجوز  "
           />
         </div>
       </div>

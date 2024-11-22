@@ -98,7 +98,9 @@ export async function PUT(req: NextRequest) {
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
-  const search = url.searchParams.get("search") || undefined;
+  let search = url.searchParams.get("search") || undefined;
+  if (search)
+    search=decodeURIComponent(String(search))
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
   // console.log('ppp',pelak1)
@@ -118,10 +120,18 @@ export async function GET(request: NextRequest) {
       where: {
         ...(search && {
           OR: [
-            // { pelak: { contains: pelak1 } },
+             { pelak: { contains: search } },
             { tfname: { contains: search } },
             { tlname: { contains: search } },
+
             { tmobile: { contains: search } },
+
+            { tmeli: { contains: search } },
+
+            { changeOwner: { contains: search } },
+
+            
+            
           ],
         }),
         ...(pelak1 !== "all" && { pelak: pelak1 }),

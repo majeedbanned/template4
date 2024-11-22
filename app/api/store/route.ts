@@ -203,6 +203,7 @@ export async function GET(request: NextRequest) {
         active:true,
         changedate:true,
         aghsat:true,
+        malekmos:true,
         tajmi:true,
         tel2: true,
         tovzeh: true,

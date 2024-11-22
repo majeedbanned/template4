@@ -806,6 +806,42 @@ export const AddEditStoreModal = ({
 
         <FormField
           control={form.control}
+          name="malekmos"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>فعال در واحد :</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  /*
+      // @ts-ignore */
+
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex gap-2 items-center ltr:justify-start rtl:justify-end">
+                    <FormLabel className="font-normal">مالک</FormLabel>
+
+                    <FormControl>
+                      <RadioGroupItem value="1" />
+                    </FormControl>
+                  </FormItem>
+                  <FormItem className="flex items-center gap-2   ltr:justify-start rtl:justify-end">
+                    <FormLabel className="font-normal">مستاجر</FormLabel>
+
+                    <FormControl>
+                      <RadioGroupItem value="2" />
+                    </FormControl>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="fine3"
           render={({ field }) => (
             <FormItem className="space-y-3">

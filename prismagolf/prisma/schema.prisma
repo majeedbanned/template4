@@ -261,6 +261,7 @@ model store {
   ChekGift Boolean?
   ChekRol  String?  @db.NChar(1)
   fine3    String?  @db.NChar(1)
+  malekmos String?  @db.NVarChar(50)
 
   Tahvil           String?            @db.NChar(10)
   created_at       String?            @db.NVarChar(50)
@@ -289,22 +290,24 @@ model store {
 
 /// @@Gen.model(hide: true)
 model Tenant {
-  trow        Int         @id(map: "PK_Tenant") @default(autoincrement())
-  pelak       String?     @db.NVarChar(6)
-  tfname      String?     @db.NVarChar(50)
-  tlname      String?     @db.NVarChar(50)
-  tfather     String?     @db.NVarChar(50)
-  tjob        String?     @db.NVarChar(50)
-  tmobile     String?     @db.NVarChar(50)
-  ttel        String?     @db.NVarChar(50)
-  taddress    String?     @db.NVarChar(50)
-  tmeli       String?     @db.NVarChar(50)
-  stdate      String?     @db.NVarChar(50)
-  endate      String?     @db.NVarChar(50)
-  sex         String?     @db.NVarChar(50)
-  cposti      String?     @db.NVarChar(50)
-  storePelak  String?     @db.NVarChar(50)
-  disc        String?     @db.NVarChar(Max)
+  trow       Int     @id(map: "PK_Tenant") @default(autoincrement())
+  pelak      String? @db.NVarChar(6)
+  tfname     String? @db.NVarChar(50)
+  tlname     String? @db.NVarChar(50)
+  tfather    String? @db.NVarChar(50)
+  tjob       String? @db.NVarChar(50)
+  tmobile    String? @db.NVarChar(50)
+  ttel       String? @db.NVarChar(50)
+  taddress   String? @db.NVarChar(50)
+  tmeli      String? @db.NVarChar(50)
+  stdate     String? @db.NVarChar(50)
+  endate     String? @db.NVarChar(50)
+  sex        String? @db.NVarChar(50)
+  cposti     String? @db.NVarChar(50)
+  storePelak String? @db.NVarChar(50)
+  disc       String? @db.NVarChar(Max)
+  tablo      String? @db.NVarChar(Max)
+
   datemojavez String?     @db.NVarChar(50)
   Doc_files   Doc_files[]
 }

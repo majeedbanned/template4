@@ -25,6 +25,24 @@ export const columns: ColumnDef<z.infer<typeof Tenantschema>>[] = [
   },
 
   {
+    accessorKey: "tablo",
+    id: "نام تابلو",
+    cell: ({ row }) => {
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {row.getValue("نام تابلو")}
+        </Badge>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="نام تابلو" />;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
     accessorKey: "tfname",
     id: "نام",
     cell: ({ row }) => {
@@ -144,9 +162,9 @@ export const columns: ColumnDef<z.infer<typeof Tenantschema>>[] = [
     id: "پایان قرارداد",
     cell: ({ row }) => {
       return (
-        <Badge className="rounded-sm" variant="secondary">
+        <p className="rounded-sm font-extrabold text-red-500">
           {row.getValue("پایان قرارداد")}
-        </Badge>
+        </p>
       );
     },
     header: ({ column }) => (
@@ -177,6 +195,24 @@ export const columns: ColumnDef<z.infer<typeof Tenantschema>>[] = [
         column={column}
         title="تاریخ مجوز کاربری"
       />
+    ),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
+    accessorKey: "disc",
+    id: "توضیحات",
+    cell: ({ row }) => {
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {row.getValue("توضیحات")}
+        </Badge>
+      );
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader className="" column={column} title="توضیحات" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));

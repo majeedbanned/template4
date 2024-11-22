@@ -117,6 +117,23 @@ export const AddEditTenantModal = ({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="tablo"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> نام تابلو :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input disabled={isLoading} placeholder="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="tlname"
