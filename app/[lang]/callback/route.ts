@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import client from "@/lib/prismadb1";
 
-function formatJalaliDateAndTime(dateString:string) {
+function formatJalaliDateAndTime(dateString: string) {
   const date = dateString.substring(0, 10).replace(/-/g, "/");
   const time = dateString.substring(11, 19); // Extracts "HH:MM:SS"
   return { date, time };
@@ -40,7 +40,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     let apiResponse: any = null;
 
     if (data?.respcode === "0") {
-
       const { date, time } = formatJalaliDateAndTime(data.datepaid);
 
       let newObject = {
@@ -49,9 +48,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         rrn: data.rrn,
         tracenumber: data.tracenumber,
         digitalreceipt: data.digitalreceipt,
-      //  datepaid: data.datepaid,
-      datepaid: date,       // Formatted date
-      paidTime: time,
+        //  datepaid: data.datepaid,
+        datepaid: date, // Formatted date
+        paidTime: time,
         respcode: data.respcode,
         respmsg: data.respmsg,
       };
@@ -104,40 +103,45 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           },
         });
 
-        const newres = {
-          paidBill: data.amount.toString().replace(/\D/g, ""),
-          paidType: "پرداخت آنلاین",
-         // paidDate: data.datepaid,
-         paidDate: date,       // Formatted date
-         paidTime: time,
-        };
-
-        const Secondnewres = {
-          paidBill1: data.amount.toString().replace(/\D/g, ""),
-          paidType: "پرداخت آنلاین",
-          //paidDate1: data.datepaid,
-          paidDate1: date,       // Formatted date
-          paidTime: time,
-          paidBill:
-            Number(existedRow?.paidBill) + Number( data.amount.toString().replace(/\D/g, "")),
-        };
-
-        let updateedrow;
-        if (Number(existedRow?.paidBill)!==0) {
-          updateedrow = Secondnewres;
+        //check for duplicate
+        if (existedRow?.paidType === "پرداخت آنلاین") {
         } else {
-          updateedrow = newres;
+          const newres = {
+            paidBill: data.amount.toString().replace(/\D/g, ""),
+            paidType: "پرداخت آنلاین",
+            // paidDate: data.datepaid,
+            paidDate: date, // Formatted date
+            paidTime: time,
+          };
+
+          const Secondnewres = {
+            paidBill1: data.amount.toString().replace(/\D/g, ""),
+            paidType: "پرداخت آنلاین",
+            //paidDate1: data.datepaid,
+            paidDate1: date, // Formatted date
+            paidTime: time,
+            paidBill:
+              Number(existedRow?.paidBill) +
+              Number(data.amount.toString().replace(/\D/g, "")),
+          };
+
+          let updateedrow;
+          if (Number(existedRow?.paidBill) !== 0) {
+            updateedrow = Secondnewres;
+          } else {
+            updateedrow = newres;
+          }
+
+          const response2 = await client.new_account.update({
+            where: {
+              id: Number(data.invoiceid),
+            },
+            data: updateedrow,
+          });
+          ////////////////////////
+
+          console.log("API Response:", apiResponse);
         }
-
-        const response2 = await client.new_account.update({
-          where: {
-            id: Number(data.invoiceid),
-          },
-          data: updateedrow,
-        });
-        ////////////////////////
-
-        console.log("API Response:", apiResponse);
       } catch (error) {
         console.error("Error calling API:", error);
         return NextResponse.json(

@@ -305,8 +305,8 @@ export async function GET(request: NextRequest) {
     if (fromdate) {
       if (todate)
         fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}'  or dbo.new_account.paidDate1 >= '${fromdate}'  ) 
-                      AND (dbo.new_account.paidDate <= '${todate}' dbo.new_account.paidDate1 <= '${todate}'  ) `;
-      else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' ) `;
+                      AND (dbo.new_account.paidDate <= '${todate}' or dbo.new_account.paidDate1 <= '${todate}'  ) `;
+      else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' or dbo.new_account.paidDate1 >= '${fromdate}'  ) `;
     }
 
     let novq = "";
@@ -421,7 +421,8 @@ export async function GET(request: NextRequest) {
     }
 
     // const serializedIds = JSON.stringify(ids);
-    const response = await client.$queryRawUnsafe(`
+
+    const query=`
    SELECT     dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod,dbo.new_account.paidDate, new_account.debt,new_account.penalty,
    dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
 FROM            dbo.new_account INNER JOIN
@@ -431,7 +432,9 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} order by ${sortq}`);
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} order by ${sortq}`;
+ console.log(query)
+                         const response = await client.$queryRawUnsafe(query);
 
     const res = JSON.parse(
       JSON.stringify(
