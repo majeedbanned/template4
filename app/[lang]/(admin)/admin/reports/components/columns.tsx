@@ -297,6 +297,10 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "واریز۱",
   },
   {
+    accessorKey: "paidDate1",
+    id: "تاریخ پرداخت ۲",
+  },
+  {
     accessorKey: "paidBill2",
     id: "واریز۲",
   },
@@ -393,8 +397,13 @@ export const columns: ColumnDef<StoreProps>[] = [
     id: "تاریخ پرداخت",
     cell: ({ row }) => {
       return (
-        <div className="text-slate-600 text-[12px] font-medium">
-          {String(row.getValue("تاریخ پرداخت")).toPersianDigits()}
+        <div className="flex flex-col">
+          <div className="text-slate-600 text-[12px] font-medium">
+            {String(row.getValue("تاریخ پرداخت")).toPersianDigits()}
+          </div>
+          <div className="text-slate-600 text-[12px] font-medium">
+            {String(row.getValue("تاریخ پرداخت ۲")).toPersianDigits()}
+          </div>
         </div>
       );
     },

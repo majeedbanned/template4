@@ -650,6 +650,7 @@ export default function Datalist({
               تراز: false,
               راهرو: false,
               "نوع تعرفه": false,
+              "تاریخ پرداخت ۲": false,
               تعرفه: false,
               تلفن: false,
               واریز۱: false,
