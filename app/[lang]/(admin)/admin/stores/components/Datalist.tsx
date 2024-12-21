@@ -325,7 +325,7 @@ export default function Datalist({
                 if (!value) {
                   current.delete("search");
                 } else {
-                  current.set("search", String(value));
+                  current.set("search", encodeURIComponent(String(value)));
                 }
                 const search = current.toString();
                 const query = search ? `?${search}` : "";

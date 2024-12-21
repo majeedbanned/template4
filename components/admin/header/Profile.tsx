@@ -79,7 +79,11 @@ export default function Profile({ cu }: { cu?: Session | null }) {
               toast.message("خروج از سامانه", {
                 description: "لطفا منتظر باشید...",
               });
-              signOut();
+              // signOut();
+              //@ts-ignore
+              if (cu?.user?.type === "user")
+                signOut({ callbackUrl: "/signinusers" });
+              else signOut({ callbackUrl: "/signin" });
             }}
           >
             خروج
