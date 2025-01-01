@@ -185,7 +185,7 @@ export default function Datalist({
     // });
     // setQueryString("pelak", ["2324-t"]);
     // router.push(`/admin/nov`);
-    //console.log(createQueryString("sort", "asc"));
+    ////console.log(createQueryString("sort", "asc"));
     router.push(`/admin/charge/${rowData.pelak}`);
     // redirect("/charge/" + rowData.pelak);
   };
@@ -227,7 +227,7 @@ export default function Datalist({
 
   const handlePrintClick = (rowData: any) => {
     // setPrint(rowData);
-    // console.log(rowData);
+    // //console.log(rowData);
     // setTimeout(() => {
     //   handlePrint();
     // }, 100);

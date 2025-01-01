@@ -114,7 +114,7 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
+    //console.log(filedata);
     // return;
     setTimeout(() => {
       _TwainModal.onOpen(filedata);
@@ -123,7 +123,7 @@ export default function Datalist({
   };
   const handleNewFileClick = (rowData: any, id: any) => {
     const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    console.log(rowData);
+    //console.log(rowData);
     const myObject = {
       moduleID: newdata.moduleId,
       CatID: newdata.id,
@@ -138,10 +138,10 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
-    console.log(myObject);
-    console.log("encode", hashedQueryString);
-    console.log(decodeURIComponent(hashedQueryString));
+    //console.log(filedata);
+    //console.log(myObject);
+    //console.log("encode", hashedQueryString);
+    //console.log(decodeURIComponent(hashedQueryString));
 
     // return;
     setTimeout(() => {

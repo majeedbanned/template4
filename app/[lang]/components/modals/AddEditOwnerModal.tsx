@@ -49,7 +49,7 @@ export const AddEditOwnerModal = ({
   }, [data, form]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    //console.log(data);
     //return;
     setIsLoading(true);
     await fetch(endpoint.url, {

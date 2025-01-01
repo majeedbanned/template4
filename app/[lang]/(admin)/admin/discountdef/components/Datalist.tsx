@@ -98,7 +98,7 @@ export default function Datalist({
         ).then(async (res) => {
           if (res.status === 200) {
             const val = await res.json();
-            //  console.log("valval>", val);
+            //  //console.log("valval>", val);
             setEditdiscountdef(val);
             setTimeout(() => {
               AddDiscountdefModal.onOpen(rowData.id);

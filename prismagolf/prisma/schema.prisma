@@ -261,7 +261,7 @@ model store {
   ChekGift Boolean?
   ChekRol  String?  @db.NChar(1)
   fine3    String?  @db.NChar(1)
-  malekmos String?  @db.NVarChar(50)
+  // malekmos String?  @db.NVarChar(50)
 
   Tahvil           String?            @db.NChar(10)
   created_at       String?            @db.NVarChar(50)
@@ -284,32 +284,34 @@ model store {
   types_rahro      types_rahro?       @relation(fields: [rahro], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_rahro")
   types_tabagh     types_tabagh?      @relation(fields: [tabagh], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_store_types_tabagh")
   stores_discounts stores_discounts[]
+  Tenant           Tenant[]
 
   @@index([pelak], map: "NonClusteredIndex-20230921-150557")
 }
 
 /// @@Gen.model(hide: true)
 model Tenant {
-  trow       Int     @id(map: "PK_Tenant") @default(autoincrement())
-  pelak      String? @db.NVarChar(6)
-  tfname     String? @db.NVarChar(50)
-  tlname     String? @db.NVarChar(50)
-  tfather    String? @db.NVarChar(50)
-  tjob       String? @db.NVarChar(50)
-  tmobile    String? @db.NVarChar(50)
-  ttel       String? @db.NVarChar(50)
-  taddress   String? @db.NVarChar(50)
-  tmeli      String? @db.NVarChar(50)
-  stdate     String? @db.NVarChar(50)
-  endate     String? @db.NVarChar(50)
-  sex        String? @db.NVarChar(50)
-  cposti     String? @db.NVarChar(50)
-  storePelak String? @db.NVarChar(50)
-  disc       String? @db.NVarChar(Max)
-  tablo      String? @db.NVarChar(Max)
-
+  trow        Int         @id(map: "PK_Tenant") @default(autoincrement())
+  pelak       String?     @db.NVarChar(6)
+  tfname      String?     @db.NVarChar(50)
+  tlname      String?     @db.NVarChar(50)
+  tfather     String?     @db.NVarChar(50)
+  tjob        String?     @db.NVarChar(50)
+  tmobile     String?     @db.NVarChar(50)
+  ttel        String?     @db.NVarChar(50)
+  taddress    String?     @db.NVarChar(50)
+  tmeli       String?     @db.NVarChar(50)
+  stdate      String?     @db.NVarChar(50)
+  endate      String?     @db.NVarChar(50)
+  sex         String?     @db.NVarChar(50)
+  cposti      String?     @db.NVarChar(50)
+  storePelak  String?     @db.NVarChar(50)
+  disc        String?     @db.NVarChar(Max)
+  tablo       String?     @db.NVarChar(Max)
+  malekmos    String?     @db.NVarChar(50)
   datemojavez String?     @db.NVarChar(50)
   Doc_files   Doc_files[]
+  store       store?      @relation(fields: [pelak], references: [pelak], onDelete: NoAction, map: "FK_stores_tenant_store")
 }
 
 model types_bazar {

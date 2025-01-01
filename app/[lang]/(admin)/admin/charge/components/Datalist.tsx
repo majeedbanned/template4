@@ -127,7 +127,7 @@ export default function Datalist({
     }
   );
 
-  //console.log("isLoadingS >", stores);
+  ////console.log("isLoadingS >", stores);
   // useEffect(() => {
 
   //   const promise = () =>
@@ -168,7 +168,7 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
+    //console.log(filedata);
     // return;
     setTimeout(() => {
       _TwainModal.onOpen(filedata);
@@ -177,7 +177,7 @@ export default function Datalist({
   };
   const handleNewFileClick = (rowData: any, id: any) => {
     const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    console.log(rowData);
+    //console.log(rowData);
     const myObject = {
       moduleID: newdata.moduleId,
       CatID: newdata.id,
@@ -192,10 +192,10 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
-    console.log(myObject);
-    console.log("encode", hashedQueryString);
-    console.log(decodeURIComponent(hashedQueryString));
+    //console.log(filedata);
+    //console.log(myObject);
+    //console.log("encode", hashedQueryString);
+    //console.log(decodeURIComponent(hashedQueryString));
 
     // return;
     setTimeout(() => {
@@ -221,7 +221,7 @@ export default function Datalist({
     //   fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
     //     if (res.status === 200) {
     //       const val = await res.json();
-    //       //  console.log("_defff", val);
+    //       //  //console.log("_defff", val);
 
     //       setPrintChargeDef(val);
     //     }
@@ -236,7 +236,7 @@ export default function Datalist({
         "",
         ""
       );
-      console.log(ret);
+      //console.log(ret);
       setPrintData(ret);
 
       setTimeout(() => {
@@ -244,11 +244,11 @@ export default function Datalist({
       }, 100);
     });
 
-    //console.log(rowData);
+    ////console.log(rowData);
   };
 
   const handleDeleteClick = (rowData: any) => {
-    console.log(rowData);
+    //console.log(rowData);
     const promise = () =>
       new Promise((resolve) => {
         setDeleteID(rowData.id);

@@ -57,7 +57,7 @@ const ModalWide: React.FC<ModalProps> = ({
   actionLabelVariant,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
-  console.log("first", "https://ocr.persiangulfmall.com?page=" + hash.hash);
+  //console.log("first", "https://ocr.persiangulfmall.com?page=" + hash.hash);
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);

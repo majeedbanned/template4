@@ -105,7 +105,7 @@ export async function PUT(req: NextRequest) {
   const validation = StoreSchema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
- //   console.log(errors);
+ //   //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -113,8 +113,13 @@ export async function PUT(req: NextRequest) {
   }
 
 
-  console.log('first',res.takhfif)
+  //console.log('first',res.takhfif)
   ///// rewriting takhfif
+
+  console.log('res.takhfif',res.takhfif)
+  
+  if(res.takhfif?.toString()!=="")
+  {
   const restakh=await client.stores_discounts.deleteMany({
     where: { pelak:res.pelakNU+'-'+res.pelakCH },
   });
@@ -124,6 +129,7 @@ export async function PUT(req: NextRequest) {
       pelak:res.pelakNU+'-'+res.pelakCH
     },
   });
+}
 
   const newres = {
     ...res,
@@ -186,7 +192,7 @@ export async function GET(request: NextRequest) {
     );
   }
   try {
-    // console.log('startttt')
+    // //console.log('startttt')
 
     const response = await client.store.findMany({
       where: {
@@ -221,7 +227,7 @@ export async function GET(request: NextRequest) {
         active:true,
         changedate:true,
         aghsat:true,
-        malekmos:true,
+        // malekmos:true,
         tajmi:true,
         tel2: true,
         tovzeh: true,
@@ -230,6 +236,7 @@ export async function GET(request: NextRequest) {
         types_nov: { select: { nov: true } },
         types_tabagh: { select: { tabagh: true } },
         chargeDef: { select: { name: true,charge:true,type:true } },
+        Tenant:{select:{malekmos:true,trow:true,endate:true}},
         stores_discounts: {
           select: {
             id: true,
@@ -259,7 +266,7 @@ export async function GET(request: NextRequest) {
       take: 100,
     });
 
-    // console.log(response)
+    // //console.log(response)
 // return
     const docList = await client.doc_cat.findMany({
       select: {
@@ -272,7 +279,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-   // console.log(docList)
+   // //console.log(docList)
     const combinedResults = response.map(owner => {
       //const ownerDocList = docList.filter(doc => doc.id === owner.trow);
       return { ...owner, list: docList };
@@ -289,7 +296,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-  //  console.log("errr");
+  //  //console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

@@ -143,6 +143,61 @@ export const columns: ColumnDef<StoreProps>[] = [
   },
 
   {
+    accessorKey: "Tenant",
+    id: "malekmos",
+
+    cell: ({ row }) => {
+      // Grab the array
+      const malekmosArr = row.getValue("malekmos") as {
+        trow: number;
+        malekmos: string;
+        endate: string;
+      }[];
+
+      // If for some reason it's undefined/null or empty, bail out.
+      if (!malekmosArr || malekmosArr.length === 0) return null;
+
+      // Sort by id ascending
+      const sortedMalekmos = [...malekmosArr].sort((a, b) => b.trow - a.trow);
+
+      // Take the first item (the smallest id)
+      const firstMalekmos = sortedMalekmos[0];
+
+      return (
+        <div className="text-slate-600 flex flex-col gap-1 font-medium">
+          {/* Display just the malekmos for the biggest id */}
+          <Badge
+            variant={"outline"}
+            className="rounded-sm text-sm text-blue-400"
+          >
+            {firstMalekmos?.malekmos === "1" ? "مالک" : "مستاجر"}
+          </Badge>
+          <Badge
+            variant={"outline"}
+            className="rounded-sm text-sm text-blue-400"
+          >
+            {firstMalekmos?.endate}
+          </Badge>
+        </div>
+        // <div className="text-slate-600 font-medium">
+        //   {/* ffff
+        //   {JSON.stringify(row.getValue("malekmos"))} */}
+        //   {
+        //     // row.getValue("malekmos").length()
+        //     //@ts-ignore
+        //     row.getValue("malekmos")?.map((item, i: number) => {
+        //       return <>{item.malekmos}</>;
+        //     })
+        //   }
+        // </div>
+      );
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="فعال در واحد" />;
+    },
+  },
+
+  {
     accessorKey: "active",
     id: "وضعیت",
 

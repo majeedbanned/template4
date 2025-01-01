@@ -179,7 +179,7 @@ export default function Form({}: Props) {
                 disabled={pending}
                 variant={"secondary"}
                 onClick={async () => {
-                  console.log(vaziat);
+                  //console.log(vaziat);
 
                   startTransition(async () => {
                     const ret = await getGroupPrint(
@@ -189,7 +189,7 @@ export default function Form({}: Props) {
                       rahrov,
                       vaziat
                     );
-                    console.log(ret.length);
+                    //console.log(ret.length);
                     setPrintData(ret);
 
                     setTimeout(() => {

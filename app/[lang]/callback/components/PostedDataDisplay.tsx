@@ -11,11 +11,11 @@ export default function CallbackPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("start");
+      //console.log("start");
       const response = await fetch("/api/callback");
 
       const result = await response.json();
-      console.log("start", result);
+      //console.log("start", result);
 
       setData(result.data);
     };

@@ -17,8 +17,8 @@ export default async function students({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  // console.log(searchParams);
-  // console.log(params);
+  // //console.log(searchParams);
+  // //console.log(params);
 
   const currentUser = await getServerSession(authOptions);
   const access = currentUser?.user?.Permission?.find((item) => {

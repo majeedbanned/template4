@@ -180,7 +180,7 @@ export function SidebarItem({
 }: SidebarItemProps) {
   const expanded = useContext(SidebarContext);
 
-  // console.log("expanded>", expanded);
+  // //console.log("expanded>", expanded);
   return (
     <li
       //onClick={() => onselect(id)}

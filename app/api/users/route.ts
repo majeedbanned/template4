@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       }
     );
   }
-  //console.log("here");
+  ////console.log("here");
   //** get headers **//
 
   // const svix_id = req.headers.get("svix-id") ?? '';
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   const insertedId = response.id;
 
   newres.access?.forEach(async function (item, index) {
-    //console.log(item, index);
+    ////console.log(item, index);
     const sysID = await client.systems.findFirst({
       where: { name: item.systems },
     });
@@ -111,7 +111,7 @@ export async function PUT(req: NextRequest) {
   const validation = Userschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-   // console.log(errors);
+   // //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -133,7 +133,7 @@ export async function PUT(req: NextRequest) {
 await client.permission.deleteMany({where:{userID:newres.id}})
 
   newres.access?.forEach(async function (item, index) {
-    //console.log(item, index);
+    ////console.log(item, index);
     const sysID = await client.systems.findFirst({
       where: { name: item.systems },
     });
@@ -206,7 +206,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-    //console.log("errr");
+    ////console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

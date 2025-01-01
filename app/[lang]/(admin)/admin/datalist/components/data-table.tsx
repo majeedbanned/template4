@@ -72,8 +72,8 @@ DataTableProps<TData, TValue>) {
   );
 
   React.useEffect(() => {
-    // console.log("rs>", rowSelection);
-    // console.log("rs>", table.getSelectedRowModel().flatRows);
+    // //console.log("rs>", rowSelection);
+    // //console.log("rs>", table.getSelectedRowModel().flatRows);
   }, [rowSelection]);
 
   const [columnVisibility, setColumnVisibility] =

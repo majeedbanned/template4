@@ -307,7 +307,7 @@ export const ComponentToPrintfani = React.forwardRef(({ data }: props, ref) => {
 
                     <p>
                       پرداخت به صورت غیر حضوری توسط سامانه
-                      https://persiangulfmall.com/
+                      https://persiangulfmall.com
                     </p>
 
                     <p>

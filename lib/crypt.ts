@@ -43,8 +43,8 @@ export const decrypt = (urlSafeCipherText: string): string => {
 // Example usage:
 const originalText: string = 'a'; // Single character to encrypt
 const encryptedText: string = encrypt(originalText);
-console.log('Original:', originalText);
-console.log('Encrypted (URL-safe):', encryptedText);
+//console.log('Original:', originalText);
+//console.log('Encrypted (URL-safe):', encryptedText);
 
 const decryptedText: string = decrypt(encryptedText);
-console.log('Decrypted:', decryptedText);
+//console.log('Decrypted:', decryptedText);

@@ -172,7 +172,7 @@ export async function GET(
   );
   const nextMonthDate = initialDate.add(1, "jMonth").format("jYYYY-jMM");
 
-  // console.log("inid", lastCharge[0].month?.toString());
+  // //console.log("inid", lastCharge[0].month?.toString());
   firstRecord.pelak = pelak;
   firstRecord.month = nextMonthDate;
   firstRecord.monthbill = _chargeBill;
@@ -193,9 +193,9 @@ export async function GET(
     //  Number(lastCharge[0].penalty) -
       Number(lastCharge[0].paidBill);
   }
-  console.log("TotalBill", lastCharge[0].TotalBill);
-  console.log("penalty", lastCharge[0].penalty);
-  console.log("paidBill", lastCharge[0].paidBill);
+  //console.log("TotalBill", lastCharge[0].TotalBill);
+  //console.log("penalty", lastCharge[0].penalty);
+  //console.log("paidBill", lastCharge[0].paidBill);
 
   //penalty:
 

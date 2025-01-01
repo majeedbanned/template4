@@ -107,7 +107,7 @@ export async function PUT(req: NextRequest) {
   const validation = StoreSchema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-    //   console.log(errors);
+    //   //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -202,7 +202,7 @@ export async function GET(request: NextRequest) {
   const date =
     url.searchParams.get("date")?.toString().split(",").map(String) ||
     undefined;
-  // console.log(date)
+  // //console.log(date)
   if (!session) {
     return NextResponse.json(
       {
@@ -433,7 +433,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
                          ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} order by ${sortq}`;
- console.log(query)
+ //console.log(query)
                          const response = await client.$queryRawUnsafe(query);
 
     const res = JSON.parse(
@@ -446,7 +446,7 @@ FROM            dbo.new_account INNER JOIN
       status: 200,
     });
   } catch (error: any) {
-    console.log(error.message);
+    //console.log(error.message);
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

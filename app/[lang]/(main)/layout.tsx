@@ -48,7 +48,7 @@ export default async function Root({
   params: { lang: Locale };
   //authModal: React.ReactNode;
 }) {
-  // console.log(params.lang);
+  // //console.log(params.lang);
 
   const dictionary = await getDictionary(params.lang);
 

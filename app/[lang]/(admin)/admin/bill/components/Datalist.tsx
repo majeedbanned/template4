@@ -104,7 +104,7 @@ export default function Datalist({
       error: "Error",
     });
   };
-  //console.log("first>", permission?.user.pelak);
+  ////console.log("first>", permission?.user.pelak);
   const {
     data: charges,
     isLoading,
@@ -129,7 +129,7 @@ export default function Datalist({
     }
   );
 
-  //console.log("isLoadingS >", stores);
+  ////console.log("isLoadingS >", stores);
   // useEffect(() => {
 
   //   const promise = () =>
@@ -170,7 +170,7 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
+    //console.log(filedata);
     // return;
     setTimeout(() => {
       _TwainModal.onOpen(filedata);
@@ -179,7 +179,7 @@ export default function Datalist({
   };
   const handleNewFileClick = (rowData: any, id: any) => {
     const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    console.log(rowData);
+    //console.log(rowData);
     const myObject = {
       moduleID: newdata.moduleId,
       CatID: newdata.id,
@@ -194,10 +194,10 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
-    console.log(myObject);
-    console.log("encode", hashedQueryString);
-    console.log(decodeURIComponent(hashedQueryString));
+    //console.log(filedata);
+    //console.log(myObject);
+    //console.log("encode", hashedQueryString);
+    //console.log(decodeURIComponent(hashedQueryString));
 
     // return;
     setTimeout(() => {
@@ -208,7 +208,7 @@ export default function Datalist({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const handlePaymentClick = async (rowData: any) => {
-    // console.log(rowData);
+    // //console.log(rowData);
     //return;
     setLoading(true);
     setError(null);
@@ -232,7 +232,7 @@ export default function Datalist({
 
       const data = await res.json();
 
-      // console.log(data);
+      // //console.log(data);
       // return;
       // Dynamically create and submit the form
       const form = document.createElement("form");
@@ -273,7 +273,7 @@ export default function Datalist({
       document.body.appendChild(form);
       form.submit();
 
-      console.log(data);
+      //console.log(data);
       //setResponse(data);
     } catch (err) {
       setError("Error submitting form");
@@ -298,7 +298,7 @@ export default function Datalist({
     //   fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
     //     if (res.status === 200) {
     //       const val = await res.json();
-    //       //  console.log("_defff", val);
+    //       //  //console.log("_defff", val);
 
     //       setPrintChargeDef(val);
     //     }
@@ -313,7 +313,7 @@ export default function Datalist({
         "",
         ""
       );
-      console.log(ret);
+      //console.log(ret);
       setPrintData(ret);
 
       setTimeout(() => {
@@ -321,11 +321,11 @@ export default function Datalist({
       }, 100);
     });
 
-    //console.log(rowData);
+    ////console.log(rowData);
   };
 
   const handleDeleteClick = (rowData: any) => {
-    console.log(rowData);
+    //console.log(rowData);
     const promise = () =>
       new Promise((resolve) => {
         setDeleteID(rowData.id);
@@ -442,7 +442,7 @@ export default function Datalist({
             }}
             columns={columns}
             data={charges}
-            showPrint={false}
+            showPrint={true}
             isLoading={isLoading}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}

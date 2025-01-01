@@ -39,7 +39,7 @@ export default function Datalist({}: Props) {
       <DebouncedInput
         value={globalFilter ?? ""}
         onChange={(value: string | number) => {
-          //console.log(value);
+          ////console.log(value);
           setGlobalFilter(String(value));
           //?? setQueryString(router, "search", String(value));
           if (searchParams) {

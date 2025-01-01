@@ -6,6 +6,8 @@ import { FilterOptions } from "@/lib/types";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import {
   Form,
   FormControl,
@@ -38,7 +40,7 @@ export const AddEditTenantModal = ({
   }, [data, form]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    //console.log(data);
     //return;
     setIsLoading(true);
     await fetch(endpoint.url, {
@@ -130,6 +132,42 @@ export const AddEditTenantModal = ({
               <FormControl>
                 <Input disabled={isLoading} placeholder="" {...field} />
               </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="malekmos"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>فعال در واحد :</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  /*
+      // @ts-ignore */
+
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex gap-2 items-center ltr:justify-start rtl:justify-end">
+                    <FormLabel className="font-normal">مالک</FormLabel>
+
+                    <FormControl>
+                      <RadioGroupItem value="1" />
+                    </FormControl>
+                  </FormItem>
+                  <FormItem className="flex items-center gap-2   ltr:justify-start rtl:justify-end">
+                    <FormLabel className="font-normal">مستاجر</FormLabel>
+
+                    <FormControl>
+                      <RadioGroupItem value="2" />
+                    </FormControl>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

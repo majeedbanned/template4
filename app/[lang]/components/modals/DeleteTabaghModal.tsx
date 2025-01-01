@@ -18,7 +18,7 @@ export const DeleteTabaghModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //   console.log("deleted >" + _DeleteTabaghModal.editID);
+    //   //console.log("deleted >" + _DeleteTabaghModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

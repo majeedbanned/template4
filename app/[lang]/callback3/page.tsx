@@ -21,7 +21,7 @@ const CallbackPage = () => {
         }
 
         const data = await response.json();
-        console.log("Fetched data:", data); // Log the received data
+        //console.log("Fetched data:", data); // Log the received data
         setPostData(data.receivedData);
       } catch (error) {
         console.error("Error fetching POST data:", error);

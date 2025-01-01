@@ -95,6 +95,7 @@ export default function Datalist({
       tabagh: "",
       rahro: "",
       chargeProfile: "",
+      takhfif: "",
       name: "",
       active: false,
       metraj: 0,
@@ -153,7 +154,7 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
+    //console.log(filedata);
     // return;
     setTimeout(() => {
       _TwainModal.onOpen(filedata);
@@ -162,7 +163,7 @@ export default function Datalist({
   };
   const handleNewFileClick = (rowData: any, id: any) => {
     const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    console.log(rowData);
+    //console.log(rowData);
     const myObject = {
       moduleID: newdata.moduleId,
       CatID: newdata.id,
@@ -177,10 +178,10 @@ export default function Datalist({
 
     const hashedQueryString = encodeObjectToHashedQueryString(myObject);
     const filedata = { ...rowData, hash: hashedQueryString };
-    console.log(filedata);
-    console.log(myObject);
-    console.log("encode", hashedQueryString);
-    console.log(decodeURIComponent(hashedQueryString));
+    //console.log(filedata);
+    //console.log(myObject);
+    //console.log("encode", hashedQueryString);
+    //console.log(decodeURIComponent(hashedQueryString));
 
     // return;
     setTimeout(() => {
@@ -216,7 +217,7 @@ export default function Datalist({
     // });
     // setQueryString("pelak", ["2324-t"]);
     // router.push(`/admin/nov`);
-    //console.log(createQueryString("sort", "asc"));
+    ////console.log(createQueryString("sort", "asc"));
     router.push(`/admin/charge/${rowData.pelak}`);
     // redirect("/charge/" + rowData.pelak);
   };
@@ -258,7 +259,7 @@ export default function Datalist({
 
   const handlePrintClick = (rowData: any) => {
     // setPrint(rowData);
-    // console.log(rowData);
+    // //console.log(rowData);
     // setTimeout(() => {
     //   handlePrint();
     // }, 100);
@@ -293,6 +294,8 @@ export default function Datalist({
       error: "Error",
     });
   };
+
+  // //console.log("first", stores);
   return (
     <div>
       <TwainModal mutation={mutate}></TwainModal>

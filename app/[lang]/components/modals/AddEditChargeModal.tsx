@@ -59,7 +59,7 @@ export const AddEditChargeModal = ({
     //   AddEditStoreModal.editID === "add"
     //     ? {}
     //     : async () => {
-    //         //console.log("start");
+    //         ////console.log("start");
     //         return await fetch("/api/store/" + AddEditStoreModal.editID).then(
     //           (res) => res.json()
     //         );
@@ -94,7 +94,7 @@ export const AddEditChargeModal = ({
   }, [data, form]);
 
   useEffect(() => {
-    // console.log(__monthbill, __discount);
+    // //console.log(__monthbill, __discount);
     let newval =
       Number(__monthbill) +
       Number(__debt?.toString().replace(/,/g, "")) +
@@ -103,7 +103,7 @@ export const AddEditChargeModal = ({
       Number(__paidExtra?.toString().replace(/,/g, ""));
     if (newval < 0) newval = 0;
     form.setValue("TotalBill", newval);
-    // console.log("hi", Number(__paidBiil?.toString().replace(/,/g, "");
+    // //console.log("hi", Number(__paidBiil?.toString().replace(/,/g, "");
 
     // if (Number(__paidBiil?.toString().replace(/,/g, "")) > newval) {
     //   form.setValue(
@@ -127,19 +127,19 @@ export const AddEditChargeModal = ({
 
   //   const amount = BigInt(nval.toEnglishDigits());
 
-  //   // console.log("naval", nval.toEnglishDigits());
+  //   // //console.log("naval", nval.toEnglishDigits());
   //   const formatted = new Intl.NumberFormat("en-US", {
   //     style: "currency",
   //     currency: "IRR",
   //   }).format(amount);
   //   let ret = formatted.replace("IRR", "").trim();
   //   const y = ret.toPersianDigits();
-  //   // console.log("yyy", ret);
+  //   // //console.log("yyy", ret);
   //   return ret;
   // };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    //console.log(data);
 
     setIsLoading(true);
     await fetch(endpoint.url, {
@@ -168,7 +168,7 @@ export const AddEditChargeModal = ({
           // if (domainErrorResponse) {
           toast.error("پلاک تکراری است");
         } else {
-          //console.log(res);
+          ////console.log(res);
           if (res.statusText === "date")
             toast.error("لطفا تاریخ پرداخت را وارد نمایید");
           else toast.error(res.statusText);

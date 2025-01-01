@@ -7,17 +7,17 @@ function formatJalaliDateAndTime(dateString: string) {
   return { date, time };
 }
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  console.log("Received POST request");
+  //console.log("Received POST request");
 
   const contentType: string = req.headers.get("content-type") || "";
-  console.log("Content-Type:", contentType);
+  //console.log("Content-Type:", contentType);
   let endResult = "خطا در تراکنش";
   try {
     let data: Record<string, any> | null = null;
 
     if (contentType.includes("application/json")) {
       const rawBody: string = await req.text();
-      console.log("Raw body:", rawBody);
+      //console.log("Raw body:", rawBody);
       data = JSON.parse(rawBody);
     } else if (contentType.includes("application/x-www-form-urlencoded")) {
       const formData: FormData = await req.formData();
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    console.log("Parsed data:", data);
+    //console.log("Parsed data:", data);
 
     let apiResponse: any = null;
 
@@ -140,7 +140,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           });
           ////////////////////////
 
-          console.log("API Response:", apiResponse);
+          //console.log("API Response:", apiResponse);
         }
       } catch (error) {
         console.error("Error calling API:", error);
@@ -217,7 +217,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 }
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  console.log("Received GET request");
+  //console.log("Received GET request");
 
   const { searchParams } = new URL(req.url);
   const queryParams: Record<string, string> = {};
@@ -226,7 +226,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     queryParams[key] = value;
   });
 
-  console.log("Query parameters:", queryParams);
+  //console.log("Query parameters:", queryParams);
 
   // Create a styled HTML response for GET requests
   const htmlContent = `

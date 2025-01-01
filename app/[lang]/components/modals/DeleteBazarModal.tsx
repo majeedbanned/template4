@@ -18,7 +18,7 @@ export const DeleteBazarModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //console.log("deleted >" + _DeleteBazarModal.editID);
+    ////console.log("deleted >" + _DeleteBazarModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

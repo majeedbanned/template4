@@ -11,7 +11,7 @@ export async function changeUserPassword(
   user: any
 ): Promise<string> {
   
-  console.log(user)
+  //console.log(user)
 
   // Find the user by ID
   const user1 = await client.store.findUnique({

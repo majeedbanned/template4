@@ -85,6 +85,9 @@ export async function GET(
       },
     },
   });
+
+  const ttakh=await client.stores_discounts.findMany( {where: { pelak:store?.pelak.split('-')[0]+'-'+store?.pelak.split('-')[1] }})
+  console.log(ttakh[0]?.discountID?.toString())
     const res = {
       ...store,
       nov: store?.nov?.toString(),
@@ -95,7 +98,8 @@ export async function GET(
 
       chargeProfile:store?.chargeProfile?.toString(),
       pelakNU:store?.pelak.split('-')[0],
-      pelakCH:store?.pelak.split('-')[1]
+      pelakCH:store?.pelak.split('-')[1],
+      takhfif:ttakh[0]?.discountID?.toString() || ""
 
     };
   return NextResponse.json(res, {

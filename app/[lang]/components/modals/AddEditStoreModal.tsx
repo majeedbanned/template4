@@ -145,8 +145,8 @@ export const AddEditStoreModal = ({
   data?: z.infer<typeof StoreSchema>;
 }) => {
   const router = useRouter();
-  // console.log(">>>>>", data);
-  // console.log(">>>>>", data?.stores_discounts[0]?.discountID);
+  // //console.log(">>>>>", data);
+  // //console.log(">>>>>", data?.stores_discounts[0]?.discountID);
 
   const AddEditStoreModal = useAddEditStoreModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -170,14 +170,22 @@ export const AddEditStoreModal = ({
   //     pelak: "a",
   //   },
   // });
-  // console.log("AddEditStoreModal.editID>", AddEditStoreModal.editID);
+  // console.log(
+  //   "AddEditStoreModal.editID>",
+  //   data?.stores_discounts[0]?.discountID.toString()
+  // );
+
+  const newcal = {
+    ...data,
+    takhfif: "2",
+  };
   const form = useForm<z.infer<typeof StoreSchema>>({
     resolver: zodResolver(StoreSchema),
     defaultValues: AddEditStoreModal.editID !== "" ? data : {},
     //   AddEditStoreModal.editID === "add"
     //     ? {}
     //     : async () => {
-    //         //console.log("start");
+    //         ////console.log("start");
     //         return await fetch("/api/store/" + AddEditStoreModal.editID).then(
     //           (res) => res.json()
     //         );
@@ -188,7 +196,7 @@ export const AddEditStoreModal = ({
   //   // Check if all hooks have completed, then trigger the useEffect.
   //   if (_bazar && _tabagh && _rahro && _nov) {
   //     setHooksCompleted(4);
-  //     console.log("completed");
+  //     //console.log("completed");
   //   }
   // }, [_bazar, _tabagh, _rahro, _nov]);
 
@@ -213,7 +221,7 @@ export const AddEditStoreModal = ({
   //     "/api/store/" +
   //       (AddEditStoreModal.editID !== "" ? AddEditStoreModal.editID : "1")
   //   ).then(async (res) => {
-  //     //console.log(await res.json());
+  //     ////console.log(await res.json());
   //     setEditstore(await res.json());
   //   });
   // }, [AddEditStoreModal.editID]);
@@ -221,7 +229,7 @@ export const AddEditStoreModal = ({
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     if (editstore) {
-  //       console.log("amooo", editstore.nov);
+  //       //console.log("amooo", editstore.nov);
   //       // form.reset(editstore);
   //     }
   //   }, 2220);
@@ -232,7 +240,7 @@ export const AddEditStoreModal = ({
   // }, [editstore]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    //console.log(data);
     //return;
     setIsLoading(true);
     await fetch(endpoint.url, {
@@ -502,7 +510,8 @@ export const AddEditStoreModal = ({
                 // defaultValue={field.value?.toString()}
                 // @ts-ignore: Unreachable code error
 
-                defaultValue={data?.stores_discounts[0]?.discountID.toString()}
+                //value={data?.stores_discounts[0]?.discountID.toString()}
+                value={field.value || ""}
               >
                 <FormControl className="bg-white text-center">
                   <SelectTrigger className="text-center">
@@ -851,7 +860,7 @@ export const AddEditStoreModal = ({
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="malekmos"
           render={({ field }) => (
@@ -859,8 +868,7 @@ export const AddEditStoreModal = ({
               <FormLabel>فعال در واحد :</FormLabel>
               <FormControl>
                 <RadioGroup
-                  /*
-      // @ts-ignore */
+               
 
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -885,7 +893,7 @@ export const AddEditStoreModal = ({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}

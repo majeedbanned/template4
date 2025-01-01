@@ -99,7 +99,7 @@ export default function Datalist({
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
-              //  console.log("valval>", val);
+              //  //console.log("valval>", val);
               setEditchargedef(val);
               setTimeout(() => {
                 AddChargedefModal.onOpen(rowData.id);

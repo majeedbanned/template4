@@ -18,6 +18,7 @@ export const Tenantschema = z.object({
   stdate: z.string().optional(),
   endate: z.string().optional(),
   tablo      : z.string().optional(),
+  malekmos: z.string().optional(),
 
   sex: z.string().optional(),
   cposti: z.string().optional(),
@@ -478,7 +479,7 @@ takhfif:z.string().optional(),
   tel1: z.string().optional(),
   username: z.string().optional(),
   password: z.string().optional(),
-  malekmos: z.string().optional(),
+  // malekmos: z.string().optional(),
 
 
   tel2: z.string().optional(),

@@ -99,7 +99,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     accessorKey: "month",
     id: "ماه",
     cell: ({ row }) => {
-      // console.log((123.9).toLocaleString('ar-AE'))
+      // //console.log((123.9).toLocaleString('ar-AE'))
       let val = String(row.getValue("ماه"));
 
       return (
@@ -306,7 +306,7 @@ export const columns: ColumnDef<StoreProps>[] = [
     accessorKey: "paidDate",
     id: "تاریخ پرداخت",
     cell: ({ row }) => {
-      // console.log((123.9).toLocaleString('ar-AE'))
+      // //console.log((123.9).toLocaleString('ar-AE'))
       let val = String(row.getValue("تاریخ پرداخت"));
 
       return (

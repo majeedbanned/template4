@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Docschema, Ownerschema } from "@/lib/schemas";
 
 export async function POST(req: NextRequest) {
-    console.log('first')
+    //console.log('first')
   // **  Auth **//
   //const session = await getServerSession(authOptions);
 //   if (!session) {

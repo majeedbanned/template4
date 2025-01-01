@@ -15,7 +15,7 @@ export const DeleteChargeModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //console.log("deleted >" + _DeleteStoreModal.editID);
+    ////console.log("deleted >" + _DeleteStoreModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

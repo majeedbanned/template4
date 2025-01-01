@@ -74,7 +74,7 @@ interface DataTableProps<TData, TValue> {
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
-  //console.log("fuzzy");
+  ////console.log("fuzzy");
   const itemRank = rankItem(row.getValue(columnId), value);
 
   addMeta({
@@ -111,8 +111,8 @@ export function DataTable<TData, TValue>({
   );
 
   React.useEffect(() => {
-    //console.log("rs>", rowSelection);
-    //console.log("rs>", table.getSelectedRowModel().flatRows);
+    ////console.log("rs>", rowSelection);
+    ////console.log("rs>", table.getSelectedRowModel().flatRows);
   }, [rowSelection]);
 
   const [columnVisibility, setColumnVisibility] =

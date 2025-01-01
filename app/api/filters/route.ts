@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const filter = url.searchParams.get("filter") || undefined;
 
-  //console.log(url);
+  ////console.log(url);
   if (!session) {
     return NextResponse.json(
       {
@@ -130,12 +130,12 @@ export async function GET(request: NextRequest) {
       )
     );
 
-  //  console.log(res);
+  //  //console.log(res);
     return NextResponse.json(res, {
       status: 200,
     });
   } catch (error: any) {
-  //  console.log("errr");
+  //  //console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

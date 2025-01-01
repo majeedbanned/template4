@@ -16,7 +16,7 @@ export const getfish = async (formData: FormData) => {
   //   },
   // });
 
-  console.log(idate);
+ // //console.log(idate);
   revalidatePath("/autocharge");
 };
 
@@ -166,7 +166,7 @@ export const getfish1 = async (formData: string) => {
     _unactive: _unactive.length.toString(),
     issued: count,
   };
-  // console.log(idate)
+  // //console.log(idate)
   // revalidatePath("/autocharge");
 };
 
@@ -217,11 +217,11 @@ fich3:'',
     //where: { pelak: pelak, month: month }
     orderBy: { id: "desc" },
   });
-  //   console.log(exist)
-  //   console.log(pelak + ' '+ month)
+  //   //console.log(exist)
+  //   //console.log(pelak + ' '+ month)
   // return(exist.length)
   if (exist.length > 0) return "exist!";
-  // console.log('after return')
+  // //console.log('after return')
 
   // pelak = params.id.toUpperCase();
   const currentDate = jalaliMoment().format("jYYYY/jMM/jDD");
@@ -294,7 +294,7 @@ fich3:'',
   );
   const nextMonthDate = initialDate.add(1, "jMonth").format("jYYYY-jMM");
 
-  // console.log("inid", lastCharge[0].month?.toString());
+  // //console.log("inid", lastCharge[0].month?.toString());
   firstRecord.pelak = pelak;
   firstRecord.month = nextMonthDate;
   firstRecord.monthbill = _chargeBill;
@@ -323,9 +323,9 @@ fich3:'',
         Number(lastCharge[0].paidBill);
     }
   }
-  //console.log("TotalBill", lastCharge[0].TotalBill);
-  // console.log("penalty", lastCharge[0].penalty);
-  // console.log("paidBill", lastCharge[0].paidBill);
+  ////console.log("TotalBill", lastCharge[0].TotalBill);
+  // //console.log("penalty", lastCharge[0].penalty);
+  // //console.log("paidBill", lastCharge[0].paidBill);
 
   //penalty:
 

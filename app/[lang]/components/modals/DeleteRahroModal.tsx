@@ -18,7 +18,7 @@ export const DeleteRahroModal = ({
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //  console.log("deleted >" + _DeleteRahroModal.editID);
+    //  //console.log("deleted >" + _DeleteRahroModal.editID);
     const promise = () =>
       new Promise((resolve) => {
         setIsLoading(true);

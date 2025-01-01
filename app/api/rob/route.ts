@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       }
     );
   }
- // console.log("here");
+ // //console.log("here");
   //** get headers **//
 
   // const svix_id = req.headers.get("svix-id") ?? '';
@@ -79,7 +79,7 @@ export async function PUT(req: NextRequest) {
   const validation = Robschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-  //  console.log(errors);
+  //  //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -199,7 +199,7 @@ _count: true,
       status: 200,
     });
   } catch (error: any) {
-   // console.log("errr");
+   // //console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

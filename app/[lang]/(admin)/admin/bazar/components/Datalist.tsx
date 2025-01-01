@@ -94,7 +94,7 @@ export default function Datalist({
           async (res) => {
             if (res.status === 200) {
               const val = await res.json();
-              console.log("valval>", val);
+              //console.log("valval>", val);
               setEditbazar(val);
               setTimeout(() => {
                 AddBazarModal.onOpen(rowData.id);

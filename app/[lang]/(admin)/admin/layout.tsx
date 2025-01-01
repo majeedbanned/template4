@@ -74,14 +74,14 @@ export default async function Root({
   params: { lang: Locale };
   // authModal: React.ReactNode;
 }) {
-  // console.log(params.lang);
+  // //console.log(params.lang);
 
   const dictionary = await getDictionary(params.lang);
   //const currentUser = await getCurrentUser();
   const currentUser = await getServerSession(authOptions);
-  // console.log("currentUser server>>", currentUser);
+  // //console.log("currentUser server>>", currentUser);
   if (!currentUser) redirect("/signin");
-  //  console.log("currentUser server>>", currentUser);
+  //  //console.log("currentUser server>>", currentUser);
   return (
     <html
       suppressHydrationWarning

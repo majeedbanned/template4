@@ -16,7 +16,7 @@ import queryString from 'query-string';
 export function encodeObjectToHashedQueryString(obj:any) {
   const qs = queryString.stringify(obj);
   const hashedQueryString = CryptoJS.AES.encrypt(qs, 'your-secret-key').toString();
-  console.log("original", hashedQueryString);
+  //console.log("original", hashedQueryString);
 
   return encodeURIComponent(hashedQueryString);
 }
@@ -73,14 +73,14 @@ export   const formatNumber = (value: string) => {
 
   const amount = BigInt(nval.toEnglishDigits());
 
-  // console.log("naval", nval.toEnglishDigits());
+  // //console.log("naval", nval.toEnglishDigits());
   const formatted = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "IRR",
   }).format(amount);
   let ret = formatted.replace("IRR", "").trim();
   const y = ret.toPersianDigits();
-  // console.log("yyy", ret);
+  // //console.log("yyy", ret);
   return ret;
 };
 export const setQueryString = (
@@ -119,7 +119,7 @@ export async function fetcher<JSON = any>(
     err.status = res.status;
     throw err;
   }
-//console.log(res.json())
+////console.log(res.json())
   return res.json();
 }
 
@@ -138,9 +138,9 @@ export const log = async ({
   mention?: boolean;
 }) => {
   /* Log a message to the console */
-  console.log(message)
+  //console.log(message)
   const HOOK = logTypeToEnv[type];
-  //console.log(HOOK)
+  ////console.log(HOOK)
 
   if (!HOOK) return;
   try {
@@ -164,7 +164,7 @@ export const log = async ({
     });
   } catch (e) {
 
-    console.log(`Failed to log to Dub Slack. Error: ${e}`);
+    //console.log(`Failed to log to Dub Slack. Error: ${e}`);
   }
 };
 

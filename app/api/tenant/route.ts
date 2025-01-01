@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       }
     );
   }
- // console.log("here");
+ // //console.log("here");
   //** get headers **//
 
   // const svix_id = req.headers.get("svix-id") ?? '';
@@ -72,7 +72,7 @@ export async function PUT(req: NextRequest) {
   const validation = Tenantschema.safeParse(res);
   if (!validation.success) {
     const { errors } = validation.error;
-  //  console.log(errors);
+  //  //console.log(errors);
     return NextResponse.json(errors, {
       status: 400,
       statusText: "s1",
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
   let search = url.searchParams.get("search") || undefined;
   if (search)
   search=decodeURIComponent(String(search))
-  console.log(search)
+  //console.log(search)
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
 
@@ -186,7 +186,7 @@ export async function GET(request: NextRequest) {
     });
 
 
-     console.log(response.length)
+     //console.log(response.length)
 
     const docList = await client.doc_cat.findMany({
       select: {
@@ -213,7 +213,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-   // console.log("errr");
+   // //console.log("errr");
     await log({
       message: "Usage cron failed. Error: " + error.message,
       type: "cron",

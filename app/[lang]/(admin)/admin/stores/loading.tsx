@@ -6,7 +6,7 @@ type Props = {};
 
 export default async function loading({}: Props) {
   await setTimeout(() => {
-    //console.log("");
+    ////console.log("");
   }, 2000);
   return (
     <div className="flex mt-12 flex-col gap-4  justify-center items-center ">

@@ -37,7 +37,7 @@ export const columns: ColumnDef<z.infer<typeof Ownerschema>>[] = [
   //   id: "doc",
   //   cell: ({ row }) => {
   //     const ttype = row.getValue("doc") as { Doc_cat: { title: string } }[];
-  //     // console.log(ttype);
+  //     // //console.log(ttype);
   //     return (
   //       <DropdownMenu>
   //         <DropdownMenuTrigger asChild>

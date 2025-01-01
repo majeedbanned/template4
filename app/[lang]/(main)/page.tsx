@@ -18,7 +18,7 @@ export default async function IndexPage({
 }) {
   const dictionary = await getDictionary(lang);
   const currentUser = await getServerSession(authOptions);
-  //console.log("currentUser server>>", currentUser);
+  ////console.log("currentUser server>>", currentUser);
   if (!currentUser) redirect("/signin");
   else redirect("/admin/main");
 
