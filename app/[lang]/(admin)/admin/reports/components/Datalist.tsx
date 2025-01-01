@@ -148,6 +148,58 @@ export default function Datalist({
     }
   );
 
+  console.log(stores);
+
+  const sumTotalBill1 = stores?.reduce((acc, item) => {
+    //@ts-ignore
+
+    return acc + Number(item.TotalBill || 0);
+  }, 0);
+  //@ts-ignore
+
+  const sumTotalBill = new Intl.NumberFormat("fa-IR", {
+    style: "currency",
+    currency: "IRR",
+    //@ts-ignore
+  }).format(sumTotalBill1);
+
+  //@ts-ignore
+  const sumPaidBill1 = stores?.reduce((acc, item) => {
+    return (
+      acc +
+      //@ts-ignore
+
+      Number(item.paidBill || 0) +
+      //@ts-ignore
+
+      Number(item.paidBill1 || 0) +
+      //@ts-ignore
+
+      Number(item.paidBill2 || 0) +
+      //@ts-ignore
+
+      Number(item.paidBill3 || 0)
+    );
+  }, 0);
+
+  const sumPaidBill = new Intl.NumberFormat("fa-IR", {
+    style: "currency",
+    currency: "IRR",
+    //@ts-ignore
+  }).format(sumPaidBill1);
+
+  const sumDebt1 = stores?.reduce((acc, item) => {
+    //@ts-ignore
+
+    return acc + Number(item.debt || 0);
+  }, 0);
+
+  const sumDebt = new Intl.NumberFormat("fa-IR", {
+    style: "currency",
+    currency: "IRR",
+    //@ts-ignore
+  }).format(sumDebt1);
+
   // const createQueryString = useCallback(
   //   (name: string, value: string) => {
   //     const params = new URLSearchParams(searchParams);
@@ -507,6 +559,7 @@ export default function Datalist({
         >
           تعداد ردیف : {stores?.length}
         </Badge>
+
         <button onClick={() => exportToExcel(stores, "خروجی اکسل")}>
           <AiFillFileExcel color="green" size={30}></AiFillFileExcel>
         </button>
@@ -628,6 +681,29 @@ export default function Datalist({
             calendarPosition="bottom-center"
           />
         </div>
+      </div>
+
+      <div className="w-full flex justify-end m-2 gap-2">
+        <Badge
+          className=" shadow-[#6d93ec]/50 border-0 text-[12px]  h-8  "
+          variant={"secondary"}
+        >
+          قابل پرداخت : {sumTotalBill}
+        </Badge>
+
+        <Badge
+          className=" shadow-[#6d93ec]/50 border-0 text-[12px]  h-8  "
+          variant={"secondary"}
+        >
+          پرداخت شده : {sumPaidBill}
+        </Badge>
+
+        <Badge
+          className=" shadow-[#6d93ec]/50 border-0 text-[12px]  h-8  "
+          variant={"secondary"}
+        >
+          بدهی : {sumDebt}
+        </Badge>
       </div>
       {/* {canAction.add ? (
         <Button

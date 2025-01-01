@@ -24,6 +24,12 @@ export const ComponentToPrint = React.forwardRef(
           className="bg-white flex-col  p-4  gap-0 flex justify-center items-center border-2
         w-full  "
         >
+          <div
+            style={{ fontFamily: "CustomFont" }}
+            className="border text-sm p-1"
+          >
+            {data[0]?.title}
+          </div>
           <table className="w-full max-w-screen-lg mx-auto  p-4">
             <thead>
               <tr>
