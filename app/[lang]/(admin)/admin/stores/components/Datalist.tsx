@@ -62,6 +62,7 @@ export default function Datalist({
   const { filters: _nov } = useFilter({ filter: "nov" }) || undefined;
   const { filters: _rahro } = useFilter({ filter: "rahro" }) || undefined;
   const { filters: _profile } = useFilter({ filter: "profile" }) || undefined;
+  const { filters: _takh } = useFilter({ filter: "takhfif" }) || undefined;
 
   // const canAdd = session?.user?.Permission?.find((item) => {
   //   return item.systemID === 1 && item.add === true;
@@ -309,6 +310,7 @@ export default function Datalist({
         tabagh={_tabagh}
         rahro={_rahro}
         profile={_profile}
+        takhfif={_takh}
       ></AddEditStoreModal>
       <div className="flex flex-col p-2 py-4 text-slate-400 text-sm">
         <div>

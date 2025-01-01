@@ -103,6 +103,25 @@ export async function GET(request: NextRequest) {
         }));
       }
 
+      else if (filter === "takhfif") {
+        response = await client.discountDef.findMany({
+          select: {
+            id: true,
+            name: true,
+            
+            
+          },
+          orderBy: {
+            id: "asc",
+          },
+        });
+
+        newobj = response.map((obj) => ({
+          value: obj.id.toString(),
+          label: obj.name?.trim(),
+        }));
+      }
+
 
     const res = JSON.parse(
       JSON.stringify(

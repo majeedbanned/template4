@@ -112,6 +112,19 @@ export async function PUT(req: NextRequest) {
     });
   }
 
+
+  console.log('first',res.takhfif)
+  ///// rewriting takhfif
+  const restakh=await client.stores_discounts.deleteMany({
+    where: { pelak:res.pelakNU+'-'+res.pelakCH },
+  });
+  const newtakh=await client.stores_discounts.create({
+    data: {
+      discountID:Number( res.takhfif),
+      pelak:res.pelakNU+'-'+res.pelakCH
+    },
+  });
+
   const newres = {
     ...res,
     nov: parseInt(res.nov),
@@ -125,6 +138,9 @@ export async function PUT(req: NextRequest) {
   delete newres.pelakNU;
   // @ts-ignore: Unreachable code error
   delete newres.pelakCH;
+
+  // @ts-ignore: Unreachable code error
+  delete newres.takhfif;
 
   const response = await client.store.update({
     where: {

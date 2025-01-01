@@ -131,6 +131,7 @@ export const AddEditStoreModal = ({
   nov,
   tabagh,
   profile,
+  takhfif,
   data,
 }: {
   mutation: () => void;
@@ -139,10 +140,14 @@ export const AddEditStoreModal = ({
   nov?: FilterOptions[];
   tabagh?: FilterOptions[];
   profile?: FilterOptions[];
+  takhfif?: FilterOptions[];
 
   data?: z.infer<typeof StoreSchema>;
 }) => {
   const router = useRouter();
+  // console.log(">>>>>", data);
+  // console.log(">>>>>", data?.stores_discounts[0]?.discountID);
+
   const AddEditStoreModal = useAddEditStoreModal();
   const [isLoading, setIsLoading] = useState(false);
   // const { filters: _bazar } = useFilter({ filter: "bazar" });
@@ -438,6 +443,7 @@ export const AddEditStoreModal = ({
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="chargeProfile"
@@ -475,6 +481,47 @@ export const AddEditStoreModal = ({
                 در صورتی که در تعرفه مبلغ شارژ تعریف شده باشد اجاره ماهیانه بر
                 اساس تعرفه محاسبه میگردد
               </FormDescription>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="takhfif"
+          render={({ field }) => (
+            <FormItem>
+              <div className=" flex flex-row justify-between">
+                <FormLabel> تعرفه تخفیف :</FormLabel>
+                <FormMessage />
+              </div>
+
+              <Select
+                // @ts-ignore: Unreachable code error
+
+                onValueChange={field.onChange}
+                // defaultValue={field.value?.toString()}
+                // @ts-ignore: Unreachable code error
+
+                defaultValue={data?.stores_discounts[0]?.discountID.toString()}
+              >
+                <FormControl className="bg-white text-center">
+                  <SelectTrigger className="text-center">
+                    <SelectValue
+                      style={{ textAlign: "center" }}
+                      className="text-center "
+                      placeholder="لطفا انتخاب کنید"
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-white text-center">
+                  {takhfif?.map((item: FilterOptions) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription></FormDescription>
             </FormItem>
           )}
         />

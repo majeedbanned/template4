@@ -466,7 +466,7 @@ export const StoreSchema = z.object({
     })
     .min(1, { message: "لطفا این فیلد را انتخاب کنید" })
     .max(2),
-
+takhfif:z.string().optional(),
   ejareh: z
     .number({
       required_error: "1مقدار عددی  وارد کنید",
