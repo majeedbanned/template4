@@ -376,6 +376,25 @@ export default function Datalist({
     });
   };
 
+  const today = new Date();
+
+  // Use Intl.DateTimeFormat with Persian locale
+  const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  // Format the date
+  const persianDate = formatter.format(today);
+
+  // Split the formatted date into year and month
+  const [persianYear, persianMonth] = persianDate.split("/");
+
+  // Combine year and month in the desired format (keeping English numerals)
+  const formattedDate = `${persianYear}-${persianMonth}`;
+
+  console.log(formattedDate);
   return (
     <div>
       <TwainModal mutation={mutate}></TwainModal>
@@ -429,6 +448,7 @@ export default function Datalist({
       {charges ? (
         charges.length > 0 ? (
           <DataTable
+            formattedDate={formattedDate}
             hiddenCol={{
               "بدهی قبلی": false,
               جریمه: false,

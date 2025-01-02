@@ -84,6 +84,7 @@ interface DataTableProps<TData, TValue> {
   onFileClick?: (id: any, id1: any) => void;
   onNewFileClick?: (id: any, id1: any) => void;
   docadd?: boolean;
+  formattedDate: string;
   docview?: boolean;
   docedit?: boolean;
 
@@ -107,6 +108,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  formattedDate,
   isLoading,
   onActionClick,
   onDeleteClick,
@@ -174,6 +176,16 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  function convertToFarsiDigits(value: any) {
+    // Ensure we are working with a string
+    const strValue = value.toString();
+
+    // Replace each English digit with its Farsi counterpart
+    return strValue.replace(/\d/g, (digit: any) => {
+      return "۰۱۲۳۴۵۶۷۸۹"[digit];
+    });
+  }
+
   return (
     <div className=" space-y-4 w-full ">
       <div className="flex space-y-0 items-center py-0"></div>
@@ -218,12 +230,16 @@ export function DataTable<TData, TValue>({
                   <td className="px-4 py-2">
                     {inx === 0 &&
                       row.original.settele_Status !== "Ok" &&
-                      row.original.paidBill !== row.original.TotalBill && (
+                      row.original.paidBill !== row.original.TotalBill &&
+                      convertToFarsiDigits(row.original.month) ===
+                        formattedDate && (
                         <Button
                           onClick={() => onPaymentClick(row.original)}
                           variant="default"
                           className="bg-green-400"
                         >
+                          {/* {convertToFarsiDigits(row.original.month)}
+                          {formattedDate} */}
                           پرداخت آنلاین
                           {/* <br /> */}
                           {/* {row.original.TotalBill - row.original.paidBill} */}
