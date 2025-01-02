@@ -149,6 +149,8 @@ export const AddEditChargeModal = ({
     // Current paidBill in the form
     return;
     const currentPaidBill =
+      //@ts-ignore
+
       Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
     const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
     const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
@@ -227,6 +229,7 @@ export const AddEditChargeModal = ({
   const calsum1 = (e: any) => {
     e.preventDefault();
     const currentPaidBill =
+      //@ts-ignore
       Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
     const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
     // const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
@@ -240,6 +243,8 @@ export const AddEditChargeModal = ({
   const calsum2 = (e: any) => {
     e.preventDefault();
     const currentPaidBill =
+      //@ts-ignore
+
       Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
     // const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
     const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
@@ -253,6 +258,8 @@ export const AddEditChargeModal = ({
   const calsum3 = (e: any) => {
     e.preventDefault();
     const currentPaidBill =
+      //@ts-ignore
+
       Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
     //const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
     // const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
