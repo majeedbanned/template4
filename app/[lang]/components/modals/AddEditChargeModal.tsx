@@ -67,6 +67,11 @@ export const AddEditChargeModal = ({
   });
   const __discount = form.watch("discount");
   const __paidBiil = form.watch("paidBill");
+
+  const __paidBiil1 = form.watch("paidBill1");
+  const __paidBiil2 = form.watch("paidBill2");
+  const __paidBiil3 = form.watch("paidBill3");
+
   const __debt = form.watch("debt");
   const __monthbill = form.watch("monthbill");
   const __penalty = form.watch("penalty");
@@ -88,11 +93,17 @@ export const AddEditChargeModal = ({
 
   //   return () => document.body.removeChild(portalDiv);
   // }, []);
+  let firstpaidvalue;
+  let __paidBiilConst = 0;
+  useEffect(() => {
+    __paidBiilConst = Number(__paidBiil?.toString().replace(/,/g, ""));
+    console.log("__paidBiilConst", __paidBiilConst);
+  }, []);
 
   useEffect(() => {
+    //firstpaidvalue = __paidBiil;
     form.reset(data);
   }, [data, form]);
-
   useEffect(() => {
     // //console.log(__monthbill, __discount);
     let newval =
@@ -112,6 +123,42 @@ export const AddEditChargeModal = ({
     //   );
     //}
   }, [__discount, __debt, __penalty, __paidExtra, __paidBiil]);
+
+  useEffect(() => {
+    return;
+    // //console.log(__monthbill, __discount);
+    let newval =
+      // Number(__paidBiil?.toString().replace(/,/g, "")) +
+      Number(__paidBiil1?.toString().replace(/,/g, "")) +
+      Number(__paidBiil2?.toString().replace(/,/g, "")) +
+      Number(__paidBiil3?.toString().replace(/,/g, ""));
+
+    console.log(
+      Number(__paidBiil?.toString().replace(/,/g, "")),
+      Number(__paidBiil1?.toString().replace(/,/g, "")),
+      Number(__paidBiil2?.toString().replace(/,/g, "")),
+      Number(__paidBiil3?.toString().replace(/,/g, ""))
+    );
+    // -
+    // Number(__paidExtra?.toString().replace(/,/g, ""));
+    // if (newval < 0) newval = 0;
+    form.setValue("paidBill", newval);
+  }, [__paidBiil1, __paidBiil2, __paidBiil3]);
+
+  useEffect(() => {
+    // Current paidBill in the form
+    return;
+    const currentPaidBill =
+      Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
+    const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
+    const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
+    const val3 = Number(__paidBiil3?.toString().replace(/,/g, "")) || 0;
+
+    // new sum = old paidBill + paidBill1 + paidBill2 + paidBill3
+    const newSum = currentPaidBill + val1 + val2 + val3;
+
+    form.setValue("paidBill", newSum.toString());
+  }, [__paidBiil1, __paidBiil2, __paidBiil3, form]);
 
   // Format numeric value with commas
   // const formatNumber = (value: string) => {
@@ -177,6 +224,46 @@ export const AddEditChargeModal = ({
     });
   };
 
+  const calsum1 = (e: any) => {
+    e.preventDefault();
+    const currentPaidBill =
+      Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
+    const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
+    // const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
+    // const val3 = Number(__paidBiil3?.toString().replace(/,/g, "")) || 0;
+
+    // new sum = old paidBill + paidBill1 + paidBill2 + paidBill3
+    const newSum = currentPaidBill + val1;
+
+    form.setValue("paidBill", newSum.toString());
+  };
+  const calsum2 = (e: any) => {
+    e.preventDefault();
+    const currentPaidBill =
+      Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
+    // const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
+    const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
+    // const val3 = Number(__paidBiil3?.toString().replace(/,/g, "")) || 0;
+
+    // new sum = old paidBill + paidBill1 + paidBill2 + paidBill3
+    const newSum = currentPaidBill + val2;
+
+    form.setValue("paidBill", newSum.toString());
+  };
+  const calsum3 = (e: any) => {
+    e.preventDefault();
+    const currentPaidBill =
+      Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
+    //const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
+    // const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
+    const val3 = Number(__paidBiil3?.toString().replace(/,/g, "")) || 0;
+
+    // new sum = old paidBill + paidBill1 + paidBill2 + paidBill3
+    const newSum = currentPaidBill + val3;
+
+    form.setValue("paidBill", newSum.toString());
+  };
+
   const onToggle = useCallback(() => {
     AddEditChargeModal.onClose();
     //  registerModal.onOpen();
@@ -207,7 +294,33 @@ export const AddEditChargeModal = ({
     <Form {...form}>
       {<div>{JSON.stringify(form.formState.errors)}</div>}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Tabs defaultValue="account" className="w-full">
+        <Tabs
+          defaultValue="account"
+          className="w-full"
+          onValueChange={(value) => {
+            // const currentPaidBill =
+            //   Number(form.getValues("paidBill")?.replace(/,/g, "")) || 0;
+            // const val1 = Number(__paidBiil1?.toString().replace(/,/g, "")) || 0;
+            // const val2 = Number(__paidBiil2?.toString().replace(/,/g, "")) || 0;
+            // const val3 = Number(__paidBiil3?.toString().replace(/,/g, "")) || 0;
+
+            // // new sum = old paidBill + paidBill1 + paidBill2 + paidBill3
+            // const newSum = currentPaidBill + val1 + val2 + val3;
+
+            // form.setValue("paidBill", newSum.toString());
+
+            // do something when the active tab changes
+
+            // let newval =
+            //   // Number(__paidBiil?.toString().replace(/,/g, "")) +
+            //   Number(__paidBiilConst) +
+            //   Number(__paidBiil1?.toString().replace(/,/g, "")) +
+            //   Number(__paidBiil2?.toString().replace(/,/g, "")) +
+            //   Number(__paidBiil3?.toString().replace(/,/g, ""));
+            // form.setValue("paidBill", newval);
+            console.log("Active tab changed to: ", value);
+          }}
+        >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="tafkiki">پرداخت تفکیکی</TabsTrigger>
 
@@ -273,6 +386,7 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="ezafPardakht"
@@ -700,6 +814,13 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onClick={calsum1}
+            >
+              تایید
+            </button>
+
             <FormField
               control={form.control}
               name="fich1"
@@ -779,6 +900,14 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onClick={calsum2}
+            >
+              تایید
+            </button>
+
             <FormField
               control={form.control}
               name="fich2"
@@ -858,6 +987,14 @@ export const AddEditChargeModal = ({
                 </FormItem>
               )}
             />
+
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onClick={calsum3}
+            >
+              تایید
+            </button>
+
             <FormField
               control={form.control}
               name="fich3"
