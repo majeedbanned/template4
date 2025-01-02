@@ -169,16 +169,16 @@ export default function Datalist({
       acc +
       //@ts-ignore
 
-      Number(item.paidBill || 0) +
+      Number(item.paidBill || 0)
       //@ts-ignore
 
-      Number(item.paidBill1 || 0) +
-      //@ts-ignore
+      // Number(item.paidBill1 || 0) +
+      // //@ts-ignore
 
-      Number(item.paidBill2 || 0) +
-      //@ts-ignore
+      // Number(item.paidBill2 || 0) +
+      // //@ts-ignore
 
-      Number(item.paidBill3 || 0)
+      // Number(item.paidBill3 || 0)
     );
   }, 0);
 
