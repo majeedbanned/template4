@@ -70,7 +70,8 @@ export default async function students({
       <PageWrapper>
         <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
           <div className="p-4 m-4">
-            قرارداد شما منقصی شده است . لطفا جهت تمدید به مدیریت مراجعه کنید
+            اخطار : مستاجر محترم ! لطفا در اسرع وقت نسبت به تحویل قرارداد اجاره
+            به واحد شارژ مدیریت بازار مراجعه فرمایید
           </div>
         </div>
       </PageWrapper>
