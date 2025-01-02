@@ -133,6 +133,8 @@ export async function GET(request: NextRequest) {
              { endate: { contains: search } },
              { stdate: { contains: search } },
              { tablo: { contains: search } },
+             {tjob : { contains: search } },
+
 
 
 
