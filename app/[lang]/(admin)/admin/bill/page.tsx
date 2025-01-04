@@ -40,7 +40,7 @@ export default async function students({
       pelak: currentUser?.user.pelak,
     },
     orderBy: {
-      trow: "desc",
+      endate: "desc",
     },
   });
   const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
