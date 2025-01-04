@@ -544,7 +544,7 @@ if(novq ==="" && rahroq==="" && bazarq==="" &&  tabaghq==="" &&  dateq==="" &&
   else
 
      query=`
-   SELECT  '${title}' as title,   dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod,dbo.new_account.paidDate,dbo.new_account.paidDate1, new_account.debt,new_account.penalty,
+   SELECT  '${title}' as title,dbo.new_account.settele_Status,  dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod,dbo.new_account.paidDate,dbo.new_account.paidDate1, new_account.debt,new_account.penalty,
    dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN

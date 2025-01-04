@@ -163,23 +163,36 @@ export default function Datalist({
     //@ts-ignore
   }).format(sumTotalBill1);
 
+  // console.log(stores);
+  const npardakhtVal = searchParams.get("npardakht");
   //@ts-ignore
   const sumPaidBill1 = stores?.reduce((acc, item) => {
-    return (
-      acc +
+    //@ts-ignore
+
+    if (
+      npardakhtVal === "2" &&
       //@ts-ignore
 
-      Number(item.paidBill || 0)
+      item.paidDate1 != "" &&
       //@ts-ignore
 
-      // Number(item.paidBill1 || 0) +
-      // //@ts-ignore
+      item.settele_Status != "Ok"
+    ) {
+      // if (true) {
+      //@ts-ignore
+      return acc + Number(item.paidBill1 || 0);
+    } else {
+      //@ts-ignore
+      return acc + Number(item.paidBill || 0);
+    }
 
-      // Number(item.paidBill2 || 0) +
-      // //@ts-ignore
+    // return (
+    //   acc +
+    //   //@ts-ignore
 
-      // Number(item.paidBill3 || 0)
-    );
+    //   Number(item.paidBill || 0)
+
+    // );
   }, 0);
 
   const sumPaidBill = new Intl.NumberFormat("fa-IR", {
