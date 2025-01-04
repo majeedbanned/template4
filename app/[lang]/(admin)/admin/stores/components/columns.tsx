@@ -158,7 +158,13 @@ export const columns: ColumnDef<StoreProps>[] = [
       if (!malekmosArr || malekmosArr.length === 0) return null;
 
       // Sort by id ascending
-      const sortedMalekmos = [...malekmosArr].sort((a, b) => b.trow - a.trow);
+      // const sortedMalekmos = [...malekmosArr].sort(
+      //   (a, b) => b.endate - a.endate
+      // );
+
+      const sortedMalekmos = [...malekmosArr].sort((a, b) =>
+        b.endate.localeCompare(a.endate)
+      );
 
       // Take the first item (the smallest id)
       const firstMalekmos = sortedMalekmos[0];
