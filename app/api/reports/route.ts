@@ -308,8 +308,8 @@ let title="";
       {
       title+="["+" تا تاریخ: "+todate+"]"
 
-        fromdateq = ` AND (dbo.new_account.paidDate >= '${fromdate}'  or dbo.new_account.paidDate1 >= '${fromdate}'  ) 
-                      AND (dbo.new_account.paidDate <= '${todate}' or dbo.new_account.paidDate1 <= '${todate}'  ) `;
+        fromdateq = ` AND ((dbo.new_account.paidDate >= '${fromdate}'  or dbo.new_account.paidDate <= '${todate}'  ) 
+                     OR (dbo.new_account.paidDate1 >= '${fromdate}' or dbo.new_account.paidDate1 <= '${todate}'  )) `;
       }
       else fromdateq = ` AND (dbo.new_account.paidDate = '${fromdate}' or dbo.new_account.paidDate1 = '${fromdate}'  ) `;
     }
