@@ -166,7 +166,7 @@ export const columns: ColumnDef<StoreProps>[] = [
         b.endate.localeCompare(a.endate)
       );
 
-      console.log(sortedMalekmos);
+      //console.log(sortedMalekmos);
 
       // Take the first item (the smallest id)
       const firstMalekmos = sortedMalekmos[0];
