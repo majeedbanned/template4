@@ -683,7 +683,7 @@ export default function Datalist({
         </div>
       </div>
 
-      <div className="w-full flex justify-end m-2 gap-2">
+      <div className="w-full flex justify-center m-2 gap-2">
         <Badge
           className=" shadow-[#6d93ec]/50 border-0 text-[12px]  h-8  "
           variant={"secondary"}

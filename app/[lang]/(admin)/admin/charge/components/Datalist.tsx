@@ -387,6 +387,7 @@ export default function Datalist({
           <DataTable
             hiddenCol={{
               "بدهی قبلی": false,
+              "2تاریخ پرداخت": false,
               جریمه: false,
               ماه: false,
               "تاریخ پرداخت": false,

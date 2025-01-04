@@ -273,6 +273,7 @@ export const columns: ColumnDef<StoreProps>[] = [
 
     cell: ({ row }) => {
       let val = String(row.getValue("تاریخ پرداخت"));
+      let val2 = String(row.getValue("2تاریخ پرداخت"));
 
       const amount = parseFloat(row.getValue("پرداخت شده"));
       const formatted = new Intl.NumberFormat("fa-IR", {
@@ -292,6 +293,11 @@ export const columns: ColumnDef<StoreProps>[] = [
           {val.toString().trim() && (
             <Badge className="rounded-sm w-fit" variant="secondary">
               {val.toPersianDigits()}
+            </Badge>
+          )}
+          {val2.toString().trim() && (
+            <Badge className="rounded-sm w-fit" variant="secondary">
+              {val2.toPersianDigits()}
             </Badge>
           )}
         </div>
@@ -315,8 +321,31 @@ export const columns: ColumnDef<StoreProps>[] = [
         </Badge>
       );
     },
+
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="تاریخ پرداخت" />;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
+    accessorKey: "paidDate1",
+    id: "2تاریخ پرداخت",
+    cell: ({ row }) => {
+      // //console.log((123.9).toLocaleString('ar-AE'))
+      let val = String(row.getValue("2تاریخ پرداخت"));
+
+      return (
+        <Badge className="rounded-sm" variant="secondary">
+          {val.toPersianDigits()}
+        </Badge>
+      );
+    },
+
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="2تاریخ پرداخت" />;
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
