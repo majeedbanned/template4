@@ -173,10 +173,10 @@ export default function Datalist({
       npardakhtVal === "2" &&
       //@ts-ignore
 
-      item.paidDate1 != "" &&
+      item.paidDate1 !== "" &&
       //@ts-ignore
 
-      item.settele_Status != "Ok"
+      item.settele_Status === "Ok"
     ) {
       // if (true) {
       //@ts-ignore
