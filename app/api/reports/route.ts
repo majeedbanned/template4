@@ -394,7 +394,7 @@ let title="";
       .join(',')+"]"
 
     } else {
-      dateq = ` AND (dbo.new_account.month ='1402-05' ) `;
+     // dateq = ` AND (dbo.new_account.month ='1402-05' ) `;
     }
     let activeq = "";
     if (active) {
