@@ -60,10 +60,20 @@ export default async function students({
   // //console.log(todayPersian);
   const enddate = date[0].endate || "";
   const isexpire = todayPersian > enddate;
+  console.log(date[0].malekmos);
 
   // //console.log(">>>", date[0].endate);
 
   // //console.log("isexpire", isexpire);
+
+  if (date[0].malekmos === "1")
+    return (
+      <PageWrapper>
+        <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
+          <Datalist permission={currentUser}></Datalist>
+        </div>
+      </PageWrapper>
+    );
 
   if (isexpire)
     return (
