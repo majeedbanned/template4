@@ -100,6 +100,9 @@ export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   let search = url.searchParams.get("search") || undefined;
+  let fromdate = url.searchParams.get("fromdate") || undefined;
+  let todate = url.searchParams.get("todate") || undefined;
+
   if (search)
   search=decodeURIComponent(String(search))
   //console.log(search)
@@ -116,9 +119,22 @@ export async function GET(request: NextRequest) {
       }
     );
   }
+
+  //console.log(fromdate?.toPersianDigits())
+  //console.log(todate)
+
   try {
     const response = await client.tenant.findMany({
       where: {
+
+        ...(fromdate &&
+          todate && {
+            endate: {
+              gte: fromdate?.toPersianDigits(),
+              lte: todate?.toPersianDigits(),
+            },
+          }),
+        
         ...(search && {
           OR: [
             { pelak: { contains: search } },

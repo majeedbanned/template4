@@ -3,18 +3,25 @@ import { columns } from "@/app/[lang]/(admin)/admin/tenant/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
+import DatePicker from "react-multi-date-picker";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
 import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
+import { AiFillFileExcel } from "react-icons/ai";
+
 import {
   useParams,
   usePathname,
   useRouter,
   useSearchParams,
 } from "next/navigation";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import useAddEditTenantModal from "@/app/[lang]/components/modals/AddEditTenantModal";
 import useDeleteTenantModal from "@/app/[lang]/components/modals/DeleteTenantModal";
 import { z } from "zod";
@@ -64,7 +71,17 @@ export default function Datalist({
       docview: true,
     };
   }
-
+  const setQueryString = (type: string, e: string[]) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    if (e.length === 0) {
+      current.delete(type);
+    } else {
+      current.set(type, String(e.join(",")));
+    }
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+    router.push(`${pathname}${query}`);
+  };
   // const pelak = searchParams.get("pelak")?.toUpperCase();
   const pelak = useParams();
   const AddRecord = () => {
@@ -100,6 +117,19 @@ export default function Datalist({
       // revalidateOnMount: true,
     }
   );
+
+  const exportToExcel = (apiData: any, fileName: string): void => {
+    const worksheet = XLSX.utils.json_to_sheet(apiData);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
+    FileSaver.saveAs(blob, fileName + ".xlsx");
+  };
 
   const handleFileClick = (rowData: any, id: any) => {
     const newdata = rowData.Doc_files?.find((doc: any) => doc.id === id) ?? {};
@@ -245,6 +275,58 @@ export default function Datalist({
             className="placeholder-[#8ba5e2] bordercolor h-8 w-[350px] lg:w-[550px] border px-2 rounded-md my-4"
             placeholder="جستجو در نام , فامیل , پلاک , کد ملی , موبایل , تاریخ شروع , پایان , تاریخ مجوز  "
           />
+        </div>
+        <button onClick={() => exportToExcel(tenant, "خروجی اکسل")}>
+          <AiFillFileExcel color="green" size={30}></AiFillFileExcel>
+        </button>
+        <div className="flex flex-row gap-2">
+          <div>
+            <DatePicker
+              placeholder="پایان قرارداد از تاریخ"
+              onChange={(date) => {
+                // field.onChange(date ? date.toString() : "");
+                setQueryString(
+                  "fromdate",
+                  date ? [date.toString().toEnglishDigits()] : []
+                );
+              }}
+              style={{
+                width: "50px !important",
+
+                height: "30px",
+                borderRadius: "8px",
+                fontSize: "14px",
+                padding: "3px 10px !important",
+              }}
+              format={"YYYY/MM/DD"}
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-center"
+            />
+          </div>
+          <div>
+            <DatePicker
+              placeholder=" تا تاریخ"
+              onChange={(date) => {
+                setQueryString(
+                  "todate",
+                  date ? [date.toString().toEnglishDigits()] : []
+                );
+              }}
+              style={{
+                width: "50px !important",
+
+                height: "30px",
+                borderRadius: "8px",
+                fontSize: "14px",
+                padding: "3px 10px !important",
+              }}
+              format={"YYYY/MM/DD"}
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-center"
+            />
+          </div>
         </div>
       </div>
       {canAction.add && pelak?.pelak != "all" ? (
