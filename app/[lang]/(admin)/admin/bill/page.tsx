@@ -58,15 +58,16 @@ export default async function students({
   todayPersian = todayPersian.replace(/[^\p{Number}\/]/gu, "");
 
   // //console.log(todayPersian);
-  const enddate = date[0].endate || "";
-  const isexpire = todayPersian > enddate;
-  console.log(date[0].malekmos);
+  const enddate = date[0]?.endate || "";
+  let isexpire = todayPersian > enddate;
+  if (enddate === "") isexpire = false;
+  //console.log(date[0].malekmos);
 
   // //console.log(">>>", date[0].endate);
 
   // //console.log("isexpire", isexpire);
 
-  if (date[0].malekmos === "1")
+  if (date[0]?.malekmos === "1")
     return (
       <PageWrapper>
         <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
