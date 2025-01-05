@@ -166,6 +166,7 @@ export default function Datalist({
   // console.log(stores);
   const npardakhtVal = searchParams.get("npardakht");
   //@ts-ignore
+  console.log(stores);
   const sumPaidBill1 = stores?.reduce((acc, item) => {
     //@ts-ignore
 
