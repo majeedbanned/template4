@@ -148,7 +148,7 @@ export default function Datalist({
     }
   );
 
-  console.log(stores);
+  //console.log(stores);
 
   const sumTotalBill1 = stores?.reduce((acc, item) => {
     //@ts-ignore
@@ -166,7 +166,7 @@ export default function Datalist({
   // console.log(stores);
   const npardakhtVal = searchParams.get("npardakht");
   //@ts-ignore
-  console.log(stores);
+  //console.log(stores);
   const sumPaidBill1 = stores?.reduce((acc, item) => {
     //@ts-ignore
 
@@ -174,7 +174,7 @@ export default function Datalist({
       npardakhtVal === "2" &&
       //@ts-ignore
 
-      item.paidDate1 !== "" &&
+      item.paidDate1.trim() !== "" &&
       //@ts-ignore
 
       item.settele_Status === "Ok"
