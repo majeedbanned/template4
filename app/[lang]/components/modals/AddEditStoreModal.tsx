@@ -298,7 +298,7 @@ export const AddEditStoreModal = ({
 
   const bodyContent = (
     <Form {...form}>
-      {/* <div>{JSON.stringify(form.formState.errors)}</div> */}
+      <div>{JSON.stringify(form.formState.errors)}</div>
       {/* ddddd */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-row gap-2 ">

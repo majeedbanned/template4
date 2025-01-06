@@ -62,6 +62,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
+
+  if(res.takhfif?.toString()!=="")
+    {
+    // const restakh=await client.stores_discounts.deleteMany({
+    //   where: { pelak:res.pelakNU+'-'+res.pelakCH },
+    // });
+    const newtakh=await client.stores_discounts.create({
+      data: {
+        discountID:Number( res.takhfif),
+        pelak:res.pelakNU+'-'+res.pelakCH
+      },
+    });
+  }
+
+
   const newres = {
     ...res,
     pelak: res.pelakNU + "-" + res.pelakCH.toUpperCase(),
