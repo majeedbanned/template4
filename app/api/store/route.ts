@@ -62,23 +62,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-//   console.log('start11',res.takhfif)
-//   if(res.takhfif?.toString()!=="")
-// console.log('start')
-
-//     {
-//      const restakh=await client.stores_discounts.deleteMany({
-//        where: { pelak:res.pelakNU+'-'+res.pelakCH },
-//      });
-//     const newtakh=await client.stores_discounts.create({
-//       data: {
-//         discountID:Number( res.takhfif),
-//         pelak:res.pelakNU+'-'+res.pelakCH
-//       },
-//     });
-// console.log('first',newtakh)
-
-//   }
+//   
 
   const newres = {
     ...res,
@@ -99,6 +83,27 @@ export async function POST(req: NextRequest) {
   const response = await client.store.create({
     data: newres,
   });
+
+
+
+  //console.log('start11',res.takhfif)
+  if(res.takhfif?.toString()!=="")
+//console.log('start')
+
+    {
+     const restakh=await client.stores_discounts.deleteMany({
+       where: { pelak:res.pelakNU+'-'+res.pelakCH.toUpperCase() },
+     });
+    const newtakh=await client.stores_discounts.create({
+      data: {
+        discountID:Number( res.takhfif),
+        pelak:res.pelakNU+'-'+res.pelakCH.toUpperCase()
+      },
+    });
+console.log('first',newtakh)
+
+  }
+
 
   return NextResponse.json(response, {
     status: 200,
@@ -140,12 +145,12 @@ export async function PUT(req: NextRequest) {
   if(res.takhfif?.toString()!=="")
   {
   const restakh=await client.stores_discounts.deleteMany({
-    where: { pelak:res.pelakNU+'-'+res.pelakCH },
+    where: { pelak:res.pelakNU+'-'+res.pelakCH.toUpperCase() },
   });
   const newtakh=await client.stores_discounts.create({
     data: {
       discountID:Number( res.takhfif),
-      pelak:res.pelakNU+'-'+res.pelakCH
+      pelak:res.pelakNU+'-'+res.pelakCH.toUpperCase()
     },
   });
 }
