@@ -62,20 +62,23 @@ export async function POST(req: NextRequest) {
     );
   }
 
+//   console.log('start11',res.takhfif)
+//   if(res.takhfif?.toString()!=="")
+// console.log('start')
 
-  if(res.takhfif?.toString()!=="")
-    {
-    // const restakh=await client.stores_discounts.deleteMany({
-    //   where: { pelak:res.pelakNU+'-'+res.pelakCH },
-    // });
-    const newtakh=await client.stores_discounts.create({
-      data: {
-        discountID:Number( res.takhfif),
-        pelak:res.pelakNU+'-'+res.pelakCH
-      },
-    });
-  }
+//     {
+//      const restakh=await client.stores_discounts.deleteMany({
+//        where: { pelak:res.pelakNU+'-'+res.pelakCH },
+//      });
+//     const newtakh=await client.stores_discounts.create({
+//       data: {
+//         discountID:Number( res.takhfif),
+//         pelak:res.pelakNU+'-'+res.pelakCH
+//       },
+//     });
+// console.log('first',newtakh)
 
+//   }
 
   const newres = {
     ...res,
