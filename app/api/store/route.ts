@@ -76,6 +76,7 @@ export async function POST(req: NextRequest) {
   delete newres.pelakNU;
   // @ts-ignore: Unreachable code error
   delete newres.pelakCH;
+  delete newres.takhfif;
 
   const response = await client.store.create({
     data: newres,
