@@ -273,7 +273,7 @@ export default function Datalist({
       form.appendChild(submitButton);
 
       document.body.appendChild(form);
-      //form.submit();
+      form.submit();
 
       //console.log(data);
       //setResponse(data);
