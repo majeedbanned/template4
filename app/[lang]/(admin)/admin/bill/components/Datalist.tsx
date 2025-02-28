@@ -238,15 +238,16 @@ export default function Datalist({
       // Dynamically create and submit the form
       const form = document.createElement("form");
       form.method = "post";
-      form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
-      //form.action = "https://say.shaparak.ir/_ipgw_//MainTemplate/payment/";
+      // form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
+      form.action =
+        "https://say.shaparak.ir/_ipgw_/MainTemplate/payment/data?lang=fa";
 
       const terminalIDInput = document.createElement("input");
       terminalIDInput.type = "text";
       terminalIDInput.name = "language";
       terminalIDInput.value = "fa";
       form.appendChild(terminalIDInput);
-
+      console.log("data.Token", data.Token);
       const tokenInput = document.createElement("input");
       tokenInput.type = "text";
       tokenInput.name = "token";
