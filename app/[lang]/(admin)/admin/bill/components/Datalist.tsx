@@ -233,7 +233,7 @@ export default function Datalist({
 
       const data = await res.json();
 
-      // console.log(data);
+      console.log(data);
       // return;
       // Dynamically create and submit the form
       const form = document.createElement("form");
