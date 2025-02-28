@@ -238,7 +238,8 @@ export default function Datalist({
       // Dynamically create and submit the form
       const form = document.createElement("form");
       form.method = "post";
-      form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
+      //form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
+      form.action = "https://say.shaparak.ir/_ipgw_//MainTemplate/payment/";
 
       const terminalIDInput = document.createElement("input");
       terminalIDInput.type = "text";
