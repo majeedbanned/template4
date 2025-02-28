@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 
 import {
   ColumnDef,
@@ -76,6 +77,7 @@ interface DataTableProps<TData, TValue> {
   onDeleteClick: (id: any) => void;
   onPrintClick: (id: any) => void;
   onPaymentClick: (id: any) => void;
+  onOmidPaymentClick: (id: any) => void;
   allowEdit?: boolean;
   allowDelete?: boolean;
   hiddenCol: VisibilityState;
@@ -114,6 +116,8 @@ export function DataTable<TData, TValue>({
   onDeleteClick,
   onPrintClick,
   onPaymentClick,
+  onOmidPaymentClick,
+
   showPrint,
   allowEdit,
   allowDelete,
@@ -130,7 +134,8 @@ export function DataTable<TData, TValue>({
   onOwnerClick,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
-
+  const searchParams = useSearchParams();
+  const showOmidPay = searchParams?.get("omid") === "1";
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -245,6 +250,19 @@ export function DataTable<TData, TValue>({
                           {/* {row.original.TotalBill - row.original.paidBill} */}
                         </Button>
                       )}
+                    {showOmidPay && (
+                      <Button
+                        onClick={() => onOmidPaymentClick(row.original)}
+                        variant="default"
+                        className="bg-green-400"
+                      >
+                        {/* {convertToFarsiDigits(row.original.month)}
+                          {formattedDate} */}
+                        OmidPay پرداخت آنلاین
+                        {/* <br /> */}
+                        {/* {row.original.TotalBill - row.original.paidBill} */}
+                      </Button>
+                    )}
 
                     {showPrint && (
                       <Button

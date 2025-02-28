@@ -207,6 +207,82 @@ export default function Datalist({
   };
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleOmidPaymentClick = async (rowData: any) => {
+    // //console.log(rowData);
+    //return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const ammount = rowData.TotalBill - rowData.paidBill;
+      const res = await fetch("/api/paymentomid", {
+        method: "POST",
+        body: new URLSearchParams({
+          TerminalID: "",
+          Amount: String(ammount),
+          //Amount: "15000",
+
+          invoiceID: rowData.id,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+
+      // console.log(data);
+      // return;
+      // Dynamically create and submit the form
+      const form = document.createElement("form");
+      form.method = "post";
+      form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
+
+      const terminalIDInput = document.createElement("input");
+      terminalIDInput.type = "text";
+      terminalIDInput.name = "language";
+      terminalIDInput.value = "fa";
+      form.appendChild(terminalIDInput);
+
+      const tokenInput = document.createElement("input");
+      tokenInput.type = "text";
+      tokenInput.name = "token";
+      tokenInput.value = data.Token; // Assuming 'AccessToken' is returned in the response
+      form.appendChild(tokenInput);
+
+      // const callbackInput = document.createElement("input");
+      // callbackInput.type = "text";
+      // callbackInput.name = "callbackURL";
+      // callbackInput.value =
+      //   "https://charge.persiangulfmall.com/fa/admin/callback"; // Assuming 'AccessToken' is returned in the response
+      // form.appendChild(callbackInput);
+
+      // const getMethodInput = document.createElement("input");
+      // getMethodInput.type = "hidden";
+      // getMethodInput.name = "getMethod";
+      // getMethodInput.value = "0";
+      // form.appendChild(getMethodInput);
+
+      const submitButton = document.createElement("input");
+      submitButton.type = "submit";
+      submitButton.value = "پرداخت";
+      submitButton.className = "submit";
+      form.appendChild(submitButton);
+
+      document.body.appendChild(form);
+      form.submit();
+
+      //console.log(data);
+      //setResponse(data);
+    } catch (err) {
+      setError("Error submitting form");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handlePaymentClick = async (rowData: any) => {
     // //console.log(rowData);
     //return;
@@ -468,6 +544,7 @@ export default function Datalist({
             onDeleteClick={handleDeleteClick}
             onPrintClick={handlePrintClick}
             onPaymentClick={handlePaymentClick}
+            onOmidPaymentClick={handleOmidPaymentClick}
             onFileClick={handleFileClick}
             onNewFileClick={handleNewFileClick}
             allowEdit={canAction?.edit}
