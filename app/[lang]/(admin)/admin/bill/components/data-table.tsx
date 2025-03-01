@@ -238,31 +238,34 @@ export function DataTable<TData, TValue>({
                       row.original.paidBill !== row.original.TotalBill &&
                       convertToFarsiDigits(row.original.month) ===
                         formattedDate && (
-                        <Button
-                          onClick={() => onPaymentClick(row.original)}
-                          variant="default"
-                          className="bg-green-400"
-                        >
-                          {/* {convertToFarsiDigits(row.original.month)}
+                        <div className="flex flex-col gap-2">
+                          <Button
+                            onClick={() => onOmidPaymentClick(row.original)}
+                            variant="default"
+                            className="bg-green-400"
+                          >
+                            {/* {convertToFarsiDigits(row.original.month)}
                           {formattedDate} */}
-                          پرداخت آنلاین
-                          {/* <br /> */}
-                          {/* {row.original.TotalBill - row.original.paidBill} */}
-                        </Button>
+                            پرداخت آنلاین از درگاه اول
+                            {/* <br /> */}
+                            {/* {row.original.TotalBill - row.original.paidBill} */}
+                          </Button>
+                          <Button
+                            onClick={() => onPaymentClick(row.original)}
+                            variant="default"
+                            className="bg-green-400"
+                          >
+                            {/* {convertToFarsiDigits(row.original.month)}
+                          {formattedDate} */}
+                            پرداخت آنلاین از درگاه دوم
+                            {/* <br /> */}
+                            {/* {row.original.TotalBill - row.original.paidBill} */}
+                          </Button>
+                        </div>
                       )}
-                    {showOmidPay && (
-                      <Button
-                        onClick={() => onOmidPaymentClick(row.original)}
-                        variant="default"
-                        className="bg-green-400"
-                      >
-                        {/* {convertToFarsiDigits(row.original.month)}
-                          {formattedDate} */}
-                        OmidPay پرداخت آنلاین
-                        {/* <br /> */}
-                        {/* {row.original.TotalBill - row.original.paidBill} */}
-                      </Button>
-                    )}
+                    {/* {showOmidPay && (
+                      
+                    )} */}
 
                     {showPrint && (
                       <Button
