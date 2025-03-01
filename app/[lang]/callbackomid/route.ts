@@ -67,7 +67,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         //  datepaid: data.datepaid,
         datepaid: date, // Formatted date
         paidTime: time,
-        respcode: data.State,
+        respcode: "0",
         respmsg: ""//data.respmsg,
       };
       const response = await client.new_account.update({
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         apiResponse = await response.json();
 
         let newObject = {
-          settele_Status: apiResponse.Result,
+          settele_Status: apiResponse.Result === "erSucceed"?"OK":"err",
           settele_ReturnId: apiResponse.Amount.toString(),
           settele_Message: apiResponse.RefNum.toString(),
         };
