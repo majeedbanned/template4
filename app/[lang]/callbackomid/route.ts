@@ -6,9 +6,25 @@ function formatJalaliDateAndTime(dateString: string) {
   const time = dateString.substring(11, 19); // Extracts "HH:MM:SS"
   return { date, time };
 }
+
+function getCurrentJalaliDateAndTime() {
+  const now = new Date();
+  // Use the Persian (Jalali) calendar and Latin numbering.
+  const persianDateFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian-nu-latn', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  const date = persianDateFormatter.format(now); // e.g. "1403/08/25"
+  // Format time as HH:MM:SS using the en-GB locale for a 24-hour clock.
+  const time = now.toLocaleTimeString('en-GB'); // e.g. "13:02:13"
+  return { date, time };
+}
+
+
 export async function POST(req: NextRequest): Promise<NextResponse> {
   //console.log("Received POST request");
-
+  //const { date, time } = getCurrentJalaliDateAndTime();
   const contentType: string = req.headers.get("content-type") || "";
   //console.log("Content-Type:", contentType);
   let endResult = "خطا در تراکنش";
@@ -40,8 +56,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     let apiResponse: any = null;
 
     if (data?.State === "OK") {
-      const { date, time } = formatJalaliDateAndTime(data.datepaid);
-
+     // const { date, time } = formatJalaliDateAndTime(data.datepaid);
+      const { date, time } = getCurrentJalaliDateAndTime();
       let newObject = {
         onlineAmount: data.transactionAmount,
         cardnumber: data.CardMaskPan,
@@ -220,7 +236,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   } catch (error) {
     console.error("Error parsing data:", error);
     return NextResponse.json(
-      { error: "Failed to parse data" },
+      { error: "Failed to parse dataomid" },
       { status: 400 }
     );
   }
