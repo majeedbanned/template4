@@ -106,8 +106,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
         let newObject = {
           settele_Status: apiResponse.Result,
-          settele_ReturnId: apiResponse.Amount,
-          settele_Message: apiResponse.RefNum,
+          settele_ReturnId: apiResponse.Amount.toString(),
+          settele_Message: apiResponse.RefNum.toString(),
         };
         const responsefinal = await client.new_account.update({
           where: {
