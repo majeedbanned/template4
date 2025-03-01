@@ -1,5 +1,6 @@
 // app/api/payment/route.ts
 import { NextResponse } from 'next/server';
+import client from "@/lib/prismadb1";
 
 export async function POST(request: Request) {
   try {
@@ -43,7 +44,16 @@ export async function POST(request: Request) {
     console.log('start5')
 
     const data = await response.json();
-console.log(data)
+
+    const up = await client.new_account.update({
+      where: {
+        id: Number(invoiceID),
+      },
+      data: {rrn:data?.Token},
+    });
+
+
+// console.log(data)
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Error submitting form" }, { status: 500 });
