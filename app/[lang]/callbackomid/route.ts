@@ -83,7 +83,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         }
       });
 
-      const apiUrl = "http://ref.sayancard.ir/ref-payment/RestServices/mts/verifyMerchantTrans/";
+      const apiUrl = "https://ref.sayancard.ir/ref-payment/RestServices/mts/verifyMerchantTrans/";
       const postData = {
         WSContext: {
           UserId: "411459444",
@@ -171,7 +171,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       } catch (error) {
         console.error("Error calling API:", error);
         return NextResponse.json(
-          { error: "Failed to call API" },
+          { error: "Failed to call APIomid" },
           { status: 500 }
         );
       }
