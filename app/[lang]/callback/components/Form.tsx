@@ -55,25 +55,12 @@ export default function Form({}: Props) {
                 <SelectGroup>
                   {/* <SelectLabel>Fruits</SelectLabel> */}
 
-                  <SelectItem value="1402-06">1402-06</SelectItem>
-                  <SelectItem value="1402-07">1402-07</SelectItem>
-                  <SelectItem value="1402-08">1402-08</SelectItem>
-                  <SelectItem value="1402-09">1402-09</SelectItem>
-                  <SelectItem value="1402-10">1402-10</SelectItem>
-                  <SelectItem value="1402-11">1402-11</SelectItem>
-                  <SelectItem value="1402-12">1402-12</SelectItem>
-                  <SelectItem value="1403-01">1403-01</SelectItem>
-                  <SelectItem value="1403-02">1403-02</SelectItem>
-                  <SelectItem value="1403-03">1403-03</SelectItem>
-                  <SelectItem value="1403-04">1403-04</SelectItem>
-                  <SelectItem value="1403-05">1403-05</SelectItem>
-                  <SelectItem value="1403-06">1403-06</SelectItem>
-                  <SelectItem value="1403-07">1403-07</SelectItem>
-                  <SelectItem value="1403-08">1403-08</SelectItem>
-                  <SelectItem value="1403-09">1403-09</SelectItem>
-                  <SelectItem value="1403-10">1403-10</SelectItem>
-                  <SelectItem value="1403-11">1403-11</SelectItem>
-                  <SelectItem value="1403-12">1403-12</SelectItem>
+                  <SelectItem value="1404-01">1404-01</SelectItem>
+                  <SelectItem value="1404-02">1404-02</SelectItem>
+                  <SelectItem value="1404-03">1404-03</SelectItem>
+                  <SelectItem value="1404-04">1404-04</SelectItem>
+                  <SelectItem value="1404-05">1404-05</SelectItem>
+                  <SelectItem value="1404-06">1404-06</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
