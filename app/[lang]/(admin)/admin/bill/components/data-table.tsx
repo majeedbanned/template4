@@ -235,9 +235,8 @@ export function DataTable<TData, TValue>({
                   <td className="px-4 py-2">
                     {inx === 0 &&
                       row.original.settele_Status !== "Ok" &&
-                      row.original.paidBill !== row.original.TotalBill &&
-                      convertToFarsiDigits(row.original.month) ===
-                        formattedDate && (
+                      row.original.paidBill !== row.original.TotalBill && (
+                        //  && convertToFarsiDigits(row.original.month) === formattedDate
                         <div className="flex flex-col gap-2">
                           <Button
                             onClick={() => onOmidPaymentClick(row.original)}
