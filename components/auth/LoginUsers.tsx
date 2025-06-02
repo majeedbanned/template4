@@ -123,114 +123,115 @@ const LoginUsers = () => {
       <span className="border-1 font-semibold text-center text-2xl">
         سامانه پرداخت شارژ مجتمع خلیج فارس
       </span>
-      کسبه محترم
+      {/* کسبه محترم
       <br />
       <br />
       با توجه به بروزرسانی سایت پرداخت مقدور نیست و جهت پرداخت هفته های آتی
       اقدام نمیایید
       <br />
       <br />
-      با تشکر
+      با تشکر */}
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="sm:space-y-8 border-red-100"
+        >
+          <span className="border-1 font-semibold text-center text-2xl">
+            سامانه پرداخت شارژ مجتمع خلیج فارس
+          </span>
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <motion.div
+                  className="border-0"
+                  key={1}
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  // transition={{ duration: 0.2 }}
+                >
+                  <div className="flex flex-row  justify-end">
+                    <FormMessage className=" space-y-0 mr-auto mt-1 " />
+                    <FormLabel className="flex justify-end p-2  text-slate-600 ">
+                      : نام کاربری{" "}
+                    </FormLabel>
+                  </div>
+                  <FormControl className="border">
+                    <Input
+                      className="focus:ring-0 text-center rounded-3xl w-[290px] "
+                      disabled={isLoading}
+                      placeholder=""
+                      {...field}
+                    />
+                  </FormControl>
+                  {/* <FormDescription>
+                  This is your public display name.
+                </FormDescription> */}
+                </motion.div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <motion.div
+                  className="border-0"
+                  key={1}
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1, duration: 0.2 }}
+                >
+                  <div className="flex flex-row  justify-end">
+                    <FormMessage className=" space-y-0 mr-auto mt-1 " />
+
+                    <FormLabel className="flex justify-end p-2  text-slate-600 ">
+                      : کلمه عبور{" "}
+                    </FormLabel>
+                  </div>
+
+                  <FormControl>
+                    <Input
+                      type="password"
+                      className="focus:ring-0 text-center rounded-3xl  w-[290px] "
+                      disabled={isLoading}
+                      placeholder=""
+                      {...field}
+                    />
+                  </FormControl>
+                  {/* <FormDescription>
+                  This is your public display name.
+                </FormDescription> */}
+                </motion.div>
+              </FormItem>
+            )}
+          />
+          <div className="flex flex-col gap-4">
+            <motion.div
+              className="flex flex-col gap-4 border-0"
+              key={1}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <Button
+                className="h-9 mt-4  w-[250px] border-0  bg-[#20c9dc] shadow-lg shadow-[#ff9901]/30 rounded-3xl px-2 text-sm text-white transition-all duration-150 ease-in-out hover:bg-[#29e5ec]  focus:outline-none "
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                ورود
+              </Button>
+              <span className="text-sm text-slate-500">فراموشی کلمه عبور</span>
+            </motion.div>
+          </div>
+          <div className="text-sm text-red-400">{error}</div>
+        </form>
+      </Form>
     </div>
-    // <Form {...form}>
-    //   <form
-    //     onSubmit={form.handleSubmit(onSubmit)}
-    //     className="sm:space-y-8 border-red-100"
-    //   >
-    //     <span className="border-1 font-semibold text-center text-2xl">
-    //       سامانه پرداخت شارژ مجتمع خلیج فارس
-    //     </span>
-    //     <FormField
-    //       control={form.control}
-    //       name="username"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <motion.div
-    //             className="border-0"
-    //             key={1}
-    //             initial={{ opacity: 0, x: -100 }}
-    //             animate={{ opacity: 1, x: 0 }}
-    //             // transition={{ duration: 0.2 }}
-    //           >
-    //             <div className="flex flex-row  justify-end">
-    //               <FormMessage className=" space-y-0 mr-auto mt-1 " />
-    //               <FormLabel className="flex justify-end p-2  text-slate-600 ">
-    //                 : نام کاربری{" "}
-    //               </FormLabel>
-    //             </div>
-    //             <FormControl className="border">
-    //               <Input
-    //                 className="focus:ring-0 text-center rounded-3xl w-[290px] "
-    //                 disabled={isLoading}
-    //                 placeholder=""
-    //                 {...field}
-    //               />
-    //             </FormControl>
-    //             {/* <FormDescription>
-    //               This is your public display name.
-    //             </FormDescription> */}
-    //           </motion.div>
-    //         </FormItem>
-    //       )}
-    //     />
-    //     <FormField
-    //       control={form.control}
-    //       name="password"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <motion.div
-    //             className="border-0"
-    //             key={1}
-    //             initial={{ opacity: 0, x: -100 }}
-    //             animate={{ opacity: 1, x: 0 }}
-    //             transition={{ delay: 0.1, duration: 0.2 }}
-    //           >
-    //             <div className="flex flex-row  justify-end">
-    //               <FormMessage className=" space-y-0 mr-auto mt-1 " />
-
-    //               <FormLabel className="flex justify-end p-2  text-slate-600 ">
-    //                 : کلمه عبور{" "}
-    //               </FormLabel>
-    //             </div>
-
-    //             <FormControl>
-    //               <Input
-    //                 type="password"
-    //                 className="focus:ring-0 text-center rounded-3xl  w-[290px] "
-    //                 disabled={isLoading}
-    //                 placeholder=""
-    //                 {...field}
-    //               />
-    //             </FormControl>
-    //             {/* <FormDescription>
-    //               This is your public display name.
-    //             </FormDescription> */}
-    //           </motion.div>
-    //         </FormItem>
-    //       )}
-    //     />
-    //     <div className="flex flex-col gap-4">
-    //       <motion.div
-    //         className="flex flex-col gap-4 border-0"
-    //         key={1}
-    //         initial={{ opacity: 0 }}
-    //         animate={{ opacity: 1 }}
-    //         transition={{ delay: 0.5, duration: 0.8 }}
-    //       >
-    //         <Button
-    //           className="h-9 mt-4  w-[250px] border-0  bg-[#20c9dc] shadow-lg shadow-[#ff9901]/30 rounded-3xl px-2 text-sm text-white transition-all duration-150 ease-in-out hover:bg-[#29e5ec]  focus:outline-none "
-    //           disabled={isLoading}
-    //           type="submit"
-    //         >
-    //           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-    //           ورود
-    //         </Button>
-    //         <span className="text-sm text-slate-500">فراموشی کلمه عبور</span>
-    //       </motion.div>
-    //     </div>
-    //     <div className="text-sm text-red-400">{error}</div>
-    //   </form>
-    // </Form>
   );
 };
 
