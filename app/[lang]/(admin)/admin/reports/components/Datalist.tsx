@@ -570,6 +570,21 @@ export default function Datalist({
               .map(Number)}
             onChange={(e) => setQueryString("tajmi", e)}
           ></FacetedFilter>
+
+          <FacetedFilter
+            filterOption="dargah"
+            title="درگاه پرداخت "
+            options={[
+              { value: "1", label: "درگاه پرداخت اول" },
+              { value: "2", label: "درگاه پرداخت دوم" },
+            ]}
+            selected={searchParams
+              .get("dargah")
+              ?.toString()
+              .split(",")
+              .map(Number)}
+            onChange={(e) => setQueryString("dargah", e)}
+          ></FacetedFilter>
         </div>
       </div>
 

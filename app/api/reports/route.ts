@@ -157,6 +157,10 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("tajmi")?.toString().split(",").toString() ||
     undefined;
 
+     const dargah =
+    url.searchParams.get("dargah")?.toString().split(",").toString() ||
+    undefined;
+
 
 
   const fromdate =
@@ -434,6 +438,8 @@ let title="";
       tajmiq = ` AND (dbo.store.tajmi in (${tajmi}) ) `;
 
 
+
+
       let _vaz;
       if(tajmi==="1")
        _vaz=" بلی "
@@ -446,6 +452,34 @@ let title="";
          title+="["+"  تجمیع : "+ _vaz+"]"
 
     }
+
+
+     let dargahq = "";
+    if (dargah) {
+     
+      if(dargah==="1")
+      dargahq = `  and ISNUMERIC(dbo.new_account.digitalreceipt) = 1 `;
+      if(dargah==="2")
+      dargahq = `  and dbo.new_account.digitalreceipt LIKE '%[A-Za-z]%' `;
+if(dargah==="1,2")
+      dargahq = `  and (ISNUMERIC(dbo.new_account.digitalreceipt) = 1 or dbo.new_account.digitalreceipt LIKE '%[A-Za-z]%') `;
+if(dargah==="2,1")
+      dargahq = `  and (ISNUMERIC(dbo.new_account.digitalreceipt) = 1 or dbo.new_account.digitalreceipt LIKE '%[A-Za-z]%') `;
+
+
+      let _vaz;
+      if(dargah==="1")
+       _vaz=" درگاه اول "
+      else if(dargah==="2")
+       _vaz=" درگاه دوم"
+     else if(dargah==="1,2")
+       _vaz=" درگاه اول و دوم"
+     else if(dargah==="2,1")
+       _vaz=" درگاه اول و دوم"
+         title+="["+"  درگاه پرداخت : "+ _vaz+"]"
+
+    }
+
 
 
     let npardakhtq = "";
@@ -539,13 +573,13 @@ let query=""
 //   activeq==="" ,  searchq==="" ,  pardakhtq==="" ,  pardakhtqB==="" ,  debtq==="" ,  fromdateq==="" ,  npardakhtq==="" , shiveq==="" ,  tajmiq ==="")
 
 if(novq ==="" && rahroq==="" && bazarq==="" &&  tabaghq==="" &&  dateq==="" && 
-  activeq==="" &&  searchq==="" &&  pardakhtq==="" &&  pardakhtqB==="" &&  debtq==="" &&  fromdateq==="" &&  npardakhtq==="" &&  shiveq==="" &&  tajmiq ==="")
+  activeq==="" &&  searchq==="" &&  pardakhtq==="" &&  pardakhtqB==="" &&  debtq==="" &&  fromdateq==="" &&  npardakhtq==="" &&  shiveq==="" &&  tajmiq ==="" && dargahq==="") 
   query=""
   else
 
      query=`
    SELECT  '${title}' as title,dbo.new_account.settele_Status,  dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod,dbo.new_account.paidDate,dbo.new_account.paidDate1, new_account.debt,new_account.penalty,
-   dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum
+   dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum,dbo.new_account.digitalreceipt
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN
                          dbo.types_bazar ON dbo.store.bazar = dbo.types_bazar.id INNER JOIN
@@ -553,7 +587,7 @@ FROM            dbo.new_account INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
                          dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
-                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} order by ${sortq}`;
+                         ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} ${dargahq} order by ${sortq}`;
  //console.log(query)
 
                          const response = await client.$queryRawUnsafe(query);
