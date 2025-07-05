@@ -3,11 +3,13 @@ import { columns } from "@/app/[lang]/(admin)/admin/rob/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
+import { useReactToPrint } from "react-to-print";
+
 import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
 import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { startTransition, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   useParams,
@@ -16,6 +18,8 @@ import {
   useSearchParams,
 } from "next/navigation";
 import useAddEditRobModal from "@/app/[lang]/components/modals/AddEditRobModal";
+import { getGroupPrint } from "@/actions/actions";
+
 import useDeleteRobModal from "@/app/[lang]/components/modals/DeleteRobModal";
 import { z } from "zod";
 import { Robschema } from "@/lib/schemas";
@@ -26,6 +30,8 @@ import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
 import { DeleteRobModal } from "@/app/[lang]/components/modals/DeleteRobModal";
+// import ComponentToPrint from "../../reports/components/groupfish";
+import ComponentToPrint from "@/app/[lang]/components/prints/groupfishrob";
 
 type Props = {};
 
@@ -39,6 +45,8 @@ export default function Datalist({
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
+  const [print, setPrint] = useState<any>();
+  const [printData, setPrintData] = useState<any>([]);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -171,7 +179,55 @@ export default function Datalist({
     });
   };
 
-  const handlePrintClick = (rowData: any) => {};
+  const componentRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "AwesomeFileName",
+  });
+
+  const handlePrintClick = async (rowData: any) => {
+    setPrint(rowData);
+
+    // const [_store]: any = await Promise.all([
+    //   fetch("/api/store/" + rowData?.pelak).then(async (res) => {
+    //     if (res.status === 200) {
+    //       const val = await res.json();
+    //       setPrintStore(val);
+    //       return val;
+    //     }
+    //   }),
+    // ]);
+
+    // const [_chargedef] = await Promise.all([
+    //   fetch("/api/chargedef/" + _store?.chargeProfile).then(async (res) => {
+    //     if (res.status === 200) {
+    //       const val = await res.json();
+    //       //  //console.log("_defff", val);
+
+    //       setPrintChargeDef(val);
+    //     }
+    //   }),
+    // ]);
+    //@ts-ignore
+    startTransition(async () => {
+      const ret = await getGroupPrint(
+        rowData?.month,
+        "",
+        rowData?.pelak,
+        "",
+        ""
+      );
+      //console.log(ret);
+      setPrintData(ret);
+
+      setTimeout(() => {
+        handlePrint();
+      }, 100);
+    });
+
+    ////console.log(rowData);
+  };
 
   const handleActionClick = (rowData: any) => {
     const promise = () =>
@@ -240,6 +296,14 @@ export default function Datalist({
           />
         </div>
       </div>
+
+      <ComponentToPrint
+        data={printData}
+        // chargeDef={printChargeDef}
+        // store={printStore}
+        ref={componentRef}
+      />
+
       {canAction.add && pelak?.pelak != "all" ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
@@ -260,9 +324,11 @@ export default function Datalist({
             data={rob}
             onPrintClick={handlePrintClick}
             isLoading={isLoading}
+            showPrint={true}
             onActionClick={handleActionClick}
             onDeleteClick={handleDeleteClick}
             onFileClick={handleFileClick}
+            // onPrintClick={handlePrintClick}
             onNewFileClick={handleNewFileClick}
             allowEdit={canAction?.edit}
             allowDelete={canAction?.print}
