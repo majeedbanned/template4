@@ -18,7 +18,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import useAddEditRobModal from "@/app/[lang]/components/modals/AddEditRobModal";
-import { getGroupPrint } from "@/actions/actions";
+import { getGroupPrintRob } from "@/actions/actions";
 
 import useDeleteRobModal from "@/app/[lang]/components/modals/DeleteRobModal";
 import { z } from "zod";
@@ -211,14 +211,16 @@ export default function Datalist({
     // ]);
     //@ts-ignore
     startTransition(async () => {
-      const ret = await getGroupPrint(
+      const ret = await getGroupPrintRob(
         rowData?.month,
         "",
         rowData?.pelak,
         "",
-        ""
+        "",
+
+        rowData?.id
       );
-      //console.log(ret);
+      console.log(">>>", ret);
       setPrintData(ret);
 
       setTimeout(() => {

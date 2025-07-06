@@ -49,9 +49,9 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       اجاره سرقفلی واحد های تجاری مجتمع خلیج فارس
                     </p>
                   </div>
-                  <p className="font-bold" style={{ fontFamily: "CustomFont" }}>
+                  {/* <p className="font-bold" style={{ fontFamily: "CustomFont" }}>
                     {month_}
-                  </p>
+                  </p> */}
                   <div
                     style={{ fontFamily: "CustomFont" }}
                     className="p-1 font-bold"
@@ -61,12 +61,12 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                 </div>
                 <table className="w-full mx-0">
                   <tr className="h-8 border border-gray-800 bg-gray-100">
-                    <th
+                    {/* <th
                       style={{ fontFamily: "CustomFont" }}
                       className="border border-gray-800 text-sm"
                     >
                       دوره جاری
-                    </th>
+                    </th> */}
                     <th
                       style={{ fontFamily: "CustomFont" }}
                       className="border border-gray-800 text-sm"
@@ -93,12 +93,12 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     </th>
                   </tr>
                   <tr className="h-8 ">
-                    <td
+                    {/* <td
                       style={{ fontFamily: "CustomFont" }}
                       className=" text-center border border-gray-800 p-1"
                     >
                       {item?.new_account[0]?.month?.toString()}
-                    </td>
+                    </td> */}
                     <td
                       style={{ fontFamily: "CustomFont" }}
                       className="  text-center border border-gray-800 p-1"
@@ -136,13 +136,11 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     >
                       متراژ
                     </th>
-                    <th
+                    {/* <th
                       style={{ fontFamily: "CustomFont" }}
                       className="border border-gray-800 text-sm"
                     >
-                      {/* {item?.chargeDef?.type === "1"
-                        ? " مبلغ شارژ هر متر مربع"
-                        : "مبلغ شارژ"} */}
+                      
                       اجاره هر متر مربع
                     </th>
                     <th
@@ -150,7 +148,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       className="border border-gray-800 text-sm"
                     >
                       اجاره سرقفلی ماهیانه{" "}
-                    </th>
+                    </th> */}
                     <th
                       style={{ fontFamily: "CustomFont" }}
                       className="border border-gray-800 text-sm"
@@ -177,7 +175,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                     >
                       {item?.metraj}
                     </td>
-                    <td
+                    {/* <td
                       style={{ fontFamily: "CustomFont" }}
                       className="  text-center border border-gray-800 p-1"
                     >
@@ -198,7 +196,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       })
                         .format(item?.new_account[0]?.monthbill)
                         .replace("ریال", "")}
-                    </td>
+                    </td> */}
                     <td
                       style={{ fontFamily: "CustomFont" }}
                       className=" text-center border border-gray-800 p-1"
@@ -254,10 +252,10 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                   </tr>
                   <tr style={{ fontFamily: "CustomFont" }} className="h-8 ">
                     <td className=" text-center border border-gray-800 p-1">
-                      {/* پاسارگاد */}
+                      پاسارگاد
                     </td>
                     <td className="  text-center border border-gray-800 p-1">
-                      {/* محمد حسنی */}
+                      زرافشان ایزن
                     </td>
                     <td className=" text-center border border-gray-800 p-1">
                       {/* 603799178800 */}
@@ -299,9 +297,10 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       مهلت پرداخت
                       {/* <br /> */}
                       <p className="text-center text-xl">
-                        {item?.new_account[0]?.month
-                          ?.toString()
-                          .replace("-", "/") + "/31"}
+                        {
+                          item?.sarghofli[0]?.paydate?.toString()
+                          //.replace("-", "/") + "/31"
+                        }
                       </p>
                       <p>مهلت داده شده شامل بدهی نمیشود</p>
                     </div>
@@ -315,10 +314,9 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                           currency: "IRR",
                         })
                           .format(
-                            item?.new_account[0]?.TotalBill === "0"
+                            item?.sarghofli[0]?.price === "0"
                               ? 0
-                              : item?.new_account[0]?.TotalBill -
-                                  item?.new_account[0]?.paidBill
+                              : item?.sarghofli[0]?.price
                           )
                           .replace("ریال", "")}
                       </p>
@@ -332,17 +330,19 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       {/* <p>بدون ثبت ماشینی اعتبار ندارد</p> */}
 
                       <p>
+                        {item?.sarghofli[0].disc}
                         {/* پرداخت به صورت غیر حضوری توسط سامانه
                         https://persiangulfmall.com */}
                       </p>
 
                       <p>
                         {" "}
+                        {item?.sarghofli[0].paydiscription}
                         {/* و یا از طریق وب کیوسک مستقر در مدیریت بازار اقدام نمایید
                         eeee */}
                       </p>
 
-                      {item?.ChekRol === "1" && (
+                      {/* {item?.ChekRol === "1" && (
                         <p className="text-7xl text-slate-700">حقــــــوقــی</p>
                       )}
                       {item?.fine3 === "1" && (
@@ -350,7 +350,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                           بعلت عدم توجه به قوانین مجتمع و تغییر کاربری، مشمول
                           جریمه سه برابری شارژ شده اید
                         </p>
-                      )}
+                      )} */}
                     </div>
                     {/* <div className="flex flex-row  justify-end">
                 <Image src={logo} width={150} height={150} alt="Image" />

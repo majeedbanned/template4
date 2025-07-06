@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { boolean, string } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { ID } from "country-flag-icons/react/3x2";
 
 export const getfish = async (formData: FormData) => {
   const idate = formData.get("month");
@@ -18,6 +19,115 @@ export const getfish = async (formData: FormData) => {
 
  // //console.log(idate);
   revalidatePath("/autocharge");
+};
+
+export const getGroupPrintRob = async (
+  month: string,
+  nov: string,
+  pelak: string,
+  rahrovalue: string,
+  vaziat: string,
+  id: number
+) => {
+  let data;
+  if (pelak === "") {
+    data = await client.store.findMany({
+      where: {
+        ...(nov && { nov: Number(nov) }),
+        ...(rahrovalue && {
+          tabagh: Number(rahrovalue),
+        }),
+        ...(vaziat==='True' && {
+          active:Boolean( 1),
+        }),
+        ...(vaziat==='False' && {
+          active:Boolean( 0),
+        }),
+      },
+      select: {
+        types_tabagh: { select: { tabagh: true } },
+        types_rahro: { select: { rahro: true } },
+        types_bazar: { select: { bazar: true } },
+
+        pelak: true,
+        name: true,
+        metraj: true,
+        ChekRol: true,
+        active: true,
+        fine3:true,
+        new_account: {
+          select: {
+            month: true,
+            pelak: true,
+            monthbill: true,
+            deptPeriod: true,
+            paidBill: true,
+            debt: true,
+            penalty: true,
+            paidExtraAsset: true,
+            discount: true,
+            TotalBill: true,
+            basebill:true,
+          },
+          where: { month: month },
+        },
+        chargeDef: { select: { type: true, charge: true } },
+      },
+      //  take: 10,
+    });
+  } else {
+    data = await client.store.findMany({
+      where: { AND: [{ pelak: pelak }] },
+      select: {
+        types_tabagh: { select: { tabagh: true } },
+        types_rahro: { select: { rahro: true } },
+        types_bazar: { select: { bazar: true } },
+
+        pelak: true,
+        name: true,
+        metraj: true,
+        ChekRol: true,
+        fine3:true,
+        active: true,
+        sarghofli:{
+          select:{
+            price:true,
+            disc:true,
+            invitedate:true,
+            id:true,
+            paydate:true,
+            paydiscription:true,
+            pelak:true,
+
+
+          },
+          where: { id: id },
+
+        },
+        new_account: {
+          select: {
+            month: true,
+            pelak: true,
+            monthbill: true,
+            deptPeriod: true,
+            paidBill: true,
+
+            debt: true,
+            penalty: true,
+            paidExtraAsset: true,
+            discount: true,
+            TotalBill: true,
+            basebill:true
+          },
+          where: { month: month },
+        },
+        chargeDef: { select: { type: true, charge: true } },
+      },
+      take: 1,
+    });
+  }
+
+  return data;
 };
 
 export const getGroupPrint = async (
@@ -87,6 +197,7 @@ export const getGroupPrint = async (
         ChekRol: true,
         fine3:true,
         active: true,
+        
         new_account: {
           select: {
             month: true,
@@ -112,6 +223,7 @@ export const getGroupPrint = async (
 
   return data;
 };
+
 export const getNov = async () => {
   const nov = await client.types_nov.findMany({});
   return nov;
