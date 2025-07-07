@@ -330,14 +330,14 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       {/* <p>بدون ثبت ماشینی اعتبار ندارد</p> */}
 
                       <p>
-                        {item?.sarghofli[0].disc}
+                        {item?.sarghofli[0]?.disc}
                         {/* پرداخت به صورت غیر حضوری توسط سامانه
                         https://persiangulfmall.com */}
                       </p>
 
                       <p>
                         {" "}
-                        {item?.sarghofli[0].paydiscription}
+                        {item?.sarghofli[0]?.paydiscription}
                         {/* و یا از طریق وب کیوسک مستقر در مدیریت بازار اقدام نمایید
                         eeee */}
                       </p>
