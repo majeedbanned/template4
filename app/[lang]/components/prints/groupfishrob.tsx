@@ -201,29 +201,29 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       style={{ fontFamily: "CustomFont" }}
                       className=" text-center border border-gray-800 p-1"
                     >
-                      {item?.new_account[0]?.deptPeriod}
+                      {/* {item?.new_account[0]?.deptPeriod} */}
                     </td>
                     <td
                       style={{ fontFamily: "CustomFont" }}
                       className=" text-center border border-gray-800 p-1"
                     >
-                      {new Intl.NumberFormat("fa-IR", {
+                      {/* {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
                       })
                         .format(item?.new_account[0]?.debt)
-                        .replace("ریال", "")}
+                        .replace("ریال", "")} */}
                     </td>
                     <td
                       style={{ fontFamily: "CustomFont" }}
                       className=" text-center border border-gray-800 p-1"
                     >
-                      {new Intl.NumberFormat("fa-IR", {
+                      {/* {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
                       })
                         .format(item?.new_account[0]?.penalty)
-                        .replace("ریال", "")}
+                        .replace("ریال", "")} */}
                     </td>
                   </tr>
                 </table>
@@ -261,29 +261,29 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       {/* 603799178800 */}
                     </td>
                     <td className=" text-center border border-gray-800 p-1">
-                      {new Intl.NumberFormat("fa-IR", {
+                      {/* {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
                       })
                         .format(item?.new_account[0]?.paidExtraAsset)
-                        .replace("ریال", "")}
+                        .replace("ریال", "")} */}
                     </td>
 
                     <td className=" text-center border border-gray-800 p-1">
-                      {new Intl.NumberFormat("fa-IR", {
+                      {/* {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
                       })
                         .format(item?.new_account[0]?.discount)
-                        .replace("ریال", "")}
+                        .replace("ریال", "")} */}
                     </td>
                     <td className=" text-center border border-gray-800 p-1">
-                      {new Intl.NumberFormat("fa-IR", {
+                      {/* {new Intl.NumberFormat("fa-IR", {
                         style: "currency",
                         currency: "IRR",
                       })
                         .format(item?.new_account[0]?.paidBill)
-                        .replace("ریال", "")}
+                        .replace("ریال", "")} */}
                     </td>
                   </tr>
                 </table>
