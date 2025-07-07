@@ -101,7 +101,7 @@ export const getGroupPrintRob = async (
 
 
           },
-          //where: { id: idd },
+          where: { id: idd },
 
         },
         new_account: {
