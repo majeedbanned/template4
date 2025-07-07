@@ -27,7 +27,7 @@ export const getGroupPrintRob = async (
   pelak: string,
   rahrovalue: string,
   vaziat: string,
-  id: number
+  idd: number
 ) => {
   let data;
   if (pelak === "") {
@@ -101,7 +101,7 @@ export const getGroupPrintRob = async (
 
 
           },
-          where: { id: id },
+          where: { id: idd },
 
         },
         new_account: {
