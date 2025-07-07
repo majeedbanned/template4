@@ -220,6 +220,7 @@ export default function Datalist({
 
         rowData?.id
       );
+      console.log(">>>", rowData);
       console.log(">>>", ret);
       setPrintData(ret);
 
