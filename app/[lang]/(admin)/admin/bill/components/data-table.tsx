@@ -249,17 +249,15 @@ export function DataTable<TData, TValue>({
                             {/* <br /> */}
                             {/* {row.original.TotalBill - row.original.paidBill} */}
                           </Button>
-                          <Button
+                          {/* <Button
                             onClick={() => onPaymentClick(row.original)}
                             variant="default"
                             className="bg-green-400"
                           >
-                            {/* {convertToFarsiDigits(row.original.month)}
-                          {formattedDate} */}
+                          
                             پرداخت آنلاین از درگاه دوم
-                            {/* <br /> */}
-                            {/* {row.original.TotalBill - row.original.paidBill} */}
-                          </Button>
+                            
+                          </Button> */}
                         </div>
                       )}
                     {/* {showOmidPay && (
