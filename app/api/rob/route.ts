@@ -175,6 +175,9 @@ _count: true,
       take: 100,
     });
 
+      //const ttakh=await client.store.findMany( {where: { pelak:store?.pelak.split('-')[0]+'-'+store?.pelak.split('-')[1] }})
+    
+
     const docList = await client.doc_cat.findMany({
       select: {
         id: true,
@@ -186,8 +189,20 @@ _count: true,
       },
     });
 
+
+ const cc= await client.store.findUnique({
+      where: {
+        pelak:pelak1?.toUpperCase(),
+      },
+      select: {
+        metraj: true,
+      },
+    })
+  //  console.log("cc",pelak1?.toUpperCase());
+   // console.log("cc pelak",cc);
+
     const combinedResults = response.map(owner => {
-      return { ...owner, list: docList };
+      return { ...owner, list: docList ,metraj:cc?.metraj};
     });
     const res = JSON.parse(
       JSON.stringify(

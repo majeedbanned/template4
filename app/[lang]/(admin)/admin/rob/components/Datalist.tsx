@@ -4,7 +4,7 @@ import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-tab
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
 import { useReactToPrint } from "react-to-print";
-
+// import moment from "moment-jalaali";
 import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
@@ -30,6 +30,7 @@ import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
 import { DeleteRobModal } from "@/app/[lang]/components/modals/DeleteRobModal";
+import ChargeCalculation from "./ChargeCalculation";
 // import ComponentToPrint from "../../reports/components/groupfish";
 import ComponentToPrint from "@/app/[lang]/components/prints/groupfishrob";
 
@@ -261,10 +262,22 @@ export default function Datalist({
       error: "Error",
     });
   };
+
+  const firstWithStartDate = rob?.find((item) => item?.invitedate?.trim());
   return (
     <div>
-      <TwainModal mutation={mutate}></TwainModal>
+      {/* <ChargeCalculation startDate="۱۳۹۱/۰۲/۰۳" rate={27.9} /> */}
 
+      {firstWithStartDate && (
+        <ChargeCalculation
+          //@ts-ignore
+          startDate={firstWithStartDate?.invitedate} // اولین مقدارِ startdate که خالی نیست
+          //@ts-ignore
+          rate={firstWithStartDate?.metraj} // متراژ همان رکورد
+        />
+      )}
+
+      <TwainModal mutation={mutate}></TwainModal>
       <DeleteRobModal
         mutation={mutate}
         data={deleteID}
@@ -299,14 +312,12 @@ export default function Datalist({
           />
         </div>
       </div>
-
       <ComponentToPrint
         data={printData}
         // chargeDef={printChargeDef}
         // store={printStore}
         ref={componentRef}
       />
-
       {canAction.add && pelak?.pelak != "all" ? (
         <Button
           className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
@@ -321,24 +332,26 @@ export default function Datalist({
       )}
       {rob ? (
         rob.length > 0 ? (
-          <DataTable
-            hiddenCol={{}}
-            columns={columns}
-            data={rob}
-            onPrintClick={handlePrintClick}
-            isLoading={isLoading}
-            showPrint={true}
-            onActionClick={handleActionClick}
-            onDeleteClick={handleDeleteClick}
-            onFileClick={handleFileClick}
-            // onPrintClick={handlePrintClick}
-            onNewFileClick={handleNewFileClick}
-            allowEdit={canAction?.edit}
-            allowDelete={canAction?.print}
-            docadd={canAction?.docadd}
-            docedit={canAction?.docedit}
-            docview={canAction?.docview}
-          ></DataTable>
+          <>
+            <DataTable
+              hiddenCol={{}}
+              columns={columns}
+              data={rob}
+              onPrintClick={handlePrintClick}
+              isLoading={isLoading}
+              showPrint={true}
+              onActionClick={handleActionClick}
+              onDeleteClick={handleDeleteClick}
+              onFileClick={handleFileClick}
+              // onPrintClick={handlePrintClick}
+              onNewFileClick={handleNewFileClick}
+              allowEdit={canAction?.edit}
+              allowDelete={canAction?.print}
+              docadd={canAction?.docadd}
+              docedit={canAction?.docedit}
+              docview={canAction?.docview}
+            ></DataTable>
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center py-10">
             <p className="text-sm text-gray-500">ردیفی پیدا نشد</p>
