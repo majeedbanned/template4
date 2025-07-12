@@ -40,7 +40,7 @@ export default function ChargeCalculation({
   const logs: YearLog[] = [];
 
   const START_YEAR_3 = 3;
-  const THRESHOLD_YEAR = 1400;
+  const THRESHOLD_YEAR = 1402;
 
   let totalCharge = 0;
   const startYear = start.jYear();
