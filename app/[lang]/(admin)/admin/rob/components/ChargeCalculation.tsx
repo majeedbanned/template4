@@ -6,6 +6,7 @@ import React from "react";
 interface ChargeCalculationProps {
   startDate: string; // e.g. "۱۳۹۱/۰۲/۰۳" or "1391/02/03"
   rate: number; // e.g. 27.9
+  totalPaidAmount?: number; // total amount paid so far
 }
 
 interface YearLog {
@@ -22,6 +23,7 @@ const toLatinDigits = (str: string) =>
 export default function ChargeCalculation({
   startDate,
   rate,
+  totalPaidAmount = 0,
 }: ChargeCalculationProps) {
   moment.loadPersian({ usePersianDigits: false }); // keep internal digits Latin
 
@@ -109,6 +111,17 @@ export default function ChargeCalculation({
       <h3 className="mt-4 text-md font-bold text-green-600">
         💰 جمع کل: {totalCharge.toLocaleString("fa-IR")} ریال
       </h3>
+      
+      {totalPaidAmount > 0 && (
+        <>
+          <h3 className="mt-2 text-md font-bold text-blue-600">
+            💳 مجموع پرداخت‌ها: {totalPaidAmount.toLocaleString("fa-IR")} ریال
+          </h3>
+          <h3 className="mt-2 text-md font-bold text-red-600">
+            🔴 مانده قابل پرداخت: {(totalCharge - totalPaidAmount).toLocaleString("fa-IR")} ریال
+          </h3>
+        </>
+      )}
     </div>
   );
 }

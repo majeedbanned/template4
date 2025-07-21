@@ -149,7 +149,7 @@ export default function Datalist({
     const filedata = { ...rowData, hash: hashedQueryString };
     //console.log(filedata);
     //console.log(myObject);
-    //console.log("encode", hashedQueryString);
+    //console.log("encode", hashedQueryString);   
     //console.log(decodeURIComponent(hashedQueryString));
 
     // return;
@@ -264,6 +264,16 @@ export default function Datalist({
   };
 
   const firstWithStartDate = rob?.find((item) => item?.invitedate?.trim());
+  
+  // Calculate sum of all prices
+  const totalPaidAmount = rob?.reduce((sum, item) => {
+    const price = parseFloat(item.price || '0');
+    return sum + price;
+  }, 0) || 0;
+  
+  if (rob) {
+    console.log(">>>", rob);
+  }
   return (
     <div>
       {/* <ChargeCalculation startDate="۱۳۹۱/۰۲/۰۳" rate={27.9} /> */}
@@ -274,6 +284,7 @@ export default function Datalist({
           startDate={firstWithStartDate?.invitedate} // اولین مقدارِ startdate که خالی نیست
           //@ts-ignore
           rate={firstWithStartDate?.metraj} // متراژ همان رکورد
+          totalPaidAmount={totalPaidAmount} // مجموع مبالغ پرداخت شده
         />
       )}
 
