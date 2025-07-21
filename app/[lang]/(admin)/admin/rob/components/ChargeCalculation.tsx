@@ -4,9 +4,10 @@ import moment from "moment-jalaali";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
-import { Printer, Receipt } from "lucide-react";
+import { Printer, Receipt, FileText } from "lucide-react";
 import ChargeCalculationPrint from "@/app/[lang]/components/prints/chargecalculation";
 import ChargeCalculationFish from "@/app/[lang]/components/prints/chargecalculationfish";
+import ChargeCalculationOfficial from "@/app/[lang]/components/prints/chargecalculationofficial";
 
 interface ChargeCalculationProps {
   startDate: string; // e.g. "۱۳۹۱/۰۲/۰۳" or "1391/02/03"
@@ -36,6 +37,7 @@ export default function ChargeCalculation({
 
   const printRef = useRef(null);
   const fishPrintRef = useRef(null);
+  const officialPrintRef = useRef(null);
   
   const latinDate = toLatinDigits(startDate.trim());
   const start = moment(latinDate, "jYYYY/jMM/jDD", true); // strict parse
@@ -99,6 +101,11 @@ export default function ChargeCalculation({
     documentTitle: `فیش_سرقفلی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
   });
 
+  const handleOfficialPrint = useReactToPrint({
+    content: () => officialPrintRef.current,
+    documentTitle: `قبض_رسمی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
+
   const printData = {
     startDate,
     rate,
@@ -129,6 +136,15 @@ export default function ChargeCalculation({
           >
             <Receipt className="h-4 w-4" />
             چاپ فیش
+          </Button>
+          <Button
+            onClick={handleOfficialPrint}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <FileText className="h-4 w-4" />
+            چاپ قبض رسمی
           </Button>
           <Button
             onClick={handlePrint}
@@ -185,6 +201,7 @@ export default function ChargeCalculation({
       {/* Hidden print components */}
       <ChargeCalculationPrint ref={printRef} data={printData} />
       <ChargeCalculationFish ref={fishPrintRef} data={fishData} />
+      <ChargeCalculationOfficial ref={officialPrintRef} data={fishData} />
     </div>
   );
 }
