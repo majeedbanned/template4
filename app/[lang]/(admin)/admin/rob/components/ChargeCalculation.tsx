@@ -35,9 +35,25 @@ export default function ChargeCalculation({
 }: ChargeCalculationProps) {
   moment.loadPersian({ usePersianDigits: false }); // keep internal digits Latin
 
+  // All hooks must be called at the top level
   const printRef = useRef(null);
   const fishPrintRef = useRef(null);
   const officialPrintRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    documentTitle: `گزارش_محاسبه_هزینه_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
+
+  const handleFishPrint = useReactToPrint({
+    content: () => fishPrintRef.current,
+    documentTitle: `فیش_سرقفلی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
+
+  const handleOfficialPrint = useReactToPrint({
+    content: () => officialPrintRef.current,
+    documentTitle: `قبض_رسمی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
   
   const latinDate = toLatinDigits(startDate.trim());
   const start = moment(latinDate, "jYYYY/jMM/jDD", true); // strict parse
@@ -90,21 +106,6 @@ export default function ChargeCalculation({
     });
     totalCharge += yearlyCharge;
   }
-
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    documentTitle: `گزارش_محاسبه_هزینه_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
-  });
-
-  const handleFishPrint = useReactToPrint({
-    content: () => fishPrintRef.current,
-    documentTitle: `فیش_سرقفلی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
-  });
-
-  const handleOfficialPrint = useReactToPrint({
-    content: () => officialPrintRef.current,
-    documentTitle: `قبض_رسمی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
-  });
 
   const printData = {
     startDate,
