@@ -285,6 +285,7 @@ export default function Datalist({
           //@ts-ignore
           rate={firstWithStartDate?.metraj} // متراژ همان رکورد
           totalPaidAmount={totalPaidAmount} // مجموع مبالغ پرداخت شده
+          pelak={firstWithStartDate?.pelak} // شماره پلاک
         />
       )}
 

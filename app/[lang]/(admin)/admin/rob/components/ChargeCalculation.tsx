@@ -1,12 +1,18 @@
 "use client";
 //@ts-ignore
 import moment from "moment-jalaali";
-import React from "react";
+import React, { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import { Button } from "@/components/ui/button";
+import { Printer, Receipt } from "lucide-react";
+import ChargeCalculationPrint from "@/app/[lang]/components/prints/chargecalculation";
+import ChargeCalculationFish from "@/app/[lang]/components/prints/chargecalculationfish";
 
 interface ChargeCalculationProps {
   startDate: string; // e.g. "۱۳۹۱/۰۲/۰۳" or "1391/02/03"
   rate: number; // e.g. 27.9
   totalPaidAmount?: number; // total amount paid so far
+  pelak?: string; // pelak number for printing
 }
 
 interface YearLog {
@@ -24,9 +30,13 @@ export default function ChargeCalculation({
   startDate,
   rate,
   totalPaidAmount = 0,
+  pelak,
 }: ChargeCalculationProps) {
   moment.loadPersian({ usePersianDigits: false }); // keep internal digits Latin
 
+  const printRef = useRef(null);
+  const fishPrintRef = useRef(null);
+  
   const latinDate = toLatinDigits(startDate.trim());
   const start = moment(latinDate, "jYYYY/jMM/jDD", true); // strict parse
 
@@ -79,9 +89,58 @@ export default function ChargeCalculation({
     totalCharge += yearlyCharge;
   }
 
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    documentTitle: `گزارش_محاسبه_هزینه_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
+
+  const handleFishPrint = useReactToPrint({
+    content: () => fishPrintRef.current,
+    documentTitle: `فیش_سرقفلی_${pelak || 'unknown'}_${new Date().toLocaleDateString('fa-IR').replace(/\//g, '_')}`,
+  });
+
+  const printData = {
+    startDate,
+    rate,
+    totalCharge,
+    totalPaidAmount,
+    logs,
+    pelak,
+  };
+
+  const fishData = {
+    startDate,
+    rate,
+    totalCharge,
+    totalPaidAmount,
+    pelak,
+  };
+
   return (
     <div className="p-4 bg-white shadow rounded-md my-6">
-      <h2 className="text-lg font-semibold mb-2">📊 محاسبه هزینه</h2>
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-lg font-semibold">📊 محاسبه هزینه</h2>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleFishPrint}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Receipt className="h-4 w-4" />
+            چاپ فیش
+          </Button>
+          <Button
+            onClick={handlePrint}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Printer className="h-4 w-4" />
+            چاپ گزارش کامل
+          </Button>
+        </div>
+      </div>
       <p>📅 تاریخ دعوت نامه: {startDate}</p>
       <p>💸 متراژ: {rate}</p>
 
@@ -119,9 +178,13 @@ export default function ChargeCalculation({
           </h3>
           <h3 className="mt-2 text-md font-bold text-red-600">
             🔴 مانده قابل پرداخت: {(totalCharge - totalPaidAmount).toLocaleString("fa-IR")} ریال
-          </h3>
-        </>
-      )}
+                     </h3>
+         </>
+       )}
+       
+      {/* Hidden print components */}
+      <ChargeCalculationPrint ref={printRef} data={printData} />
+      <ChargeCalculationFish ref={fishPrintRef} data={fishData} />
     </div>
   );
 }
