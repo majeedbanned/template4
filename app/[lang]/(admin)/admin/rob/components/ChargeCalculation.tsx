@@ -1,9 +1,10 @@
 "use client";
 //@ts-ignore
 import moment from "moment-jalaali";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Printer, Receipt, FileText } from "lucide-react";
 import ChargeCalculationPrint from "@/app/[lang]/components/prints/chargecalculation";
 import ChargeCalculationFish from "@/app/[lang]/components/prints/chargecalculationfish";
@@ -22,6 +23,7 @@ interface YearLog {
   monthsCharged: number;
   formula: string;
   charge: number;
+  isLastYear?: boolean;
 }
 
 
@@ -42,6 +44,8 @@ export default function ChargeCalculation({
   const printRef = useRef(null);
   const fishPrintRef = useRef(null);
   const officialPrintRef = useRef(null);
+  
+  const [customMonths, setCustomMonths] = useState<number | null>(null);
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
@@ -79,13 +83,24 @@ export default function ChargeCalculation({
   const startYear = start.jYear();
   const endYear = today.jYear();
 
+  // Initialize customMonths with automatic calculation on first render
+  useEffect(() => {
+    if (customMonths === null) {
+      const autoMonths = today.jMonth() + 1;
+      setCustomMonths(autoMonths);
+    }
+  }, [today, customMonths]);
+
   for (let year = startYear; year <= endYear; year++) {
     const isFirstYear = year === startYear;
     const isLastYear = year === endYear;
 
     let monthsInYear = 12;
     if (isFirstYear) monthsInYear = 12 - start.jMonth();
-    if (isLastYear) monthsInYear = today.jMonth() + 1;
+    if (isLastYear) {
+      // Use custom months input instead of automatic calculation
+      monthsInYear = customMonths || (today.jMonth() + 1);
+    }
 
     let yearlyCharge = 0;
     let formula = "";
@@ -106,6 +121,7 @@ export default function ChargeCalculation({
       monthsCharged: monthsInYear,
       formula,
       charge: yearlyCharge,
+      isLastYear,
     });
     totalCharge += yearlyCharge;
   }
@@ -125,6 +141,13 @@ export default function ChargeCalculation({
     totalCharge,
     totalPaidAmount,
     pelak,
+  };
+
+  const handleMonthsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value > 0 && value <= 12) {
+      setCustomMonths(value);
+    }
   };
 
   return (
@@ -177,7 +200,20 @@ export default function ChargeCalculation({
           {logs.map((log) => (
             <tr key={log.year}>
               <td className="border px-2 py-1">{log.year}</td>
-              <td className="border px-2 py-1">{log.monthsCharged}</td>
+              <td className="border px-2 py-1">
+                {log.isLastYear ? (
+                  <Input
+                    type="number"
+                    min="1"
+                    max="12"
+                    value={customMonths || ''}
+                    onChange={handleMonthsChange}
+                    className="w-16 h-8 text-center text-sm"
+                  />
+                ) : (
+                  log.monthsCharged
+                )}
+              </td>
               <td className="border px-2 py-1">{log.formula}</td>
               <td className="border px-2 py-1">
                 {log.charge.toLocaleString("fa-IR")} ریال
@@ -198,9 +234,9 @@ export default function ChargeCalculation({
           </h3>
           <h3 className="mt-2 text-md font-bold text-red-600">
             🔴 مانده قابل پرداخت: {(totalCharge - totalPaidAmount).toLocaleString("fa-IR")} ریال
-                     </h3>
-         </>
-       )}
+          </h3>
+        </>
+      )}
        
       {/* Hidden print components */}
       <ChargeCalculationPrint ref={printRef} data={printData} />
