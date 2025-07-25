@@ -28,9 +28,25 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
         <div
           ref={ref}
           dir="rtl"
-          className="bg-white flex-col gap-0 flex justify-center items-center border-2 w-full"
+          className="bg-white flex-col gap-0 flex justify-center items-center border-2 w-full relative"
         >
-          <div className="w-full px-2">
+          {/* Watermark */}
+          <div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            style={{
+              fontSize: '4rem',
+              fontFamily: 'CustomFont',
+              color: 'rgba(0, 0, 0, 0.08)',
+              fontWeight: 'bold',
+              transform: 'rotate(-45deg)',
+              userSelect: 'none',
+              zIndex: 999
+            }}
+          >
+            اجاره سرقفلی
+          </div>
+          
+          <div className="w-full px-2 relative">
             <div className="flex flex-col justify-center w-full items-center px-2 py-0 mt-0 mx-0">
               <div className="flex w-full flex-row justify-between items-center flex-1">
                 <div className="p-1 font-bold">
