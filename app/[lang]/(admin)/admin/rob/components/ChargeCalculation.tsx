@@ -64,6 +64,15 @@ export default function ChargeCalculation({
   
   const latinDate = toLatinDigits(startDate.trim());
   const start = moment(latinDate, "jYYYY/jMM/jDD", true); // strict parse
+  const today = moment();
+
+  // Initialize customMonths with automatic calculation on first render
+  useEffect(() => {
+    if (customMonths === null && start.isValid()) {
+      const autoMonths = today.jMonth() + 1;
+      setCustomMonths(autoMonths);
+    }
+  }, [today, customMonths, start]);
 
   if (!start.isValid()) {
     return (
@@ -73,7 +82,6 @@ export default function ChargeCalculation({
     );
   }
 
-  const today = moment();
   const logs: YearLog[] = [];
 
   const START_YEAR_3 = 3;
@@ -82,14 +90,6 @@ export default function ChargeCalculation({
   let totalCharge = 0;
   const startYear = start.jYear();
   const endYear = today.jYear();
-
-  // Initialize customMonths with automatic calculation on first render
-  useEffect(() => {
-    if (customMonths === null) {
-      const autoMonths = today.jMonth() + 1;
-      setCustomMonths(autoMonths);
-    }
-  }, [today, customMonths]);
 
   for (let year = startYear; year <= endYear; year++) {
     const isFirstYear = year === startYear;
