@@ -204,6 +204,7 @@ export default function ChargeCalculation({
        
       {/* Hidden print components */}
       <ChargeCalculationPrint ref={printRef} data={printData} />
+      {/* @ts-ignore */}
       <ChargeCalculationFish ref={fishPrintRef} data={fishData} editstore={editstore}  />
       <ChargeCalculationOfficial ref={officialPrintRef} data={fishData} />
     </div>
