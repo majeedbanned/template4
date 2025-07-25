@@ -14,6 +14,7 @@ interface ChargeCalculationProps {
   rate: number; // e.g. 27.9
   totalPaidAmount?: number; // total amount paid so far
   pelak?: string; // pelak number for printing
+  editstore?: any;
 }
 
 interface YearLog {
@@ -22,6 +23,7 @@ interface YearLog {
   formula: string;
   charge: number;
 }
+
 
 // helper to convert Persian digits to Latin digits
 const toLatinDigits = (str: string) =>
@@ -32,6 +34,7 @@ export default function ChargeCalculation({
   rate,
   totalPaidAmount = 0,
   pelak,
+  editstore,
 }: ChargeCalculationProps) {
   moment.loadPersian({ usePersianDigits: false }); // keep internal digits Latin
 
@@ -201,7 +204,7 @@ export default function ChargeCalculation({
        
       {/* Hidden print components */}
       <ChargeCalculationPrint ref={printRef} data={printData} />
-      <ChargeCalculationFish ref={fishPrintRef} data={fishData} />
+      <ChargeCalculationFish ref={fishPrintRef} data={fishData} editstore={editstore}  />
       <ChargeCalculationOfficial ref={officialPrintRef} data={fishData} />
     </div>
   );

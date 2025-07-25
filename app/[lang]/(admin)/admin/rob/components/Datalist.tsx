@@ -9,7 +9,7 @@ import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
 import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
-import React, { startTransition, useRef, useState } from "react";
+import React, { startTransition, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   useParams,
@@ -21,7 +21,7 @@ import useAddEditRobModal from "@/app/[lang]/components/modals/AddEditRobModal";
 import { getGroupPrintRob } from "@/actions/actions";
 
 import useDeleteRobModal from "@/app/[lang]/components/modals/DeleteRobModal";
-import { z } from "zod";
+import { promise, z } from "zod";
 import { Robschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
@@ -31,6 +31,7 @@ import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
 import { DeleteRobModal } from "@/app/[lang]/components/modals/DeleteRobModal";
 import ChargeCalculation from "./ChargeCalculation";
+
 // import ComponentToPrint from "../../reports/components/groupfish";
 import ComponentToPrint from "@/app/[lang]/components/prints/groupfishrob";
 
@@ -46,9 +47,10 @@ export default function Datalist({
   const [deleteID, setDeleteID] = useState<string>("");
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
+  const [editstore, setEditstore] = useState<any>();
   const [print, setPrint] = useState<any>();
   const [printData, setPrintData] = useState<any>([]);
-
+  
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
@@ -74,7 +76,39 @@ export default function Datalist({
   }
 
   // const pelak = searchParams.get("pelak")?.toUpperCase();
-  const pelak = useParams();
+  const params = useParams();
+  const pelakValue = params?.pelak;
+
+  console.log(">>>", pelakValue);
+
+  const pelak = params;
+  useEffect(() => {
+    if (!pelakValue) return;
+  
+    const fetchStore = async () => {
+      try {
+        const response = await fetch("/api/store/" + pelakValue);
+        if (response.status === 200) {
+          const val = await response.json();
+          console.log("✅ Store info loaded", val);
+          setEditstore(val);
+        } else {
+          const error = await response.text();
+          toast.error(error);
+        }
+      } catch (err) {
+        toast.error("Something went wrong while fetching store info");
+      }
+    };
+  
+    fetchStore();
+  }, [pelakValue]);
+  
+  
+
+
+
+  
   const AddRecord = () => {
     setEditrob({
       price: "",
@@ -278,7 +312,7 @@ export default function Datalist({
     <div>
       {/* <ChargeCalculation startDate="۱۳۹۱/۰۲/۰۳" rate={27.9} /> */}
 
-      {firstWithStartDate && (
+      {firstWithStartDate && editstore && (
         <ChargeCalculation
           //@ts-ignore
           startDate={firstWithStartDate?.invitedate} // اولین مقدارِ startdate که خالی نیست
@@ -286,6 +320,8 @@ export default function Datalist({
           rate={firstWithStartDate?.metraj} // متراژ همان رکورد
           totalPaidAmount={totalPaidAmount} // مجموع مبالغ پرداخت شده
           pelak={firstWithStartDate?.pelak} // شماره پلاک
+          editstore={editstore}
+          
         />
       )}
 

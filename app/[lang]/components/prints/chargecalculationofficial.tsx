@@ -31,7 +31,7 @@ export const ChargeCalculationOfficial = React.forwardRef<HTMLDivElement, props>
           <div className="flex w-full flex-row justify-between items-center mb-6">
             <div className="flex flex-col items-center">
               <h1 style={{ fontFamily: "CustomFont" }} className="text-2xl font-bold mb-2">
-                مجتمع خلیج فارس
+               شماره سریال :
               </h1>
               <h2 style={{ fontFamily: "CustomFont" }} className="text-lg font-semibold">
                 اجاره سرقفلی واحدهای تجاری

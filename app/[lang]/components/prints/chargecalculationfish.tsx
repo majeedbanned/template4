@@ -12,15 +12,18 @@ type props = {
     totalPaidAmount: number;
     pelak?: string;
     name?: string;
+    editstore?: any;
   };
 };
 
 export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
-  ({ data }, ref) => {
+  ( { data,editstore }, ref) => {
     const remainingPayable = data.totalCharge - data.totalPaidAmount;
+    console.log('>>>>>>9',editstore)
     
     return (
       <div style={{ display: "none" }} className="pprint">
+      <div >
         <div
           ref={ref}
           dir="rtl"
@@ -38,7 +41,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                   style={{ fontFamily: "CustomFont" }}
                   className="p-1 font-bold"
                 >
-                  مجتمع خلیج فارس
+                  {editstore?.id ? `شماره سریال : ${editstore?.id}` : "شماره سریال :"}
                 </div>
               </div>
 
@@ -60,7 +63,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     style={{ fontFamily: "CustomFont" }}
                     className="border border-gray-800 text-sm"
                   >
-                    تاریخ دعوت نامه
+                    موقعیت
                   </th>
                   <th
                     style={{ fontFamily: "CustomFont" }}
@@ -74,7 +77,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     style={{ fontFamily: "CustomFont" }}
                     className="text-center border border-gray-800 p-1"
                   >
-                    {data.name || "-"}
+                    {editstore.name || "-"}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
@@ -86,7 +89,12 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     style={{ fontFamily: "CustomFont" }}
                     className="text-center border border-gray-800 p-1"
                   >
-                    {data.startDate}
+                    {editstore?.types_bazar?.bazar}-
+                    {editstore?.types_rahro?.rahro}-
+                    {editstore?.types_tabagh?.tabagh}
+
+               
+
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}
@@ -193,7 +201,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     زرافشان ایزن
                   </td>
                   <td className="text-center border border-gray-800 p-1">
-                    603799178800
+                    1410/8000/13461762/15
                   </td>
                   <td className="text-center border border-gray-800 p-1">
                     {new Date().toLocaleDateString("fa-IR")}
@@ -211,7 +219,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     <p className="text-center text-xl">
                       {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString("fa-IR")}
                     </p>
-                    <p>مهلت داده شده شامل بدهی نمیشود</p>
+                   
                   </div>
                   <div className="border border-gray-800 p-1 pb-2 bg-gray-100">
                     مبلغ قابل پرداخت
@@ -232,19 +240,28 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                 >
                   <div className="flex flex-1 flex-col justify-start">
                     <p>
-                      پرداخت به صورت غیر حضوری توسط سامانه
-                      https://persiangulfmall.com
-                    </p>
-                    <p>
-                      و یا از طریق وب کیوسک مستقر در مدیریت بازار اقدام نمایید
-                    </p>
+                    در صورت پرداخت غیر حضوری، فیش واریزی به شماره 09014118181 در واتساب ارسال گردد.
+                    
+                              </p>
+<br/>
+<br/>
+
+<strong>دارنده سرقفلی بر اساس بند الف ماده هفت قرار داد وا گذاری سرقفلی ،  موظف به پرداخت اجاره بها میباشد    
+</strong>
+
+                   
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
+      
+                   
+        
+        </div>
     );
   }
 );
