@@ -17,6 +17,7 @@ type props = {
 };
 
 export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
+  // @ts-ignore
   ( { data,editstore }, ref) => {
     const remainingPayable = data.totalCharge - data.totalPaidAmount;
     console.log('>>>>>>9',editstore)
