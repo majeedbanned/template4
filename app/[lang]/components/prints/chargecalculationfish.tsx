@@ -21,15 +21,18 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
   ( { data,editstore }, ref) => {
     const remainingPayable = data.totalCharge - data.totalPaidAmount;
     console.log('>>>>>>9',editstore)
+    const currentDate = new Date().toLocaleDateString("fa-IR");
     
     return (
       <div style={{ display: "none" }} className="pprint">
       <div >
+        
         <div
           ref={ref}
           dir="rtl"
           className="bg-white flex-col gap-0 flex justify-center items-center border-2 w-full relative"
         >
+          
           {/* Watermark */}
           <div 
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -47,17 +50,35 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
           </div>
           
           <div className="w-full px-2 relative">
+         
+
+
+            <div className="p-1 font-bold flex flex-col justify-between items-center">
+                <p style={{ fontFamily: "CustomFont" }}>
+                    
+                    مجتمع خلیج فارس
+                  </p>
+                  <p style={{ fontFamily: "CustomFont" }}>
+                    اجاره سرقفلی واحد های تجاری 
+                    
+                  </p>
+
+                  <p style={{ fontFamily: "CustomFont" }}>
+                                       صورتحساب تا دوره ۱۴۰۳ 
+                  </p>
+                 
+                </div>
+
             <div className="flex flex-col justify-center w-full items-center px-2 py-0 mt-0 mx-0">
               <div className="flex w-full flex-row justify-between items-center flex-1">
-                <div className="p-1 font-bold">
-                  <p style={{ fontFamily: "CustomFont" }}>
-                    اجاره سرقفلی واحد های تجاری مجتمع خلیج فارس
-                  </p>
-                </div>
+              <div className="flex flex-col items-center">
+              <Image src={logo} width={100} height={100} alt="Logo" className="mb-2" />
+            </div>
                 <div
                   style={{ fontFamily: "CustomFont" }}
                   className="p-1 font-bold"
                 >
+                  <div className="mb-2">تاریخ: {currentDate}</div>
                   {editstore?.id ? `شماره سریال : ${editstore?.id}` : "شماره سریال :"}
                 </div>
               </div>
@@ -218,7 +239,12 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     زرافشان ایزن
                   </td>
                   <td className="text-center border border-gray-800 p-1">
-                    1410/8000/13461762/15
+                  شماره حساب      1410/8000/13461762/15
+<br/>
+
+                    شماره شبا     Ir470570141080013461762115
+
+ 
                   </td>
                   <td className="text-center border border-gray-800 p-1">
                     {new Date().toLocaleDateString("fa-IR")}
@@ -263,8 +289,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
 <br/>
 <br/>
 
-<strong>دارنده سرقفلی بر اساس بند الف ماده هفت قرار داد وا گذاری سرقفلی ،  موظف به پرداخت اجاره بها میباشد    
-</strong>
+
 
                    
                   </div>
@@ -272,6 +297,12 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
               </div>
             </div>
           </div>
+
+
+
+          <strong style={{ fontFamily: "CustomFont" }} className="text-right w-full pr-4 ">دارنده سرقفلی بر اساس بند الف ماده هفت قرار داد وا گذاری سرقفلی ،  موظف به پرداخت اجاره بها میباشد    
+</strong>
+
         </div>
 
       </div>
