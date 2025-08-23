@@ -306,7 +306,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                           if (deptPeriod === 0) {
                             return item?.new_account[0]?.month
                               ?.toString()
-                              .replace("-", "/") + "/30";
+                              .replace("-", "/") + "/31";
                           }
                           
                           // If main corridor (راهروي اصلي) and debt period >= 1, deadline is 10th
