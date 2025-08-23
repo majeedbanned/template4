@@ -298,11 +298,38 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       مهلت پرداخت
                       {/* <br /> */}
                       <p className="text-center text-xl">
-                        {item?.new_account[0]?.month
-                          ?.toString()
-                          .replace("-", "/") + "/31"}
+                        {(() => {
+                          const deptPeriod = item?.new_account[0]?.deptPeriod;
+                          const rahroType = item?.types_rahro?.rahro;
+                          
+                          // If debt period is 0, payment deadline is 30th of month
+                          if (deptPeriod === 0) {
+                            return item?.new_account[0]?.month
+                              ?.toString()
+                              .replace("-", "/") + "/30";
+                          }
+                          
+                          // If main corridor (راهروي اصلي) and debt period >= 1, deadline is 10th
+                          if (rahroType === 'راهروي اصلي' && deptPeriod >= 1) {
+                            return item?.new_account[0]?.month
+                              ?.toString()
+                              .replace("-", "/") + "/10";
+                          }
+                          
+                          // If not main corridor and debt period >= 2, deadline is 10th
+                          if (rahroType !== 'راهروي اصلي' && deptPeriod >= 2) {
+                            return item?.new_account[0]?.month
+                              ?.toString()
+                              .replace("-", "/") + "/10";
+                          }
+                          
+                          // Default case - 31st of month
+                          return item?.new_account[0]?.month
+                            ?.toString()
+                            .replace("-", "/") + "/31";
+                        })()}
                       </p>
-                      <p>مهلت داده شده شامل بدهی نمیشود</p>
+                      {/* <p>مهلت داده شده شامل بدهی نمیشود</p> */}
                     </div>
                     <div className="border border-gray-800 p-1 pb-2  bg-gray-100">
                       مبلغ قابل پرداخت
