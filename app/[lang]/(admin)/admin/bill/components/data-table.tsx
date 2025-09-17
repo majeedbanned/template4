@@ -247,13 +247,13 @@ export function DataTable<TData, TValue>({
                             پرداخت آنلاین از درگاه اول
                             
                           </Button> */}
-                          <Button
+                          {/* <Button
                             onClick={() => onPaymentClick(row.original)}
                             variant="default"
                             className="bg-green-400"
                           >
                             پرداخت آنلاین از درگاه دوم
-                          </Button>
+                          </Button> */}
                         </div>
                       )}
                     {/* {showOmidPay && (
