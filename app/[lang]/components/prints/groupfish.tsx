@@ -306,7 +306,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                           if (deptPeriod === 0) {
                             return item?.new_account[0]?.month
                               ?.toString()
-                              .replace("-", "/") + "/31";
+                              .replace("-", "/") + "/30";
                           }
                           
                           // If main corridor (راهروي اصلي) and debt period >= 1, deadline is 10th
@@ -326,7 +326,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                           // Default case - 31st of month
                           return item?.new_account[0]?.month
                             ?.toString()
-                            .replace("-", "/") + "/31";
+                            .replace("-", "/") + "/30";
                         })()}
                       </p>
                       {/* <p>مهلت داده شده شامل بدهی نمیشود</p> */}
