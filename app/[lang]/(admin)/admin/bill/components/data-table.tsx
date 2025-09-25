@@ -241,7 +241,7 @@ export function DataTable<TData, TValue>({
                           {/* <Button
                             onClick={() => onOmidPaymentClick(row.original)}
                             variant="default"
-                            className="bg-green-400"
+                            className="bg-green-
                           >
                            
                             پرداخت آنلاین از درگاه اول
