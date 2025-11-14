@@ -10,6 +10,10 @@ import useTwainModal, {
 import useDocumentUploadModal, {
   DocumentUploadModal,
 } from "@/app/[lang]/components/modals/DocumentUploadModal";
+import useRobSearchModal, {
+  RobSearchModal,
+  RobSearchFilters,
+} from "@/app/[lang]/components/modals/RobSearchModal";
 import { fetcher } from "@/lib/utils";
 import React, { startTransition, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
@@ -27,7 +31,7 @@ import { promise, z } from "zod";
 import { Robschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
@@ -60,6 +64,7 @@ export default function Datalist({
   const _DeleteRobModal = useDeleteRobModal();
   const _TwainModal = useTwainModal();
   const _DocumentUploadModal = useDocumentUploadModal();
+  const robSearchModal = useRobSearchModal();
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 9 && item.edit === true;
   });
@@ -131,19 +136,58 @@ export default function Datalist({
       AddUserModal.onOpen("");
     }, 100);
   };
+  // Build query string with search filters
+  const buildQueryString = () => {
+    const params = new URLSearchParams();
+    
+    // Add pelak param
+    if (pelak?.pelak) {
+      params.append("pelak", pelak.pelak.toString());
+    }
+
+    // Add basic search if exists
+    const basicSearch = searchParams.get("search");
+    if (basicSearch) {
+      params.append("search", basicSearch);
+    }
+
+    // Add advanced search filters
+    const filters = robSearchModal.filters;
+    if (filters.pelak) params.append("pelakFilter", filters.pelak);
+    if (filters.disc) params.append("discFilter", filters.disc);
+    if (filters.paydiscription) params.append("paydiscriptionFilter", filters.paydiscription);
+    if (filters.invitedateFrom) params.append("invitedateFrom", filters.invitedateFrom);
+    if (filters.invitedateTo) params.append("invitedateTo", filters.invitedateTo);
+    if (filters.paydateFrom) params.append("paydateFrom", filters.paydateFrom);
+    if (filters.paydateTo) params.append("paydateTo", filters.paydateTo);
+    if (filters.created_atFrom) params.append("created_atFrom", filters.created_atFrom);
+    if (filters.created_atTo) params.append("created_atTo", filters.created_atTo);
+    if (filters.updated_atFrom) params.append("updated_atFrom", filters.updated_atFrom);
+    if (filters.updated_atTo) params.append("updated_atTo", filters.updated_atTo);
+    if (filters.priceMin !== undefined) params.append("priceMin", filters.priceMin.toString());
+    if (filters.priceMax !== undefined) params.append("priceMax", filters.priceMax.toString());
+    if (filters.created_user !== undefined) params.append("created_user", filters.created_user.toString());
+    if (filters.updated_user !== undefined) params.append("updated_user", filters.updated_user.toString());
+
+    return params.toString();
+  };
+
   const {
     data: rob,
     isLoading,
     mutate,
   } = useSWR<z.infer<typeof Robschema>[]>(
-    `/api/rob?pelak=${pelak ? `${pelak?.pelak.toString()}` : ""}${
-      searchParams ? `&${searchParams}` : ``
-    } `,
+    `/api/rob?${buildQueryString()}`,
     fetcher,
     {
       // revalidateOnMount: true,
     }
   );
+
+  const handleSearch = (filters: RobSearchFilters) => {
+    robSearchModal.setFilters(filters);
+    mutate();
+  };
   const handleFileClick = async (rowData: any, id: any) => {
     // Find the file to get its category
     const clickedFile = rowData.Doc_files?.find((file: any) => file.id === id);
@@ -349,6 +393,7 @@ export default function Datalist({
 
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
+      <RobSearchModal onSearch={handleSearch} />
       <DeleteRobModal
         mutation={mutate}
         data={deleteID}
@@ -381,6 +426,14 @@ export default function Datalist({
             className="placeholder-[#8ba5e2] bordercolor h-8 w-[150px] lg:w-[250px] border px-2 rounded-md my-4"
             placeholder="جستجو در نام و فامیل و پلاک  "
           />
+          <Button
+            variant="outline"
+            onClick={() => robSearchModal.onOpen()}
+            className="h-8 flex items-center gap-2"
+          >
+            <Search className="h-4 w-4" />
+            جستجوی پیشرفته
+          </Button>
         </div>
       </div>
       <ComponentToPrint

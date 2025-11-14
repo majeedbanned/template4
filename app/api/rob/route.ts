@@ -112,6 +112,22 @@ export async function GET(request: NextRequest) {
   const search = url.searchParams.get("search") || undefined;
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
+  // Advanced search filters
+  const pelakFilter = url.searchParams.get("pelakFilter") || undefined;
+  const discFilter = url.searchParams.get("discFilter") || undefined;
+  const paydiscriptionFilter = url.searchParams.get("paydiscriptionFilter") || undefined;
+  const invitedateFrom = url.searchParams.get("invitedateFrom") || undefined;
+  const invitedateTo = url.searchParams.get("invitedateTo") || undefined;
+  const paydateFrom = url.searchParams.get("paydateFrom") || undefined;
+  const paydateTo = url.searchParams.get("paydateTo") || undefined;
+  const created_atFrom = url.searchParams.get("created_atFrom") || undefined;
+  const created_atTo = url.searchParams.get("created_atTo") || undefined;
+  const updated_atFrom = url.searchParams.get("updated_atFrom") || undefined;
+  const updated_atTo = url.searchParams.get("updated_atTo") || undefined;
+  const priceMin = url.searchParams.get("priceMin") ? parseFloat(url.searchParams.get("priceMin")!) : undefined;
+  const priceMax = url.searchParams.get("priceMax") ? parseFloat(url.searchParams.get("priceMax")!) : undefined;
+  const created_user = url.searchParams.get("created_user") ? parseInt(url.searchParams.get("created_user")!) : undefined;
+  const updated_user = url.searchParams.get("updated_user") ? parseInt(url.searchParams.get("updated_user")!) : undefined;
 
   if (!session) {
     return NextResponse.json(
@@ -124,19 +140,94 @@ export async function GET(request: NextRequest) {
     );
   }
   try {
-    const response = await client.sarghofli.findMany({
-      where: {
-        ...(search && {
-          OR: [
-            { pelak: { contains: search } },
-            { disc: { contains: search } },
-            { paydiscription: { contains: search } },
-            // { tmobile: { contains: search } },
-          ],
-        }),
-        ...(pelak1!='all' && {pelak: pelak1}),
+    // Build where clause dynamically
+    const whereClause: any = {};
 
-      },
+    // Basic search (OR condition)
+    if (search) {
+      whereClause.OR = [
+        { pelak: { contains: search } },
+        { disc: { contains: search } },
+        { paydiscription: { contains: search } },
+      ];
+    }
+
+    // Advanced filters (AND conditions)
+    // Note: pelak1 takes precedence over pelakFilter if both are set
+    if (pelak1 && pelak1 !== 'all') {
+      whereClause.pelak = pelak1;
+    } else if (pelakFilter) {
+      whereClause.pelak = { contains: pelakFilter };
+    }
+    if (discFilter) {
+      whereClause.disc = { contains: discFilter };
+    }
+    if (paydiscriptionFilter) {
+      whereClause.paydiscription = { contains: paydiscriptionFilter };
+    }
+
+    // Date range filters
+    if (invitedateFrom || invitedateTo) {
+      whereClause.invitedate = {};
+      if (invitedateFrom) {
+        whereClause.invitedate.gte = invitedateFrom;
+      }
+      if (invitedateTo) {
+        whereClause.invitedate.lte = invitedateTo;
+      }
+    }
+
+    if (paydateFrom || paydateTo) {
+      whereClause.paydate = {};
+      if (paydateFrom) {
+        whereClause.paydate.gte = paydateFrom;
+      }
+      if (paydateTo) {
+        whereClause.paydate.lte = paydateTo;
+      }
+    }
+
+    if (created_atFrom || created_atTo) {
+      whereClause.created_at = {};
+      if (created_atFrom) {
+        whereClause.created_at.gte = created_atFrom;
+      }
+      if (created_atTo) {
+        whereClause.created_at.lte = created_atTo;
+      }
+    }
+
+    if (updated_atFrom || updated_atTo) {
+      whereClause.updated_at = {};
+      if (updated_atFrom) {
+        whereClause.updated_at.gte = updated_atFrom;
+      }
+      if (updated_atTo) {
+        whereClause.updated_at.lte = updated_atTo;
+      }
+    }
+
+    // Price range filter
+    if (priceMin !== undefined || priceMax !== undefined) {
+      whereClause.price = {};
+      if (priceMin !== undefined) {
+        whereClause.price.gte = priceMin;
+      }
+      if (priceMax !== undefined) {
+        whereClause.price.lte = priceMax;
+      }
+    }
+
+    // User filters
+    if (created_user !== undefined) {
+      whereClause.created_user = created_user;
+    }
+    if (updated_user !== undefined) {
+      whereClause.updated_user = updated_user;
+    }
+
+    const response = await client.sarghofli.findMany({
+      where: whereClause,
       select:{
 _count: true,
         id: true,
