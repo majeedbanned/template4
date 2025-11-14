@@ -2,13 +2,15 @@
 import { columns } from "@/app/[lang]/(admin)/admin/rob/components/columns";
 import { DataTable } from "@/app/[lang]/(admin)/admin/stores/components/data-table";
 import { Button } from "@/components/ui/button";
-import { v4 as uuidv4 } from "uuid";
 import { useReactToPrint } from "react-to-print";
 // import moment from "moment-jalaali";
 import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
-import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
+import useDocumentUploadModal, {
+  DocumentUploadModal,
+} from "@/app/[lang]/components/modals/DocumentUploadModal";
+import { fetcher } from "@/lib/utils";
 import React, { startTransition, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import {
@@ -57,6 +59,7 @@ export default function Datalist({
   const AddUserModal = useAddEditRobModal();
   const _DeleteRobModal = useDeleteRobModal();
   const _TwainModal = useTwainModal();
+  const _DocumentUploadModal = useDocumentUploadModal();
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 9 && item.edit === true;
   });
@@ -141,55 +144,74 @@ export default function Datalist({
       // revalidateOnMount: true,
     }
   );
-  const handleFileClick = (rowData: any, id: any) => {
-    const newdata = rowData.Doc_files?.find((doc: any) => doc.id === id) ?? {};
-    const myObject = {
-      moduleID: newdata.moduleId,
-      CatID: newdata.CatID,
-      name: newdata.name,
-      date_: newdata.date_,
-      userID: 1,
-      pelak: newdata.pelak,
-      rowId: newdata.rowId,
-      mode: "edit",
-      per: canAction.docedit,
+  const handleFileClick = async (rowData: any, id: any) => {
+    // Find the file to get its category
+    const clickedFile = rowData.Doc_files?.find((file: any) => file.id === id);
+    if (!clickedFile) {
+      toast.error("فایل یافت نشد");
+      return;
+    }
+
+    // Find the category
+    const category = rowData.list?.find((doc: any) => doc.id === clickedFile.CatID);
+    if (!category) {
+      toast.error("دسته‌بندی یافت نشد");
+      return;
+    }
+
+    // Prepare data for edit mode
+    const uploadData = {
+      moduleID: category.moduleId || 3, // 3 is for rob
+      CatID: category.id,
+      pelak: rowData.pelak,
+      rowId: rowData.id, // Rob uses 'id' instead of 'trow'
+      userID: 1, // Get from session if available
+      categoryTitle: category.title,
+      mode: "edit" as const,
+      availableCategories: rowData.list || [],
+      existingFiles: rowData.Doc_files?.filter(
+        (file: any) => file.CatID === category.id
+      ).map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        isExisting: true,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+      })) || [],
     };
 
-    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
-    const filedata = { ...rowData, hash: hashedQueryString };
-    //console.log(filedata);
-    // return;
     setTimeout(() => {
-      _TwainModal.onOpen(filedata);
-      // resolve("");
+      _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
   const handleNewFileClick = (rowData: any, id: any) => {
-    const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    //console.log(rowData);
-    const myObject = {
-      moduleID: newdata.moduleId,
-      CatID: newdata.id,
-      name: `file_${uuidv4()}.pdf`, // Generate a unique file name with a GUID
-      date_: new Date().toISOString(), // Set to the current date and time
-      userID: 1,
+    const category = rowData.list?.find((doc: any) => doc.id === id) ?? {};
+    
+    // Prepare data for document upload modal (add mode)
+    const uploadData = {
+      moduleID: category.moduleId || 3, // 3 is for rob
+      CatID: category.id,
       pelak: rowData.pelak,
-      rowId: rowData.id,
-      mode: "add",
-      per: canAction.docedit,
+      rowId: rowData.id, // Rob uses 'id' instead of 'trow'
+      userID: 1, // Get from session if available
+      categoryTitle: category.title,
+      mode: "add" as const,
+      availableCategories: rowData.list || [],
+      existingFiles: rowData.Doc_files?.filter(
+        (file: any) => file.CatID === category.id
+      ).map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        isExisting: true,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+      })) || [],
     };
 
-    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
-    const filedata = { ...rowData, hash: hashedQueryString };
-    //console.log(filedata);
-    //console.log(myObject);
-    //console.log("encode", hashedQueryString);   
-    //console.log(decodeURIComponent(hashedQueryString));
-
-    // return;
     setTimeout(() => {
-      _TwainModal.onOpen(filedata);
-      // resolve("");
+      _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
   const handleDeleteClick = (rowData: any) => {
@@ -326,6 +348,7 @@ export default function Datalist({
       )}
 
       <TwainModal mutation={mutate}></TwainModal>
+      <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <DeleteRobModal
         mutation={mutate}
         data={deleteID}

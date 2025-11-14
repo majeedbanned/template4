@@ -9,6 +9,9 @@ import * as XLSX from "xlsx";
 import useTwainModal, {
   TwainModal,
 } from "@/app/[lang]/components/modals/TwainModal";
+import useDocumentUploadModal, {
+  DocumentUploadModal,
+} from "@/app/[lang]/components/modals/DocumentUploadModal";
 import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
@@ -47,6 +50,7 @@ export default function Datalist({
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
   const _TwainModal = useTwainModal();
+  const _DocumentUploadModal = useDocumentUploadModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -131,55 +135,74 @@ export default function Datalist({
     FileSaver.saveAs(blob, fileName + ".xlsx");
   };
 
-  const handleFileClick = (rowData: any, id: any) => {
-    const newdata = rowData.Doc_files?.find((doc: any) => doc.id === id) ?? {};
-    const myObject = {
-      moduleID: newdata.moduleId,
-      CatID: newdata.CatID,
-      name: newdata.name,
-      date_: newdata.date_,
-      userID: 1,
-      pelak: newdata.pelak,
-      rowId: newdata.rowId,
-      mode: "edit",
-      per: canAction.docedit,
+  const handleFileClick = async (rowData: any, id: any) => {
+    // Find the file to get its category
+    const clickedFile = rowData.Doc_files?.find((file: any) => file.id === id);
+    if (!clickedFile) {
+      toast.error("فایل یافت نشد");
+      return;
+    }
+
+    // Find the category
+    const category = rowData.list?.find((doc: any) => doc.id === clickedFile.CatID);
+    if (!category) {
+      toast.error("دسته‌بندی یافت نشد");
+      return;
+    }
+
+    // Prepare data for edit mode
+    const uploadData = {
+      moduleID: category.moduleId || 2, // 2 is for tenant
+      CatID: category.id,
+      pelak: rowData.pelak,
+      rowId: rowData.trow,
+      userID: 1, // Get from session if available
+      categoryTitle: category.title,
+      mode: "edit" as const,
+      availableCategories: rowData.list || [],
+      existingFiles: rowData.Doc_files?.filter(
+        (file: any) => file.CatID === category.id
+      ).map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        isExisting: true,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+      })) || [],
     };
 
-    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
-    const filedata = { ...rowData, hash: hashedQueryString };
-    //console.log(filedata);
-    // return;
     setTimeout(() => {
-      _TwainModal.onOpen(filedata);
-      // resolve("");
+      _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
   const handleNewFileClick = (rowData: any, id: any) => {
-    const newdata = rowData.list?.find((doc: any) => doc.id === id) ?? {};
-    //console.log(rowData);
-    const myObject = {
-      moduleID: newdata.moduleId,
-      CatID: newdata.id,
-      name: `file_${uuidv4()}.pdf`, // Generate a unique file name with a GUID
-      date_: new Date().toISOString(), // Set to the current date and time
-      userID: 1,
+    const category = rowData.list?.find((doc: any) => doc.id === id) ?? {};
+    
+    // Prepare data for document upload modal (add mode)
+    const uploadData = {
+      moduleID: category.moduleId || 2, // 2 is for tenant
+      CatID: category.id,
       pelak: rowData.pelak,
       rowId: rowData.trow,
-      mode: "add",
-      per: canAction.docedit,
+      userID: 1, // Get from session if available
+      categoryTitle: category.title,
+      mode: "add" as const,
+      availableCategories: rowData.list || [],
+      existingFiles: rowData.Doc_files?.filter(
+        (file: any) => file.CatID === category.id
+      ).map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        isExisting: true,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+      })) || [],
     };
 
-    const hashedQueryString = encodeObjectToHashedQueryString(myObject);
-    const filedata = { ...rowData, hash: hashedQueryString };
-    //console.log(filedata);
-    //console.log(myObject);
-    //console.log("encode", hashedQueryString);
-    //console.log(decodeURIComponent(hashedQueryString));
-
-    // return;
     setTimeout(() => {
-      _TwainModal.onOpen(filedata);
-      // resolve("");
+      _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
 
@@ -239,6 +262,7 @@ export default function Datalist({
   return (
     <div>
       <TwainModal mutation={mutate}></TwainModal>
+      <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
 
       <DeleteTenantModal
         mutation={mutate}
