@@ -31,7 +31,9 @@ import { promise, z } from "zod";
 import { Robschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search, TrendingUp, FileText, Calendar, DollarSign } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
@@ -365,20 +367,39 @@ export default function Datalist({
 
   const firstWithStartDate = rob?.find((item) => item?.invitedate?.trim());
   
-  // Calculate sum of all prices
+  // Calculate statistics
   const totalPaidAmount = rob?.reduce((sum, item) => {
     const price = parseFloat(item.price || '0');
     return sum + price;
   }, 0) || 0;
+
+  const totalRecords = rob?.length || 0;
+  const averageAmount = totalRecords > 0 ? totalPaidAmount / totalRecords : 0;
+  
+  const recordsWithPaymentDate = rob?.filter(item => item.paydate && item.paydate.trim()).length || 0;
+  const recordsWithoutPaymentDate = totalRecords - recordsWithPaymentDate;
+  
+  const recordsWithInviteDate = rob?.filter(item => item.invitedate && item.invitedate.trim()).length || 0;
+  
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("fa-IR", {
+      style: "currency",
+      currency: "IRR",
+    }).format(amount).replace("ریال", "");
+  };
   
   if (rob) {
     console.log(">>>", rob);
   }
+  // Check if pelak is "all" to hide ChargeCalculation
+  const isAllPelak = pelak?.pelak === "all";
+
   return (
     <div>
       {/* <ChargeCalculation startDate="۱۳۹۱/۰۲/۰۳" rate={27.9} /> */}
 
-      {firstWithStartDate && editstore && (
+      {!isAllPelak && firstWithStartDate && editstore && (
         <ChargeCalculation
           //@ts-ignore
           startDate={firstWithStartDate?.invitedate} // اولین مقدارِ startdate که خالی نیست
@@ -436,6 +457,94 @@ export default function Datalist({
           </Button>
         </div>
       </div>
+
+      {/* Summary Card */}
+      {rob && rob.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 px-2">
+          <Card className="border-0 shadow-md bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                تعداد کل رکوردها
+              </CardTitle>
+              <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+                {totalRecords.toLocaleString("fa-IR")}
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                رکورد موجود در سیستم
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                مجموع مبالغ پرداختی
+              </CardTitle>
+              <DollarSign className="h-5 w-5 text-green-600 dark:text-green-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-700 dark:text-green-300">
+                {formatCurrency(totalPaidAmount)}
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                ریال
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                میانگین مبلغ
+              </CardTitle>
+              <TrendingUp className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                {formatCurrency(averageAmount)}
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                ریال به ازای هر رکورد
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                وضعیت پرداخت
+              </CardTitle>
+              <Calendar className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">پرداخت شده:</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                    {recordsWithPaymentDate.toLocaleString("fa-IR")}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">بدون پرداخت:</span>
+                  <Badge variant="secondary" className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300">
+                    {recordsWithoutPaymentDate.toLocaleString("fa-IR")}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">دارای دعوتنامه:</span>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                    {recordsWithInviteDate.toLocaleString("fa-IR")}
+                  </Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       <ComponentToPrint
         data={printData}
         // chargeDef={printChargeDef}
