@@ -14,14 +14,17 @@ type props = {
     name?: string;
     editstore?: any;
   };
+  paydeadline?: string; // مهلت پرداخت (payment deadline)
 };
 
 export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
   // @ts-ignore
-  ( { data,editstore }, ref) => {
+  ( { data, editstore, paydeadline }, ref) => {
     const remainingPayable = data.totalCharge - data.totalPaidAmount;
     console.log('>>>>>>9',editstore)
     const currentDate = new Date().toLocaleDateString("fa-IR");
+    // Use provided paydeadline or default to 30 days from now
+    const paymentDeadline = paydeadline || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString("fa-IR");
     
     return (
       <div style={{ display: "none" }} className="pprint">
@@ -260,7 +263,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                   <div className="border border-gray-800 p-1 pb-2">
                     مهلت پرداخت
                     <p className="text-center text-xl">
-                      {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString("fa-IR")}
+                      {paymentDeadline}
                     </p>
                    
                   </div>

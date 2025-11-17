@@ -6,6 +6,9 @@ import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Printer, Receipt, FileText } from "lucide-react";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import ChargeCalculationPrint from "@/app/[lang]/components/prints/chargecalculation";
 import ChargeCalculationFish from "@/app/[lang]/components/prints/chargecalculationfish";
 import ChargeCalculationOfficial from "@/app/[lang]/components/prints/chargecalculationofficial";
@@ -16,6 +19,7 @@ interface ChargeCalculationProps {
   totalPaidAmount?: number; // total amount paid so far
   pelak?: string; // pelak number for printing
   editstore?: any;
+  paydeadline?: string; // مهلت پرداخت (payment deadline)
 }
 
 interface YearLog {
@@ -37,6 +41,7 @@ export default function ChargeCalculation({
   totalPaidAmount = 0,
   pelak,
   editstore,
+  paydeadline: initialPaydeadline,
 }: ChargeCalculationProps) {
   moment.loadPersian({ usePersianDigits: false }); // keep internal digits Latin
 
@@ -46,6 +51,10 @@ export default function ChargeCalculation({
   const officialPrintRef = useRef(null);
   
   const [customMonths, setCustomMonths] = useState<number | null>(null);
+  // Static date input for payment deadline (not saved to database)
+  const [paydeadline, setPaydeadline] = useState<string>(
+    initialPaydeadline || moment().add(30, 'days').format('jYYYY/jMM/jDD')
+  );
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
@@ -237,11 +246,38 @@ export default function ChargeCalculation({
           </h3>
         </>
       )}
+
+      {/* Payment Deadline Input */}
+      <div className="mt-4 p-3 bg-gray-50 rounded-md border">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          📅 مهلت پرداخت:
+        </label>
+        <DatePicker
+          value={paydeadline}
+          onChange={(date) => {
+            if (date) {
+              setPaydeadline(date.toString());
+            }
+          }}
+          style={{
+            width: "100%",
+            height: "38px",
+            borderRadius: "8px",
+            fontSize: "14px",
+            padding: "3px 10px",
+          }}
+          format="YYYY/MM/DD"
+          calendar={persian}
+          locale={persian_fa}
+          calendarPosition="bottom-center"
+          className="w-full"
+        />
+      </div>
        
       {/* Hidden print components */}
       <ChargeCalculationPrint ref={printRef} data={printData} />
       {/* @ts-ignore */}
-      <ChargeCalculationFish ref={fishPrintRef} data={fishData} editstore={editstore}  />
+      <ChargeCalculationFish ref={fishPrintRef} data={fishData} editstore={editstore} paydeadline={paydeadline} />
       <ChargeCalculationOfficial ref={officialPrintRef} data={fishData} />
     </div>
   );
