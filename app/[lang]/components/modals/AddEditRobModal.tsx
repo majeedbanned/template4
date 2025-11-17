@@ -216,8 +216,10 @@ export const AddEditRobModal = ({
                   placeholder="مقدار تخفیف"
                   {...field}
                   value={field.value || ""}
+
                   onChange={(e) => {
                     const value = e.target.value;
+                  // @ts-ignore
                     field.onChange(value ? parseFloat(value) || 0 : undefined);
                   }}
                 />
