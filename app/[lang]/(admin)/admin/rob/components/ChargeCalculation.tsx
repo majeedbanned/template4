@@ -108,18 +108,25 @@ export default function ChargeCalculation({
     if (isFirstYear) monthsInYear = 12 - start.jMonth();
     if (isLastYear) {
       // Use custom months input instead of automatic calculation
-      monthsInYear = customMonths || (today.jMonth() + 1);
+      // Check explicitly for null/undefined to allow 0 as valid value
+      monthsInYear = customMonths !== null && customMonths !== undefined ? customMonths : (today.jMonth() + 1);
     }
 
     let yearlyCharge = 0;
     let formula = "";
 
-    if (year - startYear < START_YEAR_3) {
+    // If monthsInYear is 0, charge should be 0 (nothing added to sum)
+    if (monthsInYear === 0) {
+      yearlyCharge = 0;
+      formula = `0 (بدون محاسبه)`;
+    } else if (year - startYear < START_YEAR_3) {
       yearlyCharge = rate * monthsInYear * 3000;
       formula = `${rate} × ${monthsInYear} × 3000`;
     } else if (year < THRESHOLD_YEAR) {
-      yearlyCharge = rate * 12 * 10000;
-      formula = `${rate} × 12 × 10000`;
+      // For years before threshold, use 12 months unless it's the last year with custom months
+      const monthsToUse = isLastYear ? monthsInYear : 12;
+      yearlyCharge = rate * monthsToUse * 10000;
+      formula = `${rate} × ${monthsToUse} × 10000`;
     } else {
       yearlyCharge = rate * monthsInYear * 100000;
       formula = `${rate} × ${monthsInYear} × 100000`;
@@ -154,7 +161,7 @@ export default function ChargeCalculation({
 
   const handleMonthsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (!isNaN(value) && value > 0 && value <= 12) {
+    if (!isNaN(value) && value >= 0 && value <= 12) {
       setCustomMonths(value);
     }
   };
@@ -213,7 +220,7 @@ export default function ChargeCalculation({
                 {log.isLastYear ? (
                   <Input
                     type="number"
-                    min="1"
+                    min="0"
                     max="12"
                     value={customMonths || ''}
                     onChange={handleMonthsChange}
