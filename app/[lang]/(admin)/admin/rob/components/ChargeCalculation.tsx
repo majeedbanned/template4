@@ -94,7 +94,8 @@ export default function ChargeCalculation({
   const logs: YearLog[] = [];
 
   const START_YEAR_3 = 3;
-  const THRESHOLD_YEAR = 1402;
+  const YEAR_1398 = 1398;
+  const YEAR_1402 = 1402;
 
   let totalCharge = 0;
   const startYear = start.jYear();
@@ -119,17 +120,25 @@ export default function ChargeCalculation({
     if (monthsInYear === 0) {
       yearlyCharge = 0;
       formula = `0 (بدون محاسبه)`;
-    } else if (year - startYear < START_YEAR_3) {
-      yearlyCharge = rate * monthsInYear * 3000;
-      formula = `${rate} × ${monthsInYear} × 3000`;
-    } else if (year < THRESHOLD_YEAR) {
+    } else if (year >= YEAR_1402) {
+      // Year 1402 and after: 100000
+      yearlyCharge = rate * monthsInYear * 100000;
+      formula = `${rate} × ${monthsInYear} × 100000`;
+    } else if (year >= YEAR_1398 && year <= 1401) {
+      // Years 1398, 1399, 1400, 1401: always 10000
       // For years before threshold, use 12 months unless it's the last year with custom months
       const monthsToUse = isLastYear ? monthsInYear : 12;
       yearlyCharge = rate * monthsToUse * 10000;
       formula = `${rate} × ${monthsToUse} × 10000`;
+    } else if (year - startYear < START_YEAR_3) {
+      // First 3 years from start date (for years before 1398): 3000
+      yearlyCharge = rate * monthsInYear * 3000;
+      formula = `${rate} × ${monthsInYear} × 3000`;
     } else {
-      yearlyCharge = rate * monthsInYear * 100000;
-      formula = `${rate} × ${monthsInYear} × 100000`;
+      // Years between first 3 years and 1398: 10000 (fallback)
+      const monthsToUse = isLastYear ? monthsInYear : 12;
+      yearlyCharge = rate * monthsToUse * 10000;
+      formula = `${rate} × ${monthsToUse} × 10000`;
     }
 
     logs.push({
