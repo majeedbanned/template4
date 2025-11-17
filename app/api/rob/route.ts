@@ -133,6 +133,8 @@ export async function GET(request: NextRequest) {
   const updated_atTo = url.searchParams.get("updated_atTo") || undefined;
   const priceMin = url.searchParams.get("priceMin") ? parseFloat(url.searchParams.get("priceMin")!) : undefined;
   const priceMax = url.searchParams.get("priceMax") ? parseFloat(url.searchParams.get("priceMax")!) : undefined;
+  const discountMin = url.searchParams.get("discountMin") ? parseFloat(url.searchParams.get("discountMin")!) : undefined;
+  const discountMax = url.searchParams.get("discountMax") ? parseFloat(url.searchParams.get("discountMax")!) : undefined;
   const created_user = url.searchParams.get("created_user") ? parseInt(url.searchParams.get("created_user")!) : undefined;
   const updated_user = url.searchParams.get("updated_user") ? parseInt(url.searchParams.get("updated_user")!) : undefined;
 
@@ -222,6 +224,18 @@ export async function GET(request: NextRequest) {
       }
       if (priceMax !== undefined) {
         whereClause.price.lte = priceMax;
+      }
+    }
+
+    // Discount range filter
+    if (discountMin !== undefined || discountMax !== undefined) {
+      // @ts-ignore - discount field exists in database but Prisma types need regeneration
+      whereClause.discount = {};
+      if (discountMin !== undefined) {
+        whereClause.discount.gte = discountMin;
+      }
+      if (discountMax !== undefined) {
+        whereClause.discount.lte = discountMax;
       }
     }
 

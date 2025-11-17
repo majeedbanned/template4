@@ -34,6 +34,8 @@ export interface RobSearchFilters {
   updated_atTo?: string;
   priceMin?: number;
   priceMax?: number;
+  discountMin?: number;
+  discountMax?: number;
   created_user?: number;
   updated_user?: number;
 }
@@ -80,6 +82,16 @@ export const RobSearchModal = ({
       localFilters.priceMin > localFilters.priceMax
     ) {
       toast.error("حداقل مبلغ نمی‌تواند بیشتر از حداکثر مبلغ باشد");
+      return;
+    }
+
+    // Validate discount range
+    if (
+      localFilters.discountMin !== undefined &&
+      localFilters.discountMax !== undefined &&
+      localFilters.discountMin > localFilters.discountMax
+    ) {
+      toast.error("حداقل تخفیف نمی‌تواند بیشتر از حداکثر تخفیف باشد");
       return;
     }
 
@@ -390,6 +402,45 @@ export const RobSearchModal = ({
               onChange={(e) =>
                 updateFilter(
                   "priceMax",
+                  e.target.value ? parseFloat(e.target.value) : undefined
+                )
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Discount Range Filter */}
+      <div className="space-y-4">
+        <h3 className="text-sm font-semibold text-gray-700">فیلتر تخفیف</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="discountMin">حداقل تخفیف (ریال)</Label>
+            <Input
+              id="discountMin"
+              type="number"
+              placeholder="حداقل تخفیف"
+              value={localFilters.discountMin || ""}
+              onChange={(e) =>
+                updateFilter(
+                  "discountMin",
+                  e.target.value ? parseFloat(e.target.value) : undefined
+                )
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="discountMax">حداکثر تخفیف (ریال)</Label>
+            <Input
+              id="discountMax"
+              type="number"
+              placeholder="حداکثر تخفیف"
+              value={localFilters.discountMax || ""}
+              onChange={(e) =>
+                updateFilter(
+                  "discountMax",
                   e.target.value ? parseFloat(e.target.value) : undefined
                 )
               }

@@ -169,6 +169,8 @@ export default function Datalist({
     if (filters.updated_atTo) params.append("updated_atTo", filters.updated_atTo);
     if (filters.priceMin !== undefined) params.append("priceMin", filters.priceMin.toString());
     if (filters.priceMax !== undefined) params.append("priceMax", filters.priceMax.toString());
+    if (filters.discountMin !== undefined) params.append("discountMin", filters.discountMin.toString());
+    if (filters.discountMax !== undefined) params.append("discountMax", filters.discountMax.toString());
     if (filters.created_user !== undefined) params.append("created_user", filters.created_user.toString());
     if (filters.updated_user !== undefined) params.append("updated_user", filters.updated_user.toString());
 
