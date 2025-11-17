@@ -533,6 +533,7 @@ model sarghofli {
   paydiscription                      String?     @db.NVarChar(Max)
   paydate                             String?     @db.NChar(10)
   price                               Decimal?    @db.Decimal(18, 0)
+  discount                            Decimal?    @db.Decimal(18, 0)
   disc                                String?     @db.NVarChar(Max)
   created_at                          String?     @db.NVarChar(50)
   created_user                        Int?

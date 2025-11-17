@@ -49,6 +49,14 @@ export const Robschema = z.object({
     .or(z.string().min(1, { message: "این فیلد اجباری است" })),
 
   disc: z.string().optional(),
+  discount: z
+    .number({
+      invalid_type_error: "مقدار عددی وارد کنید",
+    })
+    .min(0, { message: "مقدار عددی مثبت وارد کنید" })
+    .transform((val) => removeCommas(val.toString()))
+    .or(z.string().min(0).optional())
+    .optional(),
   created_at: z.string().optional(),
   created_user: z.number(),
   updated_at: z.string().optional(),

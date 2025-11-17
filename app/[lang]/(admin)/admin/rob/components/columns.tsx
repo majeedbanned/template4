@@ -93,6 +93,31 @@ export const columns: ColumnDef<z.infer<typeof Robschema>>[] = [
       return <div className="flex m-0 px-0  font-semibold">مبلغ </div>;
     },
   },
+  {
+    accessorKey: "discount",
+    id: "تخفیف",
+    cell: ({ row }) => {
+      const discount = row.getValue("تخفیف");
+      if (!discount || discount === 0) {
+        return <div className="text-right font-medium text-gray-400">-</div>;
+      }
+      const amount = parseFloat(discount.toString());
+      const formatted = new Intl.NumberFormat("fa-IR", {
+        style: "currency",
+        currency: "IRR",
+      }).format(amount);
+
+      return (
+        <div className="text-right font-medium text-green-600">
+          {formatted.replace("ریال", "")}
+        </div>
+      );
+    },
+
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="تخفیف" />
+    ),
+  },
 
   {
     accessorKey: "disc",

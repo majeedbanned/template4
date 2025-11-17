@@ -40,15 +40,18 @@ export async function POST(req: NextRequest) {
 
   //** check for duplicate pelak */
 
-  const newres = {
+  const newres: any = {
     ...res,
     created_at: jalaliMoment().format("jYYYY/jMM/jDD HH:MM"),
     created_user: session.user.id,
     updated_at: "",
     updated_user: 1,
     price: parseInt(res.price.replace(/,/g, "")),
-
   };
+
+  if (res.discount !== undefined && res.discount !== null && res.discount !== "") {
+    newres.discount = parseInt(res.discount.toString().replace(/,/g, ""));
+  }
 
   const { id, ...newres1 } = newres;
   const response = await client.sarghofli.create({
@@ -86,13 +89,17 @@ export async function PUT(req: NextRequest) {
     });
   }
 
-  const newres = {
+  const newres: any = {
     ...res,
     updated_at: jalaliMoment().format("jYYYY/jMM/jDD hh:mm"),
     updated_user: session.user.id,
     price: parseInt(res.price.replace(/,/g, "")),
-
   };
+
+  if (res.discount !== undefined && res.discount !== null && res.discount !== "") {
+    newres.discount = parseInt(res.discount.toString().replace(/,/g, ""));
+  }
+
   const { id, ...newres1 } = newres;
 
   const response = await client.sarghofli.update({
@@ -228,23 +235,23 @@ export async function GET(request: NextRequest) {
 
     const response = await client.sarghofli.findMany({
       where: whereClause,
-      select:{
-_count: true,
+      select: ({
+        _count: true,
         id: true,
         pelak: true,
         disc: true,
         price: true,
+        discount: true,
         paydiscription: true,
         created_at: true,
         created_user: true,
         updated_at: true,
         updated_user: true, 
-        invitedate:true,
-        paydate:true,
+        invitedate: true,
+        paydate: true,
         Doc_files: {
           select: {
             id: true,
-
             moduleID: true,
             CatID: true,
             name: true,
@@ -256,8 +263,7 @@ _count: true,
           },
           where: { moduleID: 3 },
         },
-
-      },
+      } as any),
 
       orderBy: {
         id: "desc",

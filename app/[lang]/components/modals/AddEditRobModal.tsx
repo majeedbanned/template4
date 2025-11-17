@@ -202,6 +202,31 @@ export const AddEditRobModal = ({
         />
         <FormField
           control={form.control}
+          name="discount"
+          render={({ field }) => (
+            <FormItem className="">
+              <div className=" flex flex-row justify-between">
+                <FormLabel> تخفیف (ریال) :</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  type="number"
+                  placeholder="مقدار تخفیف"
+                  {...field}
+                  value={field.value || ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value ? parseFloat(value) || 0 : undefined);
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="disc"
           render={({ field }) => (
             <FormItem className="">

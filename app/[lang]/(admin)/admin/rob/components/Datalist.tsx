@@ -122,6 +122,7 @@ export default function Datalist({
   const AddRecord = () => {
     setEditrob({
       price: "",
+      discount: "",
       paydate: "",
       paydiscription: "",
       disc: "",
@@ -368,18 +369,28 @@ export default function Datalist({
   const firstWithStartDate = rob?.find((item) => item?.invitedate?.trim());
   
   // Calculate statistics
-  const totalPaidAmount = rob?.reduce((sum, item) => {
+  const totalGrossAmount = rob?.reduce((sum, item) => {
     const price = parseFloat(item.price || '0');
     return sum + price;
   }, 0) || 0;
 
+  const totalDiscount = rob?.reduce((sum, item) => {
+    const discount = parseFloat((item as any).discount || '0');
+    return sum + discount;
+  }, 0) || 0;
+
+  // Total paid amount after discount
+  const totalPaidAmount = totalGrossAmount - totalDiscount;
+
   const totalRecords = rob?.length || 0;
   const averageAmount = totalRecords > 0 ? totalPaidAmount / totalRecords : 0;
+  const averageDiscount = totalRecords > 0 ? totalDiscount / totalRecords : 0;
   
   const recordsWithPaymentDate = rob?.filter(item => item.paydate && item.paydate.trim()).length || 0;
   const recordsWithoutPaymentDate = totalRecords - recordsWithPaymentDate;
   
   const recordsWithInviteDate = rob?.filter(item => item.invitedate && item.invitedate.trim()).length || 0;
+  const recordsWithDiscount = rob?.filter(item => (item as any).discount && parseFloat((item as any).discount) > 0).length || 0;
   
   // Format currency
   const formatCurrency = (amount: number) => {
@@ -490,7 +501,13 @@ export default function Datalist({
                 {formatCurrency(totalPaidAmount)}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                ریال
+                {totalDiscount > 0 ? (
+                  <span>
+                    پس از کسر تخفیف ({formatCurrency(totalDiscount)})
+                  </span>
+                ) : (
+                  "ریال"
+                )}
               </p>
             </CardContent>
           </Card>
@@ -537,6 +554,12 @@ export default function Datalist({
                   <span className="text-sm text-gray-600 dark:text-gray-400">دارای دعوتنامه:</span>
                   <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                     {recordsWithInviteDate.toLocaleString("fa-IR")}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">دارای تخفیف:</span>
+                  <Badge variant="secondary" className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                    {recordsWithDiscount.toLocaleString("fa-IR")}
                   </Badge>
                 </div>
               </div>
