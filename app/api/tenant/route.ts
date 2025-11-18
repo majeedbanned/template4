@@ -108,6 +108,28 @@ export async function GET(request: NextRequest) {
   //console.log(search)
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
+  // Advanced search filters
+  const pelakFilter = url.searchParams.get("pelakFilter") || undefined;
+  const tfnameFilter = url.searchParams.get("tfnameFilter") || undefined;
+  const tlnameFilter = url.searchParams.get("tlnameFilter") || undefined;
+  const tmobileFilter = url.searchParams.get("tmobileFilter") || undefined;
+  const tmeliFilter = url.searchParams.get("tmeliFilter") || undefined;
+  const tjobFilter = url.searchParams.get("tjobFilter") || undefined;
+  const taddressFilter = url.searchParams.get("taddressFilter") || undefined;
+  const tfatherFilter = url.searchParams.get("tfatherFilter") || undefined;
+  const tabloFilter = url.searchParams.get("tabloFilter") || undefined;
+  const cpostiFilter = url.searchParams.get("cpostiFilter") || undefined;
+  const sexFilter = url.searchParams.get("sexFilter") || undefined;
+  const stdateFrom = url.searchParams.get("stdateFrom") || undefined;
+  const stdateTo = url.searchParams.get("stdateTo") || undefined;
+  const endateFrom = url.searchParams.get("endateFrom") || undefined;
+  const endateTo = url.searchParams.get("endateTo") || undefined;
+  const datemojavezFrom = url.searchParams.get("datemojavezFrom") || undefined;
+  const datemojavezTo = url.searchParams.get("datemojavezTo") || undefined;
+  const created_atFrom = url.searchParams.get("created_atFrom") || undefined;
+  const created_atTo = url.searchParams.get("created_atTo") || undefined;
+  const updated_atFrom = url.searchParams.get("updated_atFrom") || undefined;
+  const updated_atTo = url.searchParams.get("updated_atTo") || undefined;
 
   if (!session) {
     return NextResponse.json(
@@ -124,44 +146,80 @@ export async function GET(request: NextRequest) {
   //console.log(todate)
 
   try {
+    // Build where clause dynamically
+    const whereClause: any = {};
+
+    // Basic search (OR condition)
+    if (search) {
+      whereClause.OR = [
+        { pelak: { contains: search } },
+        { tfname: { contains: search } },
+        { tlname: { contains: search } },
+        { tmobile: { contains: search } },
+        { tmeli: { contains: search } },
+        { datemojavez: { contains: search } },
+        { endate: { contains: search } },
+        { stdate: { contains: search } },
+        { tablo: { contains: search } },
+        { tjob: { contains: search } },
+      ];
+    }
+
+    // Advanced filters (AND conditions)
+    if (pelak1 && pelak1 !== 'all') {
+      whereClause.pelak = pelak1;
+    } else if (pelakFilter) {
+      whereClause.pelak = { contains: pelakFilter };
+    }
+    if (tfnameFilter) whereClause.tfname = { contains: tfnameFilter };
+    if (tlnameFilter) whereClause.tlname = { contains: tlnameFilter };
+    if (tmobileFilter) whereClause.tmobile = { contains: tmobileFilter };
+    if (tmeliFilter) whereClause.tmeli = { contains: tmeliFilter };
+    if (tjobFilter) whereClause.tjob = { contains: tjobFilter };
+    if (taddressFilter) whereClause.taddress = { contains: taddressFilter };
+    if (tfatherFilter) whereClause.tfather = { contains: tfatherFilter };
+    if (tabloFilter) whereClause.tablo = { contains: tabloFilter };
+    if (cpostiFilter) whereClause.cposti = { contains: cpostiFilter };
+    if (sexFilter) whereClause.sex = { contains: sexFilter };
+
+    // Date range filters
+    if (stdateFrom || stdateTo) {
+      whereClause.stdate = {};
+      if (stdateFrom) whereClause.stdate.gte = stdateFrom;
+      if (stdateTo) whereClause.stdate.lte = stdateTo;
+    }
+
+    if (endateFrom || endateTo) {
+      whereClause.endate = {};
+      if (endateFrom) whereClause.endate.gte = endateFrom;
+      if (endateTo) whereClause.endate.lte = endateTo;
+    } else if (fromdate && todate) {
+      whereClause.endate = {
+        gte: fromdate?.toPersianDigits(),
+        lte: todate?.toPersianDigits(),
+      };
+    }
+
+    if (datemojavezFrom || datemojavezTo) {
+      whereClause.datemojavez = {};
+      if (datemojavezFrom) whereClause.datemojavez.gte = datemojavezFrom;
+      if (datemojavezTo) whereClause.datemojavez.lte = datemojavezTo;
+    }
+
+    if (created_atFrom || created_atTo) {
+      whereClause.created_at = {};
+      if (created_atFrom) whereClause.created_at.gte = created_atFrom;
+      if (created_atTo) whereClause.created_at.lte = created_atTo;
+    }
+
+    if (updated_atFrom || updated_atTo) {
+      whereClause.updated_at = {};
+      if (updated_atFrom) whereClause.updated_at.gte = updated_atFrom;
+      if (updated_atTo) whereClause.updated_at.lte = updated_atTo;
+    }
+
     const response = await client.tenant.findMany({
-      where: {
-
-        ...(fromdate &&
-          todate && {
-            endate: {
-              gte: fromdate?.toPersianDigits(),
-              lte: todate?.toPersianDigits(),
-            },
-          }),
-        
-        ...(search && {
-          OR: [
-            { pelak: { contains: search } },
-            { tfname: { contains: search } },
-             { tlname: { contains: search } },
-             { tmobile: { contains: search } },
-             { tmeli: { contains: search } },
-             { tmobile: { contains: search } },
-
-             { datemojavez: { contains: search } },
-
-             { endate: { contains: search } },
-             { stdate: { contains: search } },
-             { tablo: { contains: search } },
-             {tjob : { contains: search } },
-
-
-
-
-
-             
-             
-          ],
-        }),
-        ...(pelak1!='all' && {pelak: pelak1}),
-
-      },
+      where: whereClause,
       select:{
        cposti:true,
        datemojavez:true,
@@ -197,7 +255,7 @@ export async function GET(request: NextRequest) {
       },
 
       orderBy: {
-        trow: "desc",
+        stdate: "desc",
       },
       // include:{maghtatbl:true},
       take: 100,

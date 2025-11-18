@@ -103,7 +103,26 @@ export async function GET(request: NextRequest) {
     search=decodeURIComponent(String(search))
   const pelak1 = url.searchParams.get("pelak") || undefined;
 
-  // //console.log('ppp',pelak1)
+  // Advanced search filters
+  const pelakFilter = url.searchParams.get("pelakFilter") || undefined;
+  const tfnameFilter = url.searchParams.get("tfnameFilter") || undefined;
+  const tlnameFilter = url.searchParams.get("tlnameFilter") || undefined;
+  const tmobileFilter = url.searchParams.get("tmobileFilter") || undefined;
+  const tmeliFilter = url.searchParams.get("tmeliFilter") || undefined;
+  const tjobFilter = url.searchParams.get("tjobFilter") || undefined;
+  const taddressFilter = url.searchParams.get("taddressFilter") || undefined;
+  const tfatherFilter = url.searchParams.get("tfatherFilter") || undefined;
+  const ttelFilter = url.searchParams.get("ttelFilter") || undefined;
+  const cpostiFilter = url.searchParams.get("cpostiFilter") || undefined;
+  const sexFilter = url.searchParams.get("sexFilter") || undefined;
+  const storePelakFilter = url.searchParams.get("storePelakFilter") || undefined;
+  const changeOwnerFilter = url.searchParams.get("changeOwnerFilter") || undefined;
+  const changeOwnerFrom = url.searchParams.get("changeOwnerFrom") || undefined;
+  const changeOwnerTo = url.searchParams.get("changeOwnerTo") || undefined;
+  const created_atFrom = url.searchParams.get("created_atFrom") || undefined;
+  const created_atTo = url.searchParams.get("created_atTo") || undefined;
+  const updated_atFrom = url.searchParams.get("updated_atFrom") || undefined;
+  const updated_atTo = url.searchParams.get("updated_atTo") || undefined;
 
   if (!session) {
     return NextResponse.json(
@@ -116,26 +135,62 @@ export async function GET(request: NextRequest) {
     );
   }
   try {
+    // Build where clause dynamically
+    const whereClause: any = {};
+
+    // Basic search (OR condition)
+    if (search) {
+      whereClause.OR = [
+        { pelak: { contains: search } },
+        { tfname: { contains: search } },
+        { tlname: { contains: search } },
+        { tmobile: { contains: search } },
+        { tmeli: { contains: search } },
+        { changeOwner: { contains: search } },
+      ];
+    }
+
+    // Advanced filters (AND conditions)
+    if (pelak1 && pelak1 !== 'all') {
+      whereClause.pelak = pelak1;
+    } else if (pelakFilter) {
+      whereClause.pelak = { contains: pelakFilter };
+    }
+    if (tfnameFilter) whereClause.tfname = { contains: tfnameFilter };
+    if (tlnameFilter) whereClause.tlname = { contains: tlnameFilter };
+    if (tmobileFilter) whereClause.tmobile = { contains: tmobileFilter };
+    if (tmeliFilter) whereClause.tmeli = { contains: tmeliFilter };
+    if (tjobFilter) whereClause.tjob = { contains: tjobFilter };
+    if (taddressFilter) whereClause.taddress = { contains: taddressFilter };
+    if (tfatherFilter) whereClause.tfather = { contains: tfatherFilter };
+    if (ttelFilter) whereClause.ttel = { contains: ttelFilter };
+    if (cpostiFilter) whereClause.cposti = { contains: cpostiFilter };
+    if (sexFilter) whereClause.sex = { contains: sexFilter };
+    if (storePelakFilter) whereClause.storePelak = { contains: storePelakFilter };
+    
+    // Date range filters for changeOwner (takes precedence over text filter)
+    if (changeOwnerFrom || changeOwnerTo) {
+      whereClause.changeOwner = {};
+      if (changeOwnerFrom) whereClause.changeOwner.gte = changeOwnerFrom;
+      if (changeOwnerTo) whereClause.changeOwner.lte = changeOwnerTo;
+    } else if (changeOwnerFilter) {
+      whereClause.changeOwner = { contains: changeOwnerFilter };
+    }
+
+    if (created_atFrom || created_atTo) {
+      whereClause.created_at = {};
+      if (created_atFrom) whereClause.created_at.gte = created_atFrom;
+      if (created_atTo) whereClause.created_at.lte = created_atTo;
+    }
+
+    if (updated_atFrom || updated_atTo) {
+      whereClause.updated_at = {};
+      if (updated_atFrom) whereClause.updated_at.gte = updated_atFrom;
+      if (updated_atTo) whereClause.updated_at.lte = updated_atTo;
+    }
+
     const response = await client.owner.findMany({
-      where: {
-        ...(search && {
-          OR: [
-             { pelak: { contains: search } },
-            { tfname: { contains: search } },
-            { tlname: { contains: search } },
-
-            { tmobile: { contains: search } },
-
-            { tmeli: { contains: search } },
-
-            { changeOwner: { contains: search } },
-
-            
-            
-          ],
-        }),
-        ...(pelak1 !== "all" && { pelak: pelak1 }),
-      },
+      where: whereClause,
       select: {
         trow: true,
         pelak: true,

@@ -34,6 +34,10 @@ import {
   ViewAllDocumentsModal,
   useViewAllDocumentsModal,
 } from "@/app/[lang]/components/modals/ViewAllDocumentsModal";
+import useOwnerSearchModal, {
+  OwnerSearchModal,
+  OwnerSearchFilters,
+} from "@/app/[lang]/components/modals/OwnerSearchModal";
 
 type Props = {};
 
@@ -49,6 +53,7 @@ export default function Datalist({
   const [delLable2, setDelLable2] = useState<string>("");
   const _DocumentUploadModal = useDocumentUploadModal();
   const _ViewAllDocumentsModal = useViewAllDocumentsModal();
+  const ownerSearchModal = useOwnerSearchModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -100,15 +105,57 @@ export default function Datalist({
     }, 100);
   };
 
-  //${searchParams ? `?${searchParams.toString()}
+  // Build query string with search filters
+  const buildQueryString = () => {
+    const params = new URLSearchParams();
+    
+    // Add pelak param
+    if (pelak?.pelak) {
+      params.append("pelak", pelak.pelak.toString());
+    }
+
+    // Add basic search if exists
+    const basicSearch = searchParams.get("search");
+    if (basicSearch) {
+      params.append("search", basicSearch);
+    }
+
+    // Add advanced search filters
+    const filters = ownerSearchModal.filters;
+    if (filters.pelak) params.append("pelakFilter", filters.pelak);
+    if (filters.tfname) params.append("tfnameFilter", filters.tfname);
+    if (filters.tlname) params.append("tlnameFilter", filters.tlname);
+    if (filters.tmobile) params.append("tmobileFilter", filters.tmobile);
+    if (filters.tmeli) params.append("tmeliFilter", filters.tmeli);
+    if (filters.tjob) params.append("tjobFilter", filters.tjob);
+    if (filters.taddress) params.append("taddressFilter", filters.taddress);
+    if (filters.tfather) params.append("tfatherFilter", filters.tfather);
+    if (filters.ttel) params.append("ttelFilter", filters.ttel);
+    if (filters.cposti) params.append("cpostiFilter", filters.cposti);
+    if (filters.sex) params.append("sexFilter", filters.sex);
+    if (filters.storePelak) params.append("storePelakFilter", filters.storePelak);
+    if (filters.changeOwner) params.append("changeOwnerFilter", filters.changeOwner);
+    if (filters.changeOwnerFrom) params.append("changeOwnerFrom", filters.changeOwnerFrom);
+    if (filters.changeOwnerTo) params.append("changeOwnerTo", filters.changeOwnerTo);
+    if (filters.created_atFrom) params.append("created_atFrom", filters.created_atFrom);
+    if (filters.created_atTo) params.append("created_atTo", filters.created_atTo);
+    if (filters.updated_atFrom) params.append("updated_atFrom", filters.updated_atFrom);
+    if (filters.updated_atTo) params.append("updated_atTo", filters.updated_atTo);
+
+    return params.toString();
+  };
+
+  const handleSearch = (filters: OwnerSearchFilters) => {
+    ownerSearchModal.setFilters(filters);
+    mutate();
+  };
+
   const {
     data: owner,
     isLoading,
     mutate,
   } = useSWR<z.infer<typeof Ownerschema>[]>(
-    `/api/owner?pelak=${pelak ? `${pelak?.pelak.toString()}` : ""}${
-      searchParams ? `&${searchParams}` : ``
-    } `,
+    `/api/owner?${buildQueryString()}`,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -266,6 +313,7 @@ export default function Datalist({
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <ViewAllDocumentsModal />
+      <OwnerSearchModal onSearch={handleSearch} />
       <DeleteOwnerModal
         mutation={mutate}
         data={deleteID}
@@ -299,6 +347,13 @@ export default function Datalist({
             className="placeholder-[#8ba5e2] bordercolor h-8 w-[350px] lg:w-[350px] border px-2 rounded-md my-4"
             placeholder="جستجو در نام , فامیل , پلاک , موبایل , کد ملی , تاریخ انتقال  "
           />
+          <Button
+            variant="outline"
+            onClick={() => ownerSearchModal.onOpen()}
+            className="h-8"
+          >
+            جستجوی پیشرفته
+          </Button>
         </div>
       </div>
       {canAction.add && pelak?.pelak != "all" ? (

@@ -16,6 +16,10 @@ import {
   ViewAllDocumentsModal,
   useViewAllDocumentsModal,
 } from "@/app/[lang]/components/modals/ViewAllDocumentsModal";
+import useTenantSearchModal, {
+  TenantSearchModal,
+  TenantSearchFilters,
+} from "@/app/[lang]/components/modals/TenantSearchModal";
 import { encodeObjectToHashedQueryString, fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
@@ -35,7 +39,7 @@ import { z } from "zod";
 import { Tenantschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditTenantModal } from "@/app/[lang]/components/modals/AddEditTenantModal";
@@ -56,6 +60,7 @@ export default function Datalist({
   const _TwainModal = useTwainModal();
   const _DocumentUploadModal = useDocumentUploadModal();
   const _ViewAllDocumentsModal = useViewAllDocumentsModal();
+  const tenantSearchModal = useTenantSearchModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -113,19 +118,70 @@ export default function Datalist({
       AddUserModal.onOpen("");
     }, 100);
   };
+  // Build query string with search filters
+  const buildQueryString = () => {
+    const params = new URLSearchParams();
+    
+    // Add pelak param
+    if (pelak?.pelak) {
+      params.append("pelak", pelak.pelak.toString());
+    }
+
+    // Add basic search if exists
+    const basicSearch = searchParams.get("search");
+    if (basicSearch) {
+      params.append("search", basicSearch);
+    }
+
+    // Add advanced search filters
+    const filters = tenantSearchModal.filters;
+    if (filters.pelak) params.append("pelakFilter", filters.pelak);
+    if (filters.tfname) params.append("tfnameFilter", filters.tfname);
+    if (filters.tlname) params.append("tlnameFilter", filters.tlname);
+    if (filters.tmobile) params.append("tmobileFilter", filters.tmobile);
+    if (filters.tmeli) params.append("tmeliFilter", filters.tmeli);
+    if (filters.tjob) params.append("tjobFilter", filters.tjob);
+    if (filters.taddress) params.append("taddressFilter", filters.taddress);
+    if (filters.tfather) params.append("tfatherFilter", filters.tfather);
+    if (filters.tablo) params.append("tabloFilter", filters.tablo);
+    if (filters.cposti) params.append("cpostiFilter", filters.cposti);
+    if (filters.sex) params.append("sexFilter", filters.sex);
+    if (filters.stdateFrom) params.append("stdateFrom", filters.stdateFrom);
+    if (filters.stdateTo) params.append("stdateTo", filters.stdateTo);
+    if (filters.endateFrom) params.append("endateFrom", filters.endateFrom);
+    if (filters.endateTo) params.append("endateTo", filters.endateTo);
+    if (filters.datemojavezFrom) params.append("datemojavezFrom", filters.datemojavezFrom);
+    if (filters.datemojavezTo) params.append("datemojavezTo", filters.datemojavezTo);
+    if (filters.created_atFrom) params.append("created_atFrom", filters.created_atFrom);
+    if (filters.created_atTo) params.append("created_atTo", filters.created_atTo);
+    if (filters.updated_atFrom) params.append("updated_atFrom", filters.updated_atFrom);
+    if (filters.updated_atTo) params.append("updated_atTo", filters.updated_atTo);
+
+    // Legacy date filters
+    const fromdate = searchParams.get("fromdate");
+    const todate = searchParams.get("todate");
+    if (fromdate) params.append("fromdate", fromdate);
+    if (todate) params.append("todate", todate);
+
+    return params.toString();
+  };
+
   const {
     data: tenant,
     isLoading,
     mutate,
   } = useSWR<z.infer<typeof Tenantschema>[]>(
-    `/api/tenant?pelak=${pelak ? `${pelak?.pelak.toString()}` : ""}${
-      searchParams ? `&${searchParams}` : ``
-    } `,
+    `/api/tenant?${buildQueryString()}`,
     fetcher,
     {
       // revalidateOnMount: true,
     }
   );
+
+  const handleSearch = (filters: TenantSearchFilters) => {
+    tenantSearchModal.setFilters(filters);
+    mutate();
+  };
 
   const exportToExcel = (apiData: any, fileName: string): void => {
     const worksheet = XLSX.utils.json_to_sheet(apiData);
@@ -285,6 +341,7 @@ export default function Datalist({
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <ViewAllDocumentsModal />
+      <TenantSearchModal onSearch={handleSearch} />
       <DeleteTenantModal
         mutation={mutate}
         data={deleteID}
@@ -300,6 +357,14 @@ export default function Datalist({
           <div> امکانات / تعریف مستاجرین</div>
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
+          <Button
+            variant="outline"
+            onClick={() => tenantSearchModal.onOpen()}
+            className="h-8 flex items-center gap-2"
+          >
+            <Search className="h-4 w-4" />
+            جستجوی پیشرفته
+          </Button>
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value: string | number) => {
