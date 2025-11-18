@@ -30,6 +30,10 @@ import useTwainModal, {
 import useDocumentUploadModal, {
   DocumentUploadModal,
 } from "@/app/[lang]/components/modals/DocumentUploadModal";
+import {
+  ViewAllDocumentsModal,
+  useViewAllDocumentsModal,
+} from "@/app/[lang]/components/modals/ViewAllDocumentsModal";
 
 type Props = {};
 
@@ -44,6 +48,7 @@ export default function Datalist({
   const [delLable1, setDelLable1] = useState<string>("");
   const [delLable2, setDelLable2] = useState<string>("");
   const _DocumentUploadModal = useDocumentUploadModal();
+  const _ViewAllDocumentsModal = useViewAllDocumentsModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -208,6 +213,23 @@ export default function Datalist({
       _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
+
+  const handleViewAllDocuments = (rowData: any) => {
+    const documents = rowData.Doc_files || [];
+    _ViewAllDocumentsModal.onOpen({
+      pelak: rowData.pelak,
+      documents: documents.map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+        moduleID: file.moduleID || 1,
+      })),
+      moduleID: 1, // Owner module ID
+    });
+  };
+
   const handleActionClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -243,6 +265,7 @@ export default function Datalist({
     <div>
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
+      <ViewAllDocumentsModal />
       <DeleteOwnerModal
         mutation={mutate}
         data={deleteID}
@@ -303,6 +326,7 @@ export default function Datalist({
             onDeleteClick={handleDeleteClick}
             onFileClick={handleFileClick}
             onNewFileClick={handleNewFileClick}
+            onViewAllDocuments={handleViewAllDocuments}
             allowEdit={canAction?.edit}
             allowDelete={canAction?.print}
             docadd={canAction?.docadd}

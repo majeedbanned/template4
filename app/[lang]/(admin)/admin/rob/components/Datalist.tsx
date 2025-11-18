@@ -10,6 +10,10 @@ import useTwainModal, {
 import useDocumentUploadModal, {
   DocumentUploadModal,
 } from "@/app/[lang]/components/modals/DocumentUploadModal";
+import {
+  ViewAllDocumentsModal,
+  useViewAllDocumentsModal,
+} from "@/app/[lang]/components/modals/ViewAllDocumentsModal";
 import useRobSearchModal, {
   RobSearchModal,
   RobSearchFilters,
@@ -66,6 +70,7 @@ export default function Datalist({
   const _DeleteRobModal = useDeleteRobModal();
   const _TwainModal = useTwainModal();
   const _DocumentUploadModal = useDocumentUploadModal();
+  const _ViewAllDocumentsModal = useViewAllDocumentsModal();
   const robSearchModal = useRobSearchModal();
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 9 && item.edit === true;
@@ -263,6 +268,23 @@ export default function Datalist({
       _DocumentUploadModal.onOpen(uploadData);
     }, 100);
   };
+
+  const handleViewAllDocuments = (rowData: any) => {
+    const documents = rowData.Doc_files || [];
+    _ViewAllDocumentsModal.onOpen({
+      pelak: rowData.pelak,
+      documents: documents.map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+        moduleID: file.moduleID || 3,
+      })),
+      moduleID: 3, // Rob module ID
+    });
+  };
+
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -427,6 +449,7 @@ export default function Datalist({
 
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
+      <ViewAllDocumentsModal />
       <RobSearchModal onSearch={handleSearch} />
       <DeleteRobModal
         mutation={mutate}
@@ -603,6 +626,7 @@ export default function Datalist({
               onFileClick={handleFileClick}
               // onPrintClick={handlePrintClick}
               onNewFileClick={handleNewFileClick}
+              onViewAllDocuments={handleViewAllDocuments}
               allowEdit={canAction?.edit}
               allowDelete={canAction?.print}
               docadd={canAction?.docadd}

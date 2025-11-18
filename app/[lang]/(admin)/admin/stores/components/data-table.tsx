@@ -58,6 +58,7 @@ import Link from "next/link";
 import { Mail } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import { PlusCircle } from "lucide-react";
+import { Eye } from "lucide-react";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -80,6 +81,7 @@ interface DataTableProps<TData, TValue> {
   onChargeClick?: (id: any) => void;
   onFileClick?: (id: any, id1: any) => void;
   onNewFileClick?: (id: any, id1: any) => void;
+  onViewAllDocuments?: (id: any) => void;
   docadd?: boolean;
   docview?: boolean;
   docedit?: boolean;
@@ -116,6 +118,7 @@ export function DataTable<TData, TValue>({
   onRobClick,
   onFileClick,
   onNewFileClick,
+  onViewAllDocuments,
   docadd,
   docview,
   docedit,
@@ -309,6 +312,20 @@ export function DataTable<TData, TValue>({
                           className="bordercolor"
                           align="end"
                         >
+                          {onViewAllDocuments && row.original.Doc_files && row.original.Doc_files.length > 0 && (
+                            <>
+                              <DropdownMenuItem
+                                className="flex justify-end gap-2"
+                                onClick={() =>
+                                  onViewAllDocuments(row.original)
+                                }
+                              >
+                                مشاهده همه
+                                <Eye className="w-4 h-4"></Eye>
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                            </>
+                          )}
                           {docadd && (
                             <>
                               <DropdownMenuSub>

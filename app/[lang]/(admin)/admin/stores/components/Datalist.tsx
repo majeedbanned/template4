@@ -9,6 +9,10 @@ import useTwainModal, {
 import useDocumentUploadModal, {
   DocumentUploadModal,
 } from "@/app/[lang]/components/modals/DocumentUploadModal";
+import {
+  ViewAllDocumentsModal,
+  useViewAllDocumentsModal,
+} from "@/app/[lang]/components/modals/ViewAllDocumentsModal";
 import { fetcher } from "@/lib/utils";
 import React, { Suspense, useCallback, useState } from "react";
 import useSWR from "swr";
@@ -52,6 +56,7 @@ export default function Datalist({
   const [delLable2, setDelLable2] = useState<string>("");
   const _TwainModal = useTwainModal();
   const _DocumentUploadModal = useDocumentUploadModal();
+  const _ViewAllDocumentsModal = useViewAllDocumentsModal();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -212,6 +217,22 @@ export default function Datalist({
     }, 100);
   };
 
+  const handleViewAllDocuments = (rowData: any) => {
+    const documents = rowData.Doc_files || [];
+    _ViewAllDocumentsModal.onOpen({
+      pelak: rowData.pelak,
+      documents: documents.map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        CatID: file.CatID,
+        date_: file.date_,
+        Doc_cat: file.Doc_cat,
+        moduleID: file.moduleID || 4,
+      })),
+      moduleID: 4, // Store module ID
+    });
+  };
+
   const setQueryString = (type: string, e: string[]) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     if (e.length === 0) {
@@ -322,6 +343,7 @@ export default function Datalist({
     <div>
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
+      <ViewAllDocumentsModal />
       <DeleteStoreModal
         mutation={mutate}
         data={deleteID}
@@ -461,6 +483,7 @@ export default function Datalist({
             onRobClick={handleRobClick}
             onFileClick={handleFileClick}
             onNewFileClick={handleNewFileClick}
+            onViewAllDocuments={handleViewAllDocuments}
             onOwnerClick={handleOwnerClick}
             docadd={canAction?.docadd}
             docedit={canAction?.docedit}
