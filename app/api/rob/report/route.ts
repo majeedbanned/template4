@@ -196,9 +196,7 @@ export async function GET(request: NextRequest) {
 
       // Calculate total paid amount (sum of all مبلغ/price values only)
       const totalPaidAmount = data.records.reduce(
-      //@ts-ignore
-        
-        (sum, r) => {
+        (sum: number, r: { price: number; discount: number | null; invitedate: string | null }) => {
           // Ensure we're adding numbers, not concatenating strings
           const price = Number(r.price) || 0;
           return sum + price;
@@ -206,8 +204,17 @@ export async function GET(request: NextRequest) {
         0
       );
 
-      // Calculate remaining balance (difference between جمع کل and مجموع پرداخت‌ها)
-      const remainingBalance = totalCharge - totalPaidAmount;
+      // Calculate total discount (sum of all discount values)
+      const totalDiscount = data.records.reduce(
+        (sum: number, r: { price: number; discount: number | null; invitedate: string | null }) => {
+          const discount = Number(r.discount) || 0;
+          return sum + discount;
+        },
+        0
+      );
+
+      // Calculate remaining balance (جمع کل - مجموع پرداخت‌ها - مجموع تخفیف‌ها)
+      const remainingBalance = totalCharge - totalPaidAmount - totalDiscount;
 
       reportData.push({
         pelak,

@@ -10,9 +10,12 @@ type props = {
     rate: number;
     totalCharge: number;
     totalPaidAmount: number;
+    totalDiscount?: number;
     pelak?: string;
     name?: string;
     editstore?: any;
+    periodYear?: string; // Year for period in title (default: 1404)
+    numberOfDebtPeriods?: number; // Count of years (debt periods)
   };
   paydeadline?: string; // مهلت پرداخت (payment deadline)
 };
@@ -20,7 +23,8 @@ type props = {
 export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
   // @ts-ignore
   ( { data, editstore, paydeadline }, ref) => {
-    const remainingPayable = data.totalCharge - data.totalPaidAmount;
+    const totalDiscount = data.totalDiscount || 0;
+    const remainingPayable = data.totalCharge - data.totalPaidAmount - totalDiscount;
     console.log('>>>>>>9',editstore)
     const currentDate = new Date().toLocaleDateString("fa-IR");
     // Use provided paydeadline or default to 30 days from now
@@ -67,7 +71,7 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                   </p>
 
                   <p style={{ fontFamily: "CustomFont" }}>
-                                       صورتحساب تا دوره ۱۴۰۴ 
+                                       صورتحساب تا دوره {data.periodYear || "۱۴۰۴"} 
                   </p>
                  
                 </div>
@@ -158,6 +162,12 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     style={{ fontFamily: "CustomFont" }}
                     className="border border-gray-800 text-sm"
                   >
+                    تعداد دوره بدهی
+                  </th>
+                  <th
+                    style={{ fontFamily: "CustomFont" }}
+                    className="border border-gray-800 text-sm"
+                  >
                     جمع کل هزینه
                   </th>
                   <th
@@ -179,6 +189,12 @@ export const ChargeCalculationFish = React.forwardRef<HTMLDivElement, props>(
                     className="text-center border border-gray-800 p-1"
                   >
                     {data.rate}
+                  </td>
+                  <td
+                    style={{ fontFamily: "CustomFont" }}
+                    className="text-center border border-gray-800 p-1"
+                  >
+                    {data.numberOfDebtPeriods?.toLocaleString("fa-IR") || "-"}
                   </td>
                   <td
                     style={{ fontFamily: "CustomFont" }}

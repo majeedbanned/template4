@@ -16,7 +16,8 @@ import ChargeCalculationOfficial from "@/app/[lang]/components/prints/chargecalc
 interface ChargeCalculationProps {
   startDate: string; // e.g. "۱۳۹۱/۰۲/۰۳" or "1391/02/03"
   rate: number; // e.g. 27.9
-  totalPaidAmount?: number; // total amount paid so far
+  totalPaidAmount?: number; // total amount paid so far (sum of all مبلغ)
+  totalDiscount?: number; // total discount amount
   pelak?: string; // pelak number for printing
   editstore?: any;
   paydeadline?: string; // مهلت پرداخت (payment deadline)
@@ -39,6 +40,7 @@ export default function ChargeCalculation({
   startDate,
   rate,
   totalPaidAmount = 0,
+  totalDiscount = 0,
   pelak,
   editstore,
   paydeadline: initialPaydeadline,
@@ -55,6 +57,8 @@ export default function ChargeCalculation({
   const [paydeadline, setPaydeadline] = useState<string>(
     initialPaydeadline || moment().add(30, 'days').format('jYYYY/jMM/jDD')
   );
+  // Period year for print title (default: 1404)
+  const [periodYear, setPeriodYear] = useState<string>("1404");
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
@@ -100,6 +104,10 @@ export default function ChargeCalculation({
   let totalCharge = 0;
   const startYear = start.jYear();
   const endYear = today.jYear();
+  
+  // Calculate number of debt periods (years) from start date to period year
+  const periodYearNum = parseInt(periodYear) || endYear;
+  const numberOfDebtPeriods = Math.max(0, periodYearNum - startYear + 1);
 
   for (let year = startYear; year <= endYear; year++) {
     const isFirstYear = year === startYear;
@@ -156,6 +164,7 @@ export default function ChargeCalculation({
     rate,
     totalCharge,
     totalPaidAmount,
+    totalDiscount,
     logs,
     pelak,
   };
@@ -165,7 +174,10 @@ export default function ChargeCalculation({
     rate,
     totalCharge,
     totalPaidAmount,
+    totalDiscount,
     pelak,
+    periodYear,
+    numberOfDebtPeriods,
   };
 
   const handleMonthsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,37 +269,64 @@ export default function ChargeCalculation({
           <h3 className="mt-2 text-md font-bold text-blue-600">
             💳 مجموع پرداخت‌ها: {totalPaidAmount.toLocaleString("fa-IR")} ریال
           </h3>
+          {totalDiscount > 0 && (
+            <h3 className="mt-2 text-md font-bold text-purple-600">
+              🎁 مجموع تخفیف‌ها: {totalDiscount.toLocaleString("fa-IR")} ریال
+            </h3>
+          )}
           <h3 className="mt-2 text-md font-bold text-red-600">
-            🔴 مانده قابل پرداخت: {(totalCharge - totalPaidAmount).toLocaleString("fa-IR")} ریال
+            🔴 مانده قابل پرداخت: {(totalCharge - totalPaidAmount - totalDiscount).toLocaleString("fa-IR")} ریال
           </h3>
         </>
       )}
 
-      {/* Payment Deadline Input */}
-      <div className="mt-4 p-3 bg-gray-50 rounded-md border">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          📅 مهلت پرداخت:
-        </label>
-        <DatePicker
-          value={paydeadline}
-          onChange={(date) => {
-            if (date) {
-              setPaydeadline(date.toString());
-            }
-          }}
-          style={{
-            width: "100%",
-            height: "38px",
-            borderRadius: "8px",
-            fontSize: "14px",
-            padding: "3px 10px",
-          }}
-          format="YYYY/MM/DD"
-          calendar={persian}
-          locale={persian_fa}
-          calendarPosition="bottom-center"
-          className="w-full"
-        />
+      {/* Period Year and Payment Deadline Inputs */}
+      <div className="mt-4 space-y-4">
+        <div className="p-3 bg-gray-50 rounded-md border">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            📅 دوره صورتحساب (سال):
+          </label>
+          <Input
+            type="text"
+            value={periodYear}
+            onChange={(e) => {
+              // Only allow numeric input
+              const value = e.target.value.replace(/[^0-9]/g, "");
+              setPeriodYear(value);
+            }}
+            placeholder="۱۴۰۴"
+            className="w-full"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            سال دوره برای نمایش در عنوان صورتحساب (پیش‌فرض: ۱۴۰۴)
+          </p>
+        </div>
+
+        <div className="p-3 bg-gray-50 rounded-md border">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            📅 مهلت پرداخت:
+          </label>
+          <DatePicker
+            value={paydeadline}
+            onChange={(date) => {
+              if (date) {
+                setPaydeadline(date.toString());
+              }
+            }}
+            style={{
+              width: "100%",
+              height: "38px",
+              borderRadius: "8px",
+              fontSize: "14px",
+              padding: "3px 10px",
+            }}
+            format="YYYY/MM/DD"
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-center"
+            className="w-full"
+          />
+        </div>
       </div>
        
       {/* Hidden print components */}

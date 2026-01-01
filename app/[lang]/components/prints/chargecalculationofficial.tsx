@@ -9,6 +9,7 @@ type props = {
     rate: number;
     totalCharge: number;
     totalPaidAmount: number;
+    totalDiscount?: number;
     pelak?: string;
     name?: string;
   };
@@ -16,7 +17,8 @@ type props = {
 
 export const ChargeCalculationOfficial = React.forwardRef<HTMLDivElement, props>(
   ({ data }, ref) => {
-    const remainingPayable = data.totalCharge - data.totalPaidAmount;
+    const totalDiscount = data.totalDiscount || 0;
+    const remainingPayable = data.totalCharge - data.totalPaidAmount - totalDiscount;
     const currentDate = new Date().toLocaleDateString("fa-IR");
     const receiptNumber = Math.floor(Math.random() * 9999) + 1000; // Generate random receipt number
     

@@ -406,8 +406,8 @@ export default function Datalist({
     return sum + discount;
   }, 0) || 0;
 
-  // Total paid amount after discount
-  const totalPaidAmount = totalGrossAmount - totalDiscount;
+  // Total paid amount (sum of all مبلغ/price values only, without subtracting discount)
+  const totalPaidAmount = totalGrossAmount;
 
   const totalRecords = rob?.length || 0;
   const averageAmount = totalRecords > 0 ? totalPaidAmount / totalRecords : 0;
@@ -444,6 +444,7 @@ export default function Datalist({
           //@ts-ignore
           rate={firstWithStartDate?.metraj} // متراژ همان رکورد
           totalPaidAmount={totalPaidAmount} // مجموع مبالغ پرداخت شده
+          totalDiscount={totalDiscount} // مجموع تخفیف‌ها
           pelak={firstWithStartDate?.pelak} // شماره پلاک
           editstore={editstore}
           
@@ -542,7 +543,7 @@ export default function Datalist({
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                 {totalDiscount > 0 ? (
                   <span>
-                    پس از کسر تخفیف ({formatCurrency(totalDiscount)})
+                    مجموع مبالغ (تخفیف: {formatCurrency(totalDiscount)})
                   </span>
                 ) : (
                   "ریال"

@@ -10,6 +10,7 @@ type props = {
     rate: number;
     totalCharge: number;
     totalPaidAmount: number;
+    totalDiscount?: number;
     logs: Array<{
       year: number;
       monthsCharged: number;
@@ -23,7 +24,8 @@ type props = {
 
 export const ChargeCalculationPrint = React.forwardRef<HTMLDivElement, props>(
   ({ data }, ref) => {
-    const remainingPayable = data.totalCharge - data.totalPaidAmount;
+    const totalDiscount = data.totalDiscount || 0;
+    const remainingPayable = data.totalCharge - data.totalPaidAmount - totalDiscount;
     
     return (
       <div style={{ display: "none" }} className="pprint">
