@@ -579,13 +579,16 @@ if(novq ==="" && rahroq==="" && bazarq==="" &&  tabaghq==="" &&  dateq==="" &&
 
      query=`
    SELECT  '${title}' as title,dbo.new_account.settele_Status,  dbo.store.name, dbo.store.pelak, dbo.types_bazar.bazar, dbo.types_tabagh.tabagh, dbo.types_nov.nov, dbo.types_rahro.rahro, dbo.new_account.month, dbo.store.active,dbo.store.metraj, dbo.new_account.deptPeriod,dbo.new_account.paidDate,dbo.new_account.paidDate1, new_account.debt,new_account.penalty,
-   dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum,dbo.new_account.digitalreceipt
+   dbo.store.aghsat, dbo.store.tajmi,  dbo.new_account.TotalBill,dbo.new_account.rrn, dbo.new_account.paidBill, dbo.new_account.paidBill1,dbo.new_account.paidBill2,dbo.new_account.paidBill3,dbo.new_account.discription,dbo.new_account.fichnum,dbo.new_account.digitalreceipt,
+   dbo.chargeDef.charge as TariffCharge, dbo.chargeDef.type as TariffType, dbo.new_account.paidExtraAsset as CreditBalance, dbo.new_account.paidExtra as PreviousCredit,
+   ISNULL((SELECT SUM(dbo.discountDef.discountPersand) FROM dbo.stores_discounts INNER JOIN dbo.discountDef ON dbo.stores_discounts.discountID = dbo.discountDef.id WHERE dbo.stores_discounts.pelak = dbo.store.pelak), 0) as DiscountPercent
 FROM            dbo.new_account INNER JOIN
                          dbo.store ON dbo.new_account.pelak = dbo.store.pelak INNER JOIN
                          dbo.types_bazar ON dbo.store.bazar = dbo.types_bazar.id INNER JOIN
                          dbo.types_nov ON dbo.store.nov = dbo.types_nov.id INNER JOIN
                          dbo.types_rahro ON dbo.store.rahro = dbo.types_rahro.id INNER JOIN
-                         dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id
+                         dbo.types_tabagh ON dbo.store.tabagh = dbo.types_tabagh.id LEFT JOIN
+                         dbo.chargeDef ON dbo.store.chargeProfile = dbo.chargeDef.id
                          where 1=1 ${novq} ${rahroq} ${bazarq} ${tabaghq} ${dateq}
                          ${activeq} ${searchq} ${pardakhtq} ${pardakhtqB} ${debtq} ${fromdateq} ${npardakhtq} ${shiveq} ${tajmiq} ${dargahq} order by ${sortq}`;
  //console.log(query)

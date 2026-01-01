@@ -602,7 +602,38 @@ export default function Datalist({
           تعداد ردیف : {stores?.length}
         </Badge>
 
-        <button onClick={() => exportToExcel(stores, "خروجی اکسل")}>
+        <button onClick={() => {
+          // Transform data for Excel export with additional columns
+          const excelData = stores?.map((store: any) => {
+            // Calculate تعرفه شارژ based on stores logic
+            // Formula: (TariffCharge * metraj) - (DiscountPercent / 100) * (TariffCharge * metraj)
+            // If type == "2": amount = TariffCharge, else: amount = TariffCharge * metraj
+            let tariffChargeValue = 0;
+            const tariffCharge = Number(store.TariffCharge || store.chargeDef?.charge || 0);
+            const tariffType = store.TariffType || store.chargeDef?.type || "1";
+            const metraj = Number(store.metraj || 0);
+            const discountPercent = Number(store.DiscountPercent || 0);
+            
+            let amount = 0;
+            if (tariffType === "2") {
+              amount = tariffCharge;
+            } else {
+              amount = tariffCharge * metraj;
+            }
+            
+            // Calculate discount: (discountPercent / 100) * amount
+            const discountAmount = (discountPercent / 100) * amount;
+            tariffChargeValue = Math.round(amount - discountAmount);
+            
+            return {
+              ...store,
+              "تعرفه شارژ": tariffChargeValue,
+              "مانده بستانکاری": store.CreditBalance || store.paidExtraAsset || 0,
+              "بستانکاراز قبل": store.PreviousCredit || store.paidExtra || 0,
+            };
+          });
+          exportToExcel(excelData || [], "خروجی اکسل");
+        }}>
           <AiFillFileExcel color="green" size={30}></AiFillFileExcel>
         </button>
         <div className=" shadow-[#6d93ec]/50 border-0 text-sm  h-8  ">
