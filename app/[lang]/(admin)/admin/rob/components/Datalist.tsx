@@ -35,7 +35,7 @@ import { promise, z } from "zod";
 import { Robschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle, Search, TrendingUp, FileText, Calendar, DollarSign } from "lucide-react";
+import { PlusCircle, Search, TrendingUp, FileText, Calendar, DollarSign, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useSession } from "next-auth/react";
@@ -43,6 +43,8 @@ import { Session } from "next-auth/core/types";
 import { AddEditRobModal } from "@/app/[lang]/components/modals/AddEditRobModal";
 import { DeleteRobModal } from "@/app/[lang]/components/modals/DeleteRobModal";
 import ChargeCalculation from "./ChargeCalculation";
+import { PelakReportModal } from "@/app/[lang]/components/modals/PelakReportModal";
+import usePelakReportModal from "@/app/[lang]/components/modals/PelakReportModal";
 
 // import ComponentToPrint from "../../reports/components/groupfish";
 import ComponentToPrint from "@/app/[lang]/components/prints/groupfishrob";
@@ -72,6 +74,7 @@ export default function Datalist({
   const _DocumentUploadModal = useDocumentUploadModal();
   const _ViewAllDocumentsModal = useViewAllDocumentsModal();
   const robSearchModal = useRobSearchModal();
+  const pelakReportModal = usePelakReportModal();
   let per = permission?.user?.Permission?.find((item) => {
     return item.systemID === 9 && item.edit === true;
   });
@@ -451,6 +454,7 @@ export default function Datalist({
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <ViewAllDocumentsModal />
       <RobSearchModal onSearch={handleSearch} />
+      <PelakReportModal />
       <DeleteRobModal
         mutation={mutate}
         data={deleteID}
@@ -491,6 +495,16 @@ export default function Datalist({
             <Search className="h-4 w-4" />
             جستجوی پیشرفته
           </Button>
+          {isAllPelak && (
+            <Button
+              variant="outline"
+              onClick={() => pelakReportModal.onOpen()}
+              className="h-8 flex items-center gap-2 bg-blue-50 hover:bg-blue-100 border-blue-300"
+            >
+              <BarChart3 className="h-4 w-4" />
+              گزارش جامع پلاک‌ها
+            </Button>
+          )}
         </div>
       </div>
 
