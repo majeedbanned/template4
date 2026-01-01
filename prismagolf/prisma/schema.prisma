@@ -271,6 +271,7 @@ model store {
   chargeProfile    Int?
   ejareh           Decimal?           @db.Decimal(18, 0)
   tajmi            Boolean?
+  malekiyat Boolean? @default(false)
   aghsat           Boolean?
   changedate       String?            @db.NChar(10)
   Doc_files        Doc_files[]

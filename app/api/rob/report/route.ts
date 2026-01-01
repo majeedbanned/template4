@@ -155,12 +155,14 @@ export async function GET(request: NextRequest) {
         pelak: true,
         metraj: true,
         name: true,
-      },
+        // @ts-ignore - malekiyat field will be added to Prisma schema
+        malekiyat: true,
+      } as any,
     });
 
     // Create a map for quick lookup
     const storeMap = new Map(
-      stores.map((store) => [store.pelak.toUpperCase(), store])
+      stores.map((store: any) => [store.pelak.toUpperCase(), store])
     );
 
     // Calculate values for each pelak
@@ -185,6 +187,12 @@ export async function GET(request: NextRequest) {
 
       if (!store || !store.metraj) {
         // Skip pelaks without metraj
+        continue;
+      }
+
+      // Skip pelaks with malekiyat (ownership) - they don't include rental fees
+      // @ts-ignore - malekiyat field will be added to Prisma schema
+      if (store.malekiyat === true) {
         continue;
       }
 

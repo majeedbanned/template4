@@ -496,6 +496,7 @@ takhfif:z.string().optional(),
   active: z.boolean().default(false).optional(),
   aghsat: z.boolean().default(false).optional(),
   tajmi: z.boolean().default(false).optional(),
+  malekiyat: z.boolean().default(false).optional(),
   //changedate: z.string().optional(),
 
   ChekGift: z.boolean().default(false).optional(),

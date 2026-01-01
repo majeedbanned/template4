@@ -253,6 +253,7 @@ export async function GET(request: NextRequest) {
         aghsat:true,
         // malekmos:true,
         tajmi:true,
+        malekiyat:true,
         tel2: true,
         tovzeh: true,
         types_rahro: { select: { id: true, rahro: true } },
