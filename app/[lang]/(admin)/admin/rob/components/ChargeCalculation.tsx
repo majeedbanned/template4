@@ -303,29 +303,29 @@ export default function ChargeCalculation({
         </div>
 
         <div className="p-3 bg-gray-50 rounded-md border">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            📅 مهلت پرداخت:
-          </label>
-          <DatePicker
-            value={paydeadline}
-            onChange={(date) => {
-              if (date) {
-                setPaydeadline(date.toString());
-              }
-            }}
-            style={{
-              width: "100%",
-              height: "38px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              padding: "3px 10px",
-            }}
-            format="YYYY/MM/DD"
-            calendar={persian}
-            locale={persian_fa}
-            calendarPosition="bottom-center"
-            className="w-full"
-          />
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          📅 مهلت پرداخت:
+        </label>
+        <DatePicker
+          value={paydeadline}
+          onChange={(date) => {
+            if (date) {
+              setPaydeadline(date.toString());
+            }
+          }}
+          style={{
+            width: "100%",
+            height: "38px",
+            borderRadius: "8px",
+            fontSize: "14px",
+            padding: "3px 10px",
+          }}
+          format="YYYY/MM/DD"
+          calendar={persian}
+          locale={persian_fa}
+          calendarPosition="bottom-center"
+          className="w-full"
+        />
         </div>
       </div>
        

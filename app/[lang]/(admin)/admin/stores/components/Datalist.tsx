@@ -32,12 +32,16 @@ import useDeleteStoreModal, {
   DeleteStoreModal,
 } from "@/app/[lang]/components/modals/DeleteStoreModal";
 
+import useStoreReportModal, {
+  StoreReportModal,
+} from "@/app/[lang]/components/modals/StoreReportModal";
+
 import useFilter from "@/lib/hooks/useFilter";
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle, SlidersHorizontal } from "lucide-react";
+import { PlusCircle, SlidersHorizontal, FileSpreadsheet } from "lucide-react";
 import { FcAddRow } from "react-icons/fc";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
@@ -64,6 +68,7 @@ export default function Datalist({
 
   const AddUserModal = useAddEditStoreModal();
   const _DeleteStoreModal = useDeleteStoreModal();
+  const _StoreReportModal = useStoreReportModal();
   const { data: session } = useSession();
   const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
   const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
@@ -344,6 +349,7 @@ export default function Datalist({
       <TwainModal mutation={mutate}></TwainModal>
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <ViewAllDocumentsModal />
+      <StoreReportModal />
       <DeleteStoreModal
         mutation={mutate}
         data={deleteID}
@@ -445,18 +451,26 @@ export default function Datalist({
         </div>
       </div>
 
-      {canAction.add ? (
+      <div className="flex gap-2 mr-28 mb-2">
+        {canAction.add && (
+          <Button
+            className="shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] h-8 hover:bg-[#4471da]"
+            onClick={AddRecord}
+            variant={"outline"}
+          >
+            <PlusCircle className="mx-1 h-4 w-4 text-white" />
+            <span className="text-white">واحد جدید</span>
+          </Button>
+        )}
         <Button
-          className=" shadow-[#6d93ec]/50 border-0 bg-[#6d93ec] mr-28 h-8 hover:bg-[#4471da] "
-          onClick={AddRecord}
+          className="shadow-emerald-500/50 border-0 bg-emerald-600 h-8 hover:bg-emerald-700"
+          onClick={() => _StoreReportModal.onOpen()}
           variant={"outline"}
         >
-          <PlusCircle className="mx-1 h-4 w-4 text-white" />
-          <span className="text-white">واحد جدید</span>
+          <FileSpreadsheet className="mx-1 h-4 w-4 text-white" />
+          <span className="text-white">گزارش جامع واحدها</span>
         </Button>
-      ) : (
-        <div className="h-8"></div>
-      )}
+      </div>
       {stores ? (
         stores.length > 0 ? (
           <DataTable
