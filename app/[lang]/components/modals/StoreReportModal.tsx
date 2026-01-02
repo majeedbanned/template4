@@ -49,6 +49,8 @@ interface StoreReportData {
   id: number;
   pelak: string;
   name: string;
+  username: string;
+  password: string;
   metraj: number;
   ejareh: number;
   tel1: string;
@@ -127,6 +129,8 @@ interface FilterState {
   tenantEndDate: string;
   discountNames: string;
   chargeDefCharge: string;
+  username: string;
+  password: string;
 }
 
 const initialFilters: FilterState = {
@@ -156,6 +160,8 @@ const initialFilters: FilterState = {
   tenantEndDate: "",
   discountNames: "",
   chargeDefCharge: "",
+  username: "",
+  password: "",
 };
 
 export const StoreReportModal: React.FC = () => {
@@ -229,6 +235,8 @@ export const StoreReportModal: React.FC = () => {
       if (filters.tenantEndDate && !String(item.tenantEndDate || "").includes(filters.tenantEndDate)) return false;
       if (filters.discountNames && !String(item.discountNames || "").toLowerCase().includes(filters.discountNames.toLowerCase())) return false;
       if (filters.chargeDefCharge && !String(item.chargeDefCharge || "").includes(filters.chargeDefCharge)) return false;
+      if (filters.username && !String(item.username || "").toLowerCase().includes(filters.username.toLowerCase())) return false;
+      if (filters.password && !String(item.password || "").toLowerCase().includes(filters.password.toLowerCase())) return false;
       return true;
     });
 
@@ -311,6 +319,8 @@ export const StoreReportModal: React.FC = () => {
       "نام ساکن": item.tenantName,
       "تاریخ پایان قرارداد": item.tenantEndDate,
       "توضیحات": item.tovzeh,
+      "نام کاربری": item.username,
+      "رمز عبور": item.password,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(excelData);
@@ -651,6 +661,24 @@ export const StoreReportModal: React.FC = () => {
                   placeholder="جستجو..."
                   value={filters.chargeDefCharge}
                   onChange={(e) => setFilters({ ...filters, chargeDefCharge: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">نام کاربری</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.username}
+                  onChange={(e) => setFilters({ ...filters, username: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">رمز عبور</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.password}
+                  onChange={(e) => setFilters({ ...filters, password: e.target.value })}
                   className="h-8"
                 />
               </div>
