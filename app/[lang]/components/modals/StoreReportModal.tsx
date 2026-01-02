@@ -183,11 +183,17 @@ export const StoreReportModal: React.FC = () => {
   const uniqueValues = useMemo(() => {
     if (!data) return {};
     return {
+      //@ts-ignore
       rahro: [...new Set(data.map((d) => d.rahro).filter(Boolean))],
+      //@ts-ignore
       bazar: [...new Set(data.map((d) => d.bazar).filter(Boolean))],
+      //@ts-ignore
       nov: [...new Set(data.map((d) => d.nov).filter(Boolean))],
+      //@ts-ignore
       tabagh: [...new Set(data.map((d) => d.tabagh).filter(Boolean))],
+      //@ts-ignore
       chargeDefName: [...new Set(data.map((d) => d.chargeDefName).filter(Boolean))],
+      //@ts-ignore
       tenantType: [...new Set(data.map((d) => d.tenantType).filter(Boolean))],
     };
   }, [data]);
