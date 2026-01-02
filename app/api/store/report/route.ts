@@ -121,6 +121,37 @@ export async function GET(request: NextRequest) {
       allTenants = [...allTenants, ...batch];
     }
 
+    // Fetch all new_account records to calculate max deptPeriod per pelak
+    const NEW_ACCOUNT_BATCH_SIZE = 1000;
+    let allNewAccounts: any[] = [];
+    for (let i = 0; i < pelaks.length; i += NEW_ACCOUNT_BATCH_SIZE) {
+      const batchPelaks = pelaks.slice(i, i + NEW_ACCOUNT_BATCH_SIZE);
+      const batch = await client.new_account.findMany({
+        where: { pelak: { in: batchPelaks } },
+        select: {
+          pelak: true,
+          deptPeriod: true,
+        },
+      });
+      allNewAccounts = [...allNewAccounts, ...batch];
+    }
+
+    // Calculate max deptPeriod for each pelak
+    const maxDeptPeriodMap = new Map<string, number | null>();
+    allNewAccounts.forEach(acc => {
+      const pelak = acc.pelak || '';
+      const deptPeriod = acc.deptPeriod;
+      if (!maxDeptPeriodMap.has(pelak)) {
+        maxDeptPeriodMap.set(pelak, null);
+      }
+      const currentMax = maxDeptPeriodMap.get(pelak) ?? null;
+      if (deptPeriod !== null && deptPeriod !== undefined) {
+        if (currentMax === null || deptPeriod > currentMax) {
+          maxDeptPeriodMap.set(pelak, deptPeriod);
+        }
+      }
+    });
+
     // Create maps for quick lookup
     const rahroMap = new Map(typesRahro.map(t => [t.id, t.rahro]));
     const bazarMap = new Map(typesBazar.map(t => [t.id, t.bazar]));
@@ -183,6 +214,9 @@ export async function GET(request: NextRequest) {
 
       // Get active tenant
       const activeTenant = store.Tenant?.[0];
+      
+      // Get maximum deptPeriod from all new_account records for this store
+      const maxDeptPeriod = maxDeptPeriodMap.get(store.pelak) ?? null;
 
       return {
         id: store.id,
@@ -191,6 +225,7 @@ export async function GET(request: NextRequest) {
         username: store.username || "",
         password: store.password || "",
         metraj: store.metraj || 0,
+        maxDeptPeriod: maxDeptPeriod,
         ejareh: store.ejareh || 0,
         tel1: store.tel1 || "",
         tel2: store.tel2 || "",

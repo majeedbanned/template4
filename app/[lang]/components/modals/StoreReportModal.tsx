@@ -84,6 +84,7 @@ interface StoreReportData {
   tenantName: string;
   tenantType: string;
   tenantEndDate: string;
+  maxDeptPeriod: number | null;
 }
 
 interface StoreReportModalStore {
@@ -131,6 +132,7 @@ interface FilterState {
   chargeDefCharge: string;
   username: string;
   password: string;
+  maxDeptPeriod: string;
 }
 
 const initialFilters: FilterState = {
@@ -162,6 +164,7 @@ const initialFilters: FilterState = {
   chargeDefCharge: "",
   username: "",
   password: "",
+  maxDeptPeriod: "",
 };
 
 export const StoreReportModal: React.FC = () => {
@@ -237,6 +240,15 @@ export const StoreReportModal: React.FC = () => {
       if (filters.chargeDefCharge && !String(item.chargeDefCharge || "").includes(filters.chargeDefCharge)) return false;
       if (filters.username && !String(item.username || "").toLowerCase().includes(filters.username.toLowerCase())) return false;
       if (filters.password && !String(item.password || "").toLowerCase().includes(filters.password.toLowerCase())) return false;
+      if (filters.maxDeptPeriod) {
+        const filterMaxDeptPeriod = Number(filters.maxDeptPeriod);
+        if (!isNaN(filterMaxDeptPeriod)) {
+          const itemMaxDeptPeriod = item.maxDeptPeriod;
+          // Filter: show stores where maxDeptPeriod is null (no records) or <= filter value
+          // خوش‌حساب‌ها: stores that have never had deptPeriod greater than X
+          if (itemMaxDeptPeriod !== null && itemMaxDeptPeriod > filterMaxDeptPeriod) return false;
+        }
+      }
       return true;
     });
 
@@ -321,6 +333,7 @@ export const StoreReportModal: React.FC = () => {
       "توضیحات": item.tovzeh,
       "نام کاربری": item.username,
       "رمز عبور": item.password,
+      "حداکثر دوره بدهی": item.maxDeptPeriod ?? "",
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(excelData);
@@ -679,6 +692,16 @@ export const StoreReportModal: React.FC = () => {
                   placeholder="جستجو..."
                   value={filters.password}
                   onChange={(e) => setFilters({ ...filters, password: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">خوش‌حساب‌ها (حداکثر دوره بدهی)</label>
+                <Input
+                  type="number"
+                  placeholder="مثال: 5 (نشان می‌دهد دوره بدهی هرگز بیشتر از این نبوده)"
+                  value={filters.maxDeptPeriod}
+                  onChange={(e) => setFilters({ ...filters, maxDeptPeriod: e.target.value })}
                   className="h-8"
                 />
               </div>
