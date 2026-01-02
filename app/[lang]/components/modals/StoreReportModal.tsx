@@ -113,6 +113,20 @@ interface FilterState {
   malekiyat: string;
   chargeDefName: string;
   tenantType: string;
+  tel1: string;
+  tel2: string;
+  ejareh: string;
+  metraj: string;
+  finalCharge: string;
+  discountPercent: string;
+  tovzeh: string;
+  cposti: string;
+  changedate: string;
+  Tahvil: string;
+  tenantName: string;
+  tenantEndDate: string;
+  discountNames: string;
+  chargeDefCharge: string;
 }
 
 const initialFilters: FilterState = {
@@ -128,6 +142,20 @@ const initialFilters: FilterState = {
   malekiyat: "",
   chargeDefName: "",
   tenantType: "",
+  tel1: "",
+  tel2: "",
+  ejareh: "",
+  metraj: "",
+  finalCharge: "",
+  discountPercent: "",
+  tovzeh: "",
+  cposti: "",
+  changedate: "",
+  Tahvil: "",
+  tenantName: "",
+  tenantEndDate: "",
+  discountNames: "",
+  chargeDefCharge: "",
 };
 
 export const StoreReportModal: React.FC = () => {
@@ -181,6 +209,20 @@ export const StoreReportModal: React.FC = () => {
       if (filters.malekiyat && item.malekiyat !== filters.malekiyat) return false;
       if (filters.chargeDefName && item.chargeDefName !== filters.chargeDefName) return false;
       if (filters.tenantType && item.tenantType !== filters.tenantType) return false;
+      if (filters.tel1 && !String(item.tel1 || "").toLowerCase().includes(filters.tel1.toLowerCase())) return false;
+      if (filters.tel2 && !String(item.tel2 || "").toLowerCase().includes(filters.tel2.toLowerCase())) return false;
+      if (filters.ejareh && !String(item.ejareh || "").includes(filters.ejareh)) return false;
+      if (filters.metraj && !String(item.metraj || "").includes(filters.metraj)) return false;
+      if (filters.finalCharge && !String(item.finalCharge || "").includes(filters.finalCharge)) return false;
+      if (filters.discountPercent && !String(item.discountPercent || "").includes(filters.discountPercent)) return false;
+      if (filters.tovzeh && !String(item.tovzeh || "").toLowerCase().includes(filters.tovzeh.toLowerCase())) return false;
+      if (filters.cposti && !String(item.cposti || "").toLowerCase().includes(filters.cposti.toLowerCase())) return false;
+      if (filters.changedate && !String(item.changedate || "").includes(filters.changedate)) return false;
+      if (filters.Tahvil && !String(item.Tahvil || "").includes(filters.Tahvil)) return false;
+      if (filters.tenantName && !String(item.tenantName || "").toLowerCase().includes(filters.tenantName.toLowerCase())) return false;
+      if (filters.tenantEndDate && !String(item.tenantEndDate || "").includes(filters.tenantEndDate)) return false;
+      if (filters.discountNames && !String(item.discountNames || "").toLowerCase().includes(filters.discountNames.toLowerCase())) return false;
+      if (filters.chargeDefCharge && !String(item.chargeDefCharge || "").includes(filters.chargeDefCharge)) return false;
       return true;
     });
 
@@ -479,6 +521,132 @@ export const StoreReportModal: React.FC = () => {
                     <SelectItem value="مستاجر">مستاجر</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تلفن ۱</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.tel1}
+                  onChange={(e) => setFilters({ ...filters, tel1: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تلفن ۲</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.tel2}
+                  onChange={(e) => setFilters({ ...filters, tel2: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تعرفه ثابت (ریال)</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.ejareh}
+                  onChange={(e) => setFilters({ ...filters, ejareh: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">متراژ</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.metraj}
+                  onChange={(e) => setFilters({ ...filters, metraj: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">شارژ نهایی (ریال)</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.finalCharge}
+                  onChange={(e) => setFilters({ ...filters, finalCharge: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تخفیف (%)</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.discountPercent}
+                  onChange={(e) => setFilters({ ...filters, discountPercent: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">توضیحات</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.tovzeh}
+                  onChange={(e) => setFilters({ ...filters, tovzeh: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">کد پستی</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.cposti}
+                  onChange={(e) => setFilters({ ...filters, cposti: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تاریخ تغییر</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.changedate}
+                  onChange={(e) => setFilters({ ...filters, changedate: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تحویل</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.Tahvil}
+                  onChange={(e) => setFilters({ ...filters, Tahvil: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">نام ساکن</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.tenantName}
+                  onChange={(e) => setFilters({ ...filters, tenantName: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تاریخ پایان قرارداد</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.tenantEndDate}
+                  onChange={(e) => setFilters({ ...filters, tenantEndDate: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">تخفیف‌ها</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.discountNames}
+                  onChange={(e) => setFilters({ ...filters, discountNames: e.target.value })}
+                  className="h-8"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block">مبلغ تعرفه (ریال)</label>
+                <Input
+                  placeholder="جستجو..."
+                  value={filters.chargeDefCharge}
+                  onChange={(e) => setFilters({ ...filters, chargeDefCharge: e.target.value })}
+                  className="h-8"
+                />
               </div>
             </div>
             <div className="flex justify-end">
