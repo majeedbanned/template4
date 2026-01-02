@@ -39,7 +39,7 @@ import { z } from "zod";
 import { Tenantschema } from "@/lib/schemas";
 import { toast } from "sonner";
 import { rejects } from "assert";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import { AddEditTenantModal } from "@/app/[lang]/components/modals/AddEditTenantModal";
@@ -357,14 +357,6 @@ export default function Datalist({
           <div> امکانات / تعریف مستاجرین</div>
         </div>
         <div className="flex flex-1 flex-row gap-2 justify-start items-center flex-wrap">
-          <Button
-            variant="outline"
-            onClick={() => tenantSearchModal.onOpen()}
-            className="h-8 flex items-center gap-2"
-          >
-            <Search className="h-4 w-4" />
-            جستجوی پیشرفته
-          </Button>
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value: string | number) => {
@@ -385,6 +377,13 @@ export default function Datalist({
             className="placeholder-[#8ba5e2] bordercolor h-8 w-[350px] lg:w-[550px] border px-2 rounded-md my-4"
             placeholder="جستجو در نام , فامیل , پلاک , کد ملی , موبایل , تاریخ شروع , پایان , تاریخ مجوز  "
           />
+          <Button
+            variant="outline"
+            onClick={() => tenantSearchModal.onOpen()}
+            className="h-8"
+          >
+            جستجوی پیشرفته
+          </Button>
         </div>
         <button onClick={() => exportToExcel(tenant, "خروجی اکسل")}>
           <AiFillFileExcel color="green" size={30}></AiFillFileExcel>
