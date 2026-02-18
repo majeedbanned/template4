@@ -35,6 +35,9 @@ import useDeleteStoreModal, {
 import useStoreReportModal, {
   StoreReportModal,
 } from "@/app/[lang]/components/modals/StoreReportModal";
+import useSendSMSModal, {
+  SendSMSModal,
+} from "@/app/[lang]/components/modals/SendSMSModal";
 
 import useFilter from "@/lib/hooks/useFilter";
 import { z } from "zod";
@@ -69,6 +72,7 @@ export default function Datalist({
   const AddUserModal = useAddEditStoreModal();
   const _DeleteStoreModal = useDeleteStoreModal();
   const _StoreReportModal = useStoreReportModal();
+  const _SendSMSModal = useSendSMSModal();
   const { data: session } = useSession();
   const { filters: _bazar } = useFilter({ filter: "bazar" }) || undefined;
   const { filters: _tabagh } = useFilter({ filter: "tabagh" }) || undefined;
@@ -282,6 +286,15 @@ export default function Datalist({
     router.push(`/admin/rob/${rowData.pelak}`);
     //redirect("/tenant/" + rowData.pelak);
   };
+
+  const handleSendSMSClick = (rowData: any) => {
+    const defaultPhone = String(rowData?.tel1 || rowData?.tel2 || "").trim();
+    _SendSMSModal.onOpen({
+      phone: defaultPhone,
+      label: rowData?.pelak ? `پلاک: ${rowData.pelak}` : undefined,
+    });
+  };
+
   const handleDeleteClick = (rowData: any) => {
     const promise = () =>
       new Promise((resolve) => {
@@ -350,6 +363,7 @@ export default function Datalist({
       <DocumentUploadModal mutation={mutate}></DocumentUploadModal>
       <ViewAllDocumentsModal />
       <StoreReportModal />
+      <SendSMSModal />
       <DeleteStoreModal
         mutation={mutate}
         data={deleteID}
@@ -495,6 +509,7 @@ export default function Datalist({
             onChargeClick={handleChargeClick}
             onTenantClick={handleTenantClick}
             onRobClick={handleRobClick}
+            onSendSMSClick={handleSendSMSClick}
             onFileClick={handleFileClick}
             onNewFileClick={handleNewFileClick}
             onViewAllDocuments={handleViewAllDocuments}

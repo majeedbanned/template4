@@ -89,6 +89,7 @@ interface DataTableProps<TData, TValue> {
   onOwnerClick?: (id: any) => void;
   onTenantClick?: (id: any) => void;
   onRobClick?: (id: any) => void;
+  onSendSMSClick?: (id: any) => void;
 }
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -125,6 +126,7 @@ export function DataTable<TData, TValue>({
 
   onChargeClick,
   onOwnerClick,
+  onSendSMSClick,
 }: DataTableProps<TData, TValue>) {
   const AddUserModal = useAddEditStoreModal();
 
@@ -258,6 +260,16 @@ export function DataTable<TData, TValue>({
                           >
                             اطلاعات سرقفلی
                             <BookOpenIcon className="w-4 h-4"></BookOpenIcon>
+                          </DropdownMenuItem>
+                        )}
+
+                        {onSendSMSClick && (
+                          <DropdownMenuItem
+                            className="flex justify-end gap-2"
+                            onClick={() => onSendSMSClick(row.original)}
+                          >
+                            ارسال پیامک
+                            <MessageSquare className="w-4 h-4" />
                           </DropdownMenuItem>
                         )}
 
