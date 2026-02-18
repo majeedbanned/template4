@@ -6,6 +6,7 @@ import client from "@/lib/prismadb1";
 import { z } from "zod";
 import { Chargechema } from "@/lib/schemas";
 import jalaliMoment from "jalali-moment";
+import { verifyAndResolveBillShareToken } from "@/lib/bill-share-token";
 export async function POST(req: NextRequest) {
   // **  Auth **//
   const session = await getServerSession(authOptions);
@@ -182,16 +183,48 @@ export async function PUT(req: NextRequest) {
   });
 }
 export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   const pelak = url.searchParams.get("pelak") || undefined;
+  const shareToken = url.searchParams.get("share") || undefined;
+  const sharePayload = await verifyAndResolveBillShareToken(shareToken);
+  const sharePelak = sharePayload?.pelak;
   ////console.log(pelak);
+
+  if (!session && !sharePelak) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized: Login required.",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  if (sharePelak && pelak && pelak.toUpperCase() !== sharePelak) {
+    return NextResponse.json(
+      {
+        message: "Invalid share scope",
+      },
+      {
+        status: 403,
+      }
+    );
+  }
 
   try {
     const response = await client.new_account.findMany({
       where: {
-        ...(pelak && {
-          OR: [{ pelak: pelak }, { month: { contains: pelak } }],
-        }),
+        ...(sharePelak
+          ? {
+              pelak: sharePelak,
+            }
+          : pelak
+            ? {
+                OR: [{ pelak: pelak }, { month: { contains: pelak } }],
+              }
+            : {}),
       },
       select: {
         id: true,

@@ -4,10 +4,8 @@ import Datalist from "./components/Datalist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
-import { promise } from "zod";
-import { resolve } from "path";
-import { useSearchParams } from "next/navigation";
 import client from "@/lib/prismadb1";
+import { verifyAndResolveBillShareToken } from "@/lib/bill-share-token";
 
 type Props = {};
 
@@ -15,29 +13,33 @@ export default async function students({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { lang: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  // //console.log(searchParams);
-  // //console.log(params);
+  const shareCode =
+    typeof searchParams?.share === "string" ? searchParams.share : undefined;
+  const sharePayload = await verifyAndResolveBillShareToken(shareCode);
 
-  const currentUser = await getServerSession(authOptions);
+  const currentUser = sharePayload
+    ? null
+    : await getServerSession(authOptions);
+  const currentUserAsAny = currentUser as any;
+  const currentUserPelak =
+    currentUserAsAny && typeof currentUserAsAny.user?.pelak === "string"
+      ? currentUserAsAny.user.pelak
+      : undefined;
+  const targetPelak = sharePayload?.pelak || currentUserPelak;
 
-  ////console.log(">>", currentUser);
+  if (!targetPelak) {
+    if (currentUser) {
+      redirect("/admin/main");
+    }
+    redirect(`/${params.lang}/signinusers`);
+  }
 
-  // const access = currentUser?.user?.Permission?.find((item) => {
-  //   return item.systemID === 1 && item.view === true;
-  // });
-
-  // const isadmin = currentUser?.user?.role === "admin";
-
-  // if (!isadmin) if (!access) redirect("/admin/main");
-  //console.log("currentUser", currentUser);
-  //@ts-ignore
   const date = await client.tenant.findMany({
     where: {
-      //@ts-ignore
-      pelak: currentUser?.user.pelak,
+      pelak: targetPelak,
     },
     orderBy: {
       endate: "desc",
@@ -67,11 +69,23 @@ export default async function students({
 
   // //console.log("isexpire", isexpire);
 
+  const permissionForDatalist =
+    currentUser ||
+    ({
+      user: {
+        role: "viewer",
+      },
+    } as any);
+
   if (date[0]?.malekmos === "1")
     return (
       <PageWrapper>
         <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
-          <Datalist permission={currentUser}></Datalist>
+          <Datalist
+            permission={permissionForDatalist}
+            pelak={sharePayload ? undefined : targetPelak}
+            shareCode={shareCode}
+          ></Datalist>
         </div>
       </PageWrapper>
     );
@@ -91,7 +105,11 @@ export default async function students({
     return (
       <PageWrapper>
         <div className="overflow-scroll border-[0px] w-[400px] md:w-full">
-          <Datalist permission={currentUser}></Datalist>
+          <Datalist
+            permission={permissionForDatalist}
+            pelak={sharePayload ? undefined : targetPelak}
+            shareCode={shareCode}
+          ></Datalist>
         </div>
       </PageWrapper>
     );

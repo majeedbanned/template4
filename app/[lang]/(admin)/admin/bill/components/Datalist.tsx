@@ -39,8 +39,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Datalist({
   permission,
+  pelak: pelakProp,
+  shareCode,
 }: {
   permission?: Session | null;
+  pelak?: string;
+  shareCode?: string;
 }) {
   const pelak = useParams();
   const [printData, setPrintData] = useState<any>([]);
@@ -104,15 +108,24 @@ export default function Datalist({
       error: "Error",
     });
   };
-  ////console.log("first>", permission?.user.pelak);
+  const activePelak = (pelakProp || (permission as any)?.user?.pelak || "").toString();
+  const chargesUrl = shareCode
+    ? `/api/charge?share=${encodeURIComponent(shareCode)}`
+    : activePelak
+      ? `/api/charge?pelak=${encodeURIComponent(activePelak)}`
+      : null;
+  const storesUrl = shareCode
+    ? `/api/store?share=${encodeURIComponent(shareCode)}`
+    : activePelak
+      ? `/api/store?search=${encodeURIComponent(activePelak)}`
+      : null;
+
   const {
     data: charges,
     isLoading,
     mutate,
   } = useSWR<StoreProps[]>(
-    //@ts-ignore
-
-    `/api/charge?pelak=${permission?.user.pelak}`,
+    chargesUrl,
     fetcher,
     {
       // revalidateOnMount: true,
@@ -120,9 +133,7 @@ export default function Datalist({
   );
 
   const { data: stores, isLoading: isLoadingS } = useSWR<StoreProps[]>(
-    //@ts-ignore
-
-    `/api/store?search=${permission?.user.pelak}`,
+    storesUrl,
     fetcher,
     {
       // revalidateOnMount: true,

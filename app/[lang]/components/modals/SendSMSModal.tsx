@@ -11,6 +11,7 @@ interface SendSMSModalPayload {
   phone?: string;
   schoolCode?: string;
   label?: string;
+  text?: string;
 }
 
 interface SendSMSModalStore {
@@ -18,6 +19,7 @@ interface SendSMSModalStore {
   phone: string;
   schoolCode?: string;
   label?: string;
+  text?: string;
   onOpen: (payload?: SendSMSModalPayload) => void;
   onClose: () => void;
 }
@@ -31,9 +33,9 @@ export const SendSMSModal = () => {
   useEffect(() => {
     if (sendSMSModal.isOpen) {
       setPhone(sendSMSModal.phone || "");
-      setText("");
+      setText(sendSMSModal.text || "");
     }
-  }, [sendSMSModal.isOpen, sendSMSModal.phone]);
+  }, [sendSMSModal.isOpen, sendSMSModal.phone, sendSMSModal.text]);
 
   const onSubmit = async () => {
     if (!phone.trim()) {
@@ -128,12 +130,14 @@ const useSendSMSModal = create<SendSMSModalStore>((set) => ({
   phone: "",
   schoolCode: undefined,
   label: undefined,
+  text: undefined,
   onOpen: (payload) =>
     set({
       isOpen: true,
       phone: payload?.phone || "",
       schoolCode: payload?.schoolCode,
       label: payload?.label,
+      text: payload?.text || "",
     }),
   onClose: () =>
     set({
@@ -142,4 +146,3 @@ const useSendSMSModal = create<SendSMSModalStore>((set) => ({
 }));
 
 export default useSendSMSModal;
-

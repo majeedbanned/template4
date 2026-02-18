@@ -287,12 +287,50 @@ export default function Datalist({
     //redirect("/tenant/" + rowData.pelak);
   };
 
-  const handleSendSMSClick = (rowData: any) => {
+  const handleSendSMSClick = async (rowData: any) => {
     const defaultPhone = String(rowData?.tel1 || rowData?.tel2 || "").trim();
-    _SendSMSModal.onOpen({
-      phone: defaultPhone,
-      label: rowData?.pelak ? `پلاک: ${rowData.pelak}` : undefined,
-    });
+    const lang = (pathname || "").split("/")[1] || "fa";
+    const pelak = String(rowData?.pelak || "").trim();
+
+    try {
+      const res = await fetch("/api/bill/share-link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pelak,
+          lang,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res
+          .json()
+          .catch(() => ({ message: "Failed to generate share link" }));
+        toast.error(err?.message || "لینک صورتحساب ساخته نشد");
+        _SendSMSModal.onOpen({
+          phone: defaultPhone,
+          label: pelak ? `پلاک: ${pelak}` : undefined,
+        });
+        return;
+      }
+
+      const data = await res.json();
+      const link = String(data?.url || "").trim();
+
+      _SendSMSModal.onOpen({
+        phone: defaultPhone,
+        label: pelak ? `پلاک: ${pelak}` : undefined,
+        text: link ? `لینک مشاهده صورتحساب واحد ${pelak}:\n${link}` : "",
+      });
+    } catch {
+      toast.error("خطا در ساخت لینک صورتحساب");
+      _SendSMSModal.onOpen({
+        phone: defaultPhone,
+        label: pelak ? `پلاک: ${pelak}` : undefined,
+      });
+    }
   };
 
   const handleDeleteClick = (rowData: any) => {

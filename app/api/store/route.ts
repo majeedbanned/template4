@@ -7,6 +7,7 @@ import { log } from "@/lib/utils";
 import client from "@/lib/prismadb1";
 import { z } from "zod";
 import { StoreSchema } from "@/lib/schemas";
+import { verifyAndResolveBillShareToken } from "@/lib/bill-share-token";
 
 export async function POST(req: NextRequest) {
   // **  Auth **//
@@ -187,6 +188,10 @@ export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const url = new URL(request.url);
   let search = url.searchParams.get("search") || undefined;
+  const shareToken = url.searchParams.get("share") || undefined;
+  const sharePayload = await verifyAndResolveBillShareToken(shareToken);
+  const sharePelak = sharePayload?.pelak;
+  const isShareAccess = !!sharePelak;
   if (search)
     search=decodeURIComponent(String(search))
   const rahro =
@@ -205,7 +210,7 @@ export async function GET(request: NextRequest) {
     url.searchParams.get("profile")?.toString().split(",").map(Number) ||
     undefined;
 
-  if (!session) {
+  if (!session && !isShareAccess) {
     return NextResponse.json(
       {
         message: "Unauthorized: Login required.",
@@ -217,73 +222,85 @@ export async function GET(request: NextRequest) {
   }
   try {
     // //console.log('startttt')
+    const whereClause = isShareAccess
+      ? {
+          pelak: sharePelak,
+        }
+      : {
+          ...(search && {
+            OR: [{ pelak: { contains: search } }, { name: { contains: search } }],
+          }),
+          ...(rahro && {
+            rahro: { in: rahro },
+          }),
+          ...(nov && {
+            nov: { in: nov },
+          }),
+          ...(tabagh && {
+            tabagh: { in: tabagh },
+          }),
+          ...(bazar && {
+            bazar: { in: bazar },
+          }),
+          ...(profile && {
+            chargeProfile: { in: profile },
+          }),
+        };
+
+    const baseSelect = {
+      id: true,
+      pelak: true,
+      name: true,
+      metraj: true,
+      ejareh: true,
+      tel1: true,
+      active: true,
+      changedate: true,
+      aghsat: true,
+      tajmi: true,
+      malekiyat: true,
+      tel2: true,
+      tovzeh: true,
+      types_rahro: { select: { id: true, rahro: true } },
+      types_bazar: { select: { id: true, bazar: true } },
+      types_nov: { select: { nov: true } },
+      types_tabagh: { select: { tabagh: true } },
+      chargeDef: { select: { name: true, charge: true, type: true } },
+      Tenant: { select: { malekmos: true, trow: true, endate: true } },
+      stores_discounts: {
+        select: {
+          id: true,
+          discountID: true,
+          discountDef: { select: { name: true, discountPersand: true } },
+        },
+      },
+      Doc_files: {
+        select: {
+          id: true,
+          moduleID: true,
+          CatID: true,
+          name: true,
+          date_: true,
+          userID: true,
+          pelak: true,
+          rowId: true,
+          Doc_cat: { select: { title: true } },
+        },
+        where: { moduleID: 4 },
+      },
+    };
+
+    const selectClause = isShareAccess
+      ? baseSelect
+      : {
+          ...baseSelect,
+          username: true,
+          password: true,
+        };
 
     const response = await client.store.findMany({
-      where: {
-        ...(search && {
-          OR: [{ pelak: { contains: search } }, { name: { contains: search } }],
-        }),
-        ...(rahro && {
-          rahro: { in: rahro },
-        }),
-        ...(nov && {
-          nov: { in: nov },
-        }),
-        ...(tabagh && {
-          tabagh: { in: tabagh },
-        }),
-        ...(bazar && {
-          bazar: { in: bazar },
-        }),
-        ...(profile && {
-          chargeProfile: { in: profile },
-        }),
-      },
-      select: {
-         id: true,
-        pelak: true,
-        name: true,
-         username:true,
-         password:true,
-        metraj: true,
-        ejareh: true,
-        tel1: true,
-        active:true,
-        changedate:true,
-        aghsat:true,
-        // malekmos:true,
-        tajmi:true,
-        malekiyat:true,
-        tel2: true,
-        tovzeh: true,
-        types_rahro: { select: { id: true, rahro: true } },
-        types_bazar: { select: { id: true, bazar: true } },
-        types_nov: { select: { nov: true } },
-        types_tabagh: { select: { tabagh: true } },
-        chargeDef: { select: { name: true,charge:true,type:true } },
-        Tenant:{select:{malekmos:true,trow:true,endate:true}},
-        stores_discounts: {
-          select: {
-            id: true,
-            discountID: true,
-            discountDef: { select: { name: true, discountPersand: true } },
-          },
-        },
-        Doc_files: {
-          select: {
-           id: true,
-            moduleID: true,
-            CatID: true,
-             name: true,
-            date_: true,
-            userID: true,
-            pelak: true,
-            rowId: true,
-            Doc_cat: { select: { title: true } },
-          },
-          where: { moduleID: 4},
-        },  
-      },
+      where: whereClause,
+      select: selectClause,
       orderBy: {
         pelak: "desc",
       },
