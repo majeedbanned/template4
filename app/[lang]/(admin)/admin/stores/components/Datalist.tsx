@@ -318,11 +318,14 @@ export default function Datalist({
 
       const data = await res.json();
       const link = String(data?.url || "").trim();
+      const smsText = String(data?.smsText || "").trim();
 
       _SendSMSModal.onOpen({
         phone: defaultPhone,
         label: pelak ? `پلاک: ${pelak}` : undefined,
-        text: link ? `لینک مشاهده صورتحساب واحد ${pelak}:\n${link}` : "",
+        text:
+          smsText ||
+          (link ? `لینک مشاهده صورتحساب واحد ${pelak}:\n${link}` : ""),
       });
     } catch {
       toast.error("خطا در ساخت لینک صورتحساب");

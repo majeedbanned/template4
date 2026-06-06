@@ -358,7 +358,7 @@ export const ComponentToPrint = React.forwardRef(({ data }: props, ref) => {
                       {/* <p>بدون ثبت ماشینی اعتبار ندارد</p> */}
 
                       <p>
-                        پرداخت به صورت غیر حضوری توسط سامانه
+                        .پرداخت به صورت غیر حضوری توسط سامانه
                         https://persiangulfmall.com
                       </p>
 
