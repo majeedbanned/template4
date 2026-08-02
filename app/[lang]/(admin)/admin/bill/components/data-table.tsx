@@ -238,15 +238,15 @@ export function DataTable<TData, TValue>({
                       row.original.paidBill !== row.original.TotalBill && (
                         //  && convertToFarsiDigits(row.original.month) === formattedDate
                         <div className="flex flex-col gap-2">
-                          {/* <Button
+                          <Button
                             onClick={() => onOmidPaymentClick(row.original)}
                             variant="default"
-                            className="bg-green-
+                            className="bg-green-400"
                           >
                            
                             پرداخت آنلاین از درگاه اول
                             
-                          </Button> */}
+                          </Button>
                           {/* <Button
                             onClick={() => onPaymentClick(row.original)}
                             variant="default"
