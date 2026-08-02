@@ -250,7 +250,7 @@ export default function Datalist({
       const form = document.createElement("form");
       form.method = "post";
       //form.action = "https://say.shaparak.ir/_ipgw_/merchant/token";
-      form.action = "https://say.shaparak.ir/_ipgw_//MainTemplate/payment/";
+      form.action = "https://Omid.shaparak.ir/_ipgw_//MainTemplate/payment/";
 
       const terminalIDInput = document.createElement("input");
       terminalIDInput.type = "text";
